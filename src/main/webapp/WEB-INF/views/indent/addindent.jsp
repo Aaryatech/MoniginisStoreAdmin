@@ -478,7 +478,7 @@ body {
 							</form>
 							
 							 <form id="submitList"
-				action="${pageContext.request.contextPath}/submitList"
+				action="${pageContext.request.contextPath}/#"
 				method="post">
 			<div id="myModal" class="modal">
 					<input   type="hidden" value="0" name="indMId" id="indMId"    >
@@ -576,7 +576,7 @@ body {
 						<div class="row">
 						<div class="col-md-12" style="text-align: center">
 						
-							<input type="button" class="btn btn-info" value="Submit" onclick="addItemFromItemList()">
+							<input type="submit" class="btn btn-info" value="Submit" onclick="addItemFromItemList()">
 					<%--< c:choose>
 						<c:when test="${userInfo.id==1}">
 						<input type="button" class="btn btn-info" value="Import Excel " onclick="exportExcel()">
@@ -1167,12 +1167,12 @@ function getItemFroItemListBelowROL()
 									 
 									if(itemList.clsQty<=itemList.minLevel){
 										var tr = $('<tr></tr>');
-										tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
+										tr.append($('<td></td>').html('<input type="checkbox" onchange="requiredField('+itemList.itemId+')" name="select_to_approve"'+
 												'id="select_to_approve'+itemList.itemId+'" value="'+itemList.itemId+'" >'));
 										tr.append($('<td ></td>').html(i));
 									  	tr.append($('<td ></td>').html(itemList.itemCode+' '+itemList.itemDesc)); 
 									  	tr.append($('<td ></td>').html(itemList.itemUom));
-									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" onchange="checkQty('+itemList.itemId+');" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 									  	tr.append($('<td ></td>').html('<input class="form-control " id="schDate'+itemList.itemId+'"  type="date" name="schDate'+itemList.itemId+'"   />'));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.minLevel));  
@@ -1183,12 +1183,12 @@ function getItemFroItemListBelowROL()
 									}
 									if(itemList.clsQty<=itemList.maxLevel && itemList.clsQty>itemList.rolLevel){
 										var tr = $('<tr></tr>');
-										tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
+										tr.append($('<td></td>').html('<input type="checkbox" onchange="requiredField('+itemList.itemId+')" name="select_to_approve"'+
 												'id="select_to_approve'+itemList.itemId+'" value="'+itemList.itemId+'" >'));
 										tr.append($('<td ></td>').html(j));
 									  	tr.append($('<td ></td>').html(itemList.itemCode+' '+itemList.itemDesc)); 
 									  	tr.append($('<td ></td>').html(itemList.itemUom));
-									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" onchange="checkQty('+itemList.itemId+');" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 									  	tr.append($('<td ></td>').html('<input class="form-control " id="schDate'+itemList.itemId+'"  type="date" name="schDate'+itemList.itemId+'"   />'));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.maxLevel)); 
@@ -1199,12 +1199,12 @@ function getItemFroItemListBelowROL()
 									}
 									if(itemList.clsQty<=itemList.rolLevel && itemList.clsQty>itemList.minLevel){
 										var tr = $('<tr></tr>');
-										tr.append($('<td></td>').html('<input type="checkbox" name="select_to_approve"'+
+										tr.append($('<td></td>').html('<input type="checkbox" onchange="requiredField('+itemList.itemId+')" name="select_to_approve"'+
 												'id="select_to_approve'+itemList.itemId+'" value="'+itemList.itemId+'" >'));
 										tr.append($('<td ></td>').html(k));
 									  	tr.append($('<td ></td>').html(itemList.itemCode+' '+itemList.itemDesc)); 
 									  	tr.append($('<td ></td>').html(itemList.itemUom)); 
-									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" onchange="checkQty('+itemList.itemId+');" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 									  	tr.append($('<td ></td>').html('<input class="form-control " id="schDate'+itemList.itemId+'"  type="date" name="schDate'+itemList.itemId+'"   />'));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.rolLevel));
@@ -1284,11 +1284,41 @@ function changeTable(value) {
 	    z.style.display = "block";
 	}
 }
- 
+function checkQty(key)
+{
+	var itemQty = parseFloat($("#qty"+key).val()); 
+	if(itemQty==0 || itemQty=="" )
+	{
+		document.getElementById("qty"+key).value=""; 
+		alert("Enter Greater Than 0 ");
+		document.getElementById("select_to_approve"+key).checked=false;  
+	}
+	else{
+		document.getElementById("select_to_approve"+key).checked=true;  
+	}
+	 
+	requiredField(key);
+}
+function requiredField(key)
+{
+	 
+	if(document.getElementById("select_to_approve"+key).checked == true)
+	{
+		document.getElementById("qty"+key).required=true; 
+		document.getElementById("schDate"+key).required=true; 
+	} 
+	else
+	{
+		document.getElementById("qty"+key).required=false; 
+		document.getElementById("schDate"+key).required=false; 
+	}
+	
+	 
+} 
 </script>
 <script type="text/javascript">
 
-function addItemFromItemList() {
+/* function addItemFromItemList() {
 	  
 	 
 	var inputElements = document.getElementsByName('select_to_approve');
@@ -1324,7 +1354,7 @@ function addItemFromItemList() {
 					
 				});
 	 
-}
+} */
 </script>
 </body>
 </html>
