@@ -149,7 +149,15 @@ body {
 											data-rule-required="true" class="form-control chosen"  data-rule-required="true">
 											<option value="">Select Indent Type</option>
 											<c:forEach items="${typeList}" var="typeList"> 
-															<option value="${typeList.typeId}">${typeList.typeName}</option>
+											<c:choose>
+												<c:when test="${typeList.typeId==indentTypeTemp}">
+												<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+												</c:when>
+												<c:otherwise>
+												<option value="${typeList.typeId}"  >${typeList.typeName}</option>
+												</c:otherwise>
+											</c:choose>
+															
 														</c:forEach>
 										</select>
 									</div>
@@ -157,16 +165,42 @@ body {
 									<label class="col-md-2">Indent
 										Category </label>
 									<div class="col-md-3">
-										<input type="hidden" name="catId" id="catId" value="0"/>
-										<select id="ind_cat" name="ind_cat"
-											class="form-control chosen" placeholder="Indent Category" onchange="getInvoiceNo()"
-											data-rule-required="true">
-											<option value="">Select Indent Category</option>
-											<c:forEach items="${categoryList}" var="cat"
-												varStatus="count">
-												<option value="${cat.catId}"><c:out value="${cat.catDesc}"/></option>
-											</c:forEach>
-										</select>
+									<c:choose>
+										<c:when test="${isSubmit==1}">
+											${catIdTemp}
+											<input type="hidden" name="catId" id="catId" value="${catIdTemp}"/>
+											<select id="ind_cat" name="ind_cat"
+												class="form-control chosen" placeholder="Indent Category" onchange="getInvoiceNo()"
+												 >
+												<option value="">Select Indent Category</option>
+												<c:forEach items="${categoryList}" var="cat"
+													varStatus="count">
+													<c:choose>
+														<c:when test="${catIdTemp==cat.catId}">
+														<option value="${cat.catId}" selected><c:out value="${cat.catDesc}"/></option>
+														</c:when>
+														<c:otherwise>
+														<option value="${cat.catId}" disabled><c:out value="${cat.catDesc}"/></option>
+														</c:otherwise>
+													</c:choose>
+													
+												</c:forEach>
+											</select> 
+										</c:when>
+										<c:otherwise>
+											<input type="hidden" name="catId" id="catId" value="0"/>
+											<select id="ind_cat" name="ind_cat"
+												class="form-control chosen" placeholder="Indent Category" onchange="getInvoiceNo()"
+												data-rule-required="true">
+												<option value="">Select Indent Category</option>
+												<c:forEach items="${categoryList}" var="cat"
+													varStatus="count">
+													<option value="${cat.catId}"><c:out value="${cat.catDesc}"/></option>
+												</c:forEach>
+											</select> 
+										</c:otherwise>
+									</c:choose>
+										
 									</div>
 									
 
@@ -196,7 +230,7 @@ body {
 								
 									<label class="col-md-2">Remark</label>
 									<div class="col-md-10">
-										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="-" required />
+										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="${indHeaderRemarkTemp}" required />
 									</div> 
 								</div><br><br>
 								<div class="box-content">
@@ -211,7 +245,15 @@ body {
 											<option value="">Select Account Head</option>
 											<c:forEach items="${accountHeadList}" var="accHead"
 												varStatus="count">
-												<option value="${accHead.accHeadId}"><c:out value="${accHead.accHeadDesc}"/></option>
+												<c:choose>
+													<c:when test="${accHead.accHeadId==accHeadTemp}" >
+													<option value="${accHead.accHeadId}" selected><c:out value="${accHead.accHeadDesc}"/></option>
+													</c:when>
+													<c:otherwise>
+													<option value="${accHead.accHeadId}"><c:out value="${accHead.accHeadDesc}"/></option>
+													</c:otherwise>
+												</c:choose>
+												
 											</c:forEach>
 										</select>
 									</div>
@@ -231,7 +273,7 @@ body {
 								</div><br>
 								<br>
 								
-								<div class="box-content">
+								<!-- <div class="box-content">
 									<label class="col-md-2">For
 										Development </label>
 
@@ -254,8 +296,9 @@ body {
 										</select>
 									</div>
 								</div>
-								<br><br> 
-								
+								<br><br>  -->
+								<input   id="is_dev"  type="hidden" name="is_dev" value="0" />
+								<input   id="is_monthly"  type="hidden" name="is_monthly" value="0" />
 								<input   id="dept"  type="hidden" name="dept" value="0" />
 								<input   id="sub_dept"  type="hidden" name="sub_dept" value="0" />
 								
@@ -454,38 +497,63 @@ body {
 
 													<th class="col-md-1" >Indent
 														Qty</th>
-													<th class="col-md-1" >Sch Day</th>
+													 
 													<th class="col-md-1" >Sch
 														Date</th>
-														<th class="col-md-1" >Remark</th>
+														 
 														<th class="col-md-1" >Action
 														</th>
 												</tr>
 											</thead>
 											<tbody>
+											
+											<c:forEach items="${tempIndentList}" var="tempIndentList"
+													varStatus="count">
+													 
+													<tr>
+													  
+														<td><c:out value="${count.index+1}" /></td>
+  
+																<td align="left"><c:out value="${tempIndentList.itemCode}" /></td>
+																<td align="left"><c:out value="${tempIndentList.itemName}" /></td>
+																<td align="left"><c:out value="${tempIndentList.uom}" /></td>
+																<td align="right"><c:out value="${tempIndentList.curStock}" /></td>
+													  			<td align="right"><c:out value="${tempIndentList.qty}" /></td> 
+													  			<td align="left"><c:out value="${tempIndentList.date}" /></td> 
+													  			<td align="left"><a href='#' class='action_btn' onclick="deleteIndentItem(${tempIndentList.itemId})"><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a></td> 
+																</tr>
+												</c:forEach>
 											</tbody>
 										</table>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
-
-								<input type="button"
 									
-									onclick="insertIndent()" id="submitt" class="btn btn-info" value="Submit" disabled>
+									<c:choose>
+										<c:when test="${tempIndentList.size()>0}">
+										<input type="button" onclick="insertIndent()" id="submitt" class="btn btn-info" value="Submit"  >
+										</c:when>
+										<c:otherwise>
+										<input type="button" onclick="insertIndent()" id="submitt" class="btn btn-info" value="Submit" disabled>
+										</c:otherwise>
+									</c:choose>
+
+								
 									</div>
 									</div>
 							</form>
 							
 							 <form id="submitList"
-				action="${pageContext.request.contextPath}/#"
+				action="${pageContext.request.contextPath}/addItemFromItemListInIndent"
 				method="post">
 			<div id="myModal" class="modal">
-					<input   type="hidden" value="0" name="indMId" id="indMId"    >
-					<input   type="hidden" value="0" name="vendIdTemp" id="vendIdTemp"    >
-					<input   type="hidden" value="-" name="quotationTemp" id="quotationTemp"    >
-					<input   type="hidden" value="0" name="poTypeTemp" id="poTypeTemp"    >
-					<input   type="hidden" value="0" name="quotationDateTemp" id="quotationDateTemp"    > 
+			     
+					<input   type="hidden" value="0" name="catIdTemp" id="catIdTemp"    >
+					<input   type="hidden" value="0" name="accHeadTemp" id="accHeadTemp"    >
+					<input   type="hidden" value="-" name="indHeaderRemarkTemp" id="indHeaderRemarkTemp"    >
+					<input   type="hidden" value="0" name="indentDateTemp" id="indentDateTemp"    >
+					<input   type="hidden" value="0" name="indentTypeTemp" id="indentTypeTemp"    > 
 					
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
@@ -576,7 +644,7 @@ body {
 						<div class="row">
 						<div class="col-md-12" style="text-align: center">
 						
-							<input type="submit" class="btn btn-info" value="Submit" onclick="addItemFromItemList()">
+							<input type="submit" class="btn btn-info" value="Submit" onclick="getValue()">
 					<%--< c:choose>
 						<c:when test="${userInfo.id==1}">
 						<input type="button" class="btn btn-info" value="Import Excel " onclick="exportExcel()">
@@ -1317,7 +1385,23 @@ function requiredField(key)
 } 
 </script>
 <script type="text/javascript">
-
+function getValue()
+{
+	
+	if(document.getElementById("ind_cat").value==""){
+		document.getElementById("catIdTemp").value=0;
+	}
+	else{
+		document.getElementById("catIdTemp").value=document.getElementById("ind_cat").value;
+	}
+	 
+	document.getElementById("accHeadTemp").value=document.getElementById("acc_head").value;
+	document.getElementById("indHeaderRemarkTemp").value=document.getElementById("indHeaderRemark").value;
+	document.getElementById("indentDateTemp").value=document.getElementById("indent_date").value;
+	document.getElementById("indentTypeTemp").value=document.getElementById("indent_type").value; 
+	
+	
+} 
 /* function addItemFromItemList() {
 	  
 	 

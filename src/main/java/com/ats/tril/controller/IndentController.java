@@ -245,20 +245,18 @@ public class IndentController {
 			tempIndentList = new ArrayList<TempIndentDetail>();
 			model = new ModelAndView("indent/addindent");
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
-			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
-
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
 			model.addObject("categoryList", categoryList);
 
 			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed",
 					AccountHead[].class);
-			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
-
+			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead)); 
 			model.addObject("accountHeadList", accountHeadList);
 
-			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
-			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept));
-
-			model.addObject("deparmentList", deparmentList);
+			/*Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
+			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept)); 
+			model.addObject("deparmentList", deparmentList);*/
+			
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = new Date();
 			model.addObject("date", dateFormat.format(date));
@@ -295,156 +293,101 @@ public class IndentController {
 		return model;
 	}
 
-	@RequestMapping(value = "/deleteIndent/{indId}", method = RequestMethod.GET)
-	public String deleteIndent(@PathVariable int indId, HttpServletRequest request, HttpServletResponse response) {
-
-		try {
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("indId", indId);
-
-			ErrorMessage ErrorMessage = rest.postForObject(Constants.url + "/deleteIndent", map, ErrorMessage.class);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return "redirect:/getIndents";
-	}
-
-	@RequestMapping(value = "/getSubDeptListByDeptId", method = RequestMethod.GET)
-	public @ResponseBody List<GetSubDept> getSubDeptListByDeptId(HttpServletRequest request,
+	@RequestMapping(value = "/addItemFromItemListInIndent", method = RequestMethod.POST)
+	public ModelAndView addItemFromItemListInIndent(HttpServletRequest request,
 			HttpServletResponse response) {
-
-		List<GetSubDept> subDeptList = new ArrayList<GetSubDept>();
+		 
+		ModelAndView model = new ModelAndView("indent/addindent");
 		try {
-
-			int deptId = 0;
-
-			String deptIdS = request.getParameter("deptId");
-
-			deptId = Integer.parseInt(deptIdS);
-
-			System.out.println("deptId Id " + deptId);
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-			// MultiValueMap<String, Object> mapItemList = new LinkedMultiValueMap<String,
-			// Object>();
-
-			map.add("deptId", deptId);
-
-			RestTemplate restTemplate = new RestTemplate();
-
-			subDeptList = restTemplate.postForObject(Constants.url + "getSubDeptListByDeptId", map, List.class);
-
-		} catch (Exception e) {
-
-			System.err.println("Exce in FrCurStock Cont @items by Cat Id Ajax call " + e.getMessage());
-
-			e.printStackTrace();
-		}
-		return subDeptList;
-	}
-
-	@RequestMapping(value = "/getgroupListByCatId", method = RequestMethod.GET)
-	public @ResponseBody List<GetItemGroup> getgroupListByCatId(HttpServletRequest request,
-			HttpServletResponse response) {
-		System.err.println("In get group by cat Id ");
-		List<GetItemGroup> itemGrpList = new ArrayList<GetItemGroup>();
-		try {
-
-			int catId = 0;
-
-			String catIds = request.getParameter("catId");
-
-			catId = Integer.parseInt(catIds);
-
-			System.out.println("catIds Id " + catIds);
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-			// MultiValueMap<String, Object> mapItemList = new LinkedMultiValueMap<String,
-			// Object>();
-
-			map.add("catId", catId);
-
-			RestTemplate restTemplate = new RestTemplate();
-
-			itemGrpList = restTemplate.postForObject(Constants.url + "getgroupListByCatId", map, List.class);
-
-		} catch (Exception e) {
-
-			System.err.println(
-					"Exce in getgroupListByCatId Cont @IndentController by Cat Id Ajax call " + e.getMessage());
-
-			e.printStackTrace();
-		}
-		return itemGrpList;
-	}
-
-	List<GetItem> itemList = new ArrayList<GetItem>();
-
-	@RequestMapping(value = "/itemListByGroupId", method = RequestMethod.GET)
-	public @ResponseBody List<GetItem> itemListByGroupId(HttpServletRequest request, HttpServletResponse response) {
-		System.err.println("In get group by cat Id ");
-		try {
-
-			int grpId = 0;
-
-			String grpIds = request.getParameter("grpId");
-
-			grpId = Integer.parseInt(grpIds);
-
-			System.out.println("grpId Id " + grpId);
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-			// MultiValueMap<String, Object> mapItemList = new LinkedMultiValueMap<String,
-			// Object>();
-
-			map.add("groupId", grpId);
-
-			RestTemplate restTemplate = new RestTemplate();
-
-			ItemList resList = restTemplate.postForObject(Constants.url + "itemListByGroupId", map, ItemList.class);
-
-			itemList = resList.getItems();
-
-			for (int i = 0; i < itemList.size(); i++) {
-
-				itemList.get(i).setItemDesc(itemList.get(i).getItemCode() + "-" + itemList.get(i).getItemDesc());
-
+			
+			try {
+				int catIdTemp = Integer.parseInt(request.getParameter("catIdTemp"));
+				System.out.println("catIdTemp " + catIdTemp);
+				model.addObject("catIdTemp", catIdTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+				String indHeaderRemarkTemp = request.getParameter("indHeaderRemarkTemp");
+				model.addObject("indHeaderRemarkTemp", indHeaderRemarkTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			} 
+			try {
+				int accHeadTemp = Integer.parseInt(request.getParameter("accHeadTemp"));
+				model.addObject("accHeadTemp", accHeadTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+				String indentDateTemp = request.getParameter("indentDateTemp")  ;
+				model.addObject("date", indentDateTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			try {
+				int indentTypeTemp = Integer.parseInt(request.getParameter("indentTypeTemp"));
+				model.addObject("indentTypeTemp", indentTypeTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
 
+			String[] checkbox = request.getParameterValues("select_to_approve");
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
+
+			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed",
+					AccountHead[].class);
+			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead)); 
+			model.addObject("accountHeadList", accountHeadList);
+ 
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			model.addObject("date", dateFormat.format(date));
+ 
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+			
+			for(int i = 0 ; i<checkbox.length ; i++) {
+				
+				for(int j = 0 ; j<itemListWithCurrentStockList.size() ; j++) {
+					
+					if(Integer.parseInt(checkbox[i])==itemListWithCurrentStockList.get(j).getItemId()) {
+						
+						TempIndentDetail detail = new TempIndentDetail();
+						 
+						detail.setCurStock(itemListWithCurrentStockList.get(j).getClsQty());
+						detail.setItemId(itemListWithCurrentStockList.get(j).getItemId());
+						detail.setItemName(itemListWithCurrentStockList.get(j).getItemDesc());
+						detail.setQty(Float.parseFloat(request.getParameter("qty"+itemListWithCurrentStockList.get(j).getItemId()))); 
+						detail.setDate(request.getParameter("schDate"+itemListWithCurrentStockList.get(j).getItemId()));
+						detail.setUom(itemListWithCurrentStockList.get(j).getItemUom());
+						detail.setItemCode(itemListWithCurrentStockList.get(j).getItemCode()); 
+						tempIndentList.add(detail);
+						break;
+
+					} 
+				}
+				
+			}
+			
+			
+			System.out.println("add Item from ItemList " + tempIndentList);
+			model.addObject("tempIndentList", tempIndentList);
+			model.addObject("isSubmit", 1);
+ 
 		} catch (Exception e) {
 
-			System.err.println(
-					"Exce in getgroupListByCatId Cont @IndentController by Cat Id Ajax call " + e.getMessage());
+			System.err.println("Exce in getIndentDetail Cont @IndentController by Ajax call " + e.getMessage());
 
 			e.printStackTrace();
 		}
-		return itemList;
+		return model;
 	}
-
-	public String incrementDate(String date, int day) {
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		Calendar c = Calendar.getInstance();
-		try {
-			c.setTime(sdf.parse(date));
-
-		} catch (ParseException e) {
-			System.out.println("Exception while incrementing date " + e.getMessage());
-			e.printStackTrace();
-		}
-		c.add(Calendar.DATE, day); // number of days to add
-		date = sdf.format(c.getTime());
-
-		return date;
-
-	}
-
+	 
 	List<TempIndentDetail> tempIndentList = new ArrayList<TempIndentDetail>();
 
 	float qty=0; 
@@ -598,41 +541,157 @@ public class IndentController {
 		return tempIndentList;
 	}
 	
-	 
-	
-	@RequestMapping(value = "/addItemFromItemListInIndent", method = RequestMethod.GET)
-	public @ResponseBody List<TempIndentDetail> addItemFromItemListInIndent(HttpServletRequest request,
-			HttpServletResponse response) {
-		 
+	@RequestMapping(value = "/deleteIndent/{indId}", method = RequestMethod.GET)
+	public String deleteIndent(@PathVariable int indId, HttpServletRequest request, HttpServletResponse response) {
+
 		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("indId", indId);
 
-			String ids =  request.getParameter("ids") ;
-			
-			System.out.println("item Ids "  + ids );
-			 
-			String[] itemIds = ids.split(",");
-			
-			for(int i = 0 ; i< itemIds.length ; i++) {
-				
-				for(int j = 0 ; j< itemListWithCurrentStockList.size() ; j++) {
-					
-					if(Integer.parseInt(itemIds[i])==itemListWithCurrentStockList.get(j).getItemId()) {
-						
-						 
-						
-					}
-				 
-				}
-			}
- 
+			ErrorMessage ErrorMessage = rest.postForObject(Constants.url + "/deleteIndent", map, ErrorMessage.class);
+
 		} catch (Exception e) {
-
-			System.err.println("Exce in getIndentDetail Cont @IndentController by Ajax call " + e.getMessage());
 
 			e.printStackTrace();
 		}
-		return tempIndentList;
+
+		return "redirect:/getIndents";
 	}
+
+	@RequestMapping(value = "/getSubDeptListByDeptId", method = RequestMethod.GET)
+	public @ResponseBody List<GetSubDept> getSubDeptListByDeptId(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<GetSubDept> subDeptList = new ArrayList<GetSubDept>();
+		try {
+
+			int deptId = 0;
+
+			String deptIdS = request.getParameter("deptId");
+
+			deptId = Integer.parseInt(deptIdS);
+
+			System.out.println("deptId Id " + deptId);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			// MultiValueMap<String, Object> mapItemList = new LinkedMultiValueMap<String,
+			// Object>();
+
+			map.add("deptId", deptId);
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			subDeptList = restTemplate.postForObject(Constants.url + "getSubDeptListByDeptId", map, List.class);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in FrCurStock Cont @items by Cat Id Ajax call " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return subDeptList;
+	}
+
+	@RequestMapping(value = "/getgroupListByCatId", method = RequestMethod.GET)
+	public @ResponseBody List<GetItemGroup> getgroupListByCatId(HttpServletRequest request,
+			HttpServletResponse response) {
+		System.err.println("In get group by cat Id ");
+		List<GetItemGroup> itemGrpList = new ArrayList<GetItemGroup>();
+		try {
+
+			int catId = 0;
+
+			String catIds = request.getParameter("catId");
+
+			catId = Integer.parseInt(catIds);
+
+			System.out.println("catIds Id " + catIds);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			// MultiValueMap<String, Object> mapItemList = new LinkedMultiValueMap<String,
+			// Object>();
+
+			map.add("catId", catId);
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			itemGrpList = restTemplate.postForObject(Constants.url + "getgroupListByCatId", map, List.class);
+
+		} catch (Exception e) {
+
+			System.err.println(
+					"Exce in getgroupListByCatId Cont @IndentController by Cat Id Ajax call " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return itemGrpList;
+	}
+
+	List<GetItem> itemList = new ArrayList<GetItem>();
+
+	@RequestMapping(value = "/itemListByGroupId", method = RequestMethod.GET)
+	public @ResponseBody List<GetItem> itemListByGroupId(HttpServletRequest request, HttpServletResponse response) {
+		System.err.println("In get group by cat Id ");
+		try {
+
+			int grpId = 0;
+
+			String grpIds = request.getParameter("grpId");
+
+			grpId = Integer.parseInt(grpIds);
+
+			System.out.println("grpId Id " + grpId);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			// MultiValueMap<String, Object> mapItemList = new LinkedMultiValueMap<String,
+			// Object>();
+
+			map.add("groupId", grpId);
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			ItemList resList = restTemplate.postForObject(Constants.url + "itemListByGroupId", map, ItemList.class);
+
+			itemList = resList.getItems();
+
+			for (int i = 0; i < itemList.size(); i++) {
+
+				itemList.get(i).setItemDesc(itemList.get(i).getItemCode() + "-" + itemList.get(i).getItemDesc());
+
+			}
+
+		} catch (Exception e) {
+
+			System.err.println(
+					"Exce in getgroupListByCatId Cont @IndentController by Cat Id Ajax call " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return itemList;
+	}
+
+	public String incrementDate(String date, int day) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(sdf.parse(date));
+
+		} catch (ParseException e) {
+			System.out.println("Exception while incrementing date " + e.getMessage());
+			e.printStackTrace();
+		}
+		c.add(Calendar.DATE, day); // number of days to add
+		date = sdf.format(c.getTime());
+
+		return date;
+
+	}
+	
+	
 	
 	
 	@RequestMapping(value = "/getItemFroItemListBelowROL", method = RequestMethod.GET)
