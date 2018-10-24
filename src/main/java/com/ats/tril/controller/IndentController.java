@@ -46,6 +46,7 @@ import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IndentValueLimit;
+import com.ats.tril.model.ItemListWithCurrentStock;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
@@ -66,6 +67,8 @@ public class IndentController {
 	
 	RestTemplate rest = new RestTemplate();
 	List<ConsumptionReportWithCatId> mrnReportList = new ArrayList<ConsumptionReportWithCatId>();
+	List<ItemListWithCurrentStock> itemListWithCurrentStockList = new ArrayList<>();
+	
 	
 	public List<ConsumptionReportWithCatId> getValueFunction() {
 		 
@@ -221,6 +224,8 @@ public class IndentController {
 			 				
 			 				
 			 			}
+			 			
+			 			System.out.println("getIndentPendingValueLimit " + total);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -271,9 +276,15 @@ public class IndentController {
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
 			
+			/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 map.add("fromDate", fromDateForStock);
+			 map.add("toDate", toDateForStock);
+			 
+			GetCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getCurrentStock",map,GetCurrentStock[].class);
 			
-			
-			getValueFunction();
+			 stockList = new ArrayList<>(Arrays.asList(getCurrentStock));*/
+			 
+			//getValueFunction();
 			
 		} catch (Exception e) {
 
@@ -457,7 +468,7 @@ public class IndentController {
 				int itemId = Integer.parseInt(request.getParameter("itemId"));
 
 				if (tempIndentList.size() > 0) {
-					int flag = 0;
+					/*int flag = 0;
 					for (int i = 0; i < tempIndentList.size(); i++) {
 						tempIndentList.get(i).setIsDuplicate(0);
 						if (tempIndentList.get(i).getItemId() == itemId) {
@@ -467,7 +478,7 @@ public class IndentController {
 						} // end of if item exist
 
 					} // end of for tempIndeList
-					if (flag == 0) {
+					if (flag == 0) {*/
 						System.err.println("New Item added to existing list");
 
 						float qty = Float.parseFloat(request.getParameter("qty"));
@@ -512,7 +523,7 @@ public class IndentController {
 						detail.setItemCode(itemCode);
 						detail.setRemark(remark);
 						tempIndentList.add(detail);
-					}
+					//}
 				} // end of if tempIndentList.size>0
 
 				else {
@@ -585,6 +596,72 @@ public class IndentController {
 			e.printStackTrace();
 		}
 		return tempIndentList;
+	}
+	
+	 
+	
+	@RequestMapping(value = "/addItemFromItemListInIndent", method = RequestMethod.GET)
+	public @ResponseBody List<TempIndentDetail> addItemFromItemListInIndent(HttpServletRequest request,
+			HttpServletResponse response) {
+		 
+		try {
+
+			String ids =  request.getParameter("ids") ;
+			
+			System.out.println("item Ids "  + ids );
+			 
+			String[] itemIds = ids.split(",");
+			
+			for(int i = 0 ; i< itemIds.length ; i++) {
+				
+				for(int j = 0 ; j< itemListWithCurrentStockList.size() ; j++) {
+					
+					if(Integer.parseInt(itemIds[i])==itemListWithCurrentStockList.get(j).getItemId()) {
+						
+						 
+						
+					}
+				 
+				}
+			}
+ 
+		} catch (Exception e) {
+
+			System.err.println("Exce in getIndentDetail Cont @IndentController by Ajax call " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return tempIndentList;
+	}
+	
+	
+	@RequestMapping(value = "/getItemFroItemListBelowROL", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ItemListWithCurrentStock> getItemFroItemListBelowROL(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		itemListWithCurrentStockList = new ArrayList<ItemListWithCurrentStock>();
+		
+		try {
+			
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 map.add("fromDate", fromDateForStock);
+			 map.add("toDate", toDateForStock);
+			 map.add("catId", catId);
+			 
+			 ItemListWithCurrentStock[] getCurrentStock = rest.postForObject(Constants.url + "/getItemListByCatIdWithStock",map,ItemListWithCurrentStock[].class);
+			
+			 itemListWithCurrentStockList = new ArrayList<>(Arrays.asList(getCurrentStock)); 
+			 
+ 			System.out.println(itemListWithCurrentStockList);
+ 	 
+ 			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return itemListWithCurrentStockList;
 	}
 
 	// used on editIndent Header add new item for edit Indent
