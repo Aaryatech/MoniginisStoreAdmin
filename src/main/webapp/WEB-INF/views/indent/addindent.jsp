@@ -167,11 +167,11 @@ body {
 									<div class="col-md-3">
 									<c:choose>
 										<c:when test="${isSubmit==1}">
-											${catIdTemp}
+											 
 											<input type="hidden" name="catId" id="catId" value="${catIdTemp}"/>
 											<select id="ind_cat" name="ind_cat"
 												class="form-control chosen" placeholder="Indent Category" onchange="getInvoiceNo()"
-												 >
+												 disabled>
 												<option value="">Select Indent Category</option>
 												<c:forEach items="${categoryList}" var="cat"
 													varStatus="count">
@@ -180,7 +180,7 @@ body {
 														<option value="${cat.catId}" selected><c:out value="${cat.catDesc}"/></option>
 														</c:when>
 														<c:otherwise>
-														<option value="${cat.catId}" disabled><c:out value="${cat.catDesc}"/></option>
+														<option value="${cat.catId}"  ><c:out value="${cat.catDesc}"/></option>
 														</c:otherwise>
 													</c:choose>
 													
@@ -207,13 +207,12 @@ body {
 								</div>
 								<br><br>
 
-								<div class="box-content">
-									 
+								<div class="box-content"> 
 									<label class="col-md-2">Indent
 										No.</label>
 									<div class="col-md-3">
 										<input type="text" name="indent_no" id="indent_no"
-											class="form-control" placeholder="Indent No" readonly="readonly"
+											class="form-control" placeholder="Indent No" value="${indentNoTemp}" readonly="readonly"
 											 />
 									</div>
 									<div class="col-md-1"></div>
@@ -384,15 +383,20 @@ body {
 									</div>
 									 <input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
 								</div>  -->
-								<br> <br>
+								 
 								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
 								
 								<div class="box-content">
 									<label class="col-md-2">Group </label>
 									<div class="col-sm-6 col-lg-10 controls">
 
-										<select name="group" id="group" class="form-control"
-											placeholder="Group"  >
+										<select name="group" id="group" class="form-control" >
+										
+										<c:forEach items="${itemGrpList}" var="itemGrpList" >
+											 
+													<option value="${itemGrpList.grpId}"><c:out value="${itemGrpList.grpDesc}"/></option>
+												  
+											</c:forEach>
 										</select>
 									</div>
 									<!-- <label class="col-sm-3 col-lg-2 control-label">Quantity</label>
@@ -426,11 +430,11 @@ body {
 									</div>
 								 
 									<label class="col-md-2">Schedule
-										Days</label>
+										Date</label>
 									<div class="col-sm-3 col-lg-2 controls">
 										<input type="text" name="sch_days" id="sch_days"
-											class="form-control" placeholder="Schedule Days"
-											  data-rule-number="true" />
+											class="form-control date-picker" placeholder="Schedule Date"
+											   />
 									</div>
 									<label class="col-md-2">Remark</label>
 									<div class="col-sm-6 col-lg-2 controls">
@@ -440,7 +444,7 @@ body {
 											  />
 									</div>
  
-								</div><br><br>
+								</div><br><br><br>
 								
 								
 								<div class="row">
@@ -520,7 +524,7 @@ body {
 																<td align="right"><c:out value="${tempIndentList.curStock}" /></td>
 													  			<td align="right"><c:out value="${tempIndentList.qty}" /></td> 
 													  			<td align="left"><c:out value="${tempIndentList.date}" /></td> 
-													  			<td align="left"><a href='#' class='action_btn' onclick="deleteIndentItem(${tempIndentList.itemId})"><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a></td> 
+													  			<td align="left"><a href='#' class='action_btn' onclick="deleteIndentItem(${tempIndentList.itemId},${count.index})"><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a></td> 
 																</tr>
 												</c:forEach>
 											</tbody>
@@ -554,7 +558,7 @@ body {
 					<input   type="hidden" value="-" name="indHeaderRemarkTemp" id="indHeaderRemarkTemp"    >
 					<input   type="hidden" value="0" name="indentDateTemp" id="indentDateTemp"    >
 					<input   type="hidden" value="0" name="indentTypeTemp" id="indentTypeTemp"    > 
-					
+					<input   type="hidden" value="0" name="indentNoTemp" id="indentNoTemp"    > 
 					<div class="modal-content" style="color: black;">
 						<span class="close" id="close">&times;</span>
 						<input type="radio" onchange="changeTable(1);" id="minMaxRol1" name="minMaxRol" value="1" checked> MINIMUM LEVEL
@@ -914,7 +918,7 @@ $(document).ready(function() {
 		 var catId=$('#ind_cat').val();
 		 var indentDate=$('#indent_date').val();
 		  
-		if(qty>0 && (itemId!="" || itemId!=null) && schDay>=0){
+		if(qty>0 && (itemId!="" || itemId!=null) && schDay!=""){
 		$.getJSON('${getIndentDetail}', {
 			itemId : itemId,
 			qty : qty,
@@ -934,6 +938,7 @@ $(document).ready(function() {
 				if(trans.isDuplicate==1){
 					alert("Item Already Added in Indent");
 				}
+			 
 			var tr = $('<tr></tr>');
 			tr.append($('<td class="col-sm-1" ></td>').html(key+1));
 		  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
@@ -941,11 +946,8 @@ $(document).ready(function() {
 		  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
 		  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
 
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
-		  	
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.remark));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty)); 
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.date)); 
 
 		  	
 		  	/* tr
@@ -978,7 +980,7 @@ $(document).ready(function() {
 		document.getElementById("quantity").value = "0"; 
 		 document.getElementById("remark").value="";
 		//document.getElementById("item_name").selectedIndex = "0";
-		 document.getElementById("sch_days").value = "0";  
+		 document.getElementById("sch_days").value = "";  
 		 
 		   $("#group").focus();
 		 //document.getElementById("rm_cat").selectedIndex = "0";  
@@ -1042,17 +1044,16 @@ function deleteIndentItem(itemId,key){
 		var len = data.length;
 		$('#table1 td').remove();
 		$.each(data,function(key, trans) {
-		var tr = $('<tr></tr>');
-		tr.append($('<td class="col-sm-1" ></td>').html(key+1));
-	  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
-	  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
-	  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
-	  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
+			
+			var tr = $('<tr></tr>');
+			tr.append($('<td class="col-sm-1" ></td>').html(key+1));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
+		  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
 
-	  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty));
-	  	tr.append($('<td class="col-md-1" ></td>').html(trans.schDays));
-	  	tr.append($('<td class="col-md-1" ></td>').html(trans.date));
-		tr.append($('<td class="col-md-1" ></td>').html(trans.remark));
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty)); 
+		  	tr.append($('<td class="col-md-1" ></td>').html(trans.date)); 
 	  	
 	  /* 	tr
 		.append($(
@@ -1399,7 +1400,7 @@ function getValue()
 	document.getElementById("indHeaderRemarkTemp").value=document.getElementById("indHeaderRemark").value;
 	document.getElementById("indentDateTemp").value=document.getElementById("indent_date").value;
 	document.getElementById("indentTypeTemp").value=document.getElementById("indent_type").value; 
-	
+	document.getElementById("indentNoTemp").value=document.getElementById("indent_no").value;
 	
 } 
 /* function addItemFromItemList() {

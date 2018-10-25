@@ -300,13 +300,7 @@ public class IndentController {
 		ModelAndView model = new ModelAndView("indent/addindent");
 		try {
 			
-			try {
-				int catIdTemp = Integer.parseInt(request.getParameter("catIdTemp"));
-				System.out.println("catIdTemp " + catIdTemp);
-				model.addObject("catIdTemp", catIdTemp);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+			 
 			try {
 				String indHeaderRemarkTemp = request.getParameter("indHeaderRemarkTemp");
 				model.addObject("indHeaderRemarkTemp", indHeaderRemarkTemp);
@@ -331,6 +325,17 @@ public class IndentController {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+			
+			try {
+				String indentNoTemp = request.getParameter("indentNoTemp") ;
+				model.addObject("indentNoTemp", indentNoTemp);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			int catIdTemp = Integer.parseInt(request.getParameter("catIdTemp"));
+			System.out.println("catIdTemp " + catIdTemp);
+			model.addObject("catIdTemp", catIdTemp);
 
 			String[] checkbox = request.getParameterValues("select_to_approve");
 			
@@ -363,7 +368,7 @@ public class IndentController {
 						detail.setItemId(itemListWithCurrentStockList.get(j).getItemId());
 						detail.setItemName(itemListWithCurrentStockList.get(j).getItemDesc());
 						detail.setQty(Float.parseFloat(request.getParameter("qty"+itemListWithCurrentStockList.get(j).getItemId()))); 
-						detail.setDate(request.getParameter("schDate"+itemListWithCurrentStockList.get(j).getItemId()));
+						detail.setDate(DateConvertor.convertToDMY(request.getParameter("schDate"+itemListWithCurrentStockList.get(j).getItemId())));
 						detail.setUom(itemListWithCurrentStockList.get(j).getItemUom());
 						detail.setItemCode(itemListWithCurrentStockList.get(j).getItemCode()); 
 						tempIndentList.add(detail);
@@ -374,8 +379,11 @@ public class IndentController {
 				
 			}
 			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("catId", catIdTemp); 
+			List itemGrpList = rest.postForObject(Constants.url + "getgroupListByCatId", map, List.class);
 			
-			System.out.println("add Item from ItemList " + tempIndentList);
+			model.addObject("itemGrpList", itemGrpList);
 			model.addObject("tempIndentList", tempIndentList);
 			model.addObject("isSubmit", 1);
  
@@ -425,7 +433,7 @@ public class IndentController {
 						System.err.println("New Item added to existing list");
 
 						float qty = Float.parseFloat(request.getParameter("qty"));
-						int schDay = Integer.parseInt(request.getParameter("schDay"));
+						String schDate =  request.getParameter("schDay") ;
 						String indDate = request.getParameter("indentDate");
 						
 						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -445,23 +453,14 @@ public class IndentController {
 								break;
 							}
 						}
-						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-						Date tempDate = sdf.parse(indDate);
-						System.err.println("Temp Date " + tempDate);
-						Calendar c = Calendar.getInstance();
-						c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
-						c.add(Calendar.DATE, schDay); // Adding days
-						String date = sdf.format(c.getTime());
-						System.out.println(date);
-
+						 
 						// Date d=LocalDate.now().plusDays(schDay);
 						detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApproveQty()-
 								getCurrentStockByItemId.getIssueQty()-getCurrentStockByItemId.getDamageQty());
 						detail.setItemId(itemId);
 						detail.setItemName(itemName);
-						detail.setQty(qty);
-						detail.setSchDays(schDay);
-						detail.setDate(date);
+						detail.setQty(qty); 
+						detail.setDate(schDate);
 						detail.setUom(uom);
 						detail.setItemCode(itemCode);
 						detail.setRemark(remark);
@@ -474,7 +473,7 @@ public class IndentController {
 					System.err.println("New Item added first time : list is empty");
 
 					float qty = Float.parseFloat(request.getParameter("qty"));
-					int schDay = Integer.parseInt(request.getParameter("schDay"));
+					String schDate =  request.getParameter("schDay") ;
 					String indDate = request.getParameter("indentDate");
 					TempIndentDetail detail = new TempIndentDetail();
 
@@ -500,25 +499,13 @@ public class IndentController {
 					}
 
 					// String calculatedDate = incrementDate(deliveryDate, itemShelfLife);
-
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-
-					Date tempDate = sdf.parse(indDate);
-					System.err.println("Temp Date " + tempDate);
-					Calendar c = Calendar.getInstance();
-					c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
-					c.add(Calendar.DATE, schDay); // Adding days
-					String date = sdf.format(c.getTime());
-					System.out.println(date);
-
-					// Date d=LocalDate.now().plusDays(schDay);
+ 
 					detail.setCurStock(getCurrentStockByItemId.getOpeningStock()+getCurrentStockByItemId.getApproveQty()-
 							getCurrentStockByItemId.getIssueQty()-getCurrentStockByItemId.getDamageQty());
 					detail.setItemId(itemId);
 					detail.setItemName(itemName);
-					detail.setQty(qty);
-					detail.setSchDays(schDay);
-					detail.setDate(date);
+					detail.setQty(qty); 
+					detail.setDate(schDate);
 					detail.setUom(uom);
 					detail.setItemCode(itemCode);
 					detail.setRemark(remark);
