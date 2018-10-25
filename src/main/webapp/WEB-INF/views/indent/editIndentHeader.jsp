@@ -170,7 +170,7 @@
 									</div> --%>
 								</div>
 								
-								<div class="form-group" style="display: none" id="deptDiv">
+								<%-- <div class="form-group" style="display: none" id="deptDiv">
 									<div class="col-md-1"></div>	<div class="col-md-2">Department
 									</div>
 
@@ -200,9 +200,13 @@
 										</select>
 									</div>
 
-								</div>
+								</div> --%>
+								<input   id="is_dev"  type="hidden"   name="is_dev" value="${indent.indIsdev}"   />
+								<input   id="is_monthly"  type="hidden"   name="is_monthly" value="${indent.indIsmonthly}"   />
+								<input   id="dept"  type="hidden"   name="dept" value="${indent.deptId}"   />
+								<input   id="sub_dept"  type="hidden"   name="sub_dept" value="${indent.deptId}"   />
 								
-								<div class="form-group"><div class="col-md-1"></div>
+								<%-- <div class="form-group"><div class="col-md-1"></div>
 								<div class="col-md-2">For
 										Development </div>
 
@@ -248,7 +252,7 @@
 
 										</select>
 									</div>
-								</div>
+								</div> --%>
 								<br /> 
 <hr/>
 								<div>
@@ -292,11 +296,11 @@
 										</div>
 										 
 										<label class="col-md-2">Schedule
-											Days</label>
+											Date</label>
 										<div class="col-sm-3 col-lg-2 controls">
 											<input type="text" name="sch_days" id="sch_days"
-												class="form-control" placeholder="Schedule Days"
-												  data-rule-number="true" />
+												class="form-control date-picker" placeholder="Schedule Date"
+												    />
 										</div>
 										<label class="col-md-2">Remark</label>
 										<div class="col-sm-6 col-lg-2 controls">
@@ -349,7 +353,7 @@
 												
 													<th class="col-md-1" >Indent
 														Qty</th>
-													<th class="col-md-1" >Sch Day</th>
+													 
 													<th class="col-md-1" >Sch
 														Date</th>
 														<th class="col-md-1" >Remark</th>
@@ -382,10 +386,8 @@
 															onchange="(this.value,${indDetail.indDId},${indent.indMId})"
 															id="indQty${indDetail.indDId}"
 															name="indQty${indDetail.indDId}"></td>
-														<td  class="col-md-1"><input type="number" class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /></td>
-
-														<td  class="col-md-1"><c:out
-																value="${indDetail.indItemSchddt}" /></td>
+														<td  class="col-md-1"><input type="date" class="form-control "  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchddt}"  /></td>
+ 
 
 														<td  class="col-md-1"><input type="text" class="form-control" value="${indDetail.indRemark}"  id='indRemark${indDetail.indDId}' name="indRemark${indDetail.indDId}"  size="20" maxlength="20" ></td>
 
@@ -556,10 +558,10 @@
 		alert("Please enter Quantity");
 		}
 		
-		else if(isNaN(schDay) || schDay < 0 || schDay=="")
+		else if(schDay=="" || itemId==null)
 		{
 		isValid = false;
-		alert("Please enter Schedule Day ");
+		alert("Please enter Schedule Date ");
 		}
 		
 	return isValid;
@@ -623,14 +625,14 @@
 																					+ ")' value="
 																					+ trans.indQty 
 																					+ " />"));
-					tr.append($('<td  class="col-md-1"></td>').html("<input type=number style='text-align:right; ' class=form-control  name=indSchDays"
+					tr.append($('<td  class="col-md-1"></td>').html("<input type=date style='text-align:left; ' class=form-control  name=indSchDays"
 							+ trans.indDId
 							+ " id=indSchDays"
 							+ trans.indDId
 							+ " value="
-							+ trans.indItemSchd 
+							+ trans.indItemSchddt 
 							+ " />"));
-					tr.append($('<td  class="col-md-1"></td>').html(trans.indItemSchddt));
+					 
 					tr.append($('<td  class="col-md-1"></td>').html("<input type=text style='text-align:right; ' class=form-control size=20 maxlength=20  name=indRemark"
 							+ trans.indDId
 							+ " id=indRemark"
@@ -741,14 +743,14 @@
 					.html(
 							"<input type='text' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='(this.value,"+trans.indDId+","+trans.indMId+")' />"));
 		  	
-				tr.append($('<td  class="col-md-1"></td>').html("<input type=number style='text-align:right; ' class=form-control  name=indSchDays"
+				tr.append($('<td  class="col-md-1"></td>').html("<input type=date style='text-align:left; ' class=form-control  name=indSchDays"
 						+ trans.indDId
 						+ " id=indSchDays"
 						+ trans.indDId
 						+ " value="
-						+ trans.indItemSchd 
+						+ trans.indItemSchddt 
 						+ " />"));
-				tr.append($('<td  class="col-md-1"></td>').html(trans.indItemSchddt));
+				 
 				tr.append($('<td  class="col-md-1"></td>').html("<input type=text style='text-align:left;' class=form-control size=20 maxlength=20  name=indRemark"
 						+ trans.indDId
 						+ " id=indRemark"

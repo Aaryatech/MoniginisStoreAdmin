@@ -734,7 +734,7 @@ public class IndentController {
 				int itemId = Integer.parseInt(request.getParameter("itemId"));
 				System.err.println("Item Id " + itemId);
 				float qty = Float.parseFloat(request.getParameter("qty"));
-				int schDay = Integer.parseInt(request.getParameter("schDay"));
+				String schDay = request.getParameter("schDay") ;
 				String indDate = request.getParameter("indentDate");
 
 				int flag = 0;
@@ -759,18 +759,12 @@ public class IndentController {
 						}
 					}
 					tempIndentList = new ArrayList<TempIndentDetail>();
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-					Date tempDate = sdf.parse(indDate);
-					Calendar c = Calendar.getInstance();
-					c.setTime(tempDate); // Now use today date.//before new Date() now tempDate
-					c.add(Calendar.DATE, schDay); // Adding days
-					String date = sdf.format(c.getTime());
+					 
 					tempDetail.setCurStock(0);
 					tempDetail.setItemId(itemId);
 					tempDetail.setItemName(itemName);
-					tempDetail.setQty(qty);
-					tempDetail.setSchDays(schDay);
-					tempDetail.setDate(date);
+					tempDetail.setQty(qty); 
+					tempDetail.setDate(schDay);
 					tempDetail.setUom(uom);
 					tempDetail.setItemCode(itemCode);
 					tempDetail.setRemark(remark);
@@ -804,6 +798,13 @@ public class IndentController {
 							GetIndentDetail[].class);
 
 					indDetailListForEdit = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
+					
+					for (int i = 0; i < indDetailListForEdit.size(); i++) {
+
+						indDetailListForEdit.get(i).setIndItemSchddt(DateConvertor.convertToYMD(indDetailListForEdit.get(i).getIndItemSchddt()));
+
+					}
+					
 				} // end of if flag==0
 			} // end of if key==-1;
 		} catch (Exception e) {
@@ -1143,7 +1144,7 @@ public class IndentController {
 
 			for (int i = 0; i < indDetailListForEdit.size(); i++) {
 
-				// indDetailListForEdit.get(i).setIndItemSchddt(DateConvertor.convertToDMY(indDetailListForEdit.get(i).getIndItemSchddt()));
+				 indDetailListForEdit.get(i).setIndItemSchddt(DateConvertor.convertToYMD(indDetailListForEdit.get(i).getIndItemSchddt()));
 
 			}
 
@@ -1251,7 +1252,7 @@ public class IndentController {
 
 			if (indQty > 0) {
 				System.err.println("It is Edit call indQty >0");
-				int schDays = Integer.parseInt(request.getParameter("schDays"));
+				String schDays =  request.getParameter("schDays") ;
 
 				String remark = request.getParameter("remark");
 				System.err.println("New Param sch Days and remark  " + schDays + "remark " + remark);
@@ -1262,7 +1263,7 @@ public class IndentController {
 
 				map.add("indDId", indDId);
 				map.add("indQty", indQty);
-				map.add("schDay", schDays);
+				map.add("schDay",schDays);
 				map.add("remark", remark);
 				map.add("indentId", indentId);
 
@@ -1295,6 +1296,11 @@ public class IndentController {
 					GetIndentDetail[].class);
 
 			indDetailList = new ArrayList<GetIndentDetail>(Arrays.asList(indDetail));
+			for (int i = 0; i < indDetailList.size(); i++) {
+
+				indDetailList.get(i).setIndItemSchddt(DateConvertor.convertToYMD(indDetailList.get(i).getIndItemSchddt()));
+
+			}
 			System.err.println("Ind detail after update call  " + indDetailList.toString());
 
 		}

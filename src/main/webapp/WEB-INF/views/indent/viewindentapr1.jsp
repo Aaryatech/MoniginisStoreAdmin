@@ -126,8 +126,8 @@
 													<th width="150" style="text-align: center;" align="center">Account Head</th>
 
 													<th width="150" style="text-align: center;" align="center">Type</th>
-													<th width="150" style="text-align: center;" align="center">Development</th>
-													<th width="150" style="text-align: center;" align="center">Monthly</th>
+													<!-- <th width="150" style="text-align: center;" align="center">Development</th>
+													<th width="150" style="text-align: center;" align="center">Monthly</th> -->
 													<th width="150" style="text-align: center;" align="center">Action</th>
 												</tr>
 											</thead>
@@ -171,7 +171,7 @@
 														</c:choose>
 														</c:forEach>
 
-														<c:set var="indIsDev" value="o"></c:set>
+														<%-- <c:set var="indIsDev" value="o"></c:set>
 
 														<c:choose>
 															<c:when test="${indent.indIsdev==1}">
@@ -191,16 +191,16 @@
 															<c:otherwise>
 																<c:set var="indIsmonthly" value="No"></c:set>
 															</c:otherwise>
-														</c:choose>
+														</c:choose> --%>
 
 														<td align="left" style="text-align: center;"><c:out
 																value="${indmtype}" /></td>
 
-														<td align="left" style="text-align: center;"><c:out
+														<%-- <td align="left" style="text-align: center;"><c:out
 																value="${indIsDev}" /></td>
 
 														<td align="left" style="text-align: center;"><c:out
-																value="${indIsmonthly}" /></td>
+																value="${indIsmonthly}" /></td> --%>
 
 														<td align="left" style="text-align: center;">
 															<a

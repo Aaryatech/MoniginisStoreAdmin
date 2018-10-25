@@ -139,9 +139,7 @@
 													<th class="col-md-1">Category</th>
 													<th class="col-md-1">Account Head</th>
 
-													<th class="col-md-1">Type</th>
-													<th class="col-md-1">Development</th>
-													<th class="col-md-1">Monthly</th>
+													<th class="col-md-1">Type</th> 
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -170,28 +168,7 @@
 																value="${indent.catDesc}" /></td>
 																<td  ><c:out
 																value="${indent.accHeadDesc}" /></td>
-														 
-														<c:set var="indIsDev" value="o"></c:set>
-
-														<c:choose>
-															<c:when test="${indent.indIsdev==1}">
-																<c:set var="indIsDev" value="Yes"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="indIsDev" value="No"></c:set>
-															</c:otherwise>
-														</c:choose>
-
-														<c:set var="indIsmonthly" value="o"></c:set>
-
-														<c:choose>
-															<c:when test="${indent.indIsmonthly==1}">
-																<c:set var="indIsmonthly" value="Yes"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="indIsmonthly" value="No"></c:set>
-															</c:otherwise>
-														</c:choose>
+														  
 														
 														<c:forEach items="${typeList}" var="typeList"> 
 															<c:choose>
@@ -205,11 +182,7 @@
 														<td  ><c:out
 																value="${indmtype}" /></td>
 
-														<td  ><c:out
-																value="${indIsDev}" /></td>
-
-														<td  ><c:out
-																value="${indIsmonthly}" /></td>
+														 
 
 														<td  ><a
 															href="javascript:genPdf(${indent.indMId});" title="PDF"><span

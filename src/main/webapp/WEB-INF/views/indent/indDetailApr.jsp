@@ -141,7 +141,7 @@
 										<c:out value="${indent.accHeadDesc}"></c:out>
 									</div>
 
-									<div class="col-md-2">Machine
+									<%-- <div class="col-md-2">Machine
 										Specific</div>
 
 									<div class="col-md-3">
@@ -159,9 +159,9 @@
 												</c:otherwise>
 											</c:choose>
 										</select>
-									</div>
+									</div> --%>
 								</div>
-								<div class="form-group" style="display: none" id="deptDiv">
+								<%-- <div class="form-group" style="display: none" id="deptDiv">
 									<div class="col-md-1"></div>	<div class="col-md-2">Department
 									</div>
 									<div class="col-md-3">
@@ -187,8 +187,8 @@
 											class="form-control chosen" placeholder="Sub Department">
 										</select>
 									</div>
-								</div>
-								<div class="form-group"><div class="col-md-1"></div>
+								</div> --%>
+								<%-- <div class="form-group"><div class="col-md-1"></div>
 								<div class="col-md-2">For
 										Development </div>
 									<div class="col-md-3">
@@ -226,10 +226,10 @@
 											</c:choose>
 										</select>
 									</div>
-								</div>
+								</div> --%>
 								<br /> 
 <hr/>
-<div class="box-content">
+<!-- <div class="box-content">
 								
 								<div class="col-md-2">MRN Limit : 
 									</div>
@@ -254,8 +254,8 @@
 									</div>
 									
 									 <input type="hidden" name="approvedIndentValueText" id="approvedIndentValueText" />
-								</div>
-								<div class="box-content">
+								</div> -->
+								<!-- <div class="box-content">
 									 
 									
 									<div class="col-md-2"> 
@@ -281,7 +281,7 @@
  
 									</div>
 									 <input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
-								</div>
+								</div> -->
 								<br><br>
 								
 								<h4> Items to Approve</h4>
