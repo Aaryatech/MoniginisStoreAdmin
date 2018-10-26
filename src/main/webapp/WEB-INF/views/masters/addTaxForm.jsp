@@ -61,10 +61,10 @@
 								onsubmit="return confirm('Do you really want to submit the form?');" method="post">
 								<div class="box-content">
 
-									<div class="col-md-2">Tax Description*</div>
+									<div class="col-md-2">HSN CODE*</div>
 									<div class="col-md-3">
 										<input id="taxDesc" class="form-control"
-									placeholder="Tax Description" style="text-align: left;"
+									placeholder="HSN CODE" style="text-align: left;"
 									name="taxDesc" type="text" value="${editTaxForm.taxDesc }"
 									required> <input id="taxId" name="taxId"
 									value="${editTaxForm.taxId}" type="hidden">

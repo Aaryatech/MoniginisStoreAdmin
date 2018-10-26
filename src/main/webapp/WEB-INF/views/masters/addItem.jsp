@@ -521,25 +521,26 @@
 									</div>
 
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Item Is Capital*</div>
+									<div class="col-md-2">Select HSN CODE*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" title="Please Select"
 											name="isCapital" id="isCapital" required>
+											<option value="">Select HSN Code</option>
+											<c:forEach items="${taxFormList}" var="taxFormList" >
 											<c:choose>
-												<c:when test="${editItem.itemIsCapital==0}">
-													<option value="0" selected>NO</option>
-													<option value="1">YES</option>
+											
+												<c:when test="${editItem.itemIsCapital==taxFormList.taxId}">
+													<option value="${taxFormList.taxId}" selected><c:out value="${taxFormList.taxDesc}"/></option>
 												</c:when>
-												<c:when test="${editItem.itemIsCapital==1}">
-													<option value="0">NO</option>
-													<option value="1" selected>YES</option>
-												</c:when>
+												 
 												<c:otherwise>
-													<option value="0">NO</option>
-													<option value="1">YES</option>
+													<option value="${taxFormList.taxId}"><c:out value="${taxFormList.taxDesc}"/></option>
 												</c:otherwise>
 
 											</c:choose>
+												
+											</c:forEach>
+											
 
 										</select>
 

@@ -38,6 +38,7 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.SubDept;
+import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
 import com.ats.tril.model.login.User;
@@ -738,6 +739,9 @@ public class MasterController {
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
 			itemList = new ArrayList<GetItem>(Arrays.asList(item));
 			
+			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
+			model.addObject("taxFormList", taxFormList);
+			
 			GetItem intialValueItem = new GetItem();
 			intialValueItem.setItemOpRate((float) 0);
 			intialValueItem.setItemClRate((float) 0);
@@ -986,6 +990,9 @@ public class MasterController {
 				
 				model.addObject("date",item.getItemDate());
 				model.addObject("imageUrl", Constants.Item_Image_URL);
+				
+				TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
+				model.addObject("taxFormList", taxFormList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
