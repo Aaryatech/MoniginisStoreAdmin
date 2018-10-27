@@ -39,7 +39,7 @@ body {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
+	padding-top: 20px; /* Location of the box */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -55,8 +55,8 @@ body {
 	margin: auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 80%;
-	height: 80%;
+	width: 100%;
+	height: 100%;
 }
 
 /* The Close Button */
@@ -281,9 +281,27 @@ body {
 				<div class="col-md-2" >Vendor Name</div>
 									<div class="col-md-10">
 										<select name="vendId" id="vendId"   class="form-control chosen"   required>
-										<option value=""  >Select Vendor</option>
 										 
-											 <c:forEach items="${vendorList}" var="vendorList" >
+										 <c:set var="vendSelected" value="0"></c:set>
+												<c:forEach items="${vendorList}" var="vendorList" >
+												  <c:choose>
+													<c:when test="${vendorList.vendorId==vendIdTemp}"> 
+														<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
+														<c:set var="vendSelected" value="1"></c:set> 
+													</c:when>
+												</c:choose>  
+												</c:forEach>
+												
+												<c:choose>
+													<c:when test="${vendSelected==0}">
+													 <option value="" >Select Supplier</option>
+														<c:forEach items="${vendorList}" var="vendorList" >
+													  	<option value="${vendorList.vendorId}"  >${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
+														</c:forEach>
+													</c:when>
+												</c:choose>
+												
+											 <%-- <c:forEach items="${vendorList}" var="vendorList" >
 											<c:choose>
 									 			<c:when test="${vendorList.vendorId==vendIdTemp}">
 							  						<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
@@ -292,7 +310,7 @@ body {
  													<option value="${vendorList.vendorId}"  >${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
  												</c:otherwise>
  												</c:choose>	 
-												</c:forEach>
+												</c:forEach> --%>
 						
 
 										</select>
@@ -470,7 +488,7 @@ body {
 					<div class="row">
 								<div style="overflow:scroll;height:35%;width:100%;overflow:auto">
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
-										style="width: 100%" id="table_grid2">
+										style="width: 100%; font-size: 14px;" id="table_grid2"  >
 										<thead>
 											<tr>
 										<th>SR</th>
@@ -584,9 +602,9 @@ body {
 						   
 							<div class="box-content">
 								 
-									<div class="col-md-2">Select Tax Percentage</div>
+									<div class="col-md-2"> </div>
 										<div class="col-md-2">
-										<select name="taxPer" id="taxPer"  onchange="calculation()"  class="form-control chosen"  required>
+										<%-- <select name="taxPer" id="taxPer"  onchange="calculation()"  class="form-control chosen"  required>
 										 
 											 <c:forEach items="${taxFormList}" var="taxFormList" >
 											 
@@ -594,12 +612,12 @@ body {
 											 	  
  											 </c:forEach>
 						 
-										</select>
+										</select> --%>
 											 </div>
 									<div class="col-md-2">Tax Value <i class="fa fa-inr" style="font-size:13px"></i></div>
 										<div class="col-md-2">
 											<input style="text-align:right; width:150px" type="text" onchange="calculation()" name="taxValue" id="taxValue" class="form-control"
-										value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
+										value="${poHeader.poTaxValue}" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
 										</div>
 									<div class="col-md-2"> </div>
 										<div class="col-md-2">
@@ -634,7 +652,7 @@ body {
 									 
 									 <div class="col-md-2">Final Value</div>
 										<div class="col-md-2">
-											<input style="text-align:right; width:150px" type="text" value="${poHeader.poBasicValue-poHeader.discValue}"   name="finalValue" id="finalValue" class="form-control"
+											<input style="text-align:right; width:150px" type="text" value="${poHeader.poBasicValue-poHeader.discValue+poHeader.poTaxValue}"   name="finalValue" id="finalValue" class="form-control"
 										value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
 										</div>
 							
@@ -685,7 +703,7 @@ body {
 							<div class="row">
 								<div style="overflow:scroll;height:70%;width:100%;overflow:auto">
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
-										style="width: 100%" id="table_grid1">
+										style="width: 100%;font-size: 14px;" id="table_grid1">
 										<thead>
 											<tr>
 										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/>All</th>
@@ -921,12 +939,17 @@ btn.onclick = function() {
 	 
 	var indId = $("#indId").val();
 	var poType = $("#poType").val();
+	var vendId = $("#vendId").val();
 	if(poType=="" || poType==null) {
 	 alert("select Po Type ");
 	 
 	}
 	else if(indId=="" || indId==null) {
 		 alert("select Intend ");
+		 
+		}
+	else if(vendId=="" || vendId==null) {
+		 alert("select Supplier ");
 		 
 		}
 	else{
@@ -1059,12 +1082,17 @@ function itemByIntendId()
 	
 	var indId = $("#indId").val();
 	var poType = $("#poType").val();
+	var vendId = $("#vendId").val();
 	var flag = 1;
 	
 	if(poType=="" || poType==null) {
 	 alert("select Po Type ");
 	 flag=0;
 	}
+	else if(vendId=="" || vendId==null) {
+		 alert("select Supplier ");
+		 flag=0;
+		}
 	else if(indId=="" || indId==null) {
 		 alert("select Intend ");
 		 flag=0;
@@ -1080,6 +1108,7 @@ function itemByIntendId()
 			{
 				 
 				indId : indId,
+				vendId : vendId,
 				ajax : 'true'
 
 			},
@@ -1134,7 +1163,7 @@ function itemByIntendId()
 							  		tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
 								  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
-								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'"  onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
+								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
 								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
 							  		}
 							  	
@@ -1276,8 +1305,8 @@ function requiredField(key)
   	var freightValue = $("#freightValue").val();
   	var otherPer = $("#otherPer").val();
   	var otherValue = $("#otherValue").val();
-  	var taxPer = $("#taxPer option:selected").text();
-  	var taxId = $("#taxPer").val();
+  	/* var taxPer = $("#taxPer option:selected").text();
+  	var taxId = $("#taxPer").val(); */
   	
   	if(packPer=="" || packPer==null) {
   		document.getElementById("packPer").value =0;
@@ -1328,9 +1357,7 @@ function requiredField(key)
   				freightPer : freightPer,
   				freightValue : freightValue,
   				otherPer : otherPer,
-  				otherValue : otherValue,
-  				taxId : taxId,
-  				taxPer : taxPer,
+  				otherValue : otherValue, 
   				ajax : 'true'
 
   			},

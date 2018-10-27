@@ -1,6 +1,5 @@
 package com.ats.tril.model;
  
-
 public class GetPoDetailList {
 	 
 	private int poDetailId; 
@@ -30,7 +29,11 @@ public class GetPoDetailList {
 	private float otherChargesAfter; 
 	private float landingCost; 
 	private String itemCode;
-	private float balanceQty;
+	private float balanceQty; 
+	private float cgst; 
+	private float sgst; 
+	private float igst;
+	
 	public int getPoDetailId() {
 		return poDetailId;
 	}
@@ -200,6 +203,25 @@ public class GetPoDetailList {
 	public void setBalanceQty(float balanceQty) {
 		this.balanceQty = balanceQty;
 	}
+	
+	public float getCgst() {
+		return cgst;
+	}
+	public void setCgst(float cgst) {
+		this.cgst = cgst;
+	}
+	public float getSgst() {
+		return sgst;
+	}
+	public void setSgst(float sgst) {
+		this.sgst = sgst;
+	}
+	public float getIgst() {
+		return igst;
+	}
+	public void setIgst(float igst) {
+		this.igst = igst;
+	}
 	@Override
 	public String toString() {
 		return "GetPoDetailList [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId="
@@ -210,7 +232,7 @@ public class GetPoDetailList {
 				+ basicValue + ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor="
 				+ otherChargesBefor + ", taxValue=" + taxValue + ", freightValue=" + freightValue
 				+ ", otherChargesAfter=" + otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode
-				+ ", balanceQty=" + balanceQty + "]";
+				+ ", balanceQty=" + balanceQty + ", cgst=" + cgst + ", sgst=" + sgst + ", igst=" + igst + "]";
 	}
 	
 	

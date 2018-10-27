@@ -73,7 +73,8 @@ public class RmRateVarificationController {
 				float currRateTaxExtra = Float.parseFloat(request.getParameter("curr_rate_tax_extra"));
 				float currRateTaxIncl = Float.parseFloat(request.getParameter("curr_rate_tax_incl"));
 				int groupId = Integer.parseInt(request.getParameter("groupId"));
-				 
+				int taxId = Integer.parseInt(request.getParameter("tax_id"));
+				
 				rmRateVerificationList.setDate2(DateConvertor.convertToYMD(rmRateVerificationList.getDate1()));
 				rmRateVerificationList.setRate2TaxExtra(rmRateVerificationList.getRate1TaxExtra());
 				rmRateVerificationList.setRate2TaxIncl(rmRateVerificationList.getRate1TaxIncl());
@@ -89,6 +90,7 @@ public class RmRateVarificationController {
 				
 				rmRateVerificationList.setSuppId(suppId);
 				rmRateVerificationList.setRmId(itemId);
+				rmRateVerificationList.setTaxId(taxId);
 				
 				RmRateVerificationList res = rest.postForObject(Constants.url + "/saveRmRateVarification",rmRateVerificationList, RmRateVerificationList.class);
 				 

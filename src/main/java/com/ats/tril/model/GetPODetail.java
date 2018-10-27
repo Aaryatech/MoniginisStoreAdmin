@@ -1,6 +1,5 @@
 package com.ats.tril.model;
-
-
+ 
 /**
  * @author ats-11
  *
@@ -69,9 +68,10 @@ public class GetPODetail {
 	private float chalanQty;
 	
 	private int tempIsDelete;
-	
-	
-	
+	 
+	private float cgst; 
+	private float sgst; 
+	private float igst;
 	
 	
 	public int getTempIsDelete() {
@@ -273,6 +273,24 @@ public class GetPODetail {
 		this.poNo = poNo;
 	}
 
+	public float getCgst() {
+		return cgst;
+	}
+	public void setCgst(float cgst) {
+		this.cgst = cgst;
+	}
+	public float getSgst() {
+		return sgst;
+	}
+	public void setSgst(float sgst) {
+		this.sgst = sgst;
+	}
+	public float getIgst() {
+		return igst;
+	}
+	public void setIgst(float igst) {
+		this.igst = igst;
+	}
 	@Override
 	public String toString() {
 		return "GetPODetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId=" + vendId
@@ -284,7 +302,8 @@ public class GetPODetail {
 				+ ", taxValue=" + taxValue + ", freightValue=" + freightValue + ", otherChargesAfter="
 				+ otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode + ", itemName="
 				+ itemName + ", uom=" + uom + ", poNo=" + poNo + ", receivedQty=" + receivedQty + ", chalanQty="
-				+ chalanQty + ", tempIsDelete=" + tempIsDelete + "]";
+				+ chalanQty + ", tempIsDelete=" + tempIsDelete + ", cgst=" + cgst + ", sgst=" + sgst + ", igst=" + igst
+				+ "]";
 	}
 	
 	

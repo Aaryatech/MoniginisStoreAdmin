@@ -25,6 +25,8 @@ public class GetIntendDetail {
 	private float	pendingQty;
 	private float disc;
 	private float rate;
+	private float taxPer;
+	private String stateCode;
 	
 	public float getPendingQty() {
 		return pendingQty;
@@ -162,6 +164,19 @@ public class GetIntendDetail {
 	public void setIndApr2Date(String indApr2Date) {
 		this.indApr2Date = indApr2Date;
 	}
+	
+	public float getTaxPer() {
+		return taxPer;
+	}
+	public void setTaxPer(float taxPer) {
+		this.taxPer = taxPer;
+	}
+	public String getStateCode() {
+		return stateCode;
+	}
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
 	@Override
 	public String toString() {
 		return "GetIntendDetail [indDId=" + indDId + ", indMId=" + indMId + ", indMNo=" + indMNo + ", indMDate="
@@ -170,7 +185,7 @@ public class GetIntendDetail {
 				+ indItemSchd + ", indItemSchddt=" + indItemSchddt + ", indRemark=" + indRemark + ", delStatus="
 				+ delStatus + ", indDStatus=" + indDStatus + ", indApr1Date=" + indApr1Date + ", indApr2Date="
 				+ indApr2Date + ", indFyr=" + indFyr + ", poQty=" + poQty + ", pendingQty=" + pendingQty + ", disc="
-				+ disc + ", rate=" + rate + "]";
+				+ disc + ", rate=" + rate + ", taxPer=" + taxPer + ", stateCode=" + stateCode + "]";
 	}
 	
 	

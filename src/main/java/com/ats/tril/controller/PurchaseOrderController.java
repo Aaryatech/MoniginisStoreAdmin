@@ -49,6 +49,7 @@ import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
 import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.PoDetail;
+import com.ats.tril.model.RmRateVerificationList;
 import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Type;
@@ -71,7 +72,7 @@ public class PurchaseOrderController {
 	List<GetIntendDetail> intendDetailList = new ArrayList<>();
 	PoHeader PoHeader = new PoHeader();
 	List<GetIntendDetail> getIntendDetailforJsp = new ArrayList<>();
-
+	int isState;
 	@RequestMapping(value = "/addPurchaseOrder", method = RequestMethod.GET)
 	public ModelAndView addPurchaseOrder(HttpServletRequest request, HttpServletResponse response) {
 
@@ -365,12 +366,41 @@ public class PurchaseOrderController {
 		try {
 
 			int indIdForGetList = Integer.parseInt(request.getParameter("indId"));
-
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("indId", indIdForGetList);
 			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
 					GetIntendDetail[].class);
-			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			List<GetIntendDetail> intendDetailList1 = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			
+			intendDetailList = new ArrayList<GetIntendDetail>();
+			
+			 map = new LinkedMultiValueMap<String, Object>();
+			map.add("vendId", vendId);
+			RmRateVerificationList[] rmRateVerification = rest.postForObject(Constants.url + "/rmVarificationListByVendId", map,
+					RmRateVerificationList[].class);
+			List<RmRateVerificationList> rmRateVerificationList = new ArrayList<RmRateVerificationList>(Arrays.asList(rmRateVerification));
+			
+			//show Only those Item which supplier Give
+			
+			for(int i = 0 ;i<rmRateVerificationList.size() ; i++)
+			{ 
+					for(int j = 0 ;j<intendDetailList1.size() ; j++)
+					{ 
+						 
+						if(intendDetailList1.get(j).getItemId()==rmRateVerificationList.get(i).getRmId())
+						{ 
+							intendDetailList1.get(j).setRate(rmRateVerificationList.get(i).getRateTaxIncl()); 
+							intendDetailList1.get(j).setTaxPer(rmRateVerificationList.get(i).getRate1TaxExtra());
+							intendDetailList1.get(j).setStateCode(rmRateVerificationList.get(i).getDate1());
+							intendDetailList.add(intendDetailList1.get(j)); 
+						}
+					} 
+			}
+			
+			
+			
 			
 			if(indIdForGetList==PoHeader.getIndId())
 			{
@@ -378,7 +408,7 @@ public class PurchaseOrderController {
 				{
 					for(int j = 0 ;j<intendDetailList.size() ; j++)
 					{
-						if(intendDetailList.get(j).getItemId()==PoHeader.getPoDetailList().get(i).getItemId())
+						if(intendDetailList.get(j).getIndDId()==PoHeader.getPoDetailList().get(i).getIndId())
 						{
 							intendDetailList.get(j).setPoQty(PoHeader.getPoDetailList().get(i).getItemQty());
 							intendDetailList.get(j).setRate(PoHeader.getPoDetailList().get(i).getItemRate());
@@ -414,6 +444,7 @@ public class PurchaseOrderController {
 			try {
 				int vendIdTemp = Integer.parseInt(request.getParameter("vendIdTemp"));
 				model.addObject("vendIdTemp", vendIdTemp);
+				PoHeader.setVendId(vendIdTemp);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -489,7 +520,9 @@ public class PurchaseOrderController {
 
 			float poBasicValue = 0;
 			float discValue = 0;
-
+			float taxValue = 0;
+			isState=0;
+			
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			model.addObject("vendorList", vendorList);
@@ -520,12 +553,31 @@ public class PurchaseOrderController {
 
 			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
 			model.addObject("taxFormList", taxFormList);
-
+			
+			try {
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "sameState"); 
+			System.out.println("map " + map);
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			if(intendDetailList.get(0).getStateCode().equals(settingValue.getValue())) {
+				
+				isState=1;
+			}
+				
+			}catch(Exception e) {
+				
+			e.printStackTrace();	
+			}
+			
+			
+			
+			
 			Calendar c = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			for (int i = 0; i < intendDetailList.size(); i++) {
 				for (int j = 0; j < checkbox.length; j++) {
-					System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
+					//System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
 					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
 						PoDetail poDetail = new PoDetail();
 						poDetail.setIndId(intendDetailList.get(i).getIndMId());
@@ -552,14 +604,23 @@ public class PurchaseOrderController {
 						c.setTime(sdf.parse(poDetail.getSchDate()));
 						c.add(Calendar.DAY_OF_MONTH, poDetail.getSchDays());
 						poDetail.setSchDate(sdf.format(c.getTime()));
-						poDetail.setIndId(intendDetailList.get(i).getIndMId());
+						poDetail.setIndId(intendDetailList.get(i).getIndDId());
 						poDetail.setIndMNo(intendDetailList.get(i).getIndMNo());
 						poDetail.setBasicValue(poDetail.getItemQty() * poDetail.getItemRate());
 						poDetail.setDiscValue((poDetail.getDiscPer() / 100) * poDetail.getBasicValue());
+						if(isState==0) {
+							poDetail.setIgst(intendDetailList.get(i).getTaxPer());
+							
+						}else {
+							poDetail.setCgst(intendDetailList.get(i).getTaxPer()/2);
+							poDetail.setSgst(intendDetailList.get(i).getTaxPer()/2);
+						}
+						poDetail.setTaxValue((intendDetailList.get(i).getTaxPer()/100)*(poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue()));
 						poDetail.setLandingCost(
-								poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue());
+								poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue() + poDetail.getTaxValue());
 						poBasicValue = poBasicValue + poDetail.getBasicValue();
 						discValue = discValue + poDetail.getDiscValue();
+						taxValue=taxValue+poDetail.getTaxValue();
 						poDetailList.add(poDetail);
 
 						intendDetailList.get(i).setPoQty(
@@ -586,7 +647,8 @@ public class PurchaseOrderController {
 			PoHeader.setDiscValue(discValue);
 			PoHeader.setPoBasicValue(poBasicValue);
 			PoHeader.setPoDetailList(poDetailList);
-
+			PoHeader.setPoTaxValue(taxValue);
+			
 			model.addObject("poDetailList", poDetailList);
 			model.addObject("indId", indId);
 			model.addObject("poHeader", PoHeader);
@@ -608,7 +670,8 @@ public class PurchaseOrderController {
 
 		try {
 			float total = 0;
-
+			float taxValue = 0;
+			
 			float packPer = Float.parseFloat(request.getParameter("packPer"));
 			float packValue = Float.parseFloat(request.getParameter("packValue"));
 			float insuPer = Float.parseFloat(request.getParameter("insuPer"));
@@ -617,8 +680,8 @@ public class PurchaseOrderController {
 			float freightValue = Float.parseFloat(request.getParameter("freightValue"));
 			float otherPer = Float.parseFloat(request.getParameter("otherPer"));
 			float otherValue = Float.parseFloat(request.getParameter("otherValue"));
-			float taxPer = Float.parseFloat(request.getParameter("taxPer"));
-			int taxId = Integer.parseInt(request.getParameter("taxId"));
+			/*float taxPer = Float.parseFloat(request.getParameter("taxPer"));
+			int taxId = Integer.parseInt(request.getParameter("taxId"));*/
 
 			if (packPer != 0) {
 				PoHeader.setPoPackPer(packPer);
@@ -646,9 +709,9 @@ public class PurchaseOrderController {
 
 			total = PoHeader.getPoBasicValue() + PoHeader.getPoPackVal() + PoHeader.getPoInsuVal()
 					+ PoHeader.getPoFrtVal() - PoHeader.getDiscValue();
-			PoHeader.setPoTaxId(taxId);
+			/*PoHeader.setPoTaxId(taxId);
 			PoHeader.setPoTaxPer(taxPer);
-			PoHeader.setPoTaxValue((taxPer / 100) * total);
+			PoHeader.setPoTaxValue((taxPer / 100) * total);*/
 
 			if (otherPer != 0) {
 				total = PoHeader.getPoBasicValue() + PoHeader.getPoPackVal() + PoHeader.getPoInsuVal()
@@ -661,11 +724,22 @@ public class PurchaseOrderController {
 			}
 
 			for (int i = 0; i < PoHeader.getPoDetailList().size(); i++) {
-				float divFactor = PoHeader.getPoDetailList().get(i).getBasicValue() / PoHeader.getPoBasicValue() * 100;
+				float divFactor = (PoHeader.getPoDetailList().get(i).getBasicValue() / PoHeader.getPoBasicValue()) * 100;
 				PoHeader.getPoDetailList().get(i).setPackValue(divFactor * PoHeader.getPoPackVal() / 100);
 				PoHeader.getPoDetailList().get(i).setInsu(divFactor * PoHeader.getPoInsuVal() / 100);
 				PoHeader.getPoDetailList().get(i).setFreightValue(divFactor * PoHeader.getPoFrtVal() / 100);
-				PoHeader.getPoDetailList().get(i).setTaxValue(divFactor * PoHeader.getPoTaxValue() / 100);
+				if(isState==0) {
+					
+					PoHeader.getPoDetailList().get(i).setTaxValue((PoHeader.getPoDetailList().get(i).getIgst()/ 100)*(PoHeader.getPoDetailList().get(i).getBasicValue()-
+							PoHeader.getPoDetailList().get(i).getDiscValue()+PoHeader.getPoDetailList().get(i).getPackValue()+PoHeader.getPoDetailList().get(i).getInsu()+
+							PoHeader.getPoDetailList().get(i).getFreightValue()));
+					
+				}else {
+					PoHeader.getPoDetailList().get(i).setTaxValue(((PoHeader.getPoDetailList().get(i).getCgst()+PoHeader.getPoDetailList().get(i).getSgst())/ 100)*(PoHeader.getPoDetailList().get(i).getBasicValue()-
+							PoHeader.getPoDetailList().get(i).getDiscValue()+PoHeader.getPoDetailList().get(i).getPackValue()+PoHeader.getPoDetailList().get(i).getInsu()+
+							PoHeader.getPoDetailList().get(i).getFreightValue()));
+				}
+				
 				PoHeader.getPoDetailList().get(i)
 						.setOtherChargesAfter(divFactor * PoHeader.getOtherChargeAfter() / 100);
 				PoHeader.getPoDetailList().get(i).setLandingCost(PoHeader.getPoDetailList().get(i).getBasicValue()
@@ -674,8 +748,10 @@ public class PurchaseOrderController {
 						+ PoHeader.getPoDetailList().get(i).getFreightValue()
 						+ PoHeader.getPoDetailList().get(i).getTaxValue()
 						+ PoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+				taxValue=taxValue+PoHeader.getPoDetailList().get(i).getTaxValue();
 			}
 
+			PoHeader.setPoTaxValue(taxValue);
 			System.out.println(PoHeader);
 
 		} catch (Exception e) {
@@ -751,7 +827,7 @@ public class PurchaseOrderController {
 			PoHeader.setPoFrtRemark(freghtRemark);
 			PoHeader.setPoInsuRemark(insuRemark);
 			PoHeader.setPoPackRemark(packRemark);
-			PoHeader.setIndId(PoHeader.getPoDetailList().get(0).getIndId());
+			//PoHeader.setIndId(PoHeader.getPoDetailList().get(0).getIndId());
 			PoHeader.setDelStatus(1);
 			PoHeader.setPoRemark(poRemark);
 			PoHeader.setPoStatus(9);
