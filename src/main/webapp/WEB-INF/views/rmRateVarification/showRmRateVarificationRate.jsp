@@ -130,8 +130,8 @@
 									
 									<label class="col-sm-1 col-lg-1 control-label">Item </label>
 									<div class="col-md-4">
-										<select name="rm_id" id="rm_id" onchange="onRmIdChange(this.value)" class="form-control chosen">
-											<option value="-1">Select Material</option>
+										<select name="rm_id" id="rm_id" onchange="onRmIdChange(this.value)" class="form-control chosen" required>
+											<option value="">Select Material</option>
 											  
 											 
 										</select>
@@ -154,8 +154,8 @@
 											class="form-control" disabled="disabled" /> <input
 											type="hidden" name="tax_id" id="tax_id">
 									</div>
-
-								
+									<input type="hidden" name="itemId" id="itemId">
+								<input type="hidden" name="groupId" id="groupId">
 								
 								
 									<div class="col-md-2" >
@@ -174,8 +174,8 @@
                                       <label class="col-sm-3 col-lg-1 control-label">Supplier</label>
 									<div class="col-sm-6 col-lg-2 controls">
 										<select name="supp_id" id="supp_id" onchange="onSearch()"
-											class="form-control chosen">
-											<option value="-1">Select Supplier</option>
+											class="form-control chosen" required>
+											<option value="">Select Supplier</option>
 											<c:forEach items="${vendorList}" var="vendorList"
 												varStatus="count">
 												<option value="${vendorList.vendorId}"><c:out value="${vendorList.vendorName}"/></option>
@@ -225,19 +225,10 @@
 											placeholder="Tax Rate Inclusive" data-rule-required="true"
 											pattern="[+-]?([0-9]*[.])?[0-9]+" />
 									</div>
-	<c:choose>
-
-											<c:when test="${isAdd==1}">
-												<input type="submit" class="btn btn-primary" id="submit"
-													value="Add" >
-
-											</c:when>
-											<c:otherwise>
-												<input type="submit" class="btn btn-primary" id="submit"
+	 
+												<input type="submit" class="btn btn-primary" id="submitt"
 													value="Add" disabled>
-
-											</c:otherwise>
-										</c:choose> 
+ 
 								</div>
                          	<div class="box-content" >
 					<div class="row">
@@ -251,7 +242,7 @@
 										<th>Mobile</th>
 										<th>City</th>
 										<th>State</th>
-										<th>Lead Time</th>
+										<!-- <th>Lead Time</th> -->
 										<th>Rate Inclusive</th>
 										<th>Rate Extra</th>
 
@@ -365,8 +356,8 @@
 
 											</c:otherwise>
 										</c:choose>  --%>&nbsp;&nbsp;&nbsp;&nbsp;
-									<a href="${pageContext.request.contextPath}/showRawMaterial"><input type="button" class="btn btn-info" value="Back to Raw Material List"></a>	
-										<!-- <input type="button" id="search" class="btn btn-info"
+									<%-- <a href="${pageContext.request.contextPath}/showRawMaterial"><input type="button" class="btn btn-info" value="Back to Raw Material List"></a>	
+									 --%>	<!-- <input type="button" id="search" class="btn btn-info"
 											value="Edit" onclick="onEdit()" /> -->
 
 
@@ -479,8 +470,9 @@
 					document.getElementById("uom_id").value=data.taxDesc;
 					document.getElementById("tax_id").value=data.taxId;
 					document.getElementById("tax_desc").value=data.taxPer;
+					document.getElementById("groupId").value=data.createdIn;
 					
-				
+					onSearch();
 
 				});
 			}
@@ -524,8 +516,9 @@ function onSearch()
 {	
 	  
 	var selectedRmId = $("#rm_id").val();
-	var selectedSuppId = $("#supp_id").val();
-	var grpId = $("#grpId").val();
+	var selectedSuppId = $("#supp_id").val(); 
+	
+	if(selectedSuppId!=""){
    var supName=$("#supp_id  option:selected").text(); 
    document.getElementById("sup").innerHTML="Rate Of "+supName;
 
@@ -534,13 +527,12 @@ function onSearch()
 	$.getJSON('${getRmRateVerification}',{
 		
 						rm_id : selectedRmId,
-						supp_id : selectedSuppId,
-						grpId:grpId,
+						supp_id : selectedSuppId, 
 						ajax : 'true'
 
 					},
 					function(data) {
-
+ 
 document.getElementById('date1').innerHTML = data.rateDate;
 
 document.getElementById("rate_date").value=data.rateDate;
@@ -553,20 +545,23 @@ document.getElementById("rate_tax_incl").value=data.rateTaxIncl;
 document.getElementById('date2').innerHTML = data.date1;
 
 document.getElementById("rate_date1").value=data.date1;
-document.getElementById("tax_extra1").value=data.rateTaxExtra1;
-document.getElementById("rate_tax_extra1").value=data.rateTaxExtra1;
-document.getElementById("tax_incl1").value=data.rateTaxIncl1;
-document.getElementById("rate_tax_incl1").value=data.rateTaxIncl1;
+document.getElementById("tax_extra1").value=data.rate1TaxExtra;
+document.getElementById("rate_tax_extra1").value=data.rate1TaxExtra;
+document.getElementById("tax_incl1").value=data.rate1TaxIncl;
+document.getElementById("rate_tax_incl1").value=data.rate1TaxIncl;
 
 document.getElementById('date3').innerHTML = data.date2;
 
-document.getElementById("rate_date2").value=data.date1;
-document.getElementById("rate_tax_extra2").value=data.rateTaxExtra2;
-document.getElementById("rate_tax_incl2").value=data.rateTaxIncl2;
+document.getElementById("rate_date2").value=data.date2;
+document.getElementById("rate_tax_extra2").value=data.rate2TaxExtra;
+document.getElementById("rate_tax_incl2").value=data.rate2TaxIncl;
 document.getElementById("rm_rate_ver_id").value=data.rmRateVerId;
-document.getElementById("submit").disabled=false;
+
+document.getElementById("itemId").value=data.rmId;
+document.getElementById("submitt").disabled=false;
 
 					});
+	}
 }
 
 function onEdit()
@@ -639,15 +634,35 @@ function onRmChange()
 	var selectedRmId = $("#rm_id").val();
     /* window.location.href = "${pageContext.request.contextPath}/showRmRateVerification/"+selectedRmId; */
 	$.getJSON('${getVederListByItemId}', {
-		rmId : rmId, 
+		rmId : selectedRmId, 
 		ajax : 'true'
 	}, function(data) {
 		 
-		document.getElementById("uom_id").value=data.taxDesc;
-		document.getElementById("tax_id").value=data.taxId;
-		document.getElementById("tax_desc").value=data.taxPer;
+		$('#table_grid1 td').remove(); 
+		if (data == "") {
+			alert("No records found !!");
+
+		}
+		 
+
+	  $.each(
+					data,
+					function(key, itemList) {
+					 
+						var tr = $('<tr></tr>');  
+					  	tr.append($('<td></td>').html(key+1)); 
+					  	tr.append($('<td></td>').html(itemList.vendorName)); 
+					  	tr.append($('<td></td>').html(itemList.vendorMobile)); 
+					  	tr.append($('<td></td>').html(itemList.vendorCity)); 
+					  	tr.append($('<td></td>').html(itemList.vendorState)); 
+					  	tr.append($('<td></td>').html(itemList.rateTaxIncl)); 
+					  	tr.append($('<td></td>').html(itemList.rateTaxExtra));
+					  	 $('#table_grid1 tbody').append(tr);
+					  	
+					  	
+					})
 		
-	
+					/* document.getElementById("submitt").disabled = false; */
 
 	});
 
