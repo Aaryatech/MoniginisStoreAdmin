@@ -661,7 +661,7 @@ body {
 								</label>
 								<div style="overflow:scroll;height:70%;width:100%;overflow:auto">
 									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
-										style="width: 100%" id="table_grid3">
+										style="width: 100%;font-size: 14px;" id="table_grid3">
 										<thead>
 											<tr>
 										 <th>SR</th>

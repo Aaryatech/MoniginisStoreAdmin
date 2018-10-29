@@ -1943,6 +1943,7 @@ public class PurchaseOrderController {
 				float total = 0;
 				float poBasicValue = 0;
 				float poDiscValue = 0;
+				float poTaxValue = 0;
 				
 				System.out.println(poHeaderForApprove);
 				 
@@ -1975,8 +1976,8 @@ public class PurchaseOrderController {
 
 				total = poHeaderForApprove.getPoBasicValue() + poHeaderForApprove.getPoPackVal() + poHeaderForApprove.getPoInsuVal()
 						+ poHeaderForApprove.getPoFrtVal() - poHeaderForApprove.getDiscValue();
-				getPoHeader.setPoTaxValue((poHeaderForApprove.getPoTaxPer() / 100) * total);
-
+				//getPoHeader.setPoTaxValue((poHeaderForApprove.getPoTaxPer() / 100) * total);
+ 
 				for (int i = 0; i < poHeaderForApprove.getPoDetailList().size(); i++) {
 					if(poHeaderForApprove.getPoDetailList().get(i).getStatus()==0 || poHeaderForApprove.getPoDetailList().get(i).getStatus()==2) {
 					float divFactor = poHeaderForApprove.getPoDetailList().get(i).getBasicValue() / poHeaderForApprove.getPoBasicValue()
@@ -1984,7 +1985,20 @@ public class PurchaseOrderController {
 					poHeaderForApprove.getPoDetailList().get(i).setPackValue(divFactor * poHeaderForApprove.getPoPackVal() / 100);
 					poHeaderForApprove.getPoDetailList().get(i).setInsu(divFactor * poHeaderForApprove.getPoInsuVal() / 100);
 					poHeaderForApprove.getPoDetailList().get(i).setFreightValue(divFactor * poHeaderForApprove.getPoFrtVal() / 100);
-					poHeaderForApprove.getPoDetailList().get(i).setTaxValue(divFactor * poHeaderForApprove.getPoTaxValue() / 100);
+					 
+					if(poHeaderForApprove.getPoDetailList().get(i).getIgst()>0) {
+						
+						poHeaderForApprove.getPoDetailList().get(i).setTaxValue((poHeaderForApprove.getPoDetailList().get(i).getIgst()/ 100)*(poHeaderForApprove.getPoDetailList().get(i).getBasicValue()-
+								poHeaderForApprove.getPoDetailList().get(i).getDiscValue()+poHeaderForApprove.getPoDetailList().get(i).getPackValue()+poHeaderForApprove.getPoDetailList().get(i).getInsu()+
+								poHeaderForApprove.getPoDetailList().get(i).getFreightValue()));
+						
+					}else {
+						poHeaderForApprove.getPoDetailList().get(i).setTaxValue(((poHeaderForApprove.getPoDetailList().get(i).getCgst()+poHeaderForApprove.getPoDetailList().get(i).getSgst())/ 100)*(poHeaderForApprove.getPoDetailList().get(i).getBasicValue()-
+								poHeaderForApprove.getPoDetailList().get(i).getDiscValue()+poHeaderForApprove.getPoDetailList().get(i).getPackValue()+poHeaderForApprove.getPoDetailList().get(i).getInsu()+
+								poHeaderForApprove.getPoDetailList().get(i).getFreightValue()));
+					}
+
+					//poHeaderForApprove.getPoDetailList().get(i).setTaxValue(divFactor * poHeaderForApprove.getPoTaxValue() / 100);
 					poHeaderForApprove.getPoDetailList().get(i)
 							.setOtherChargesAfter(divFactor * poHeaderForApprove.getOtherChargeAfter() / 100);
 					poHeaderForApprove.getPoDetailList().get(i)
@@ -1995,10 +2009,12 @@ public class PurchaseOrderController {
 									+ poHeaderForApprove.getPoDetailList().get(i).getFreightValue()
 									+ poHeaderForApprove.getPoDetailList().get(i).getTaxValue()
 									+ poHeaderForApprove.getPoDetailList().get(i).getOtherChargesAfter());
+					poTaxValue=poTaxValue+poHeaderForApprove.getPoDetailList().get(i).getTaxValue();
 					}
 				}
 				poHeaderForApprove.setVendQuationDate(DateConvertor.convertToYMD(poHeaderForApprove.getVendQuationDate()));
 				poHeaderForApprove.setPoDate(DateConvertor.convertToYMD(poHeaderForApprove.getPoDate()));
+				poHeaderForApprove.setPoTaxValue(poTaxValue);
 				System.out.println(poHeaderForApprove);
 				
 				 PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", poHeaderForApprove, PoHeader.class);
@@ -2010,7 +2026,7 @@ public class PurchaseOrderController {
 						if (poHeaderForApprove.getPoDetailList().get(j).getStatus()==7 || poHeaderForApprove.getPoDetailList().get(j).getStatus()==9) {
 							 
 								for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
-									if (poHeaderForApprove.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i).getItemId()) {
+									if (poHeaderForApprove.getPoDetailList().get(j).getIndId() == getIntendDetailListforEdit.get(i).getIndDId()) {
 										getIntendDetailListforEdit.get(i).setIndFyr(getIntendDetailListforEdit.get(i).getIndFyr()+poHeaderForApprove.getPoDetailList().get(j).getItemQty());
 										getIntendDetailListforEdit.get(i).setIndMDate(DateConvertor.convertToYMD(getIntendDetailListforEdit.get(i).getIndMDate()));
 										if (getIntendDetailListforEdit.get(i).getIndFyr() == 0)

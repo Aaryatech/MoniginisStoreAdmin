@@ -63,7 +63,7 @@
 
 							<form id="submitMaterialStore"
 								action="${pageContext.request.contextPath}/submitPoApprove"
-								method="post">
+								onsubmit="return confirm('Do you really want to Approve purchase Order ?');" method="post">
 
 								<div class="box-content">
 
@@ -141,7 +141,7 @@
 										<c:when test="${approve==1}"> 
 												  
 														<div class="table-responsive" style="border: 0">
-																<table class="table table-advance" id="table1">
+																<table class="table table-advance" id="table1" style=" font-size: 14px;">
 																<thead>
 																	<tr>
 																	
@@ -199,7 +199,7 @@
 										<c:when test="${approve==2}">
 														 
 														<div class="table-responsive" style="border: 0">
-																<table class="table table-advance" id="table1">
+																<table class="table table-advance" id="table1" style=" font-size: 14px;">
 																<thead>
 																	<tr>
 																	

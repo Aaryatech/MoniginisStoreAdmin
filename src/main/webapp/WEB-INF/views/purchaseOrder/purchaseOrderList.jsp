@@ -121,10 +121,10 @@
 										
 											<th style="width:2%;">SR</th>
 											<th class="col-md-1">Date</th>
-											<th class="col-md-1">PO No</th>
+											<th style="width:10%;">PO No</th>
 											<th class="col-md-1">PO TYPE</th>
-											<th class="col-md-4">Vendor Name</th>
-											<th class="col-md-2">Indent No</th>
+											<th class="col-md-3">Vendor Name</th>
+											<th style="width:10%;">Indent No</th>
 											<th class="col-md-2">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
@@ -143,7 +143,7 @@
 
 												<td class="col-md-1"><c:out value="${poList.poDate}" /></td>
 												 
-												<td class="col-md-1"><c:out value="${poList.poNo}" /></td>
+												<td style="width:10%;"><c:out value="${poList.poNo}" /></td>
 												<c:set var="type"></c:set>
 												<c:forEach items="${typeList}" var="typeList"> 
 															<c:choose>
@@ -155,10 +155,10 @@
 														</c:forEach>
 												
 												<td class="col-md-1"><c:out value="${type}" /></td>
-												<td class="col-md-4"><c:out
+												<td class="col-md-3"><c:out
 														value="${poList.vendorName}" /></td>
 
-												<td class="col-md-2"><c:out value="${poList.indNo}" /></td>
+												<td style="width:10%;"><c:out value="${poList.indNo}" /></td>
 												
 												<c:set var="poStatus" value=""></c:set>
 												<c:choose>
