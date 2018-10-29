@@ -499,7 +499,7 @@ body {
 										<th>Bal QTY</th>
 										<th>Rate</th>
 										<th>Disc%</th>
-										<th>Sch Days</th>
+										<th class="col-md-1">Sch Date</th>
 										<th>Value</th>
 
 									</tr>
@@ -520,7 +520,7 @@ body {
 													  			<td align="right"><c:out value="${poDetailList.balanceQty}" /></td>
 													  			<td align="right"><c:out value="${poDetailList.itemRate}" /></td>
 													  			<td align="right"><c:out value="${poDetailList.discPer}" /></td>
-													  			<td align="right"><c:out value="${poDetailList.schDays}" /></td>
+													  			<td align="right" ><c:out value="${poDetailList.schDate}" /></td>
 													  			<td align="left"><c:out value="${poDetailList.basicValue}" /></td> 
 																</tr>
 												</c:forEach>
@@ -652,7 +652,7 @@ body {
 									 
 									 <div class="col-md-2">Final Value</div>
 										<div class="col-md-2">
-											<input style="text-align:right; width:150px" type="text" value="${poHeader.poBasicValue-poHeader.discValue+poHeader.poTaxValue}"   name="finalValue" id="finalValue" class="form-control"
+											<input style="text-align:right; width:150px" type="text" value="<fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${poHeader.poBasicValue-poHeader.discValue+poHeader.poTaxValue}"/>"   name="finalValue" id="finalValue" class="form-control"
 										value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
 										</div>
 							
@@ -715,7 +715,7 @@ body {
 										<th>Bal Qty</th>
 										<th>Rate</th>
 										<th>Disc%</th>
-										<th>Sch Days</th>
+										<!-- <th>Sch Days</th> -->
 										<th>Remark</th>
 
 									</tr>
@@ -1167,8 +1167,8 @@ function itemByIntendId()
 								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
 							  		}
 							  	
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:left; width:100px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
+							  	//tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><input style="text-align:left; width:100px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
 							  	document.getElementById("indMId").value=itemList.indMId;
 							  	 $('#table_grid1 tbody').append(tr);
 							  	
@@ -1378,8 +1378,8 @@ function requiredField(key)
   				document.getElementById("poBasicValue").value = data.poBasicValue;
   				document.getElementById("discValue").value = data.discValue;
   				document.getElementById("taxValue").value = data.poTaxValue;
-  				document.getElementById("finalValue").value = data.poBasicValue-data.discValue+data.poPackVal+data.poInsuVal
-  				+data.poFrtVal+data.poTaxValue+data.otherChargeAfter;
+  				document.getElementById("finalValue").value = (data.poBasicValue-data.discValue+data.poPackVal+data.poInsuVal
+  				+data.poFrtVal+data.poTaxValue+data.otherChargeAfter).toFixed(2);
   				
   				
   			});

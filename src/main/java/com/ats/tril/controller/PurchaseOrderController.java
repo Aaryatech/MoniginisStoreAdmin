@@ -2,6 +2,7 @@ package com.ats.tril.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +74,8 @@ public class PurchaseOrderController {
 	PoHeader PoHeader = new PoHeader();
 	List<GetIntendDetail> getIntendDetailforJsp = new ArrayList<>();
 	int isState;
+	DecimalFormat df = new DecimalFormat("#.000");
+	
 	@RequestMapping(value = "/addPurchaseOrder", method = RequestMethod.GET)
 	public ModelAndView addPurchaseOrder(HttpServletRequest request, HttpServletResponse response) {
 
@@ -606,8 +609,8 @@ public class PurchaseOrderController {
 						poDetail.setSchDate(sdf.format(c.getTime()));
 						poDetail.setIndId(intendDetailList.get(i).getIndDId());
 						poDetail.setIndMNo(intendDetailList.get(i).getIndMNo());
-						poDetail.setBasicValue(poDetail.getItemQty() * poDetail.getItemRate());
-						poDetail.setDiscValue((poDetail.getDiscPer() / 100) * poDetail.getBasicValue());
+						poDetail.setBasicValue(Float.parseFloat(df.format(poDetail.getItemQty() * poDetail.getItemRate())));
+						poDetail.setDiscValue(Float.parseFloat(df.format((poDetail.getDiscPer() / 100) * poDetail.getBasicValue())));
 						if(isState==0) {
 							poDetail.setIgst(intendDetailList.get(i).getTaxPer());
 							
@@ -615,9 +618,9 @@ public class PurchaseOrderController {
 							poDetail.setCgst(intendDetailList.get(i).getTaxPer()/2);
 							poDetail.setSgst(intendDetailList.get(i).getTaxPer()/2);
 						}
-						poDetail.setTaxValue((intendDetailList.get(i).getTaxPer()/100)*(poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue()));
-						poDetail.setLandingCost(
-								poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue() + poDetail.getTaxValue());
+						poDetail.setTaxValue(Float.parseFloat(df.format((intendDetailList.get(i).getTaxPer()/100)*(poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue()))));
+						poDetail.setLandingCost(Float.parseFloat(df.format(
+								poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue() + poDetail.getTaxValue())));
 						poBasicValue = poBasicValue + poDetail.getBasicValue();
 						discValue = discValue + poDetail.getDiscValue();
 						taxValue=taxValue+poDetail.getTaxValue();
@@ -644,8 +647,8 @@ public class PurchaseOrderController {
 			System.out.println(poDetailList);
 			
 			PoHeader.setIndId(indId);
-			PoHeader.setDiscValue(discValue);
-			PoHeader.setPoBasicValue(poBasicValue);
+			PoHeader.setDiscValue(Float.parseFloat(df.format(discValue)));
+			PoHeader.setPoBasicValue(Float.parseFloat(df.format(poBasicValue)));
 			PoHeader.setPoDetailList(poDetailList);
 			PoHeader.setPoTaxValue(taxValue);
 			
@@ -685,7 +688,7 @@ public class PurchaseOrderController {
 
 			if (packPer != 0) {
 				PoHeader.setPoPackPer(packPer);
-				PoHeader.setPoPackVal((packPer / 100) * PoHeader.getPoBasicValue());
+				PoHeader.setPoPackVal(Float.parseFloat(df.format((packPer / 100) * PoHeader.getPoBasicValue())));
 			} else {
 				PoHeader.setPoPackPer(0);
 				PoHeader.setPoPackVal(packValue);
@@ -693,7 +696,7 @@ public class PurchaseOrderController {
 
 			if (insuPer != 0) {
 				PoHeader.setPoInsuPer(insuPer);
-				PoHeader.setPoInsuVal((insuPer / 100) * PoHeader.getPoBasicValue());
+				PoHeader.setPoInsuVal(Float.parseFloat(df.format((insuPer / 100) * PoHeader.getPoBasicValue())));
 			} else {
 				PoHeader.setPoInsuPer(0);
 				PoHeader.setPoInsuVal(insuValue);
@@ -701,7 +704,7 @@ public class PurchaseOrderController {
 
 			if (freightPer != 0) {
 				PoHeader.setPoFrtPer(freightPer);
-				PoHeader.setPoFrtVal((freightPer / 100) * PoHeader.getPoBasicValue());
+				PoHeader.setPoFrtVal(Float.parseFloat(df.format((freightPer / 100) * PoHeader.getPoBasicValue())));
 			} else {
 				PoHeader.setPoFrtPer(0);
 				PoHeader.setPoFrtVal(freightValue);
@@ -716,7 +719,7 @@ public class PurchaseOrderController {
 			if (otherPer != 0) {
 				total = PoHeader.getPoBasicValue() + PoHeader.getPoPackVal() + PoHeader.getPoInsuVal()
 						+ PoHeader.getPoFrtVal() - PoHeader.getDiscValue() + PoHeader.getPoTaxValue();
-				PoHeader.setOtherChargeAfter((otherPer / 100) * total);
+				PoHeader.setOtherChargeAfter(Float.parseFloat(df.format((otherPer / 100) * total)));
 			} else if (otherValue != 0) {
 				PoHeader.setOtherChargeAfter(otherValue);
 			} else {
@@ -725,33 +728,33 @@ public class PurchaseOrderController {
 
 			for (int i = 0; i < PoHeader.getPoDetailList().size(); i++) {
 				float divFactor = (PoHeader.getPoDetailList().get(i).getBasicValue() / PoHeader.getPoBasicValue()) * 100;
-				PoHeader.getPoDetailList().get(i).setPackValue(divFactor * PoHeader.getPoPackVal() / 100);
-				PoHeader.getPoDetailList().get(i).setInsu(divFactor * PoHeader.getPoInsuVal() / 100);
-				PoHeader.getPoDetailList().get(i).setFreightValue(divFactor * PoHeader.getPoFrtVal() / 100);
+				PoHeader.getPoDetailList().get(i).setPackValue(Float.parseFloat(df.format(divFactor * PoHeader.getPoPackVal() / 100)));
+				PoHeader.getPoDetailList().get(i).setInsu(Float.parseFloat(df.format(divFactor * PoHeader.getPoInsuVal() / 100)));
+				PoHeader.getPoDetailList().get(i).setFreightValue(Float.parseFloat(df.format(divFactor * PoHeader.getPoFrtVal() / 100)));
 				if(isState==0) {
 					
-					PoHeader.getPoDetailList().get(i).setTaxValue((PoHeader.getPoDetailList().get(i).getIgst()/ 100)*(PoHeader.getPoDetailList().get(i).getBasicValue()-
+					PoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format((PoHeader.getPoDetailList().get(i).getIgst()/ 100)*(PoHeader.getPoDetailList().get(i).getBasicValue()-
 							PoHeader.getPoDetailList().get(i).getDiscValue()+PoHeader.getPoDetailList().get(i).getPackValue()+PoHeader.getPoDetailList().get(i).getInsu()+
-							PoHeader.getPoDetailList().get(i).getFreightValue()));
+							PoHeader.getPoDetailList().get(i).getFreightValue()))));
 					
 				}else {
-					PoHeader.getPoDetailList().get(i).setTaxValue(((PoHeader.getPoDetailList().get(i).getCgst()+PoHeader.getPoDetailList().get(i).getSgst())/ 100)*(PoHeader.getPoDetailList().get(i).getBasicValue()-
+					PoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format(((PoHeader.getPoDetailList().get(i).getCgst()+PoHeader.getPoDetailList().get(i).getSgst())/ 100)*(PoHeader.getPoDetailList().get(i).getBasicValue()-
 							PoHeader.getPoDetailList().get(i).getDiscValue()+PoHeader.getPoDetailList().get(i).getPackValue()+PoHeader.getPoDetailList().get(i).getInsu()+
-							PoHeader.getPoDetailList().get(i).getFreightValue()));
+							PoHeader.getPoDetailList().get(i).getFreightValue()))));
 				}
 				
 				PoHeader.getPoDetailList().get(i)
-						.setOtherChargesAfter(divFactor * PoHeader.getOtherChargeAfter() / 100);
-				PoHeader.getPoDetailList().get(i).setLandingCost(PoHeader.getPoDetailList().get(i).getBasicValue()
+						.setOtherChargesAfter(Float.parseFloat(df.format(divFactor * PoHeader.getOtherChargeAfter() / 100)));
+				PoHeader.getPoDetailList().get(i).setLandingCost(Float.parseFloat(df.format(PoHeader.getPoDetailList().get(i).getBasicValue()
 						- PoHeader.getPoDetailList().get(i).getDiscValue()
 						+ PoHeader.getPoDetailList().get(i).getPackValue() + PoHeader.getPoDetailList().get(i).getInsu()
 						+ PoHeader.getPoDetailList().get(i).getFreightValue()
 						+ PoHeader.getPoDetailList().get(i).getTaxValue()
-						+ PoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+						+ PoHeader.getPoDetailList().get(i).getOtherChargesAfter())));
 				taxValue=taxValue+PoHeader.getPoDetailList().get(i).getTaxValue();
 			}
 
-			PoHeader.setPoTaxValue(taxValue);
+			PoHeader.setPoTaxValue(Float.parseFloat(df.format(Float.parseFloat(df.format(taxValue)))));
 			System.out.println(PoHeader);
 
 		} catch (Exception e) {
@@ -965,7 +968,7 @@ public class PurchaseOrderController {
 
 			for (int i = 0; i < updateIntendQty.size(); i++) {
 				for (int j = 0; j < purchaseOrder.getPoDetailList().size(); j++) {
-					if (purchaseOrder.getPoDetailList().get(j).getItemId() == updateIntendQty.get(i).getItemId()) {
+					if (purchaseOrder.getPoDetailList().get(j).getIndId() == updateIntendQty.get(i).getIndDId()) {
 						updateIntendQty.get(i).setIndFyr(purchaseOrder.getPoDetailList().get(j).getItemQty()
 								+ updateIntendQty.get(i).getIndFyr());
 						break;
@@ -1025,8 +1028,8 @@ public class PurchaseOrderController {
  
 			for (int j = 0; j < getPoHeader.getPoDetailList().size(); j++) {
 				for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
-					if (getPoHeader.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i)
-							.getItemId()) {
+					if (getPoHeader.getPoDetailList().get(j).getIndId() == getIntendDetailListforEdit.get(i)
+							.getIndDId()) {
 						getPoHeader.getPoDetailList().get(j)
 								.setBalanceQty(getIntendDetailListforEdit.get(i).getIndFyr());
 						getPoHeader.getPoDetailList().get(j)
@@ -1071,7 +1074,7 @@ public class PurchaseOrderController {
 
 				model.addObject("typeList", typeList);
 				
-				map = new LinkedMultiValueMap<>();
+				/*map = new LinkedMultiValueMap<>();
 				map.add("name", "autoMrn"); 
 				System.out.println("map " + map);
 				SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
@@ -1088,7 +1091,7 @@ public class PurchaseOrderController {
 				 }
 				 if(flag==1)
 					 model.addObject("autoMrn", 1);
-				 else  
+				 else*/  
 					 model.addObject("autoMrn", 0);
 						 
 				
@@ -1106,19 +1109,42 @@ public class PurchaseOrderController {
 		try {
 
 			int indIdForGetList = Integer.parseInt(request.getParameter("indId"));
-
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("indId", indIdForGetList);
 			GetIntendDetail[] indentTrans = rest.postForObject(Constants.url + "/getIntendsDetailByIntendId", map,
 					GetIntendDetail[].class);
-			intendDetailList = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			List<GetIntendDetail> intendDetailList1 = new ArrayList<GetIntendDetail>(Arrays.asList(indentTrans));
+			intendDetailList = new ArrayList<GetIntendDetail>();
 			
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("vendId", vendId);
+			RmRateVerificationList[] rmRateVerification = rest.postForObject(Constants.url + "/rmVarificationListByVendId", map,
+						RmRateVerificationList[].class);
+			List<RmRateVerificationList> rmRateVerificationList = new ArrayList<RmRateVerificationList>(Arrays.asList(rmRateVerification));
+				
+			for(int i = 0 ;i<rmRateVerificationList.size() ; i++)
+			{ 
+					for(int j = 0 ;j<intendDetailList1.size() ; j++)
+					{ 
+						 
+						if(intendDetailList1.get(j).getItemId()==rmRateVerificationList.get(i).getRmId())
+						{ 
+							intendDetailList1.get(j).setRate(rmRateVerificationList.get(i).getRateTaxIncl()); 
+							intendDetailList1.get(j).setTaxPer(rmRateVerificationList.get(i).getRate1TaxExtra());
+							intendDetailList1.get(j).setStateCode(rmRateVerificationList.get(i).getDate1());
+							intendDetailList.add(intendDetailList1.get(j)); 
+						}
+					} 
+			}
 			
 			for(int j = 0; j<getPoHeader.getPoDetailList().size() ; j++)
 			{
 				for(int i = 0; i<intendDetailList.size() ; i++)
 				{
-					if(getPoHeader.getPoDetailList().get(j).getItemId()==intendDetailList.get(i).getItemId())
+					if(getPoHeader.getPoDetailList().get(j).getIndId()==intendDetailList.get(i).getIndDId())
 					{
 						intendDetailList.remove(i);
 						break;
@@ -1126,6 +1152,7 @@ public class PurchaseOrderController {
 				}
 			}
 			 
+			System.out.println(intendDetailList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1143,6 +1170,23 @@ public class PurchaseOrderController {
 			float total = 0;
 			float poBasicValue = 0;
 			float poDiscValue = 0;
+			float poTaxValue = 0;
+			isState=0;
+			
+			try {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("name", "sameState"); 
+				System.out.println("map " + map);
+				SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+				
+				if(intendDetailList.get(0).getStateCode().equals(settingValue.getValue())) {
+					
+					isState=1;
+				}
+			}catch(Exception e) {
+				
+			}
+				
 
 			getIntendDetailforJsp = new ArrayList<>();
  
@@ -1156,7 +1200,7 @@ public class PurchaseOrderController {
 					 
 					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
 						GetPoDetailList poDetail = new GetPoDetailList();
-						poDetail.setIndId(intendDetailList.get(i).getIndMId());
+						poDetail.setIndId(intendDetailList.get(i).getIndDId());
 						poDetail.setSchDays(intendDetailList.get(i).getIndItemSchd());
 						poDetail.setItemCode(intendDetailList.get(i).getItemCode());
 						poDetail.setItemId(intendDetailList.get(i).getItemId());
@@ -1179,14 +1223,22 @@ public class PurchaseOrderController {
 						c.setTime(sdf.parse(poDetail.getSchDate()));
 						c.add(Calendar.DAY_OF_MONTH, poDetail.getSchDays());
 						poDetail.setSchDate(sdf.format(c.getTime()));
-						poDetail.setIndId(intendDetailList.get(i).getIndMId());
+						poDetail.setIndId(intendDetailList.get(i).getIndDId());
 						//poDetail.setIndMNo(intendDetailList.get(i).getIndMNo());
-						poDetail.setStatus(9);
-						poDetail.setBasicValue(poDetail.getItemQty() * poDetail.getItemRate());
-						poDetail.setDiscValue((poDetail.getDiscPer() / 100) * poDetail.getBasicValue());
-						poDetail.setLandingCost(
-								poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue()); 
-						
+						if(isState==0) {
+							poDetail.setIgst(intendDetailList.get(i).getTaxPer());
+							
+						}else {
+							poDetail.setCgst(intendDetailList.get(i).getTaxPer()/2);
+							poDetail.setSgst(intendDetailList.get(i).getTaxPer()/2);
+						}
+						poDetail.setStatus(9);//settaxValue	
+						poDetail.setBasicValue(Float.parseFloat(df.format(poDetail.getItemQty() * poDetail.getItemRate())));
+						poDetail.setDiscValue(Float.parseFloat(df.format((poDetail.getDiscPer() / 100) * poDetail.getBasicValue())));
+						poDetail.setTaxValue(Float.parseFloat(df.format((intendDetailList.get(i).getTaxPer()/100)*(poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue()))));
+						poDetail.setLandingCost(Float.parseFloat(df.format(
+								poDetail.getItemQty() * poDetail.getItemRate() - poDetail.getDiscValue() + poDetail.getTaxValue())));
+					 
 						getPoHeader.getPoDetailList().add(poDetail);
 
 						intendDetailList.get(i).setPoQty(
@@ -1215,24 +1267,24 @@ public class PurchaseOrderController {
 				poDiscValue = poDiscValue + getPoHeader.getPoDetailList().get(i).getDiscValue();
 			}
 
-			getPoHeader.setPoBasicValue(poBasicValue);
-			getPoHeader.setDiscValue(poDiscValue);
+			getPoHeader.setPoBasicValue(Float.parseFloat(df.format(poBasicValue)));
+			getPoHeader.setDiscValue(Float.parseFloat(df.format(poDiscValue)));
 			
 			if (getPoHeader.getPoPackPer() != 0) {
-				getPoHeader.setPoPackVal((getPoHeader.getPoPackPer() / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoPackVal(Float.parseFloat(df.format((getPoHeader.getPoPackPer() / 100) * getPoHeader.getPoBasicValue())));
 			}
 
 			if (getPoHeader.getPoInsuPer() != 0) {
-				getPoHeader.setPoInsuVal((getPoHeader.getPoInsuPer() / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoInsuVal(Float.parseFloat(df.format((getPoHeader.getPoInsuPer() / 100) * getPoHeader.getPoBasicValue())));
 			}
 
 			if (getPoHeader.getPoFrtPer() != 0) {
-				getPoHeader.setPoFrtVal((getPoHeader.getPoFrtPer() / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoFrtVal(Float.parseFloat(df.format((getPoHeader.getPoFrtPer() / 100) * getPoHeader.getPoBasicValue())));
 			}
 
 			total = getPoHeader.getPoBasicValue() + getPoHeader.getPoPackVal() + getPoHeader.getPoInsuVal()
 					+ getPoHeader.getPoFrtVal() - getPoHeader.getDiscValue();
-			getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
+			//getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
 
 			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
 				float divFactor = getPoHeader.getPoDetailList().get(i).getBasicValue() / getPoHeader.getPoBasicValue()
@@ -1240,21 +1292,35 @@ public class PurchaseOrderController {
 				getPoHeader.getPoDetailList().get(i).setPackValue(divFactor * getPoHeader.getPoPackVal() / 100);
 				getPoHeader.getPoDetailList().get(i).setInsu(divFactor * getPoHeader.getPoInsuVal() / 100);
 				getPoHeader.getPoDetailList().get(i).setFreightValue(divFactor * getPoHeader.getPoFrtVal() / 100);
-				getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
+				
+				if(getPoHeader.getPoDetailList().get(i).getIgst()>0) {
+					
+					getPoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format((getPoHeader.getPoDetailList().get(i).getIgst()/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+							getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+							getPoHeader.getPoDetailList().get(i).getFreightValue()))));
+					
+				}else {
+					getPoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format(((getPoHeader.getPoDetailList().get(i).getCgst()+getPoHeader.getPoDetailList().get(i).getSgst())/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+							getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+							getPoHeader.getPoDetailList().get(i).getFreightValue()))));
+				}
+				
+				//getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
 				getPoHeader.getPoDetailList().get(i)
-						.setOtherChargesAfter(divFactor * getPoHeader.getOtherChargeAfter() / 100);
+						.setOtherChargesAfter(Float.parseFloat(df.format(divFactor * getPoHeader.getOtherChargeAfter() / 100)));
 				getPoHeader.getPoDetailList().get(i)
-						.setLandingCost(getPoHeader.getPoDetailList().get(i).getBasicValue()
+						.setLandingCost(Float.parseFloat(df.format(getPoHeader.getPoDetailList().get(i).getBasicValue()
 								- getPoHeader.getPoDetailList().get(i).getDiscValue()
 								+ getPoHeader.getPoDetailList().get(i).getPackValue()
 								+ getPoHeader.getPoDetailList().get(i).getInsu()
 								+ getPoHeader.getPoDetailList().get(i).getFreightValue()
 								+ getPoHeader.getPoDetailList().get(i).getTaxValue()
-								+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+								+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter())));
+				poTaxValue=poTaxValue+getPoHeader.getPoDetailList().get(i).getTaxValue();
 			}
 			getPoHeader.setVendQuationDate(DateConvertor.convertToYMD(getPoHeader.getVendQuationDate()));
 			getPoHeader.setPoDate(DateConvertor.convertToYMD(getPoHeader.getPoDate()));
-			
+			getPoHeader.setPoTaxValue(Float.parseFloat(df.format(poTaxValue)));
 			 
 			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", getPoHeader, PoHeader.class);
 			System.out.println(save);
@@ -1311,13 +1377,13 @@ public class PurchaseOrderController {
 				float total = 0;
 				float poBasicValue = 0;
 				float poDiscValue = 0;
-				
+				float poTaxValue = 0;
 				System.out.println(getPoHeader);
 				
 				for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
 					for (int j = 0; j < getPoHeader.getPoDetailList().size(); j++) {
-						if (getPoHeader.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i)
-								.getItemId() && getPoHeader.getPoDetailList().get(j).getPoDetailId()==poDetailId) {
+						if (getPoHeader.getPoDetailList().get(j).getIndId() == getIntendDetailListforEdit.get(i)
+								.getIndDId() && getPoHeader.getPoDetailList().get(j).getPoDetailId()==poDetailId) {
 							System.out.println("in if   "+getIntendDetailListforEdit.get(i));
 							getIntendDetailListforEdit.get(i)
 									.setIndFyr(getIntendDetailListforEdit.get(i).getIndFyr()+getPoHeader.getPoDetailList().get(j).getItemQty());
@@ -1361,7 +1427,7 @@ public class PurchaseOrderController {
 
 				total = getPoHeader.getPoBasicValue() + getPoHeader.getPoPackVal() + getPoHeader.getPoInsuVal()
 						+ getPoHeader.getPoFrtVal() - getPoHeader.getDiscValue();
-				getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
+				//getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
 
 				for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
 					float divFactor = getPoHeader.getPoDetailList().get(i).getBasicValue() / getPoHeader.getPoBasicValue()
@@ -1369,7 +1435,20 @@ public class PurchaseOrderController {
 					getPoHeader.getPoDetailList().get(i).setPackValue(divFactor * getPoHeader.getPoPackVal() / 100);
 					getPoHeader.getPoDetailList().get(i).setInsu(divFactor * getPoHeader.getPoInsuVal() / 100);
 					getPoHeader.getPoDetailList().get(i).setFreightValue(divFactor * getPoHeader.getPoFrtVal() / 100);
-					getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
+					
+					if(getPoHeader.getPoDetailList().get(i).getIgst()>0) {
+						
+						getPoHeader.getPoDetailList().get(i).setTaxValue((getPoHeader.getPoDetailList().get(i).getIgst()/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+								getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+								getPoHeader.getPoDetailList().get(i).getFreightValue()));
+						
+					}else {
+						getPoHeader.getPoDetailList().get(i).setTaxValue(((getPoHeader.getPoDetailList().get(i).getCgst()+getPoHeader.getPoDetailList().get(i).getSgst())/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+								getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+								getPoHeader.getPoDetailList().get(i).getFreightValue()));
+					}
+					
+					//getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
 					getPoHeader.getPoDetailList().get(i)
 							.setOtherChargesAfter(divFactor * getPoHeader.getOtherChargeAfter() / 100);
 					getPoHeader.getPoDetailList().get(i)
@@ -1380,9 +1459,11 @@ public class PurchaseOrderController {
 									+ getPoHeader.getPoDetailList().get(i).getFreightValue()
 									+ getPoHeader.getPoDetailList().get(i).getTaxValue()
 									+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+					poTaxValue=poTaxValue+getPoHeader.getPoDetailList().get(i).getTaxValue();
 				}
 				getPoHeader.setVendQuationDate(DateConvertor.convertToYMD(getPoHeader.getVendQuationDate()));
 				getPoHeader.setPoDate(DateConvertor.convertToYMD(getPoHeader.getPoDate()));
+				getPoHeader.setPoTaxValue(poTaxValue);
 				System.out.println(getPoHeader);
 				
 				 PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", getPoHeader, PoHeader.class);
@@ -1408,6 +1489,8 @@ public class PurchaseOrderController {
 			float total = 0;
 			float poBasicValue = 0;
 			float poDiscValue = 0;
+			float poTaxValue = 0;
+			
 			float rate = Float.parseFloat(request.getParameter("rate"));
 			float disc = Float.parseFloat(request.getParameter("disc"));
 			int key = Integer.parseInt(request.getParameter("key"));
@@ -1431,44 +1514,59 @@ public class PurchaseOrderController {
 				poDiscValue = poDiscValue + getPoHeader.getPoDetailList().get(i).getDiscValue();
 			}
 
-			getPoHeader.setPoBasicValue(poBasicValue);
-			getPoHeader.setDiscValue(poDiscValue);
+			getPoHeader.setPoBasicValue(Float.parseFloat(df.format(poBasicValue)));
+			getPoHeader.setDiscValue(Float.parseFloat(df.format(poDiscValue)));
 
 			if (getPoHeader.getPoPackPer() != 0) {
-				getPoHeader.setPoPackVal((getPoHeader.getPoPackPer() / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoPackVal(Float.parseFloat(df.format((getPoHeader.getPoPackPer() / 100) * getPoHeader.getPoBasicValue())));
 			}
 
 			if (getPoHeader.getPoInsuPer() != 0) {
-				getPoHeader.setPoInsuVal((getPoHeader.getPoInsuPer() / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoInsuVal(Float.parseFloat(df.format((getPoHeader.getPoInsuPer() / 100) * getPoHeader.getPoBasicValue())));
 			}
 
 			if (getPoHeader.getPoFrtPer() != 0) {
-				getPoHeader.setPoFrtVal((getPoHeader.getPoFrtPer() / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoFrtVal(Float.parseFloat(df.format((getPoHeader.getPoFrtPer() / 100) * getPoHeader.getPoBasicValue())));
 			}
 
 			total = getPoHeader.getPoBasicValue() + getPoHeader.getPoPackVal() + getPoHeader.getPoInsuVal()
 					+ getPoHeader.getPoFrtVal() - getPoHeader.getDiscValue();
-			getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
+			//getPoHeader.setPoTaxValue((getPoHeader.getPoTaxPer() / 100) * total);
 
 			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
 				float divFactor = getPoHeader.getPoDetailList().get(i).getBasicValue() / getPoHeader.getPoBasicValue()
 						* 100;
-				getPoHeader.getPoDetailList().get(i).setPackValue(divFactor * getPoHeader.getPoPackVal() / 100);
-				getPoHeader.getPoDetailList().get(i).setInsu(divFactor * getPoHeader.getPoInsuVal() / 100);
-				getPoHeader.getPoDetailList().get(i).setFreightValue(divFactor * getPoHeader.getPoFrtVal() / 100);
-				getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
+				getPoHeader.getPoDetailList().get(i).setPackValue(Float.parseFloat(df.format(divFactor * getPoHeader.getPoPackVal() / 100)));
+				getPoHeader.getPoDetailList().get(i).setInsu(Float.parseFloat(df.format(divFactor * getPoHeader.getPoInsuVal() / 100)));
+				getPoHeader.getPoDetailList().get(i).setFreightValue(Float.parseFloat(df.format(divFactor * getPoHeader.getPoFrtVal() / 100)));
+				
+				if(getPoHeader.getPoDetailList().get(i).getIgst()>0) {
+					
+					getPoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format((getPoHeader.getPoDetailList().get(i).getIgst()/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+							getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+							getPoHeader.getPoDetailList().get(i).getFreightValue()))));
+					
+				}else {
+					getPoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format(((getPoHeader.getPoDetailList().get(i).getCgst()+getPoHeader.getPoDetailList().get(i).getSgst())/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+							getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+							getPoHeader.getPoDetailList().get(i).getFreightValue()))));
+				}
+				
+				//getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
 				getPoHeader.getPoDetailList().get(i)
-						.setOtherChargesAfter(divFactor * getPoHeader.getOtherChargeAfter() / 100);
+						.setOtherChargesAfter(Float.parseFloat(df.format(divFactor * getPoHeader.getOtherChargeAfter() / 100)));
 				getPoHeader.getPoDetailList().get(i)
-						.setLandingCost(getPoHeader.getPoDetailList().get(i).getBasicValue()
+						.setLandingCost(Float.parseFloat(df.format(getPoHeader.getPoDetailList().get(i).getBasicValue()
 								- getPoHeader.getPoDetailList().get(i).getDiscValue()
 								+ getPoHeader.getPoDetailList().get(i).getPackValue()
 								+ getPoHeader.getPoDetailList().get(i).getInsu()
 								+ getPoHeader.getPoDetailList().get(i).getFreightValue()
 								+ getPoHeader.getPoDetailList().get(i).getTaxValue()
-								+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+								+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter())));
+				
+				poTaxValue=poTaxValue+getPoHeader.getPoDetailList().get(i).getTaxValue();
 			}
-
+			getPoHeader.setPoTaxValue(Float.parseFloat(df.format(poTaxValue)));
 			System.out.println("getPoHeader" + getPoHeader);
 
 		} catch (Exception e) {
@@ -1484,8 +1582,9 @@ public class PurchaseOrderController {
 			HttpServletResponse response) {
 
 		try {
-			float total = 0;
-
+			float total = 0; 
+			float poTaxValue = 0;
+			
 			float packPer = Float.parseFloat(request.getParameter("packPer"));
 			float packValue = Float.parseFloat(request.getParameter("packValue"));
 			float insuPer = Float.parseFloat(request.getParameter("insuPer"));
@@ -1494,12 +1593,12 @@ public class PurchaseOrderController {
 			float freightValue = Float.parseFloat(request.getParameter("freightValue"));
 			float otherPer = Float.parseFloat(request.getParameter("otherPer"));
 			float otherValue = Float.parseFloat(request.getParameter("otherValue"));
-			float taxPer = Float.parseFloat(request.getParameter("taxPer"));
-			int taxId = Integer.parseInt(request.getParameter("taxId"));
+			/*float taxPer = Float.parseFloat(request.getParameter("taxPer"));
+			int taxId = Integer.parseInt(request.getParameter("taxId"));*/
 
 			if (packPer != 0) {
 				getPoHeader.setPoPackPer(packPer);
-				getPoHeader.setPoPackVal((packPer / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoPackVal(Float.parseFloat(df.format((packPer / 100) * getPoHeader.getPoBasicValue())));
 			} else {
 				getPoHeader.setPoPackPer(0);
 				getPoHeader.setPoPackVal(packValue);
@@ -1507,7 +1606,7 @@ public class PurchaseOrderController {
 
 			if (insuPer != 0) {
 				getPoHeader.setPoInsuPer(insuPer);
-				getPoHeader.setPoInsuVal((insuPer / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoInsuVal(Float.parseFloat(df.format((insuPer / 100) * getPoHeader.getPoBasicValue())));
 			} else {
 				getPoHeader.setPoInsuPer(0);
 				getPoHeader.setPoInsuVal(insuValue);
@@ -1515,7 +1614,7 @@ public class PurchaseOrderController {
 
 			if (freightPer != 0) {
 				getPoHeader.setPoFrtPer(freightPer);
-				getPoHeader.setPoFrtVal((freightPer / 100) * getPoHeader.getPoBasicValue());
+				getPoHeader.setPoFrtVal(Float.parseFloat(df.format((freightPer / 100) * getPoHeader.getPoBasicValue())));
 			} else {
 				getPoHeader.setPoFrtPer(0);
 				getPoHeader.setPoFrtVal(freightValue);
@@ -1523,14 +1622,14 @@ public class PurchaseOrderController {
 
 			total = getPoHeader.getPoBasicValue() + getPoHeader.getPoPackVal() + getPoHeader.getPoInsuVal()
 					+ getPoHeader.getPoFrtVal() - getPoHeader.getDiscValue();
-			getPoHeader.setPoTaxId(taxId);
+			/*getPoHeader.setPoTaxId(taxId);
 			getPoHeader.setPoTaxPer(taxPer);
-			getPoHeader.setPoTaxValue((taxPer / 100) * total);
+			getPoHeader.setPoTaxValue((taxPer / 100) * total);*/
 
 			if (otherPer != 0) {
 				total = getPoHeader.getPoBasicValue() + getPoHeader.getPoPackVal() + getPoHeader.getPoInsuVal()
 						+ getPoHeader.getPoFrtVal() - getPoHeader.getDiscValue() + getPoHeader.getPoTaxValue();
-				getPoHeader.setOtherChargeAfter((otherPer / 100) * total);
+				getPoHeader.setOtherChargeAfter(Float.parseFloat(df.format((otherPer / 100) * total)));
 			} else if (otherValue != 0) {
 				getPoHeader.setOtherChargeAfter(otherValue);
 			} else {
@@ -1540,22 +1639,37 @@ public class PurchaseOrderController {
 			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
 				float divFactor = getPoHeader.getPoDetailList().get(i).getBasicValue() / getPoHeader.getPoBasicValue()
 						* 100;
-				getPoHeader.getPoDetailList().get(i).setPackValue(divFactor * getPoHeader.getPoPackVal() / 100);
-				getPoHeader.getPoDetailList().get(i).setInsu(divFactor * getPoHeader.getPoInsuVal() / 100);
-				getPoHeader.getPoDetailList().get(i).setFreightValue(divFactor * getPoHeader.getPoFrtVal() / 100);
-				getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
+				getPoHeader.getPoDetailList().get(i).setPackValue(Float.parseFloat(df.format(divFactor * getPoHeader.getPoPackVal() / 100)));
+				getPoHeader.getPoDetailList().get(i).setInsu(Float.parseFloat(df.format(divFactor * getPoHeader.getPoInsuVal() / 100)));
+				getPoHeader.getPoDetailList().get(i).setFreightValue(Float.parseFloat(df.format(divFactor * getPoHeader.getPoFrtVal() / 100)));
+				
+				if(getPoHeader.getPoDetailList().get(i).getIgst()>0) {
+					
+					getPoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format((getPoHeader.getPoDetailList().get(i).getIgst()/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+							getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+							getPoHeader.getPoDetailList().get(i).getFreightValue()))));
+					
+				}else {
+					getPoHeader.getPoDetailList().get(i).setTaxValue(Float.parseFloat(df.format(((getPoHeader.getPoDetailList().get(i).getCgst()+getPoHeader.getPoDetailList().get(i).getSgst())/ 100)*(getPoHeader.getPoDetailList().get(i).getBasicValue()-
+							getPoHeader.getPoDetailList().get(i).getDiscValue()+getPoHeader.getPoDetailList().get(i).getPackValue()+getPoHeader.getPoDetailList().get(i).getInsu()+
+							getPoHeader.getPoDetailList().get(i).getFreightValue()))));
+				}
+				
+				//getPoHeader.getPoDetailList().get(i).setTaxValue(divFactor * getPoHeader.getPoTaxValue() / 100);
 				getPoHeader.getPoDetailList().get(i)
-						.setOtherChargesAfter(divFactor * getPoHeader.getOtherChargeAfter() / 100);
+						.setOtherChargesAfter(Float.parseFloat(df.format(divFactor * getPoHeader.getOtherChargeAfter() / 100)));
 				getPoHeader.getPoDetailList().get(i)
-						.setLandingCost(getPoHeader.getPoDetailList().get(i).getBasicValue()
+						.setLandingCost(Float.parseFloat(df.format(getPoHeader.getPoDetailList().get(i).getBasicValue()
 								- getPoHeader.getPoDetailList().get(i).getDiscValue()
 								+ getPoHeader.getPoDetailList().get(i).getPackValue()
 								+ getPoHeader.getPoDetailList().get(i).getInsu()
 								+ getPoHeader.getPoDetailList().get(i).getFreightValue()
 								+ getPoHeader.getPoDetailList().get(i).getTaxValue()
-								+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter());
+								+ getPoHeader.getPoDetailList().get(i).getOtherChargesAfter())));
+				poTaxValue=poTaxValue+getPoHeader.getPoDetailList().get(i).getTaxValue();
 			}
 
+			getPoHeader.setPoTaxValue(Float.parseFloat(df.format(poTaxValue)));
 			System.out.println(getPoHeader);
 
 		} catch (Exception e) {
@@ -1610,12 +1724,12 @@ public class PurchaseOrderController {
 
 			for (int i = 0; i < getPoHeader.getPoDetailList().size(); i++) {
 				getPoHeader.getPoDetailList().get(i).setSchRemark(request.getParameter("indRemark" + i));
-
+ 
 				c.setTime(sdf.parse(getPoHeader.getPoDetailList().get(i).getSchDate()));
 				getPoHeader.getPoDetailList().get(i)
 						.setSchDays(Integer.parseInt(request.getParameter("indItemSchd" + i)));
 				c.add(Calendar.DAY_OF_MONTH, getPoHeader.getPoDetailList().get(i).getSchDays());
-				getPoHeader.getPoDetailList().get(i).setSchDate(sdf.format(c.getTime()));
+				getPoHeader.getPoDetailList().get(i).setSchDate(sdf.format(c.getTime())); 
 			}
 			 PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", getPoHeader, PoHeader.class);
 			System.out.println(save);
@@ -1623,8 +1737,8 @@ public class PurchaseOrderController {
 			if (save != null) { 
 				for (int i = 0; i < getIntendDetailListforEdit.size(); i++) {
 					for (int j = 0; j < getPoHeader.getPoDetailList().size(); j++) {
-						if (getPoHeader.getPoDetailList().get(j).getItemId() == getIntendDetailListforEdit.get(i)
-								.getItemId()) {
+						if (getPoHeader.getPoDetailList().get(j).getIndId() == getIntendDetailListforEdit.get(i)
+								.getIndDId()) {
 							getIntendDetailListforEdit.get(i)
 									.setIndFyr(getPoHeader.getPoDetailList().get(j).getBalanceQty());
 							break;
