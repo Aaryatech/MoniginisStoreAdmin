@@ -23,7 +23,9 @@ import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetRmRateVerificationRecord;
 import com.ats.tril.model.RmRateVerificationList;
+import com.ats.tril.model.RmRateVerificationRecord;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.VendorListForRateVarification;
@@ -95,6 +97,21 @@ public class RmRateVarificationController {
 				RmRateVerificationList res = rest.postForObject(Constants.url + "/saveRmRateVarification",rmRateVerificationList, RmRateVerificationList.class);
 				 
 				logger.info("res " + res);
+				
+				if(res!=null) {
+					RmRateVerificationRecord rmRateVerificationRecord = new RmRateVerificationRecord();
+					
+					rmRateVerificationRecord.setRateDate(DateConvertor.convertToYMD(date));
+					rmRateVerificationRecord.setRateTaxExtra(currRateTaxExtra);
+					rmRateVerificationRecord.setRateTaxIncl(currRateTaxIncl);
+					rmRateVerificationRecord.setSuppId(suppId);
+					rmRateVerificationRecord.setRmId(itemId);
+					
+					RmRateVerificationRecord resp = rest.postForObject(Constants.url + "/saveRateVarificationRecord",rmRateVerificationRecord, RmRateVerificationRecord.class);
+					
+					logger.info("resp " + resp);
+					
+				}
 	 
 			
 		} catch (Exception e) {
@@ -201,6 +218,52 @@ public class RmRateVarificationController {
 				 rmRateVerificationList = new RmRateVerificationList();
 			 }
 			return rmRateVerificationList;
+		}
+	 
+	 @RequestMapping(value = "/showRmRateVarificationRecordList", method = RequestMethod.GET)
+		public ModelAndView showRmRateVarificationRecordList(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView model = null;
+			try {
+				RestTemplate rest = new RestTemplate();
+				model = new ModelAndView("rmRateVarification/showRmRateVarificationRecord");
+				Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+				List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+				model.addObject("vendorList", vendorList);
+				 
+				GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+				List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
+				model.addObject("itemList", itemList);
+				
+				if(request.getParameter("fromDate")!=null && request.getParameter("toDate")!=null) {
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+					String fromDate = request.getParameter("fromDate");
+					String toDate = request.getParameter("toDate");
+					int itemId = Integer.parseInt(request.getParameter("itemId"));
+					int vendId = Integer.parseInt(request.getParameter("vendId"));
+					
+					map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+					map.add("toDate", DateConvertor.convertToYMD(toDate));
+					map.add("itemId", itemId);
+					map.add("vendId", vendId);
+					
+					GetRmRateVerificationRecord[] getRmRateVerificationRecord = rest.postForObject(Constants.url + "/getRateVerificationRecordListDateWise",map,  GetRmRateVerificationRecord[].class); 
+					List<GetRmRateVerificationRecord> getRmRateVerificationRecordList = new ArrayList<GetRmRateVerificationRecord>(Arrays.asList(getRmRateVerificationRecord));
+					model.addObject("getRmRateVerificationRecordList", getRmRateVerificationRecordList);
+					
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", toDate);
+					model.addObject("itemId", itemId);
+					model.addObject("vendId", vendId);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return model;
 		}
 	 
 }

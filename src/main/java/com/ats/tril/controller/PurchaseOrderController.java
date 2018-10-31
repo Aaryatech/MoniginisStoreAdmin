@@ -394,7 +394,7 @@ public class PurchaseOrderController {
 						 
 						if(intendDetailList1.get(j).getItemId()==rmRateVerificationList.get(i).getRmId())
 						{ 
-							intendDetailList1.get(j).setRate(rmRateVerificationList.get(i).getRateTaxIncl()); 
+							intendDetailList1.get(j).setRate(rmRateVerificationList.get(i).getRateTaxExtra()); 
 							intendDetailList1.get(j).setTaxPer(rmRateVerificationList.get(i).getRate1TaxExtra());
 							intendDetailList1.get(j).setStateCode(rmRateVerificationList.get(i).getDate1());
 							intendDetailList.add(intendDetailList1.get(j)); 
@@ -1132,7 +1132,7 @@ public class PurchaseOrderController {
 						 
 						if(intendDetailList1.get(j).getItemId()==rmRateVerificationList.get(i).getRmId())
 						{ 
-							intendDetailList1.get(j).setRate(rmRateVerificationList.get(i).getRateTaxIncl()); 
+							intendDetailList1.get(j).setRate(rmRateVerificationList.get(i).getRateTaxExtra()); 
 							intendDetailList1.get(j).setTaxPer(rmRateVerificationList.get(i).getRate1TaxExtra());
 							intendDetailList1.get(j).setStateCode(rmRateVerificationList.get(i).getDate1());
 							intendDetailList.add(intendDetailList1.get(j)); 
