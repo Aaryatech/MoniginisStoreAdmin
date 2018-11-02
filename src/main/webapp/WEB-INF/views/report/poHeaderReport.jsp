@@ -102,11 +102,11 @@
 
 									<select name="poTypeList[]" id="poTypeList"
 										class="form-control chosen" tabindex="6" multiple="multiple">
-										<option value="0">All</option>
-										<option value="1">Regular</option>
-										<option value="2">Job Work</option>
-										<option value="3">General</option>
-										<option value="4">Other</option>
+										<option value="0">All Type</option>
+										<c:forEach items="${typeList}" var="typeList">
+
+											<option value="${typeList.typeId}">${typeList.typeName}</option>
+										</c:forEach>
 
 									</select>
 
@@ -305,8 +305,8 @@
 			var vendorIdList = $("#vendorIdList").val();
 			var poTypeList = $("#poTypeList").val();
 			var poStatus = $("#poStatus").val();
-			alert("hii");
-			alert(vendorIdList);
+			//alert("hii");
+			//alert(vendorIdList);
 			$('#loader').show();
 
 			$.getJSON('${getPoListReport}',

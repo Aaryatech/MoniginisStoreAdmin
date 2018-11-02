@@ -37,7 +37,7 @@ body {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
+	padding-top: 20px; /* Location of the box */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -53,8 +53,8 @@ body {
 	margin: auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 80%;
-	height: 80%;
+	width: 100%;
+	height: 100%;
 }
 
 /* The Close Button */
@@ -344,7 +344,7 @@ body {
 														<div class="row">
 															<div
 																style="overflow: scroll; height: 70%; width: 100%; overflow: auto">
-																<table width="100%" border="1" style="width: 100%"
+																<table width="100%" border="1" style="width: 100%; font-size: 14px;"
 																	id="table_grid1">
 																	<thead>
 																		<tr>
@@ -405,7 +405,7 @@ body {
 														style="overflow: scroll; height: 35%; width: 100%; overflow: auto">
 														<table width="100%" border="0"
 															class="table table-bordered table-striped fill-head "
-															style="width: 100%" id="table_grid2">
+															style="width: 100%;font-size: 14px;" id="table_grid2">
 															<thead>
 																<tr>
 																	<th  style="text-align: center; width: 2%;">Sr</th>

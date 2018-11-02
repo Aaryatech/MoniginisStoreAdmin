@@ -45,6 +45,7 @@ import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.indent.IndentReport;
@@ -1391,6 +1392,11 @@ public class ReportController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1418,6 +1424,10 @@ public class ReportController {
 			System.out.println("resList" + resList);
 
 			model.addObject("newDate", DateConvertor.convertToDMY(resList.getFromDate()));
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

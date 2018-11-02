@@ -391,7 +391,7 @@ body {
 									<div class="col-sm-6 col-lg-10 controls">
 
 										<select name="group" id="group" class="form-control" >
-										
+										  <option value=""><c:out value="select Group"/></option>  
 										<c:forEach items="${itemGrpList}" var="itemGrpList" >
 											 
 													<option value="${itemGrpList.grpId}"><c:out value="${itemGrpList.grpDesc}"/></option>
@@ -887,6 +887,9 @@ $(document).ready(function() {
 				    .remove()
 				    .end()
 				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+				    var html = '<option value="">Select group</option>';
+        			html += '</option>';
+        			$('#group').html(html);
                     for ( var i = 0; i < len; i++) {
                             
                                 

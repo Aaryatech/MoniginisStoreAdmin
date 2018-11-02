@@ -306,7 +306,7 @@ body {
 													style="overflow: scroll; height: 70%; width: 100%; overflow: auto">
 													<table width="100%" border="0"
 														class="table table-bordered table-striped fill-head "
-														style="width: 100%" id="table_grid2">
+														style="width: 100%;font-size:14px;" id="table_grid2">
 														<thead>
 															<tr>
 																<th   style="text-align: center; width: 2%">Sr</th>
@@ -343,7 +343,7 @@ body {
 											style="overflow: scroll; height: auto; width: 100%; overflow: auto">
 											<table width="100%" border="1"
 												class="table table-advanced "
-												style="width: 100%" id="table_grid1">
+												style="width: 100%;font-size:14px;" id="table_grid1">
 												<thead>
 													<tr>
 														<th   style="  width: 2%;">Sr</th>

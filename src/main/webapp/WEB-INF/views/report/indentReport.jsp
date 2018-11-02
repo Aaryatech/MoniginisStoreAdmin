@@ -95,7 +95,9 @@
 									</select>
 
 								</div>
-								<div class="col-md-1"></div>
+								<input   id="isMonthly"  type="hidden" name="isMonthly" value="2" />
+								<input   id="isDev"  type="hidden" name="isDev" value="2" />
+								<!-- <div class="col-md-1"></div>
 								<div class="col-md-2">Indent Is Monthly</div>
 								<div class="col-md-3">
 
@@ -107,10 +109,10 @@
 
 									</select>
 
-								</div>
+								</div> -->
 							</div>
 							<br> <br>
-							<div class="box-content">
+							<!-- <div class="box-content">
 
 
 								<div class="col-md-2">Indent Is Development</div>
@@ -128,7 +130,7 @@
 								</div>
 
 							</div>
-							<br>
+							<br> -->
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary" value="Search "
@@ -163,8 +165,8 @@
 											<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Indent Date</th>
 											<th class="col-md-1">Indent Category</th>
-											<th class="col-md-1">Monthly Indent</th>
-											<th class="col-md-1">Is Dev</th>
+										<!-- 	<th class="col-md-1">Monthly Indent</th>
+											<th class="col-md-1">Is Dev</th> -->
 
 											<th class="col-md-1">Indent Status</th>
 											<th class="col-md-1">No Of Days</th>
@@ -347,7 +349,7 @@
 				ajax : 'true'
 
 			}, function(data) {
-				alert(data);
+				//alert(data);
 
 				$('#table1 td').remove();
 				$('#loader').hide();
@@ -382,8 +384,8 @@
 						modType3 = "Yes";
 					}
 
-					tr.append($('<td></td>').html(modType2));
-					tr.append($('<td></td>').html(modType3));
+					/* tr.append($('<td></td>').html(modType2));
+					tr.append($('<td></td>').html(modType3)); */
 					var modType;
 					if (itemList.indMStatus == 0) {
 						modType = "Pending";
@@ -415,7 +417,7 @@
 
 	<script type="text/javascript">
 		function genPdf() {
-			alert("hiii");
+			//alert("hiii");
 			var fromDate = document.getElementById("fromDate").value;
 			var toDate = document.getElementById("toDate").value;
 

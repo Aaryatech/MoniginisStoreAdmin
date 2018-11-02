@@ -262,13 +262,13 @@
 					<div class="row">
 						<div class="col-md-12 table-responsive">
 							<table class="table table-bordered table-striped fill-head "
-								style="width: 100%" id="table_grid">
+								style="width: 100%; font-size: 14px;" id="table_grid">
 								<thead>
 									<tr>
-										<th>Sr.No.</th> 
+										<th style="width: 2%">Sr.No.</th> 
 										<th>Item Name</th>  
-										<th>Qty</th> 
-										<th>Action</th> 
+										<th class="col-md-1">Qty</th> 
+										<th class="col-md-1">Action</th> 
 									</tr>
 								</thead>
 								<tbody>
