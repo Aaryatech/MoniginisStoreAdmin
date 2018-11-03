@@ -8,7 +8,7 @@
 <body >
 
 	 
-	 <c:url var="getVederListByItemId" value="/getVederListByItemId" />
+	 <c:url var="getItemListByVendId" value="/getItemListByVendId" />
 	 <c:url var="itemLIstByCatIdForItemVarification" value="/itemLIstByCatIdForItemVarification" />
 	<c:url var="getRmRateVerification" value="/getRmRateVerification" />
 	<c:url var="getUomTax" value="/getUomTax" />
@@ -92,7 +92,7 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Raw material Rate Verification By Item
+								<i class="fa fa-bars"></i>Raw material Rate Verification By Supplier
 							</h3>
 							<div class="box-tool">
 								<a href=""></a> <a data-action="collapse" href="#"><i
@@ -110,7 +110,35 @@
 							<form action="${pageContext.request.contextPath}/submitRmRateVerification" method="post"
 								class="form-horizontal" id="validation-form"
 								enctype="multipart/form-data" method="post">
+								
+								<div class="form-group">
+                                      <label class="col-sm-3 col-lg-1 control-label">Supplier</label>
+									<div class="col-md-8">
+										<select name="supp_id" id="supp_id" onchange="onSearch()"
+											class="form-control chosen" required>
+											<option value="">Select Supplier</option>
+											<c:forEach items="${vendorList}" var="vendorList"
+												varStatus="count">
+												<option value="${vendorList.vendorId}"><c:out value="${vendorList.vendorName}"/></option>
+											</c:forEach>
+										</select>
+									</div> 
+									 
+	 
+												<div class="col-md-2" >
+										<input type="button" id="search" class="btn btn-info"
+											value="Search" onclick="onRmChange()" />
 
+
+
+									</div>
+ 
+								</div>
+
+								 
+								<hr>
+ 
+								
 								<div class="form-group">
  
 									<label class="col-sm-1 col-lg-1 control-label">Category</label>
@@ -156,60 +184,18 @@
 									</div>
 									<input type="hidden" name="itemId" id="itemId">
 								<input type="hidden" name="groupId" id="groupId">
-								<input type="hidden" name="isItem" id="isItem" value="1">
-								
-									<div class="col-md-2" >
-										<input type="button" id="search" class="btn btn-info"
-											value="Search" onclick="onRmChange()" />
-
-
-
-									</div>
+								<input type="hidden" name="isItem" id="isItem" value="0">
+								 
 								</div>
-								<hr>
-
-
-
+								
 								<div class="form-group">
-                                      <label class="col-sm-3 col-lg-1 control-label">Supplier</label>
-									<div class="col-sm-6 col-lg-2 controls">
-										<select name="supp_id" id="supp_id" onchange="onSearch()"
-											class="form-control chosen" required>
-											<option value="">Select Supplier</option>
-											<c:forEach items="${vendorList}" var="vendorList"
-												varStatus="count">
-												<option value="${vendorList.vendorId}"><c:out value="${vendorList.vendorName}"/></option>
-											</c:forEach>
-										</select>
-									</div> 
+                                       
 									<label class="col-sm-3 col-lg-1 control-label">Rate Date </label>
 									<div class="col-sm-6 col-lg-2 controls">
 										<input class="form-control date-picker" id="dp2" size="16"
-											type="text" name="curr_rate_date" value="${currentDate}" data-rule-required="true" />
+											type="text" name="curr_rate_date" placeholder="Rate Date" value="${currentDate}" data-rule-required="true" />
 									</div>
-
-
-									<!-- <label class="col-sm-3 col-lg-2 control-label"></label> -->
-									<!-- <div class="col-sm-6 col-lg-4 controls">
-										 	</div> -->
-
-								<!-- </div>
-
-
-								<div class="form-group"> -->
-									<!-- <div class="col-sm-6 col-lg-2 controls">
-										<label class=" "><b>Tax Rate Extra</b></label>
-									</div>
-
-									<div class="col-sm-6 col-lg-2 controls" >
-										<label class=" "><b>Tax Rate Include </b></label>
-									</div> -->
-							<!-- 	</div>
-
-								<div class="form-group"> -->
-<!-- 
-									<label class="col-sm-3 col-lg-1 control-label">Current
-										Rate </label> -->
+ 
 									<div class="col-sm-6 col-lg-2 controls">
 										<input type="text" name="curr_rate_tax_extra"
 											id="curr_rate_tax_extra" class="form-control"
@@ -225,9 +211,16 @@
 											placeholder="Tax Rate Inclusive" data-rule-required="true"
 											pattern="[+-]?([0-9]*[.])?[0-9]+" />
 									</div>
-	 
-												<input type="submit" class="btn btn-primary" id="submitt"
+									
+									<div class="col-md-2" >
+										<input type="submit" class="btn btn-primary" id="submitt"
 													value="Add" disabled>
+
+
+
+									</div>
+	 
+												
  
 								</div>
                          	<div class="box-content" >
@@ -237,44 +230,16 @@
 							 id="table_grid1">
 								<thead style="background-color: #f3b5db;">
 									<tr>
-										<th>Sr.No.</th>
-										<th>Name</th>
-										<th>Mobile</th>
-										<th>City</th>
-										<th>State</th>
-										<!-- <th>Lead Time</th> -->
-										<th>Rate Inclusive</th>
-										<th>Rate Extra</th>
+										<th width="3%">Sr.No.</th>
+										<th class="col-md-1">Item Code</th>
+										<th >Item Name</th> 
+										<th class="col-md-1">Rate Inclusive</th>
+										<th class="col-md-1">Rate Extra</th>
 
 									</tr>
 								</thead>
 								<tbody>
-	                <c:forEach items="${supplierLists}" var="supplier" varStatus="count">
-											<tr>
-												<td>	
-											<c:out value="${count.index+1}"/>  
-												</td>
-												<td align="left"><c:out
-														value="${supplier.suppName}" /></td>
-											
-												<td align="left"><c:out
-														value="${supplier.suppMob1}" /></td>
-											
-												<td align="left"><c:out
-														value="${supplier.suppCity}" /></td>		
-								        		<td align="left"><c:out
-						  								value="${supplier.suppState}" /></td>		
-										        <td align="left"><c:out
-														value="${supplier.suppEmail5}" /></td>	
-												 <td align="left"><c:out
-														value="${supplier.suppPhone1}" /></td>	
-												<td align="left"><c:out
-														value="${supplier.suppPhone2}" /></td>		
-												<%-- <td align="left"><a
-													href="${pageContext.request.contextPath}/showDirectPurchaseOrder/${supplier.suppId}">PO</a></td>	 --%>
-														</tr>
-														
-										</c:forEach>  
+	                 
 								</tbody>
 							</table>
 						</div>
@@ -631,10 +596,10 @@ function onEdit()
 <script type="text/javascript">
 function onRmChange()
 {
-	var selectedRmId = $("#rm_id").val();
+	var suppId = $("#supp_id").val();
     /* window.location.href = "${pageContext.request.contextPath}/showRmRateVerification/"+selectedRmId; */
-	$.getJSON('${getVederListByItemId}', {
-		rmId : selectedRmId, 
+	$.getJSON('${getItemListByVendId}', {
+		suppId : suppId, 
 		ajax : 'true'
 	}, function(data) {
 		 
@@ -651,10 +616,8 @@ function onRmChange()
 					 
 						var tr = $('<tr></tr>');  
 					  	tr.append($('<td></td>').html(key+1)); 
-					  	tr.append($('<td></td>').html(itemList.vendorName)); 
-					  	tr.append($('<td></td>').html(itemList.vendorMobile)); 
-					  	tr.append($('<td></td>').html(itemList.vendorCity)); 
-					  	tr.append($('<td></td>').html(itemList.vendorState)); 
+					  	tr.append($('<td></td>').html(itemList.itemCode)); 
+					  	tr.append($('<td></td>').html(itemList.itemDesc)); 
 					  	tr.append($('<td></td>').html(itemList.rateTaxIncl)); 
 					  	tr.append($('<td></td>').html(itemList.rateTaxExtra));
 					  	 $('#table_grid1 tbody').append(tr);

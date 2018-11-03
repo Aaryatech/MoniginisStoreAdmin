@@ -24,6 +24,7 @@ import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetRmRateVerificationRecord;
+import com.ats.tril.model.ItemListByRateVerification;
 import com.ats.tril.model.RmRateVerificationList;
 import com.ats.tril.model.RmRateVerificationRecord;
 import com.ats.tril.model.TaxForm;
@@ -42,7 +43,7 @@ public class RmRateVarificationController {
 
 	
 	@RequestMapping(value = "/showRmRateVarificationRate", method = RequestMethod.GET)
-	public ModelAndView showMrnRpoert(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView showRmRateVarificationRate(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = null;
 		try {
@@ -68,6 +69,7 @@ public class RmRateVarificationController {
 	public String submitRmRateVerification(HttpServletRequest request, HttpServletResponse response) {
 
 		RestTemplate rest = new RestTemplate();
+		String ret = new String();
 		try {
 				int itemId = Integer.parseInt(request.getParameter("rm_id"));
 				int suppId = Integer.parseInt(request.getParameter("supp_id"));
@@ -76,6 +78,14 @@ public class RmRateVarificationController {
 				float currRateTaxIncl = Float.parseFloat(request.getParameter("curr_rate_tax_incl"));
 				int groupId = Integer.parseInt(request.getParameter("groupId"));
 				int taxId = Integer.parseInt(request.getParameter("tax_id"));
+				int isItem = Integer.parseInt(request.getParameter("isItem"));
+				
+				if(isItem==1) {
+					ret="redirect:/showRmRateVarificationRate";
+				}
+				else {
+					ret="redirect:/showRmRateVarificationRateByVendor";
+				}
 				
 				rmRateVerificationList.setDate2(DateConvertor.convertToYMD(rmRateVerificationList.getDate1()));
 				rmRateVerificationList.setRate2TaxExtra(rmRateVerificationList.getRate1TaxExtra());
@@ -118,7 +128,7 @@ public class RmRateVarificationController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/showRmRateVarificationRate";
+		return ret;
 	}
 	
 	@RequestMapping(value = "/itemLIstByCatIdForItemVarification", method = RequestMethod.GET)
@@ -264,6 +274,50 @@ public class RmRateVarificationController {
 			}
 
 			return model;
+		}
+	 
+	 @RequestMapping(value = "/showRmRateVarificationRateByVendor", method = RequestMethod.GET)
+		public ModelAndView showRmRateVarificationRateByVendor(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView model = null;
+			try {
+				RestTemplate rest = new RestTemplate();
+				model = new ModelAndView("rmRateVarification/showRmRateVarificationRateByVendor");
+				Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+				List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+				model.addObject("vendorList", vendorList);
+				 
+				Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+				List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+				model.addObject("categoryList", categoryList);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return model;
+		}
+	 
+	 @RequestMapping(value = "/getItemListByVendId", method = RequestMethod.GET)
+		public @ResponseBody List<ItemListByRateVerification> getItemListByVendId(HttpServletRequest request, HttpServletResponse response) {
+
+			 
+		 List<ItemListByRateVerification> ItemListByVendId = new ArrayList<>();
+			 try {
+				 
+				 int suppId = Integer.parseInt(request.getParameter("suppId"));
+				   
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			RestTemplate rest = new RestTemplate();
+			map.add("vendId", suppId);
+			ItemListByRateVerification[] vendor = rest.postForObject(Constants.url + "/getItemListByVendId", map, ItemListByRateVerification[].class);
+			ItemListByVendId = new ArrayList<ItemListByRateVerification>(Arrays.asList(vendor));
+			
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
+			return ItemListByVendId;
 		}
 	 
 }

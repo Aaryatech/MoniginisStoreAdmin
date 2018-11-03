@@ -124,8 +124,8 @@ hr {
 
 				<table width="100%">
 							<tr>
-								<td width="15%" > 
-									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="80" height="70" />
+								<td width="23%" > 
+									<img src="${pageContext.request.contextPath}/resources/img/monginislogo.png" width="95" height="60" />
 								</td>
 
 								<td width="85%" style="text-align: center;">
@@ -392,8 +392,8 @@ hr {
 
 					<table width="100%">
 							<tr>
-								<td width="15%" > 
-									<img src="${pageContext.request.contextPath}/resources/images/tlogodesigned.jpg" width="80" height="70" />
+								<td width="23%" > 
+									<img src="${pageContext.request.contextPath}/resources/img/monginislogo.png" width="95" height="60" />
 								</td>
 
 								<td width="85%" style="text-align: center;">

@@ -139,15 +139,7 @@
  
 								</div>
 								<br> 
-								 
-										<input id="vendorAdd3" class="form-control"
-									placeholder="Vendor Add 3" style="text-align: left;"
-									name="vendorAdd3" value="NA" type="hidden"
-									required>
- 
-									 
-										
-   
+								  
 								<div class="box-content">
 								
 								<div class="col-md-2">  City*</div>
@@ -281,6 +273,54 @@
 
 									</div>
 									<div class="col-md-1"></div>
+									<div class="col-md-2">FSSAI No*</div>
+									<div class="col-md-3">
+										 <input id="vendorAdd3" class="form-control"
+									placeholder="FSSAI No" style="text-align: left;"
+									name="vendorAdd3" value="${editVendor.vendorAdd3}" type="text"
+									required>
+									</div>
+
+
+								</div>
+								<br>
+								
+								<div class="box-content"> 
+								 
+									<div class="col-md-2">Approved BY*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" data-live-search="true"
+									title="Please Select" name="approvedBy" id="approvedBy"
+									required>
+									<c:choose>
+									 <c:when test="${editVendor.vendorApprvBy==1}">
+									 	<option value="1" selected>TRIL</option>
+										<option value="2">CEAT</option>
+										<option value="3">OTHER</option> 
+									 </c:when>
+									 <c:when test="${editVendor.vendorApprvBy==2}">
+									 	<option value="1" >TRIL</option>
+										<option value="2" selected>CEAT</option>
+										<option value="3">OTHER</option> 
+									 </c:when>
+									 <c:when test="${editVendor.vendorApprvBy==3}">
+									 	<option value="1" >TRIL</option>
+										<option value="2" >CEAT</option>
+										<option value="3" selected>OTHER</option> 
+									 </c:when> 
+									 <c:otherwise>
+									 
+										<option value="1" selected>TRIL</option>
+										<option value="2" >CEAT</option>
+										<option value="3" >OTHER</option> 
+									 </c:otherwise>
+									
+									</c:choose>
+									
+								</select>
+									</div>
+									
+									<div class="col-md-1"></div>
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" data-live-search="true"
@@ -328,45 +368,6 @@
 										<option value="3">Traders</option>
 										<option value="4">Manufacturer</option>
 										<option value="5">Importer</option> 
-									 </c:otherwise>
-									
-									</c:choose>
-									
-								</select>
-									</div>
-
-
-								</div>
-								<br>
-								
-								<div class="box-content"> 
-								 
-									<div class="col-md-2">Approved BY*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" data-live-search="true"
-									title="Please Select" name="approvedBy" id="approvedBy"
-									required>
-									<c:choose>
-									 <c:when test="${editVendor.vendorApprvBy==1}">
-									 	<option value="1" selected>TRIL</option>
-										<option value="2">CEAT</option>
-										<option value="3">OTHER</option> 
-									 </c:when>
-									 <c:when test="${editVendor.vendorApprvBy==2}">
-									 	<option value="1" >TRIL</option>
-										<option value="2" selected>CEAT</option>
-										<option value="3">OTHER</option> 
-									 </c:when>
-									 <c:when test="${editVendor.vendorApprvBy==3}">
-									 	<option value="1" >TRIL</option>
-										<option value="2" >CEAT</option>
-										<option value="3" selected>OTHER</option> 
-									 </c:when> 
-									 <c:otherwise>
-									 
-										<option value="1" selected>TRIL</option>
-										<option value="2" >CEAT</option>
-										<option value="3" >OTHER</option> 
 									 </c:otherwise>
 									
 									</c:choose>
