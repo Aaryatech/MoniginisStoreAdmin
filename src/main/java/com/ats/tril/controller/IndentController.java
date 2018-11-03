@@ -366,7 +366,7 @@ public class IndentController {
 						 
 						detail.setCurStock(itemListWithCurrentStockList.get(j).getClsQty());
 						detail.setItemId(itemListWithCurrentStockList.get(j).getItemId());
-						detail.setItemName(itemListWithCurrentStockList.get(j).getItemDesc());
+						detail.setItemName(itemListWithCurrentStockList.get(j).getItemCode()+"-"+itemListWithCurrentStockList.get(j).getItemDesc());
 						detail.setQty(Float.parseFloat(request.getParameter("qty"+itemListWithCurrentStockList.get(j).getItemId()))); 
 						detail.setDate(DateConvertor.convertToDMY(request.getParameter("schDate"+itemListWithCurrentStockList.get(j).getItemId())));
 						detail.setUom(itemListWithCurrentStockList.get(j).getItemUom());

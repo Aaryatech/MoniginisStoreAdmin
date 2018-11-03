@@ -309,7 +309,7 @@
 								<div class="box-content">
  
 									
-									<div class="col-md-2">Item OP Qty*</div>
+									<div class="col-md-2">MIN Qty*</div>
 									<div class="col-md-3">
 										<input id="opQty" class="form-control"
 											placeholder="Item OP Qty" name="opQty"
@@ -337,7 +337,7 @@
 								
 								<c:choose>
 										<c:when test="${isEdit==1}">
-										<div class="col-md-2">Item CL Qty*</div>
+										<div class="col-md-2">MAX Qty*</div>
 									<div class="col-md-3">
 										<input id="clQty" class="form-control"
 											placeholder="Item OP Qty" name="clQty"
@@ -359,7 +359,7 @@
 									</div>
 										</c:when>
 										<c:otherwise>
-										<div class="col-md-2">Item CL Qty*</div>
+										<div class="col-md-2">MAX Qty*</div>
 									<div class="col-md-3">
 										<input id="clQty" class="form-control"
 											placeholder="Item OP Qty" name="clQty"

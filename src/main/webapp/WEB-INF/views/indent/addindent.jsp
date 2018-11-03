@@ -518,13 +518,13 @@ body {
 													  
 														<td><c:out value="${count.index+1}" /></td>
   
-																<td align="left"><c:out value="${tempIndentList.itemCode}" /></td>
-																<td align="left"><c:out value="${tempIndentList.itemName}" /></td>
-																<td align="left"><c:out value="${tempIndentList.uom}" /></td>
-																<td align="right"><c:out value="${tempIndentList.curStock}" /></td>
-													  			<td align="right"><c:out value="${tempIndentList.qty}" /></td> 
-													  			<td align="left"><c:out value="${tempIndentList.date}" /></td> 
-													  			<td align="left"><a href='#' class='action_btn' onclick="deleteIndentItem(${tempIndentList.itemId},${count.index})"><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a></td> 
+																<td  ><c:out value="${tempIndentList.itemCode}" /></td>
+																<td  ><c:out value="${tempIndentList.itemName}" /></td>
+																<td  ><c:out value="${tempIndentList.uom}" /></td>
+																<td  ><c:out value="${tempIndentList.curStock}" /></td>
+													  			<td  ><c:out value="${tempIndentList.qty}" /></td> 
+													  			<td  ><c:out value="${tempIndentList.date}" /></td> 
+													  			<td  ><a href='#' class='action_btn' onclick="deleteIndentItem(${tempIndentList.itemId},${count.index})"><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a></td> 
 																</tr>
 												</c:forEach>
 											</tbody>
@@ -943,14 +943,14 @@ $(document).ready(function() {
 				}
 			 
 			var tr = $('<tr></tr>');
-			tr.append($('<td class="col-sm-1" ></td>').html(key+1));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
-		  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
+			tr.append($('<td   ></td>').html(key+1));
+		  	tr.append($('<td   ></td>').html(trans.itemCode));
+		  	tr.append($('<td   ></td>').html(trans.itemName));
+		  	tr.append($('<td   ></td>').html(trans.uom));
+		  	tr.append($('<td   ></td>').html(trans.curStock));
 
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty)); 
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.date)); 
+		  	tr.append($('<td   ></td>').html(trans.qty)); 
+		  	tr.append($('<td   ></td>').html(trans.date)); 
 
 		  	
 		  	/* tr
@@ -1049,14 +1049,14 @@ function deleteIndentItem(itemId,key){
 		$.each(data,function(key, trans) {
 			
 			var tr = $('<tr></tr>');
-			tr.append($('<td class="col-sm-1" ></td>').html(key+1));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.itemCode));
-		  	tr.append($('<td class="col-md-4" ></td>').html(trans.itemName));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.uom));
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.curStock));
+			tr.append($('<td   ></td>').html(key+1));
+		  	tr.append($('<td   ></td>').html(trans.itemCode));
+		  	tr.append($('<td   ></td>').html(trans.itemName));
+		  	tr.append($('<td   ></td>').html(trans.uom));
+		  	tr.append($('<td   ></td>').html(trans.curStock));
 
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.qty)); 
-		  	tr.append($('<td class="col-md-1" ></td>').html(trans.date)); 
+		  	tr.append($('<td   ></td>').html(trans.qty)); 
+		  	tr.append($('<td   ></td>').html(trans.date)); 
 	  	
 	  /* 	tr
 		.append($(
