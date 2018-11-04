@@ -132,10 +132,10 @@
 									</div><br><br>
 									 
 									 
-										<input id="vendorAdd2" class="form-control"
+										<!-- <input id="vendorAdd2" class="form-control"
 									placeholder="Vendor Add 2" style="text-align: left;"
 									name="vendorAdd2" type="hidden" value="NA"
-									required>
+									required> -->
  
 								</div>
 								<br> 
@@ -377,8 +377,169 @@
 
 
 								</div>
+								<br> 
+								<div class="box-content"> 
+								  
+									<div class="col-md-2">Rating*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" data-live-search="true"
+									  name="vendorAdd2" id="vendorAdd2"
+									required>
+									<c:choose>
+									 <c:when test="${editVendor.vendorAdd2==1}">
+									 	<option value="1" selected>5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									<c:when test="${editVendor.vendorAdd2==2}">
+									 	<option value="1" >5</option>
+										<option value="2" selected>4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									<c:when test="${editVendor.vendorAdd2==3}">
+									 	<option value="1"  >5</option>
+										<option value="2">4.5</option>
+										<option value="3" selected>4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									 <c:when test="${editVendor.vendorAdd2==4}">
+									 	<option value="1"  >5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4" selected>3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									 <c:when test="${editVendor.vendorAdd2==5}">
+									 	<option value="1"  >5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5" selected>3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									 <c:when test="${editVendor.vendorAdd2==6}">
+									 	<option value="1" selected>5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6" selected>2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									 <c:when test="${editVendor.vendorAdd2==7}">
+									 	<option value="1" selected>5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7" selected>2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									 <c:when test="${editVendor.vendorAdd2==8}">
+									 	<option value="1" selected>5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8" selected>1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									 <c:when test="${editVendor.vendorAdd2==9}">
+									 	<option value="1"  >5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9" selected>1</option> 
+										<option value="10">0.5</option> 
+										
+									 </c:when>
+									 <c:when test="${editVendor.vendorAdd2==10}">
+									 	<option value="1"  >5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10" selected>0.5</option> 
+										
+									 </c:when>
+									 <c:otherwise>
+									 <option value="" >Select Rating</option>
+									  	<option value="1" >5</option>
+										<option value="2">4.5</option>
+										<option value="3">4</option> 
+										<option value="4">3.5</option> 
+										<option value="5">3</option> 
+										<option value="6">2.5</option>
+										<option value="7">2</option> 
+										<option value="8">1.5</option>  
+										<option value="9">1</option> 
+										<option value="10">0.5</option> 
+									 </c:otherwise>
+									
+									</c:choose>
+									
+								</select>
+									</div>
+									 
+								</div>
+								<br>   
 								<br>  
-								<br>  
+								
+								
 
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">

@@ -367,7 +367,7 @@ public class DashboardController {
 			System.out.println("arry " + Arrays.toString(arry)  + arry.length);
 			
 			table.setWidths(arry);
-			Font headFont = new Font(FontFamily.TIMES_ROMAN,6, Font.NORMAL, BaseColor.BLACK);
+			Font headFont = new Font(FontFamily.TIMES_ROMAN,10, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
@@ -703,7 +703,7 @@ public class DashboardController {
 			System.out.println("arry " + Arrays.toString(arry)  + arry.length);
 			
 			table.setWidths(arry);
-			Font headFont = new Font(FontFamily.TIMES_ROMAN,6, Font.NORMAL, BaseColor.BLACK);
+			Font headFont = new Font(FontFamily.TIMES_ROMAN,10, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
