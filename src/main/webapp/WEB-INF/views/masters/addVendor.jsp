@@ -87,11 +87,11 @@
 										<input id="vendorCode" class="form-control"
 									placeholder="Vendor Code" style="text-align: left;"
 									name="vendorCode" value="${editVendor.vendorCode}" type="text"
-									readonly>  
+									required>  
 										</c:when>
 			  			 			<c:otherwise>
 										<input id="vendorCode" class="form-control"
-									placeholder="Vendor Code" maxlength="6" onchange="checkVendCodeExist()" onkeydown="upperCaseF(this)" style="text-align: left;"
+									placeholder="Vendor Code" maxlength="6" onchange="checkVendCodeExist()"  onkeydown="upperCaseF(this)" style="text-align: left;"
 									name="vendorCode" value="${editVendor.vendorCode}" type="text"
 									required> 
 										</c:otherwise>
@@ -550,7 +550,7 @@
 										</c:when>
 										<c:otherwise>
 										<input type="submit" class="btn btn-info" value="Submit"
-											id="submit" disabled>
+											id="submit"  >
 										</c:otherwise>
 									</c:choose> 
 									</div>

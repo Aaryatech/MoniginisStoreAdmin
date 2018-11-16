@@ -746,6 +746,10 @@ public class MasterController {
 			intialValueItem.setItemOpRate((float) 0);
 			intialValueItem.setItemClRate((float) 0);
 			intialValueItem.setItemWt((float) 0);
+			intialValueItem.setItemLocation("Pune");
+			intialValueItem.setItemAbc("A");
+			intialValueItem.setItemSchd("100");
+			intialValueItem.setItemLife("100");
 			model.addObject("editItem", intialValueItem);
 
 		} catch (Exception e) {

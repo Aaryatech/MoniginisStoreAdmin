@@ -562,6 +562,17 @@ public class MastersController {
 			
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			 vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			 
+			 Vendor vendor = new Vendor();
+			 vendor.setVendorContactPerson("-");
+			 vendor.setVendorMobile("1234567890");
+			 vendor.setVendorEmail("test@mongi.com");
+			 vendor.setVendorPhone("1234567890");
+			 vendor.setVendorGstNo("1234567890");
+			 vendor.setVendorAdd4("1234567890");
+			 vendor.setVendorItem("-");
+			 vendor.setVendorAdd3("-");
+			 model.addObject("editVendor", vendor);
 
 		} catch (Exception e) {
 			e.printStackTrace();
