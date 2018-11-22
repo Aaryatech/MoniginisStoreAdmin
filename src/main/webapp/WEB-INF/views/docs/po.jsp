@@ -347,7 +347,7 @@ hr {
 					<p
 						style="color: #000; font-size: 10px; vertical-align: top; text-align: center; margin: 0px; font-weight: normal;">
 						For ${company.companyName}<br> <br> <br> <br>
-						( Reviewed & Approved )
+						Purchase Order authorised Shabbir Fatehnagri/Shabbir Kanorewala 
 				</td>
 			</tr>
 
@@ -356,7 +356,7 @@ hr {
 
 		<br>
  
-		<h5 style="font-weight: normal; margin: 0px;" align="left">NASHIK
+		<h5 style="font-weight: normal; margin: 0px;" align="left">PUNE
 			OFFICE : ${company.officeAdd}</h5>
 
 		<h5 style="font-weight: normal; margin: 0px;" align="left">PHONE:
@@ -623,7 +623,7 @@ hr {
 				<p
 					style="color: #000; font-size: 10px; vertical-align: top; text-align: center; margin: 0px; font-weight: normal;">
 					For ${company.companyName} <br> <br> <br> <br>
-					( Reviewed & Approved )
+					Purchase Order authorised Shabbir Fatehnagri/Shabbir Kanorewala
 			</td>
 		</tr>
 
@@ -639,7 +639,7 @@ hr {
 		</c:otherwise>
 	</c:choose>
 	 
-	<h5 style="font-weight: normal; margin: 0px;" align="left">NASHIK
+	<h5 style="font-weight: normal; margin: 0px;" align="left">PUNE
 			OFFICE : ${company.officeAdd}</h5>
 
 	<h5 style="font-weight: normal; margin: 0px;" align="left">PHONE:${company.officePhoneNumber}, FAX : ${company.officeFaxNumber}, Email : ${company.purchaseEmail}</h5>

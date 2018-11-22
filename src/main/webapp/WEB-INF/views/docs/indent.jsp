@@ -183,24 +183,24 @@ hr {
 						<table width="1000px">
 							<tr>
 								<td width="500px" valign="top"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">Indenting
-									Dept. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> For
+									  >Indenting
+									Category &nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> <%-- For
 									Development &nbsp;&nbsp;&nbsp;- <c:choose>
 										<c:when test="${item.indIsdev==1}">YES</c:when><c:otherwise>NO</c:otherwise>
-									</c:choose><br> Indent Type
+									</c:choose><br> --%> Indent Type
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
 								</td>
 
-								<td width="500px"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">
-									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
+								<%-- <td width="500px"
+									 align="right" >
+								  	Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
 									&nbsp;&nbsp;&nbsp;- ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
 									<c:choose>
 										<c:when test="${item.indIsmonthly==1}">YES</c:when><c:otherwise>NO</c:otherwise>
-									</c:choose>
+									</c:choose> 
  
-								</td>
+								</td> --%>
 
 							</tr>
 
@@ -213,7 +213,7 @@ hr {
 		<br>
 		
 		<table align="center" border="1" cellpadding="0" cellspacing="0"
-			style="table-layout: fixed; display: block; height: 300px; width: 100%;"
+			 
 			id="table_grid">
 			<thead>
 				<tr style="font-size: 95%;">
@@ -227,7 +227,7 @@ hr {
 			</thead>
 			<tbody>
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="3" />
+				<c:set var="maxRowCount" value="25" />
 				<c:set var="total" value="0" />
 
 				<c:forEach items="${item.indentReportDetailList}" var="row"
@@ -249,62 +249,7 @@ hr {
 		</table>
 
 		<!-- start of footer -->
-		
-		<table cellpadding="0" cellspacing="0">
-
-				<tr class="information">
-					<td colspan="1" valign="top">
-						<table>
-							<tr>
-								<td width="25%" valign="top" align="left"
-									style="padding: 8px; color: #000;  ">
-
-									Purpose &nbsp;&nbsp;&nbsp;- </td>
-
-
-							</tr>
-
-						</table>
-					</td>
-				</tr>
-			</table>
-<br><br>
-		
-		<div class="invoice-box">
-			 
-						<table width="1000px">
-							<tr >
-								<td width="250px" valign="top" align="center"
-									style="padding: 8px; color: #000;  font-weight: bold;">
-
-									Requisitioned By</td>
-
-								<td width="250px" valign="top" align="center"
-									style="padding: 8px; color: #000;  font-weight: bold;">
-
-									Stores</td>
-
-								<td width="250px" valign="top" align="center"
-									style="padding: 8px; color: #000;  font-weight: bold;">
-
-									Dept.Head</td>
-
-								<td width="250px" valign="top" align="center"
-									style="padding: 8px; color: #000;  font-weight: bold;">
-
-									Approved By</td>
-
-							</tr>
-
-						</table> 
-
-			<hr
-				style="height: 1px; border: none; color: black; background-color: black;">
-
-		</div><br>
- 
-
-
+		  
 		 <div align="left">
 			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
@@ -312,7 +257,7 @@ hr {
 
 		<h4 align="center" align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
  
- 		<div class="invoice-box">
+ 		 <div class="invoice-box">
 			<table cellpadding="0" cellspacing="0" width="1000px">
 
 				<tr class="information">
@@ -335,7 +280,7 @@ hr {
 			</table>
 		</div>
 		
-		<div class="invoice-box">
+		 <div class="invoice-box">
 			<table cellpadding="0" cellspacing="0" width="1000px">
 
 				<tr class="information">
@@ -367,24 +312,24 @@ hr {
 						<table width="1000px">
 							<tr>
 								<td width="500px" valign="top"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">Indenting
-									Dept. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> For
+									  >Indenting
+									Category &nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> <%-- For
 									Development &nbsp;&nbsp;&nbsp;- <c:choose>
 										<c:when test="${item.indIsdev==1}">YES</c:when><c:otherwise>NO</c:otherwise>
-									</c:choose><br> Indent Type
+									</c:choose><br> --%> Indent Type
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
 								</td>
 
-								<td width="500px"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-family: arial; font-weight: bold; font-size: 95%;">
-									Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
+								<%-- <td width="500px"
+									 align="right" >
+								  	Department &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- ${item.deptDesc} <br> Sub department
 									&nbsp;&nbsp;&nbsp;- ${item.subDeptDesc}<br> Monthly &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;	-
 									<c:choose>
 										<c:when test="${item.indIsmonthly==1}">YES</c:when><c:otherwise>NO</c:otherwise>
-									</c:choose>
+									</c:choose> 
  
-								</td>
+								</td> --%>
 
 							</tr>
 
@@ -393,11 +338,11 @@ hr {
 				</tr>
 			</table>
 		</div>
-		<br>
+		<br>  
 
 
 		<table align="center" border="1" cellpadding="0" cellspacing="0"
-			style="table-layout: fixed; display: block; height: 300px; width: 100%;"
+			 
 			id="table_grid">
 			<thead>
 				<tr style="font-size: 95%;">
@@ -415,7 +360,7 @@ hr {
 
 
 				<c:set var="totalRowCount" value="0" />
-				<c:set var="maxRowCount" value="3" />
+				<c:set var="maxRowCount" value="25" />
 				<c:set var="total" value="0" />
 
 
@@ -427,7 +372,7 @@ hr {
 
 				</c:choose>
 
-				<c:set var="totalRowCount" value="${totalRowCount+1}" />
+				  <%-- <c:set var="totalRowCount" value="${totalRowCount+1}" /> --%>  
 
 				 
 				<tr style="font-size: 95%;">
