@@ -120,7 +120,7 @@ body {
 	<c:url var="getRmCategory" value="/getRmCategory" />
 	<c:url var="getRmListByCatId" value="/getRmListByCatId" />
 	<c:url var="getRmRateAndTax" value="/getRmRateAndTax" />
-
+<c:url var="getVendorListByIndentId" value="/getVendorListByIndentId" />
 	<c:url var="calculatePurchaseHeaderValues" value="/calculatePurchaseHeaderValues" />
 	<c:url var="getPreviousRecordOfPoItem" value="/getPreviousRecordOfPoItem" />
 
@@ -277,6 +277,53 @@ body {
 									 
 									</div><br/>
 									
+									<div class="box-content">
+								<div class="col-md-2" >Select Indend No.</div>
+									<div class="col-md-3">
+									<c:choose>
+										<c:when test="${isFromDashBoard==1}">
+										<input type="hidden" id="indId" name="indId" value="${indId}">
+											<select name="indIdd" id="indIdd" class="form-control chosen"   disabled>
+									 
+											 <c:forEach items="${intedList}" var="intedList" >
+												 <c:choose>
+												 	<c:when test="${intedList.indMId==indId}">
+												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:when>
+												 	<%-- <c:otherwise>
+												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:otherwise> --%>
+												 </c:choose>  
+											</c:forEach>
+										</select>
+										
+										</c:when>
+										<c:otherwise>
+											<select name="indId" id="indId" onchange="getVendorListByIndId()" class="form-control chosen"   required>
+									 
+											 <c:forEach items="${intedList}" var="intedList" >
+												 <c:choose>
+												 	<c:when test="${intedList.indMId==indId}">
+												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:when>
+												 	<%-- <c:otherwise>
+												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 	</c:otherwise> --%>
+												 </c:choose>  
+											</c:forEach>
+										</select>
+										
+										</c:otherwise>
+									</c:choose>
+										
+									</div>	
+									<div class="col-md-2"></div>
+									<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Indend "  id="myBtn"></div>
+									
+									 
+					</div>
+			 		<br/>
+									
 				<div class="box-content">
 				<div class="col-md-2" >Vendor Name</div>
 									<div class="col-md-10">
@@ -428,57 +475,7 @@ body {
 											<input type="number" placeholder="Order Validity"  value="${orderValidityTemp}" name="orderValidity" id="orderValidity" class="form-control" required>
 										</div>
 								</div><br/>
-								 
-								
-			
-				
-					<div class="box-content">
-								<div class="col-md-2" >Select Indend No.</div>
-									<div class="col-md-3">
-									<c:choose>
-										<c:when test="${isFromDashBoard==1}">
-										<input type="hidden" id="indId" name="indId" value="${indId}">
-											<select name="indIdd" id="indIdd" class="form-control chosen"   disabled>
-									 
-											 <c:forEach items="${intedList}" var="intedList" >
-												 <c:choose>
-												 	<c:when test="${intedList.indMId==indId}">
-												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-												 	</c:when>
-												 	<c:otherwise>
-												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-												 	</c:otherwise>
-												 </c:choose>  
-											</c:forEach>
-										</select>
-										
-										</c:when>
-										<c:otherwise>
-											<select name="indId" id="indId" class="form-control chosen"   required>
-									 
-											 <c:forEach items="${intedList}" var="intedList" >
-												 <c:choose>
-												 	<c:when test="${intedList.indMId==indId}">
-												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-												 	</c:when>
-												 	<c:otherwise>
-												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-												 	</c:otherwise>
-												 </c:choose>  
-											</c:forEach>
-										</select>
-										
-										</c:otherwise>
-									</c:choose>
-										
-									</div>	
-									<div class="col-md-1"></div>
-									<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Indend "  id="myBtn"></div>
-									
-									 
-					</div>
-			 		<br/>
-									
+								  	
 									<hr/>
 									
 									  
@@ -1143,7 +1140,7 @@ function itemByIntendId()
 							  	var res = itemList.itemCode.split("-");
 							  	//tr.append($('<td></td>').html(res[0]));  
 							   
-							  	tr.append($('<td></td>').html('<a onclick="previeousRecord('+itemList.itemId+',\'' + itemList.itemCode + '\')"><div title="'+itemList.itemCode+'">'+res[0]+'</div></a>'));
+							  	tr.append($('<td></td>').html('<a onclick="previeousRecord('+itemList.itemId+',\'' + itemList.itemCode + '\')"><div title="'+itemList.itemCode+'">'+itemList.itemCode+'</div></a>'));
 							  	
 							  	
 							  	tr.append($('<td></td>').html(itemList.indItemUom));
@@ -1432,6 +1429,32 @@ function getIntendListByPoType() {
 		html += '</option>';
 		$('#indId').html(html);
 		$("#indId").trigger("chosen:updated");
+	
+	});
+
+}
+
+function getVendorListByIndId() {
+	 
+	var indId = $("#indId").val(); 
+
+	$.getJSON('${getVendorListByIndentId}', {
+ 
+		indId : indId,
+		ajax : 'true',
+
+	}, function(data) { 
+		
+		var html = '<option value="">Select Vendor</option>';
+
+		var len = data.length;
+		for (var i = 0; i < len; i++) {
+			html += '<option value="' + data[i].vendorId + '">'
+					+ data[i].vendorCode +'&nbsp;&nbsp;&nbsp;'+data[i].vendorName+'</option>';
+		}
+		html += '</option>';
+		$('#vendId').html(html);
+		$("#vendId").trigger("chosen:updated");
 	
 	});
 

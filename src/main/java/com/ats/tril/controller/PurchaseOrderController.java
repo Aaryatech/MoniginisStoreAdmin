@@ -87,9 +87,9 @@ public class PurchaseOrderController {
 
 			model.addObject("date", sf.format(date));
 
-			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			/*Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
-			model.addObject("vendorList", vendorList);
+			model.addObject("vendorList", vendorList);*/
 
 			DispatchMode[] dispatchMode = rest.getForObject(Constants.url + "/getAllDispatchModesByIsUsed",
 					DispatchMode[].class);
@@ -125,6 +125,27 @@ public class PurchaseOrderController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/getVendorListByIndentId", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Vendor> getVendorListByIndentId(HttpServletRequest request, HttpServletResponse response) {
+
+		List<Vendor> vendorList = new ArrayList<Vendor>();
+		
+		try {
+
+			int indId = Integer.parseInt(request.getParameter("indId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map.add("indId", indId);
+			Vendor[] vendorRes = rest.postForObject(Constants.url + "/getVendorByIndendId",map, Vendor[].class);
+			 vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+		  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return vendorList;
 	}
 	
 	@RequestMapping(value = "/addPurchaseOrderFromDashboard/{indMId}/{poType}", method = RequestMethod.GET)
@@ -526,7 +547,9 @@ public class PurchaseOrderController {
 			float taxValue = 0;
 			isState=0;
 			
-			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map.add("indId", indId);
+			Vendor[] vendorRes = rest.postForObject(Constants.url + "/getVendorByIndendId",map, Vendor[].class); 
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			model.addObject("vendorList", vendorList);
 
@@ -546,7 +569,7 @@ public class PurchaseOrderController {
 
 			model.addObject("deliveryTermsList", deliveryTermsList);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 map = new LinkedMultiValueMap<>();
 			map.add("status", "0,1");
 			map.add("poType", poTypeTemp);
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,
