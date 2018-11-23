@@ -138,7 +138,7 @@ hr {
 								style=" font-family: arial; font-weight: bold; font-size: 95%;"> 
 								</td>
 								<td width="600px"  valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">PUR. REQUISITION / INDENT
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">STORE REQUISITION / INDENT
 								</td>
 								<td width="200px"  valign="top" align="left" 
 								style=" font-family: arial; font-weight: bold; font-size: 95%;">
@@ -222,7 +222,7 @@ hr {
 					<th width="40%">Description</th>
 					<th>UOM</th>
 					<th>Qty. Req.</th>
-					<th>When Req. / Stock/ Avg.</th>
+					<th>Schedule Date</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -268,7 +268,7 @@ hr {
 								style=" font-family: arial; font-weight: bold; font-size: 95%;"> 
 								</td>
 								<td width="600px"  valign="top" align="center" 
-								style=" font-family: arial; font-weight: bold; font-size: 95%;">PUR. REQUISITION / INDENT
+								style=" font-family: arial; font-weight: bold; font-size: 95%;">STORE REQUISITION / INDENT
 								</td>
 								<td width="200px"  valign="top" align="left" 
 								style=" font-family: arial; font-weight: bold; font-size: 95%;">
@@ -351,7 +351,7 @@ hr {
 					<th width="40%">Description</th>
 					<th>UOM</th>
 					<th>Qty. Req.</th>
-					<th>When Req. / Stock/ Avg.</th>
+					<th>Schedule Date</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -416,22 +416,14 @@ hr {
 			 
 						<table width="1000px">
 							<tr>
-								<td width="250px" valign="top" align="center"
+								<td width="500px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Requisitioned By</td>
+									Used By</td>
 
-								<td width="250px" valign="top" align="center"
-									style="padding: 8px; color: #000;  font-weight: bold;">
+							 
 
-									Stores</td>
-
-								<td width="250px" valign="top" align="center"
-									style="padding: 8px; color: #000;  font-weight: bold;">
-
-									Dept.Head</td>
-
-								<td width="250px" valign="top" align="center"
+								<td width="500px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
 									Approved By</td>

@@ -646,7 +646,7 @@ public class IndentController {
 
 			for (int i = 0; i < itemList.size(); i++) {
 
-				itemList.get(i).setItemDesc(itemList.get(i).getItemCode() + "-" + itemList.get(i).getItemDesc());
+				itemList.get(i).setItemDesc(itemList.get(i).getItemCode() + " - " + itemList.get(i).getItemDesc());
 
 			}
 

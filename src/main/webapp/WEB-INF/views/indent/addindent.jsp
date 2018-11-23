@@ -450,7 +450,7 @@ body {
 								<div class="row">
 						<div class="col-md-12" style="text-align: center">
 						<input type="button" onclick="insertIndentDetail()"
-											class="btn btn-info" value="Submit">
+											class="btn btn-info" value="Add Item">
 											<%-- <c:choose>
 						<c:when test="${userInfo.id==1}"> --%>
 						<input type="button" class="btn btn-info" value="Get Item From Below ROL/MIN Level" id="myBtn" >
