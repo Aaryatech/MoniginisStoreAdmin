@@ -121,11 +121,11 @@
 								</div>
 								 
 								
-								<div class="form-group">
-								<div class="col-md-1"></div>
+								<!-- <div class="form-group">
+								<div class="col-md-1"></div> 
 									<div class="col-md-2">Account
-										Head</div>
-									<div class="col-md-3">
+										Head</div>-->
+									<%-- <div class="col-md-3">
 										<select name="acc_head" id="acc_head"
 		 									class="form-control chosen" placeholder="Account Head"
 											data-rule-required="true">
@@ -141,8 +141,9 @@
 												</c:choose>
 											</c:forEach>
 										</select>
-									</div>
-									
+									</div> --%>
+									<input   id="acc_head"  type="hidden"   name="acc_head"
+											value="${indent.achdId}"   />
 									<input   id="machine_specific"  type="hidden"   name="machine_specific"
 											value="${indent.deptId}"   />
 											<input   id="subDeptDeptForCompare"  type="hidden"   name="subDeptDeptForCompare"
@@ -168,7 +169,7 @@
 											</c:choose>
 										</select>
 									</div> --%>
-								</div>
+								<!-- </div> -->
 								
 								<%-- <div class="form-group" style="display: none" id="deptDiv">
 									<div class="col-md-1"></div>	<div class="col-md-2">Department

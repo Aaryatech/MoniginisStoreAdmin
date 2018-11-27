@@ -183,13 +183,12 @@ hr {
 						<table width="1000px">
 							<tr>
 								<td width="500px" valign="top"
-									  >Indenting
+									  ><%--Indenting
 									Category &nbsp;&nbsp;&nbsp; - ${item.catDesc}<br> Account Head
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br> <%-- For
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.accHeadDesc} <br>  For
 									Development &nbsp;&nbsp;&nbsp;- <c:choose>
 										<c:when test="${item.indIsdev==1}">YES</c:when><c:otherwise>NO</c:otherwise>
-									</c:choose><br> --%> Indent Type
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.typeName}
+									</c:choose><br> --%> Indent Type : ${item.typeName}
 								</td>
 
 								<%-- <td width="500px"
@@ -392,7 +391,7 @@ hr {
 		<br>
 		
 
-
+<!-- 
 	<table cellpadding="0" cellspacing="0">
 
 				<tr class="information">
@@ -410,7 +409,7 @@ hr {
 						</table>
 					</td>
 				</tr>
-			</table>
+			</table> -->
 <br><br>
 		<div class="invoice-box">
 			 
@@ -419,7 +418,7 @@ hr {
 								<td width="500px" valign="top" align="center"
 									style="padding: 8px; color: #000;  font-weight: bold;">
 
-									Used By</td>
+									Prepared By</td>
 
 							 
 

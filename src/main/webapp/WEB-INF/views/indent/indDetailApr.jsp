@@ -75,20 +75,16 @@
 								<div class="form-group">
 
 										<c:set var="indmtype" value="o"></c:set>
-									<c:choose>
-										<c:when test="${indent.indMType==1}">
-											<c:set var="indmtype" value="Regular"></c:set>
-										</c:when>
-										<c:when test="${indent.indMType==2}">
-											<c:set var="indmtype" value="Job Work"></c:set>
-										</c:when>
-										<c:when test="${indent.indMType==3}">
-											<c:set var="indmtype" value="General"></c:set>
-										</c:when>
-										<c:otherwise>
-											<c:set var="indmtype" value="Other"></c:set>
-										</c:otherwise>
-									</c:choose>
+										
+										<c:forEach items="${typeList}" var="typeList"  varStatus="count">
+														<c:choose>
+															<c:when test="${indent.indMType==typeList.typeId}">
+																<c:set var="indmtype" value="${typeList.typeName}"></c:set>
+															</c:when>
+															 
+														</c:choose>
+														</c:forEach>
+									 
 <div class="col-md-1"></div>
 									<div class="col-md-2">Indent
 										Type</div>
@@ -120,12 +116,12 @@
 											value="${indent.indMDate}" required />
 									</div>
 								</div>
-								<div class="form-group">
+								<%-- <div class="form-group">
 								<div class="col-md-1"></div>
 									<div class="col-md-2">Account
 										Head</div>
 									<div class="col-md-3">
-										<%-- <select name="acc_head" id="acc_head" disabled
+										  <select name="acc_head" id="acc_head" disabled
 		 									class="form-control chosen" placeholder="Account Head"
 											data-rule-required="true">
 											<c:forEach items="${accountHeadList}" var="accHead"
@@ -137,11 +133,11 @@
 													
 												</c:choose>
 											</c:forEach>
-										</select> --%>
+										</select>  
 										<c:out value="${indent.accHeadDesc}"></c:out>
 									</div>
 
-									<%-- <div class="col-md-2">Machine
+									  <div class="col-md-2">Machine
 										Specific</div>
 
 									<div class="col-md-3">
@@ -159,8 +155,8 @@
 												</c:otherwise>
 											</c:choose>
 										</select>
-									</div> --%>
-								</div>
+									</div>  
+								</div> --%>
 								<%-- <div class="form-group" style="display: none" id="deptDiv">
 									<div class="col-md-1"></div>	<div class="col-md-2">Department
 									</div>
@@ -282,8 +278,7 @@
 									</div>
 									 <input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
 								</div> -->
-								<br><br>
-								
+								 
 								<h4> Items to Approve</h4>
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
@@ -629,7 +624,7 @@ function getLastRate(qty,flag) {
 	<script type="text/javascript">
 		function callApproveIndent(apr) {
 			
-			if(apr==2){
+			if(apr==1){
 				var x=confirm("This is Final Approval: You can not change anything further");
 				
 				if(x==true)

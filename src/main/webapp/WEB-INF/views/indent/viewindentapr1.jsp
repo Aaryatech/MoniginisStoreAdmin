@@ -123,7 +123,7 @@
 														style="width: 150px">Indent No</th>
 													<th width="100" style="text-align: center;" align="center">Date</th>
 													<th width="150" style="text-align: center;" align="center">Category</th>
-													<th width="150" style="text-align: center;" align="center">Account Head</th>
+													<!-- <th width="150" style="text-align: center;" align="center">Account Head</th> -->
 
 													<th width="150" style="text-align: center;" align="center">Type</th>
 													<!-- <th width="150" style="text-align: center;" align="center">Development</th>
@@ -159,8 +159,8 @@
 																value="${indent.indMDate}" /></td>
 														<td align="left" style="text-align: center;"><c:out
 																value="${indent.catDesc}" /></td>
-																<td align="left" style="text-align: center;"><c:out
-																value="${indent.accHeadDesc}" /></td>
+																<%-- <td align="left" style="text-align: center;"><c:out
+																value="${indent.accHeadDesc}" /></td> --%>
 														<c:set var="indmtype" value="o"></c:set>
 														<c:forEach items="${typeList}" var="typeList"  varStatus="count">
 														<c:choose>

@@ -137,7 +137,7 @@
 													<th class="col-md-1" >Indent No</th>
 													<th class="col-md-1">Date</th>
 													<th class="col-md-1">Category</th>
-													<th class="col-md-1">Account Head</th>
+													 
 
 													<th class="col-md-1">Type</th> 
 													<th class="col-md-1">Action</th>
@@ -166,8 +166,7 @@
 																value="${indent.indMDate}" /></td>
 														<td  ><c:out
 																value="${indent.catDesc}" /></td>
-																<td  ><c:out
-																value="${indent.accHeadDesc}" /></td>
+																 
 														  
 														
 														<c:forEach items="${typeList}" var="typeList"> 

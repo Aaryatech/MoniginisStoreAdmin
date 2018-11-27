@@ -225,6 +225,9 @@ body {
 									
 								</div>
 <br><br>
+									<input   id="machine_specific"  type="hidden" name="machine_specific" value="1" />
+										<input   id="acc_head"  type="hidden" name="acc_head" value="1" />
+										
 								<div class="box-content"> 
 								
 									<label class="col-md-2">Remark</label>
@@ -232,7 +235,7 @@ body {
 										<input type="text" name="indHeaderRemark" id="indHeaderRemark" placeholder="Remark" class="form-control"  value="${indHeaderRemarkTemp}" required />
 									</div> 
 								</div><br><br>
-								<div class="box-content">
+								<%-- <div class="box-content">
 
 
 									<div class="col-md-2">Account
@@ -257,20 +260,20 @@ body {
 										</select>
 									</div>
 <div class="col-md-1"></div>
-									<!-- <label class="col-md-2">Machine
-										Specific</label> -->
-										<input   id="machine_specific"  type="hidden" name="machine_specific" value="1" />
-
-									<!-- <div class="col-md-3">
+									  <label class="col-md-2">Machine
+										Specific</label>  
+										
+										
+									  <div class="col-md-3">
 										<select name="machine_specificd" id="machine_specificd"
 											onchange="showDept()" class="form-control chosen"
 											placeholder="Is Machine Specific"   disabled>
 											<option  value="0">No</option>
 											<option value="1" selected>Yes</option>
 										</select>
-									</div> -->
+									</div>  
 								</div><br>
-								<br>
+								<br> --%>
 								
 								<!-- <div class="box-content">
 									<label class="col-md-2">For
