@@ -476,13 +476,20 @@ h6{
 						</div>
 				<div class="box-content">
 					<div class="clearfix"></div>
+					<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
 					<div class="table-responsive" style="border: 1px; ">
-						<table class="table table-advance" id="mrnTable" >  
+						<table class="table table-advance" id="mrnTable1" >  
 									<thead>
 													<tr class="bgpink">
 											<th class="col-sm-1">Sr No</th>
 											<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Date</th>
+											<th class="col-md-1">Vendor Name</th>
 											<th class="col-md-1">PO No.</th>
 											<th class="col-md-1">PO Date</th>
 											 <th class="col-md-1">PO Type</th> 
@@ -495,12 +502,13 @@ h6{
 										<c:forEach items="${headerList}" var="indent" varStatus="count">
 											<tr>
 											<td class="col-sm-1"><c:out value="${count.index+1}" /></td>
-												<td class="col-md-2"><c:out value="${indent.indNo}" /></td>
-												<td class="col-md-2"><c:out value="${indent.indDate}" /></td>
+												<td class="col-md-1"><c:out value="${indent.indNo}" /></td>
+												<td class="col-md-1"><c:out value="${indent.indDate}" /></td>
+												<td class="col-md-2"><c:out value="${indent.vendorCode}" /></td>
 												<td class="col-md-1"><c:out value="${indent.poNo}" /></td>
 												<td class="col-md-1"><c:out value="${indent.poDate}" /></td>
-												<td class="col-md-1"><c:choose><c:when test="${indent.poType==1}">Regular</c:when><c:when test="${indent.poType==2}">Job Work</c:when><c:when test="${indent.poType==3}">General</c:when></c:choose></td>
-												<td class="col-md-1"><c:choose><c:when test="${indent.poStatus==1}">Pending For MRN</c:when></c:choose></td>
+												<td class="col-md-1"> <c:out value="${indent.typeName}" /></td>
+												<td class="col-md-1"><c:choose><c:when test="${indent.poStatus==0}">Pending For MRN</c:when><c:when test="${indent.poStatus==1}">Partially MRN</c:when></c:choose></td>
 												<td><a>Detail </a><span style="visibility: hidden;" class="glyphicon glyphicon-list" onclick="submit('+key+');" id="ok'+key+'"></span></td>
 										
 											</tr>
@@ -1949,6 +1957,48 @@ function enableDiv1(status) {
 		    z.style.display = "block";
 	}
 }
+function myFunction() {
+	 
+	  var input, filter, table, tr, td ,td1,td2,td3,td4,td5, i;
+	  input = document.getElementById("myInput");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("mrnTable1");
+	  tr = table.getElementsByTagName("tr");
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[2];
+	    td1 = tr[i].getElementsByTagName("td")[3];
+	    td2 = tr[i].getElementsByTagName("td")[4];
+	    td3 = tr[i].getElementsByTagName("td")[5];
+	    td4 = tr[i].getElementsByTagName("td")[6];
+	    td5 = tr[i].getElementsByTagName("td")[1];
+	    
+	    if (td || td1 || td2 || td3|| td4|| td5) {
+	    	
+	    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	    	        tr[i].style.display = "";
+	    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	    	        tr[i].style.display = "";
+	    	      }else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	    	        tr[i].style.display = "";
+	    	      }
+	    	      else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		    	        tr[i].style.display = "";
+		    	      }
+	    	      else if (td4.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		    	        tr[i].style.display = "";
+		    	      }
+	    	      else if (td5.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		    	        tr[i].style.display = "";
+		    	      }
+	    	      else {
+	    	        tr[i].style.display = "none";
+	    	      }
+	       
+	    }  
+	    
+	     
+	  }
+	}
 </script>
 </body>
 </html>

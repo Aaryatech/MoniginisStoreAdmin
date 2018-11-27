@@ -84,7 +84,9 @@ public class GetPoHeader {
 	
 	private int approvStatus;
 	
-
+	private String typeName;
+	private String vendorCode;
+	
 	public int getPoId() {
 		return poId;
 	}
@@ -398,6 +400,22 @@ public class GetPoHeader {
 	}
 
 
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public String getVendorCode() {
+		return vendorCode;
+	}
+
+	public void setVendorCode(String vendorCode) {
+		this.vendorCode = vendorCode;
+	}
+
 	@Override
 	public String toString() {
 		return "GetPoHeader [poId=" + poId + ", poType=" + poType + ", poNo=" + poNo + ", poDate=" + poDate
@@ -412,8 +430,8 @@ public class GetPoHeader {
 				+ deliveryId + ", dispatchId=" + dispatchId + ", paymentTermId=" + paymentTermId + ", poRemark="
 				+ poRemark + ", poStatus=" + poStatus + ", prnStatus=" + prnStatus + ", prnCopies=" + prnCopies
 				+ ", indId=" + indId + ", indDate=" + indDate + ", indNo=" + indNo + ", userId=" + userId
-				+ ", delStatus=" + delStatus + ", approvStatus=" + approvStatus 
-				+ "]";
+				+ ", delStatus=" + delStatus + ", approvStatus=" + approvStatus + ", typeName=" + typeName
+				+ ", vendorCode=" + vendorCode + "]";
 	}
 	
 	
