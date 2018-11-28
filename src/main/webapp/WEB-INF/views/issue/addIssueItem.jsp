@@ -108,12 +108,13 @@
 									
 									<input id="issueNo" class="form-control"
 								 placeholder="Issue No" value="1" name="issueNo" type="text" readonly>
-									
+									<input id="poTyped"  value="1" name="poTyped" id="poTyped" type="hidden" readonly>
+									<input type="hidden" value="1" id="type" name="type"  >
 									</div>
 									
-									<div class="col-md-2">Type*</div>
+									<%-- <div class="col-md-2">Type*</div>
 									<div class="col-md-3">
-									<input type="hidden" id="type" name="type"  >
+									
 											<select name="poTyped" id="poTyped"   class="form-control chosen" onchange="getInvoiceNo()"    >
 												  <option value="" >Select  Type</option>
 														<c:forEach items="${typeList}" var="typeList">
@@ -122,7 +123,7 @@
 															 
 														</c:forEach>
 														</select>
-								 </div>
+								 </div> --%>
 				 
 							</div><br>
 							

@@ -93,12 +93,12 @@
 									
 									<input id="issueNo" class="form-control"
 								 placeholder="Issue No" value="${getIssueHeader.issueNo}" name="issueNo" type="text" readonly>
-									
+									<input type="hidden" id="type" name="type" value="${getIssueHeader.itemCategory}">
 									</div>
 									
-									<div class="col-md-2" > Type</div>
+									<%-- <div class="col-md-2" > Type</div>
 									<div class="col-md-3">
-									<input type="hidden" id="type" name="type" value="${getIssueHeader.itemCategory}">
+									
 										 
 										<c:forEach items="${typeList}" var="typeList">
 															<c:choose> 
@@ -109,7 +109,7 @@
 														</c:forEach>
 										
 										 
-									</div>
+									</div> --%>
 								 
 							</div><br>
 							

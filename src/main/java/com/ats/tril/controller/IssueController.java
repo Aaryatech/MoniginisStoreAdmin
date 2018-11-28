@@ -372,6 +372,12 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 					 {
 						 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()-issueDetailList.get(j).getItemIssueQty());
 						 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()+issueDetailList.get(j).getItemIssueQty());
+						 if(updateMrnDetail.get(i).getIssueQty()>0) {
+							 updateMrnDetail.get(i).setMrnDetailStatus(5);
+						 }
+						 else {
+							 updateMrnDetail.get(i).setMrnDetailStatus(4);
+						 }
 					 }
 				 }
 			 }
@@ -511,6 +517,12 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 					 {
 						 updateMrnDetail.get(j).setRemainingQty(updateMrnDetail.get(j).getRemainingQty()+getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
 						 updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty()-getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
+						 if(updateMrnDetail.get(i).getIssueQty()>0) {
+							 updateMrnDetail.get(i).setMrnDetailStatus(5);
+						 }
+						 else {
+							 updateMrnDetail.get(i).setMrnDetailStatus(4);
+						 }
 					 }
 				 }
 			 }
@@ -839,6 +851,12 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 							 System.out.println("in if ");
 							 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()+issueDetailEditList.get(j).getItemIssueQty());
 							 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()-issueDetailEditList.get(j).getItemIssueQty());
+							 if(updateMrnDetail.get(i).getIssueQty()>0) {
+								 updateMrnDetail.get(i).setMrnDetailStatus(5);
+							 }
+							 else {
+								 updateMrnDetail.get(i).setMrnDetailStatus(4);
+							 }
 							 break;
 						 }
 						 else if(updateMrnDetail.get(i).getMrnDetailId()==issueDetailEditList.get(j).getMrnDetailId()  && issueDetailEditList.get(j).getIssueDetailId()==0)
@@ -846,6 +864,12 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 							 System.out.println("in else if ");
 							 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()-issueDetailEditList.get(j).getItemIssueQty());
 							 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()+issueDetailEditList.get(j).getItemIssueQty());
+							 if(updateMrnDetail.get(i).getIssueQty()>0) {
+								 updateMrnDetail.get(i).setMrnDetailStatus(5);
+							 }
+							 else {
+								 updateMrnDetail.get(i).setMrnDetailStatus(4);
+							 }
 							 break;
 						 }
 					 }
