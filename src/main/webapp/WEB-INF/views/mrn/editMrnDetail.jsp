@@ -29,7 +29,28 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
-
+#overlay2 {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(101, 113, 119, 0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+#text2 {
+   position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 25px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
 /* The Modal (background) */
 .modal {
 	display: none; /* Hidden by default */
@@ -110,7 +131,7 @@ body {
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <body>
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
-
+ 
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
 	<c:url var="getpoDetailForEditMrn" value="/getpoDetailForEditMrn" />
 
@@ -153,7 +174,7 @@ body {
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i> Edit MRN111
+								<i class="fa fa-bars"></i> Edit MRN
 							</h3>
 							<div class="box-tool">
 							<a href="${pageContext.request.contextPath}/getMrnHeaders">Back
@@ -167,7 +188,7 @@ body {
 							<form method="post" class="form-horizontal" id="validation-form">
 
 								<div class="form-group">
-									<label class="col-md-2">Grn Type
+									<label class="col-md-2">MRN Type
 									</label>
 									<div class="col-md-3">
 										<select name="grn_type" id="grn_type"
@@ -192,7 +213,7 @@ body {
 
 									
 
-									<label class="col-md-2">Grn Date
+									<label class="col-md-2">MRN Date
 									</label>
 
 									<div class="col-md-3">
@@ -201,7 +222,7 @@ body {
 											value="${mrnHeader.mrnDate}" required />
 									</div>
 									<div class="col-md-1"></div>
-									<label class="col-md-2">GRN No </label>
+									<label class="col-md-2">MRN No </label>
 									<div class="col-md-3">
 										<input type="text" name="grn_no" id="grn_no"
 											value="${mrnHeader.mrnNo}" class="form-control"
@@ -226,7 +247,12 @@ body {
 									</div>
 
 								</div><!--/form-grp  -->
-								<div class="form-group">
+								<input type="hidden" name="gate_entry_no" id="gate_entry_no" value="${mrnHeader.gateEntryNo}"  data-rule-required="true" />
+								<input  id="gate_entry_date" type="hidden" name="gate_entry_date" value="${mrnHeader.gateEntryDate}" required />
+								<input type="hidden" name="chalan_no" id="chalan_no" data-rule-required="true" value="${mrnHeader.docNo}" />
+								<input type="hidden" name="chalan_date" id="chalan_date" class="form-control" data-rule-required="true" value="${mrnHeader.docDate}" />
+											
+								<%-- <div class="form-group">
 									<label class="col-md-2">Gate
 										Entry No </label>
 
@@ -243,8 +269,8 @@ body {
 											size="16" type="text" name="gate_entry_date"
 											value="${mrnHeader.gateEntryDate}" required />
 									</div>
-								</div>
-								<div class="form-group">
+								</div> --%>
+								<%-- <div class="form-group">
 									<label class="col-md-2">Challan
 										No </label>
 
@@ -262,11 +288,11 @@ body {
 											value="${mrnHeader.docDate}" required />
 									</div>
 
-								</div>
+								</div> --%>
 
 
 								<div class="form-group">
-									<label class="col-md-2">Bill No
+									<label class="col-md-2">Bill/Chalan No
 									</label>
 
 									<div class="col-md-3">
@@ -275,7 +301,7 @@ body {
 											value="${mrnHeader.billNo}" data-rule-required="true" />
 									</div>
 <div class="col-md-1"></div>
-									<label class="col-md-2">Bill
+									<label class="col-md-2">Bill/Chalan
 										Date </label>
 									<div class="col-md-3">
 										<input class="form-control date-picker" id="bill_date"
@@ -284,6 +310,16 @@ body {
 									</div>
 
 								</div>
+								<div class="form-group">
+												<div class="col-md-2">Remark</div>
+
+												<div class="col-md-10">
+													<input type="text" name="lorry_remark" id="lorry_remark"
+											class="form-control" placeholder="Lorry Remark" value="${mrnHeader.remark1}"
+											data-rule-required="true" />
+												</div> 
+											</div>
+								
 	<div class="col-md-2"></div>
 	
 	<div class="col-md-3">	<c:choose>
@@ -365,8 +401,8 @@ body {
 															<td style="  width: 2%;"><c:out
 																	value="${count.index+1}" /></td>
 														
-															<td class="col-md-1"  >
-															<div title="${mrnDetail.itemName}">${mrnDetail.itemCode}</div>
+															<td class="col-md-2"  >
+															<div title="${mrnDetail.itemName}">${mrnDetail.itemCode} ${mrnDetail.itemName}</div>
 															</td>
 															<c:set var="status" value="o"></c:set>
 															<c:choose>
@@ -384,7 +420,7 @@ body {
 																</c:otherwise>
 															</c:choose>
 
-															<td class="col-md-1"  ><c:out
+															<td class="col-md-1"  style="text-align: right;"><c:out
 																	value="${mrnDetail.poQty}" /></td>
 
 															<td class="col-md-1"  >
@@ -398,24 +434,18 @@ body {
 																	value="${status}" /></td>
 															<td class="col-md-1"  >		
 															<c:choose>
-																<c:when test="${(mrnDetail.mrnDetailStatus==0) && (mrnHeader.mrnStatus==0)}">
+																<c:when test="${(mrnDetail.mrnDetailStatus==4) && (mrnHeader.mrnStatus==4)}">
 																	<a
 															href="${pageContext.request.contextPath}/deleteMrnDetail/${mrnDetail.mrnDetailId}" title="Delete"><span
 																class="fa fa-trash-o"></span></a>
 																</c:when> 
-																    
-																    <c:when test="${(mrnDetail.mrnDetailStatus==3) && (mrnHeader.mrnStatus==3)}">
-																	Approved By 1st
+																     
+																 <c:when test="${(mrnDetail.mrnDetailStatus==6) }">
+																	Issue Complete
 																</c:when>
-																 <c:when test="${(mrnDetail.mrnDetailStatus==4) && (mrnHeader.mrnStatus==4)}">
-																	Approved By 2nd
+																  <c:when test="${(mrnDetail.mrnDetailStatus==5)}">
+																	Partially Issue
 																</c:when>
-																  <c:when test="${(mrnDetail.mrnDetailStatus==1)}">
-																	 Inspection Complete
-																</c:when>
-																<c:otherwise>
-																	Inspection Incomplete
-																</c:otherwise>    
 																 
 															</c:choose>
 															
@@ -433,9 +463,12 @@ body {
 					<button class="buttonload" id="loader" style="display: none">
 						<i class="fa fa-spinner fa-spin" style="color: red;"></i>Loading
 					</button>
+					<input type="hidden" name="lorry_no" id="lorry_no" value="${mrnHeader.lrNo}" data-rule-required="true" />
+					<input type="hidden" name="transport" id="transport" value="${mrnHeader.transport}" data-rule-required="true" />
+					<input id="lorry_date" type="hidden" name="lorry_date" value="${mrnHeader.lrDate}" required />		
 								 <div class="form-group">
 								 </div>
-								<div class="form-group">
+								<%-- <div class="form-group">
 									<label class="col-md-2">Lorry No</label>
 									<div class="col-md-3">
 										<input type="text" name="lorry_no" id="lorry_no"
@@ -450,9 +483,9 @@ body {
 											class="form-control" placeholder="Transport" value="${mrnHeader.transport}" 
 											data-rule-required="true" />
 									</div>
-								</div>
+								</div> --%>
 
-								<div class="form-group">
+								<%-- <div class="form-group">
 									<label class="col-md-2">Lorry
 										Date </label>
 									<div class="col-md-3">
@@ -468,7 +501,7 @@ body {
 											class="form-control" placeholder="Lorry Remark" value="${mrnHeader.remark1}"
 											data-rule-required="true" />
 									</div>
-								</div>
+								</div> --%>
 
 <input type="hidden" value="${mrnHeader.mrnId}" name="mrnId" id="mrnId">
 							</form>
@@ -480,7 +513,7 @@ body {
 					<div class="col-md-3" align= center>
 					
 						<c:choose>
-								<c:when test="${mrnHeader.mrnStatus==0}">
+								<c:when test="${mrnHeader.mrnStatus==4}">
 								<input type="button" onclick="editMrn()" class="btn btn-info" value="Submit">
 																</c:when> 
 															</c:choose>
@@ -610,14 +643,14 @@ body {
 						tr.append($('<td style="width:2%;text-align: center;"></td>').html(key + 1));
 						tr
 						.append($(
-								'<td class="col-md-1" style="text-align: center;"></td>')
-								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
-						tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.itemQty));
+								'<td class="col-md-2" ></td>')
+								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
+						tr.append($('<td class="col-md-1" style="text-align: right;"></td>').html(itemList.itemQty));
 						
 						tr
 						.append($(
-								'<td class="col-md-1" style="text-align: center;"></td>')
-						.html("<input type=text style='text-align:center;' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
+								'<td class="col-md-1"  ></td>')
+						.html("<input type=text style='text-align:right;' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
 				/* 		var pendQty=0;
 						if(itemList.receivedQty==0){
 							
@@ -630,8 +663,8 @@ body {
 
 
 
-	tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQty));
-						tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poNo));
+	tr.append($('<td class="col-md-1" style="text-align: right;"></td>').html(pendQty));
+						tr.append($('<td class="col-md-1"  ></td>').html(itemList.poNo));
 						var status;
 						if(itemList.status==0){
 							status="Pending";
@@ -645,7 +678,7 @@ body {
 						
 					 	tr
 						.append($(
-								'<td class="col-md-1" style="text-align: center;"></td>')
+								'<td class="col-md-1"  ></td>')
 								.html(status));
 					 	
 					 	
@@ -724,14 +757,14 @@ body {
 					tr.append($('<td style="width:2%; text-align: center;"></td>').html(key + 1));
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-							.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.itemQty));
+							'<td class="col-md-2" ></td>')
+							.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
+					tr.append($('<td class="col-md-1" style="text-align: right;"></td>').html(itemList.itemQty));
 					
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-					.html("<input type=text style='text-align:center;' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
+							'<td class="col-md-1" ></td>')
+					.html("<input type=text style='text-align:right;' class=form-control name=recQty"+itemList.poDetailId+""+itemList.itemId+" id=recQty"+itemList.poDetailId+""+itemList.itemId+" onchange='callMe(this.value,"+itemList.poDetailId+","+itemList.pendingQty+")' value="+itemList.receivedQty+" />"));
 			/* 		var pendQty=0;
 					if(itemList.receivedQty==0){
 						
@@ -744,8 +777,8 @@ body {
 
 
 
-tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQty));
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poNo));
+tr.append($('<td class="col-md-1" style="text-align: right;"></td>').html(pendQty));
+					tr.append($('<td class="col-md-1" ></td>').html(itemList.poNo));
 					var status;
 					if(itemList.status==0){
 						status="Pending";
@@ -759,7 +792,7 @@ tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQ
 					
 				 	tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
+							'<td class="col-md-1" ></td>')
 							.html(status));
 				 	
 				 	//tr.append($('<td></td>').html(itemList.status));
@@ -845,14 +878,14 @@ tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQ
 					tr.append($('<td  style="text-align: center; width:2%;"></td>').html(key+1));
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-							.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+							'<td class="col-md-2" ></td>')
+							.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
 					//tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(itemList.itemName));
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poQty));
+					tr.append($('<td class="col-md-1" style="text-align: right;"></td>').html(itemList.poQty));
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
-					.html("<input type=text  style='text-align:center;'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
+							'<td class="col-md-1" style="text-align: right;"></td>')
+					.html("<input type=text  style='text-align:right;'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
 										
 					var status;
 					if(itemList.mrnDetailStatus==0){
@@ -866,10 +899,10 @@ tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQ
 						status="Completed";
 					}
 					
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poNo));
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(status));
+					tr.append($('<td class="col-md-1"  ></td>').html(itemList.poNo));
+					tr.append($('<td class="col-md-1"  ></td>').html(status));
 					
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html("<a href='${pageContext.request.contextPath}/deleteMrnDetail/"+itemList.mrnDetailId+"' title='Delete' class='action_btn'><i class='fa fa-trash-o'></i></a>"));
+					tr.append($('<td class="col-md-1"  ></td>').html("<a href='${pageContext.request.contextPath}/deleteMrnDetail/"+itemList.mrnDetailId+"' title='Delete' class='action_btn'><i class='fa fa-trash-o'></i></a>"));
 				  	
 					$('#table_grid1 tbody').append(tr);
 					//}//end of if received Qty >0
@@ -929,13 +962,13 @@ tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQ
 					//tr.append($('<td class="col-md-3" style="text-align: center;"></td>').html(itemList.itemName));
 					tr
 																				.append($(
-																						'<td class="col-md-1" style="text-align: center;"></td>')
-																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+																						'<td class="col-md-2" ></td>')
+																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
 				
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poQty));
+					tr.append($('<td class="col-md-1" style="text-align: right;"></td>').html(itemList.poQty));
 					tr
 					.append($(
-							'<td class="col-md-1" style="text-align: center;"></td>')
+							'<td class="col-md-1" ></td>')
 					.html("<input type=text  style='text-align:center;'  class=form-control name=mrnRecQty"+itemList.mrnDetailId+" id=mrnRecQty"+itemList.mrnDetailId+" onchange='updateMrnQty(this.value,"+itemList.mrnDetailId+","+itemList.itemId+","+itemList.mrnQty+","+itemList.poPendingQty+")' value="+itemList.mrnQty+"  />"));
 										
 					var status;
@@ -950,8 +983,8 @@ tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(pendQ
 						status="Completed";
 					}
 					
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(itemList.poNo));
-					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html(status));
+					tr.append($('<td class="col-md-1" ></td>').html(itemList.poNo));
+					tr.append($('<td class="col-md-1" ></td>').html(status));
 					
 					tr.append($('<td class="col-md-1" style="text-align: center;"></td>').html("<a href='${pageContext.request.contextPath}/deleteMrnDetail/"+itemList.mrnDetailId+"' title='Delete' class='action_btn'><i class='fa fa-trash-o'></i></a>"));
 				  	

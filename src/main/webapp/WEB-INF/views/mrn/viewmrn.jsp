@@ -192,7 +192,7 @@
 											 					class="glyphicon glyphicon-info-sign"></span></a> --%>
 											 					
 											 					<c:choose>
-											 						<c:when test="${mrn.mrnStatus==0}">
+											 						<c:when test="${mrn.mrnStatus==4}">
 											 						<a href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="fa fa-trash-o"></span></a>
 											 						</c:when> 

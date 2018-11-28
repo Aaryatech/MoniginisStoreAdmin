@@ -438,7 +438,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 			mrnHeader.setLrNo(lrNo);
 			mrnHeader.setMrnDate(DateConvertor.convertToYMD(grnDate));
 		
-			mrnHeader.setMrnStatus(0);
+			mrnHeader.setMrnStatus(4);
 			mrnHeader.setMrnType(grnType);
 			mrnHeader.setRemark1(lorryRemark);
 			mrnHeader.setRemark2("def");
@@ -464,7 +464,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 
 					mrnDetail.setPoNo(detail.getPoNo());
 
-					mrnDetail.setMrnDetailStatus(0);
+					mrnDetail.setMrnDetailStatus(4);
 
 					mrnDetail.setBatchNo("Default Batch KKKK-00456");
 					mrnDetail.setDelStatus(Constants.delStatus);
@@ -474,7 +474,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 					mrnDetail.setChalanQty(detail.getChalanQty());
 
 					mrnDetail.setMrnQtyBeforeEdit(-1);
-
+					mrnDetail.setRemainingQty(detail.getReceivedQty());
 					mrnDetailList.add(mrnDetail);
 
 				}
@@ -872,7 +872,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			mrnHeader.setLrDate(DateConvertor.convertToYMD(lrDate));
 			mrnHeader.setLrNo(lrNo);
 			// mrnHeader.setMrnNo("default MRN NO");
-			mrnHeader.setMrnStatus(0);
+			mrnHeader.setMrnStatus(4);
 			mrnHeader.setRemark1(lorryRemark);
 			mrnHeader.setRemark2("def");
 			mrnHeader.setTransport(transport);
@@ -894,7 +894,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 					mrnDetail.setItemId(detail.getItemId());
 					mrnDetail.setPoId(detail.getPoId());
 					mrnDetail.setPoNo(detail.getPoNo());
-					mrnDetail.setMrnDetailStatus(0);
+					mrnDetail.setMrnDetailStatus(4);
 					mrnDetail.setMrnDetailId(detail.getMrnDetailId());
 					mrnDetail.setBatchNo(detail.getBatchNo());
 					mrnDetail.setDelStatus(detail.getDelStatus());
@@ -904,8 +904,8 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 					mrnDetail.setRejectQty(detail.getRejectQty());
 					mrnDetail.setRejectRemark(detail.getRejectRemark());
 					mrnDetail.setIssueQty(detail.getIssueQty());
-					mrnDetail.setRemainingQty(detail.getRemainingQty());
-
+					mrnDetail.setRemainingQty(detail.getMrnQty());
+					mrnDetail.setChalanQty(detail.getRemainingQty());
 					mrnDetail.setMrnQtyBeforeEdit(detail.getMrnQtyBeforeEdit());
 
 					editMrnDetailList.add(mrnDetail);

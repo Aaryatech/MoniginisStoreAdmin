@@ -141,8 +141,7 @@ GOODS RECEIPT NOTE
 				<th >SR.</th>
 				<th >ITEM</th>
 				<th >DESCRIPTION</th>
-				<th >CHLN.QTY</th>
-				<th >RECT.QTY</th>
+				<th >MRN QTY</th> 
 				<th >WT/SIZE</th>
 			</tr>
 		</thead>
@@ -155,9 +154,8 @@ GOODS RECEIPT NOTE
 			<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center" ><c:out value="${row.itemCode}" /></td>
-					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
-					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.mrnQty}" /></td>
-					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.rejectQty }" /></td>
+					<td width="60%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.mrnQty}" /></td> 
 					<td width="0" align="center"><c:out value="NA" /></td>
 
 				</tr>
@@ -177,19 +175,19 @@ GOODS RECEIPT NOTE
 					<table>
 						<tr>
 							<td valign="top" width="33%" align="left">
-								Transport &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.transport } <br>
+							<%-- 	Transport &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ${item.transport } <br>
 								Vehicle No &nbsp;&nbsp;&nbsp;&nbsp; - <br>
-								LR/R.R. No &nbsp;&nbsp;&nbsp;&nbsp;-  ${item.lrNo } <br>
-								Remark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ${item.remark1 }
+								LR/R.R. No &nbsp;&nbsp;&nbsp;&nbsp;-  ${item.lrNo } <br> --%>
+								Remark - ${item.remark1 }
 								
 								
 								
 								</td>
-
+<%-- 
 
 
 							<td align="left" width="60%" >
-							Date -   ${item.lrDate } &nbsp;</td>
+							Date -   ${item.lrDate } &nbsp;</td> --%>
 							
 							
 							

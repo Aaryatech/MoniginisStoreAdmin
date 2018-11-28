@@ -181,7 +181,7 @@ body {
 
 
 											<div class="form-group">
-												<div class="col-md-2">Grn Type</div>
+												<div class="col-md-2">MRN Type</div>
 												<div class="col-md-3">
 													<select name="grn_type" id="grn_type"
 														class="form-control chosen" placeholder="Grn Type"
@@ -220,7 +220,7 @@ body {
 
 											<div class="form-group">
 
-												<div class="col-md-2 ">Grn Date</div>
+												<div class="col-md-2 ">MRN Date</div>
 
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="grn_date"
@@ -228,10 +228,10 @@ body {
 														onblur="getInvoiceNo()" required />
 												</div>
 												<div class="col-md-1 "></div>
-												<div class="col-md-2">GRN No</div>
+												<div class="col-md-2">MRN No</div>
 												<div class="col-md-3 controls">
 													<input type="text" readonly name="grn_no" id="grn_no"
-														class="form-control" placeholder="GRN No"
+														class="form-control" placeholder="MRN No"
 														data-rule-required="true" />
 												</div>
 											</div>
@@ -261,7 +261,13 @@ body {
 												</div>
 
 											</div><!--end of formgroup  -->
-											<div class="form-group">
+											
+											<input type="hidden" name="gate_entry_no" id="gate_entry_no" value="1" data-rule-required="true" />
+											<input  id="gate_entry_date"  type="hidden" name="gate_entry_date" value="${date}" required />
+											<input type="hidden" name="chalan_no" id="chalan_no" value="1" data-rule-required="true" />
+											<input id="chalan_date" type="hidden" name="chalan_date" value="${date}" required />
+											
+											<%-- <div class="form-group">
 												<div class="col-md-2">Gate Entry No</div>
 
 												<div class="col-md-3">
@@ -269,15 +275,15 @@ body {
 														class="form-control" placeholder="Gate Entry No"
 														data-rule-required="true" />
 												</div>
-<div class="col-md-1 "></div>
+													<div class="col-md-1 "></div>
 												<div class="col-md-2">Gate Entry Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker"
 														id="gate_entry_date" size="14" type="text"
 														name="gate_entry_date" value="${date}" required />
 												</div>
-											</div>
-											<div class="form-group">
+											</div> --%>
+											<%-- <div class="form-group">
 												<div class="col-md-2">Challan No</div>
 
 												<div class="col-md-3">
@@ -293,9 +299,9 @@ body {
 														required />
 												</div>
 
-											</div>
+											</div> --%>
 											<div class="form-group">
-												<div class="col-md-2">Bill No</div>
+												<div class="col-md-2">Bill/Chalan No</div>
 
 												<div class="col-md-3">
 													<input type="text" name="bill_no" id="bill_no"
@@ -303,7 +309,7 @@ body {
 														data-rule-required="true" />
 												</div>
 <div class="col-md-1 "></div>
-												<div class="col-md-2">Bill Date</div>
+												<div class="col-md-2">Bill/Chalan Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="bill_date"
 														size="14" type="text" name="bill_date" value="${date}"
@@ -311,6 +317,17 @@ body {
 												</div>
 
 											</div>
+											
+											<div class="form-group">
+												<div class="col-md-2">Remark</div>
+
+												<div class="col-md-10">
+													<input type="text" name="lorry_remark" id="lorry_remark"
+														class="form-control" placeholder="Lorry Remark" value="NA"
+														data-rule-required="true" />
+												</div> 
+											</div>
+											
 											<div class="form-group">
 												<div class="col-md-2">Select from PO List</div>
 												<div class="col-md-3">
@@ -349,14 +366,14 @@ body {
 																	<thead>
 																		<tr>
 																			<!-- <th class="col-md-1" style="text-align: center;">Select</th> -->
-																			<th class="col-sm-1" >Sr</th>
+																			<th  width="2%" >Sr</th>
 																		
 																			<th class="col-md-1" >Item
 																				</th>
 																			<th class="col-md-1" >PO
 																				QTY</th>
-																			<th class="col-md-1" >Challan
-																				QTY</th>
+																			<!-- <th class="col-md-1" >Challan
+																				QTY</th> -->
 																			<th class="col-md-1" >Rec
 																				QTY</th>
 																			<th class="col-md-1" >Pend
@@ -431,8 +448,12 @@ body {
 													</div>
 												</div>
 											</div>
+											
+											<input type="hidden" name="transport" id="transport" data-rule-required="true" value="-" />
+											<input type="hidden" name="lorry_no" id="lorry_no" data-rule-required="true" value="-" />
+											<input id="lorry_date" type="hidden" name="lorry_date" value="${date}" required />
 
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label class="col-md-2">Transport
 												</label>
 
@@ -449,9 +470,9 @@ body {
 														class="form-control" placeholder="Lorry No"
 														data-rule-required="true" value="-" />
 												</div>
-											</div>
+											</div> -->
 
-											<div class="form-group">
+											<%-- <div class="form-group">
 												<label class="col-md-2">LR
 													Date </label>
 												<div class="col-md-3">
@@ -459,7 +480,7 @@ body {
 														size="16" type="text" name="lorry_date" value="${date}"
 														required />
 												</div>
-												<div class="col-md-1 "></div>
+												  <div class="col-md-1 "></div>
 												<label class="col-md-2">Remark
 												</label>
 
@@ -467,8 +488,8 @@ body {
 													<input type="text" name="lorry_remark" id="lorry_remark"
 														class="form-control" placeholder="Lorry Remark" value="NA"
 														data-rule-required="true" />
-												</div>
-											</div>
+												</div>  
+											</div> --%>
 											<div class="form-group">
 												<div class="col-md-6"></div>
 												<div class="col-md-3">
@@ -786,7 +807,7 @@ body {
 
 														tr
 																.append($(
-																		'<td  style="width=2%"></td>')
+																		'<td  ></td>')
 																		.html(
 																				key + 1));
 														/* tr
@@ -799,7 +820,7 @@ body {
 																				tr
 																				.append($(
 																						'<td class="col-md-1"  ></td>')
-																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' ' +itemList.itemName+ '</div>'))
 				
 													/* 							
 														tr
@@ -809,15 +830,15 @@ body {
 																				itemList.itemName)); */
 														tr
 																.append($(
-																		'<td class="col-md-1"  ></td>')
+																		'<td class="col-md-1" align="right" ></td>')
 																		.html(
 																				itemList.itemQty));
 
-														tr
+														/* tr
 																.append($(
 																		'<td class="col-md-1"  ></td>')
 																		.html(
-																				"<input type=text style='text-align:right; width:90px' class=form-control name=chalanQty"
+																				"<input type=text style='text-align:right; width:110px' class=form-control name=chalanQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -833,13 +854,29 @@ body {
 																						+ itemList.itemId
 																						+ ")' value="
 																						+ itemList.chalanQty
-																						+ " />"));
+																						+ " />")); */
 
 														tr
 																.append($(
 																		'<td class="col-md-1"  ></td>')
 																		.html(
-																				"<input type=text style='text-align:right; width:90px' class=form-control name=recQty"
+																				"<input type=hidden  name=chalanQty"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=chalanQty"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " onchange='(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")' value="
+																						+ itemList.chalanQty
+																						+ " /> <input type=text style='text-align:right; width:200px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -878,7 +915,7 @@ body {
 														}
 														tr
 																.append($(
-																		'<td class="col-md-1"  ></td>')
+																		'<td class="col-md-1" align="right" ></td>')
 																		.html(
 																				pendQty));
 														tr
@@ -929,13 +966,13 @@ body {
 
 				} else { */
 
-					if (chalanQty > 0) {
+					/* if (chalanQty > 0) { */
 						addMrnQty(qty, poDId, chalanQty);
 
-					} else {
+					/* } else {
 						document.getElementById("recQty" + poDId + itemId).value = 0;
 						alert("Please Enter Valid Chalan Quantity");
-					}
+					} */
 					//getPoDetail(qty, poDId);
 
 				//}
@@ -990,8 +1027,8 @@ body {
 
 															tr
 															.append($(
-																	'<td class="col-md-1" ></td>')
-																	.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+																	'<td class="col-md-2" ></td>')
+																	.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
 
 														/* 	tr
 																	.append($(
@@ -1000,7 +1037,7 @@ body {
 																					itemList.itemName)); */
 															tr
 																	.append($(
-																			'<td class="col-md-1" ></td>')
+																			'<td class="col-md-1" align="right"></td>')
 																			.html(
 																					itemList.itemQty));
 
@@ -1008,7 +1045,7 @@ body {
 																	.append($(
 																			'<td class="col-md-1" ></td>')
 																			.html(
-																					"<input type=text style='text-align:right; width:90px' class=form-control name=recQty"
+																					"<input type=text style='text-align:right; width:150px' class=form-control name=recQty"
 																							+ itemList.poDetailId
 																							+ ""
 																							+ itemList.itemId
@@ -1047,7 +1084,7 @@ body {
 															}
 															tr
 																	.append($(
-																			'<td class="col-md-1" ></td>')
+																			'<td class="col-md-1" align="right"></td>')
 																			.html(
 																					pendQty));
 															tr
@@ -1109,7 +1146,7 @@ body {
 
 				var isValid = true;
 				if (grn_type == null || grn_type == "") {
-					alert("Please Select Grn Type");
+					alert("Please Select MRN Type");
 					isValid = false;
 				}
 				else if (vendor_id == null || vendor_id == "") {
@@ -1122,7 +1159,7 @@ body {
 					isValid = false;
 				}
 				else if (grn_date == null || grn_date == "") {
-					alert("Please Select Grn Date");
+					alert("Please Select MRN Date");
 					isValid = false;
 				}
 
@@ -1313,15 +1350,15 @@ body {
 																				itemList.itemName)); */
 														tr
 																.append($(
-																		'<td class="col-md-1" ></td>')
+																		'<td class="col-md-1" align="right"></td>')
 																		.html(
 																				itemList.itemQty));
 
-														tr
+														/* tr
 																.append($(
 																		'<td class="col-md-1" ></td>')
 																		.html(
-																				"<input type=text style='text-align:right; width:90px' class=form-control name=chalanQty"
+																				"<input type=text style='text-align:right; width:110px' class=form-control name=chalanQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -1337,13 +1374,29 @@ body {
 																						+ itemList.itemId
 																						+ ")' value="
 																						+ itemList.chalanQty
-																						+ " />"));
+																						+ " />")); */
 
 														tr
 																.append($(
 																		'<td class="col-md-1" ></td>')
 																		.html(
-																				"<input type=text style='text-align:right; width:90px' class=form-control name=recQty"
+																				"<input type=hidden   name=chalanQty"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=chalanQty"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " onchange='(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")' value="
+																						+ itemList.chalanQty
+																						+ " /><input type=text style='text-align:right; width:200px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -1382,7 +1435,7 @@ body {
 														}
 														tr
 																.append($(
-																		'<td class="col-md-1" ></td>')
+																		'<td class="col-md-1" align="right"></td>')
 																		.html(
 																				pendQty));
 														tr
