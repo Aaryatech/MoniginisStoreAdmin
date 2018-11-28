@@ -99,7 +99,7 @@
 										</select>
 
 									</div>
-									<div class="col-md-1"></div>
+									<%-- <div class="col-md-1"></div>
 									<div class="col-md-2">Is Development*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="isDev" id="isDev"
@@ -129,10 +129,12 @@
 												</c:choose>
 										</select>
 
-									</div>
+									</div> --%>
 								</div><br> 
-								
-								<div class="box-content">
+								<input id="deptId" value="0"  name="deptId" type="hidden"  >
+								 <input id="subDeptId" value="0"  name="subDeptId" type="hidden"  >
+								 <input id="isDev" value="-1"  name="isDev" type="hidden"  >
+								<%-- <div class="box-content">
 								
 
 									<div class="col-md-2">Select Department*</div>
@@ -164,7 +166,7 @@
 
 									</div>
 									 
-								</div><br> 
+								</div><br>  --%>
 								 <br>
 							
 							<div class="row">

@@ -72,13 +72,15 @@
 									<div class="col-md-3">
 										<input id="toDate" class="form-control date-picker"
 								 placeholder="To Date" value="${toDate}"  name="toDate" type="text"  >
-
+								 
+								 <input id="typeId" value="0"  name="typeId" type="hidden"  >
+								 <input id="isDev" value="-1"  name="isDev" type="hidden"  >  
 
 									</div>
 								
 				 
 							</div><br>
-							
+							<%-- 
 							<div class="box-content">
 
 									<div class="col-md-2">Select Type*</div>
@@ -131,7 +133,7 @@
 										</select>
 
 									</div>
-								</div><br><br>
+								</div><br> --%><br>
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">

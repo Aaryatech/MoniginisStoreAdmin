@@ -77,8 +77,9 @@
 								
 				 
 							</div><br>
-							
-							<div class="box-content">
+							 <input id="typeId" value="0"  name="typeId" type="hidden"  >
+								 <input id="isDev" value="-1"  name="isDev" type="hidden"  >
+							<%-- <div class="box-content">
 
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
@@ -130,7 +131,7 @@
 										</select>
 
 									</div>
-								</div><br> 
+								</div><br> --%> 
 								<div class="box-content">
 
 									<div class="col-md-2">Select Department*</div>
