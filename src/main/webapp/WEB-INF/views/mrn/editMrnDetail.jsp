@@ -323,7 +323,7 @@ body {
 	<div class="col-md-2"></div>
 	
 	<div class="col-md-3">	<c:choose>
-								<c:when test="${mrnHeader.mrnStatus==0}">
+								<c:when test="${mrnHeader.mrnStatus==4}">
 								<input class="btn btn-info"  id="getPoButton" style="text-align: center;"
 											onclick="getPoDetail(0,0)" size="16" type="button"
 											name="getPoButton" value="Get PO Detail to Add New Item"  >
@@ -434,18 +434,18 @@ body {
 																	value="${status}" /></td>
 															<td class="col-md-1"  >		
 															<c:choose>
-																<c:when test="${(mrnDetail.mrnDetailStatus==4) && (mrnHeader.mrnStatus==4)}">
+																<c:when test="${(mrnDetail.chalanQty==0) && (mrnHeader.mrnStatus==4)}">
 																	<a
 															href="${pageContext.request.contextPath}/deleteMrnDetail/${mrnDetail.mrnDetailId}" title="Delete"><span
 																class="fa fa-trash-o"></span></a>
 																</c:when> 
 																     
-																 <c:when test="${(mrnDetail.mrnDetailStatus==6) }">
-																	Issue Complete
+																 <c:when test="${(mrnDetail.chalanQty==1) }">
+																	Item Issued
 																</c:when>
-																  <c:when test="${(mrnDetail.mrnDetailStatus==5)}">
-																	Partially Issue
-																</c:when>
+																   <c:otherwise>
+																   Issue Remaining
+																   </c:otherwise>
 																 
 															</c:choose>
 															

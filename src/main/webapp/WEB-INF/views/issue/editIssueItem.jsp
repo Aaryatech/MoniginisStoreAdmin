@@ -289,18 +289,18 @@
 															<td><%-- <a href="#"><span
 																	class='glyphicon glyphicon-edit'
 																	onclick="edit(${count.index})" id="edit${count.index}"></span></a> --%>
-																	<c:choose>
-															<c:when test="${(getIssueDetailList.status==0 or getIssueDetailList.status==1) && (getIssueHeader.status==0 or getIssueHeader.status==1)}">
+																	<%-- <c:choose>
+															<c:when test="${(getIssueDetailList.status==0 or getIssueDetailList.status==1) && (getIssueHeader.status==0 or getIssueHeader.status==1)}"> --%>
 																<a href="#"><span class="glyphicon glyphicon-remove"
 																	onclick="del(${count.index})" id="del${count.index}"></span></a>
-																	</c:when>
+																	<%-- </c:when>
 																	<c:when test="${(getIssueDetailList.status==0 or getIssueDetailList.status==1) }">
 																 Disapprove
 																	</c:when>
 																	<c:otherwise>
 																	Approve 
 																	</c:otherwise>
-																	</c:choose>
+																	</c:choose> --%>
 															</td>
 
 														</tr>
@@ -314,11 +314,11 @@
 								
 							<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<c:choose>
-															<c:when test="${getIssueHeader.status==0 or getIssueHeader.status==1}">
+									<%-- <c:choose>
+															<c:when test="${getIssueHeader.status==0 or getIssueHeader.status==1}"> --%>
 										<input type="submit" class="btn btn-primary" value="Submit" onclick="check();">
-										</c:when>
-										</c:choose>
+										<%-- </c:when>
+										</c:choose> --%>
 <!-- 										<button type="button" class="btn">Cancel</button>
  -->									</div>
 								</div><br><br>

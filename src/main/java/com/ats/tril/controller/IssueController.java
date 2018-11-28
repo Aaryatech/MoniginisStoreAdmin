@@ -344,6 +344,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 issueHeader.setAccHead(acc);
 			 issueHeader.setItemCategory(type);
 			 issueHeader.setIssueSlipNo(issueSlipNo);
+			 issueHeader.setStatus(2);
 			 
 			 String mrnDetailList = new String();
 			 
@@ -353,6 +354,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 issueDetailList.get(i).setDeptId(deptId);
 				 issueDetailList.get(i).setSubDeptId(subDeptId);
 				 issueDetailList.get(i).setAccHead(acc);
+				 issueDetailList.get(i).setStatus(2);
 			 }
   
 			 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
@@ -373,10 +375,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 						 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()-issueDetailList.get(j).getItemIssueQty());
 						 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()+issueDetailList.get(j).getItemIssueQty());
 						 if(updateMrnDetail.get(i).getIssueQty()>0) {
-							 updateMrnDetail.get(i).setMrnDetailStatus(5);
+							 updateMrnDetail.get(i).setChalanQty(1);
 						 }
 						 else {
-							 updateMrnDetail.get(i).setMrnDetailStatus(4);
+							 updateMrnDetail.get(i).setChalanQty(0);
 						 }
 					 }
 				 }
@@ -518,10 +520,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 						 updateMrnDetail.get(j).setRemainingQty(updateMrnDetail.get(j).getRemainingQty()+getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
 						 updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty()-getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
 						 if(updateMrnDetail.get(i).getIssueQty()>0) {
-							 updateMrnDetail.get(i).setMrnDetailStatus(5);
+							 updateMrnDetail.get(i).setChalanQty(1);
 						 }
 						 else {
-							 updateMrnDetail.get(i).setMrnDetailStatus(4);
+							 updateMrnDetail.get(i).setChalanQty(0);
 						 }
 					 }
 				 }
@@ -708,6 +710,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 issueDetail.setSubDeptCode(subDeptName);
 				 issueDetail.setAccHeadDesc(accName);
 				 issueDetail.setDelStatus(1);
+				 issueDetail.setStatus(2);
 				 for(int i = 0 ;i< batchListInEditIssue.size() ; i++)
 				 {
 					 if(batchListInEditIssue.get(i).getMrnDetailId()==mrnDetailId)
@@ -852,10 +855,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 							 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()+issueDetailEditList.get(j).getItemIssueQty());
 							 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()-issueDetailEditList.get(j).getItemIssueQty());
 							 if(updateMrnDetail.get(i).getIssueQty()>0) {
-								 updateMrnDetail.get(i).setMrnDetailStatus(5);
+								 updateMrnDetail.get(i).setChalanQty(1);
 							 }
 							 else {
-								 updateMrnDetail.get(i).setMrnDetailStatus(4);
+								 updateMrnDetail.get(i).setChalanQty(0);
 							 }
 							 break;
 						 }
@@ -865,10 +868,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 							 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()-issueDetailEditList.get(j).getItemIssueQty());
 							 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()+issueDetailEditList.get(j).getItemIssueQty());
 							 if(updateMrnDetail.get(i).getIssueQty()>0) {
-								 updateMrnDetail.get(i).setMrnDetailStatus(5);
+								 updateMrnDetail.get(i).setChalanQty(1);
 							 }
 							 else {
-								 updateMrnDetail.get(i).setMrnDetailStatus(4);
+								 updateMrnDetail.get(i).setChalanQty(0);
 							 }
 							 break;
 						 }

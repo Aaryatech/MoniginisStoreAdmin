@@ -470,11 +470,11 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 					mrnDetail.setDelStatus(Constants.delStatus);
 
 					mrnDetail.setPoDetailId(detail.getPoDetailId());
-					
-					mrnDetail.setChalanQty(detail.getChalanQty());
+					 
 
 					mrnDetail.setMrnQtyBeforeEdit(-1);
-					mrnDetail.setRemainingQty(detail.getReceivedQty());
+					mrnDetail.setRemainingQty(mrnDetail.getMrnQty());
+					mrnDetail.setApproveQty(mrnDetail.getMrnQty());
 					mrnDetailList.add(mrnDetail);
 
 				}
@@ -743,15 +743,15 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 				mrnDetail.setPoNo(detail.getPoNo());
 
-				mrnDetail.setMrnDetailStatus(0);
+				mrnDetail.setMrnDetailStatus(4);
 
 				mrnDetail.setBatchNo("Default Batch KKKK-00456");
 				mrnDetail.setDelStatus(Constants.delStatus);
 
-				mrnDetail.setPoDetailId(detail.getPoDetailId());
-				mrnDetail.setChalanQty(detail.getChalanQty());
+				mrnDetail.setPoDetailId(detail.getPoDetailId()); 
 				mrnDetail.setMrnQtyBeforeEdit(-1);
-
+				mrnDetail.setApproveQty(mrnDetail.getMrnQty());
+				mrnDetail.setRemainingQty(mrnDetail.getMrnQty());
 				editMrnDetailList.add(mrnDetail);
 
 			}
@@ -900,12 +900,11 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 					mrnDetail.setDelStatus(detail.getDelStatus());
 					mrnDetail.setPoDetailId(detail.getPoDetailId());
 
-					mrnDetail.setApproveQty(detail.getApproveQty());
+					mrnDetail.setApproveQty(detail.getMrnQty());
 					mrnDetail.setRejectQty(detail.getRejectQty());
 					mrnDetail.setRejectRemark(detail.getRejectRemark());
 					mrnDetail.setIssueQty(detail.getIssueQty());
-					mrnDetail.setRemainingQty(detail.getMrnQty());
-					mrnDetail.setChalanQty(detail.getRemainingQty());
+					mrnDetail.setRemainingQty(detail.getMrnQty()); 
 					mrnDetail.setMrnQtyBeforeEdit(detail.getMrnQtyBeforeEdit());
 
 					editMrnDetailList.add(mrnDetail);
