@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
+import com.ats.tril.model.Category;
 import com.ats.tril.model.DeliveryTerms;
 import com.ats.tril.model.DispatchMode;
 import com.ats.tril.model.EnquiryDetail;
@@ -911,21 +912,24 @@ public class PurchaseOrderController {
 				
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
+				map.add("catId",0);
 				
 				model.addObject("fromDate", display.format(date));
 				model.addObject("toDate", display.format(date));
-				
+				model.addObject("catId",0);
 			}
 			else {
 				
 				String fromDate = request.getParameter("fromDate");
 				String toDate = request.getParameter("toDate");
+				int catId = Integer.parseInt(request.getParameter("catId"));
 				
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
-				
+				map.add("catId",catId);
 				model.addObject("fromDate", fromDate);
 				model.addObject("toDate", toDate);
+				model.addObject("catId", catId);
 				
 			}
 			
@@ -940,6 +944,10 @@ public class PurchaseOrderController {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

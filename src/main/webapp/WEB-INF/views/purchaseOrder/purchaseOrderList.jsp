@@ -80,7 +80,30 @@
 
 
 							</div>
-							<br>
+							<br><br>
+							<div class="box-content">
+
+									<div class="col-md-2">Select Type*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="catId" id="catId"
+											required>
+											<option value="0">All</option>
+											<c:forEach items="${categoryList}" var="categoryList">
+											<c:choose>
+												<c:when test="${categoryList.catId==catId}">
+												<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option> 
+												</c:when>
+												<c:otherwise>
+												<option value="${categoryList.catId}">${categoryList.catDesc}</option> 
+												</c:otherwise>
+											</c:choose> 
+													 
+											</c:forEach>
+										</select>
+
+									</div>
+									  
+								</div><br>
 							<br>
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
