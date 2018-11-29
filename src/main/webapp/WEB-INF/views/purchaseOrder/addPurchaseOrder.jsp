@@ -495,7 +495,7 @@ body {
 										<th>PO Qty</th>
 										<th>Bal QTY</th>
 										<th>Rate</th>
-										<th>Disc%</th>
+										<!-- <th>Disc%</th> -->
 										<th class="col-md-1">Sch Date</th>
 										<th>Value</th>
 
@@ -516,9 +516,9 @@ body {
 																<td align="right"><c:out value="${poDetailList.itemQty}" /></td>
 													  			<td align="right"><c:out value="${poDetailList.balanceQty}" /></td>
 													  			<td align="right"><c:out value="${poDetailList.itemRate}" /></td>
-													  			<td align="right"><c:out value="${poDetailList.discPer}" /></td>
-													  			<td align="right" ><c:out value="${poDetailList.schDate}" /></td>
-													  			<td align="left"><c:out value="${poDetailList.basicValue}" /></td> 
+													  			<%-- <td align="right"><c:out value="${poDetailList.discPer}" /></td> --%>
+													  			<td align="left" ><c:out value="${poDetailList.schDate}" /></td>
+													  			<td align="right"><c:out value="${poDetailList.basicValue}" /></td> 
 																</tr>
 												</c:forEach>
  
@@ -537,9 +537,9 @@ body {
 											<input style="text-align:right; width:150px"  type="text" value="${poHeader.poBasicValue}" pattern="[+-]?([0-9]*[.])?[0-9]+" 
 											name="poBasicValue" id="poBasicValue" class="form-control" readonly>
 										</div>
-									<div class="col-md-2">Disc Value</div>
+									<div class="col-md-2"><!-- Disc Value --></div>
 										<div class="col-md-2">
-											<input style="text-align:right; width:150px" type="text" value="${poHeader.discValue}"   name="discValue" id="discValue" class="form-control"
+											<input style="text-align:right; width:150px" type="hidden" value="${poHeader.discValue}"   name="discValue" id="discValue" class="form-control"
 										value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
 										</div>
 									  
@@ -703,17 +703,17 @@ body {
 										style="width: 100%;font-size: 14px;" id="table_grid1">
 										<thead>
 											<tr>
-										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/>All</th>
-										<th>SR</th>
-										<th>Item Name </th>
-										<th>Uom</th>
-										<th>Ind Qty</th> 
-										<th>PO Qty</th>
-										<th>Bal Qty</th>
-										<th>Rate</th>
-										<th>Disc%</th>
+										<th align="left" width="1%"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/>All</th>
+										<th width="2%">SR</th>
+										<th class="col-md-5">Item Name </th>
+										<th class="col-md-1">Uom</th>
+										<th class="col-md-1">Ind Qty</th> 
+										<th class="col-md-1">PO Qty</th>
+										<th class="col-md-1">Bal Qty</th>
+										<th class="col-md-1">Rate</th>
+										<!-- <th>Disc%</th> -->
 										<!-- <th>Sch Days</th> -->
-										<th>Remark</th>
+										<th class="col-md-1">Remark</th>
 
 									</tr>
 										</thead>
@@ -1149,23 +1149,31 @@ function itemByIntendId()
 							  	if(itemList.poQty>0)
 							  		{
 							  		tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
-								  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" value="'+itemList.poQty+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
-							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+(itemList.indFyr-itemList.poQty)+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
-								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
-								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="'+itemList.disc+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
+								  			'<input style="text-align:right; width:120px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" value="'+itemList.poQty+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+(itemList.indFyr-itemList.poQty)+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>'));
+								  	/* tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="'+itemList.disc+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  required>')); */
 							  		}
 							  	else
 							  		{
 							  	 
 							  		tr.append($('<td ></td>').html('<input type="hidden"   id="indQty'+itemList.indDId+'" name="indQty'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
-								  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
-							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
-								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
-								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
+								  			'<input style="text-align:right; width:120px" type="text" onkeyup="calculateBalaceQty('+itemList.indDId+')" id="poQty'+itemList.indDId+'" name="poQty'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="text" id="balanceQty'+itemList.indDId+'" name="balanceQty'+itemList.indDId+'" value="'+itemList.indFyr+'" onchange="checkQty('+itemList.indDId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+								  	tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="text" id="rate'+itemList.indDId+'" name="rate'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >'));
+								  	/* tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >')); */
 							  		}
 							  	
 							  	//tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><input style="text-align:left; width:100px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
+							  	if(itemList.indRemark==null || itemList.indRemark==""){
+							  		 
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="hidden" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   ><input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'+
+								  			'<input style="text-align:left; width:120px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="-"  class="form-control"  >'));
+							  	}
+							  	else{
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="hidden" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   ><input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'+
+							  			'<input style="text-align:left; width:120px" type="text" id="indRemark'+itemList.indDId+'" name="indRemark'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
+							  	}
 							  	document.getElementById("indMId").value=itemList.indMId;
 							  	 $('#table_grid1 tbody').append(tr);
 							  	

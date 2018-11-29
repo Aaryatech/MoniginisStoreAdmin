@@ -349,7 +349,7 @@ body {
 										<th> Bal QTY </th>
 										<th class="col-md-1"> Rate </th>
 										<th> Value </th>
-										<th> Disc% </th>
+										<!-- <th> Disc% </th> -->
 										<!-- <th> Sch Days </th> -->
 										<th> Remark </th>
 										<th> Action </th>
@@ -388,7 +388,7 @@ body {
 													  			 	<c:when test="${(poDetailList.status==7 or poDetailList.status==9) && (getPoHeader.poStatus==9 or getPoHeader.poStatus==7)}">
 															  			 	<td align="right"><input style="text-align:right; width:95px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
 															  			 	<td align="right" id="value${count.index}"><c:out value="${poDetailList.basicValue}" /> </td>
-															  				<td align="right"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
+															  				 <input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="hidden" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> 
 															  				<!-- <td align="right"> --><input style="text-align:right; width:50px" type="hidden" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><!-- </td> -->
 													  						<td align="left"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required></td> 
 													  			
@@ -396,7 +396,7 @@ body {
 															  		<c:otherwise>
 															  				<td align="right"><input style="text-align:right; width:95px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
 															  				<td align="right" id="value${count.index}"><c:out value="${poDetailList.basicValue}" /> </td>
-															  				<td align="right"><input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="text" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
+															  				 <input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="hidden" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> 
 															  				<!-- <td align="right"> --><input style="text-align:right; width:50px" type="hidden" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly><!-- </td> -->
 													  						<td align="left"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" readonly></td> 
 													  			 
@@ -610,15 +610,15 @@ body {
 										style="width: 100%; font-size: 14px;" id="table_grid1">
 										<thead>
 											<tr>
-										<th align="left"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/>All</th>
-										<th>SR</th>
-										<th>Item Name </th>
-										<th>Uom</th>
-										<th>Ind Qty</th> 
-										<th>PO Qty</th>
-										<th>Bal Qty</th>
-										<th>Rate</th>
-										<th>Disc%</th>
+										<th align="left" width="1%"><input type="checkbox" id="allCheck" onClick="selectAll(this)" onchange="requiredAll()"/>All</th>
+										<th width="2%">SR</th>
+										<th class="col-md-5">Item Name </th>
+										<th class="col-md-1">Uom</th>
+										<th class="col-md-1">Ind Qty</th> 
+										<th class="col-md-1">PO Qty</th>
+										<th class="col-md-1">Bal Qty</th>
+										<th class="col-md-1">Rate</th>
+										<!-- <th>Disc%</th> -->
 										<!-- <th>Sch Days</th> -->
 										<th>Remark</th>
 
@@ -945,24 +945,32 @@ function itemByIntendId()
 							  	var res = itemList.itemCode.split("-");
 							  	//tr.append($('<td></td>').html(res[0]));  
 							  	
-							  	tr.append($('<td></td>').html('<a onclick="previeousRecord('+itemList.itemId+',\'' + itemList.itemCode + '\')"><div title="'+itemList.itemCode+'">'+res[0]+'</div></a>'));
+							  	tr.append($('<td></td>').html('<a onclick="previeousRecord('+itemList.itemId+',\'' + itemList.itemCode + '\')"><div title="'+itemList.itemCode+'">'+itemList.itemCode+'</div></a>'));
 							  	
 							  	tr.append($('<td></td>').html(itemList.indItemUom));
 							  	tr.append($('<td style="text-align:right;"></td>').html(itemList.indQty));
 							   
 							  	tr.append($('<td ></td>').html('<input type="hidden"   id="indQtyAdd'+itemList.indDId+'" name="indQtyAdd'+itemList.indDId+'" value="'+itemList.indFyr+'" >'+
-							  			'<input style="text-align:right; width:100px" type="text" onkeyup="calculateBalaceQtyAdd('+itemList.indDId+')" id="poQtyAdd'+itemList.indDId+'" name="poQtyAdd'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  			'<input style="text-align:right; width:120px" type="text" onkeyup="calculateBalaceQtyAdd('+itemList.indDId+')" id="poQtyAdd'+itemList.indDId+'" name="poQtyAdd'+itemList.indDId+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 							  	 
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="balanceQtyAdd'+itemList.indDId+'" name="balanceQtyAdd'+itemList.indDId+'" value="'+itemList.indFyr+'" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="text" id="balanceQtyAdd'+itemList.indDId+'" name="balanceQtyAdd'+itemList.indDId+'" value="'+itemList.indFyr+'" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>'));
 							  	 
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="rateAdd'+itemList.indDId+'" name="rateAdd'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="text" id="rateAdd'+itemList.indDId+'" name="rateAdd'+itemList.indDId+'" value="'+itemList.rate+'" onchange="checkQty('+itemList.indDId+')"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 							   
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="discAdd'+itemList.indDId+'" name="discAdd'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
+							  	/* tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="discAdd'+itemList.indDId+'" name="discAdd'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >')); */
 							  	 
 							  	//tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchdAdd'+itemList.indDId+'" name="indItemSchdAdd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
 							  	 
-							  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchdAdd'+itemList.indDId+'" name="indItemSchdAdd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><input style="text-align:right; width:100px" type="text" id="indRemarkAdd'+itemList.indDId+'" name="indRemarkAdd'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
-							  
+							  	if(itemList.indRemark==null || itemList.indRemark==""){
+							  		
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="hidden" id="discAdd'+itemList.indDId+'" name="discAdd'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  ><input style="text-align:right; width:100px" type="hidden" id="indItemSchdAdd'+itemList.indDId+'" name="indItemSchdAdd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><input style="text-align:right; width:120px" type="text" id="indRemarkAdd'+itemList.indDId+'" name="indRemarkAdd'+itemList.indDId+'" value="-"  class="form-control"  >'));
+									  
+							  	}
+							  	else{
+							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="hidden" id="discAdd'+itemList.indDId+'" name="discAdd'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  ><input style="text-align:right; width:100px" type="hidden" id="indItemSchdAdd'+itemList.indDId+'" name="indItemSchdAdd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><input style="text-align:right; width:120px" type="text" id="indRemarkAdd'+itemList.indDId+'" name="indRemarkAdd'+itemList.indDId+'" value="'+itemList.indRemark+'"  class="form-control"  >'));
+									  
+							  	}
+							  	
 							  	 $('#table_grid1 tbody').append(tr);
 							  	
 							})

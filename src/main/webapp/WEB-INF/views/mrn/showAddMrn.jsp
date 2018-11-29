@@ -655,7 +655,7 @@ body {
 																											"value",
 																											data[i].poId)
 																									.text(
-																											data[i].poNo));
+																											data[i].poNo +"   "+data[i].otherChargeBeforeRemark));
 																		}
 
 																		$(
@@ -712,7 +712,7 @@ body {
 																											"value",
 																											data[i].poId)
 																									.text(
-																											data[i].poNo));
+																											data[i].poNo+"   "+data[i].otherChargeBeforeRemark));
 																		}
 
 																		$(

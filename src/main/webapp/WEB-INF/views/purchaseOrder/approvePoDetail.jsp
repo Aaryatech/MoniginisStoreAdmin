@@ -145,7 +145,7 @@
 																<thead>
 																	<tr>
 																	
-																	<th  ><input type="checkbox" id="allCheckTable1"   onClick="selectAll(this)"  />All</th>
+																	<th  style="width:2%;"><input type="checkbox" id="allCheckTable1"   onClick="selectAll(this)"  />All</th>
 																		<th style="width:2%;">Sr.No.</th>
 																		<th>Item Name</th>
 																		<th class="col-md-2">PO Qty</th>
@@ -203,7 +203,7 @@
 																<thead>
 																	<tr>
 																	
-																	<th  ><input type="checkbox"   id="allCheckTable1" onClick="selectAll(this)"  />All</th>
+																	<th  style="width:2%;"><input type="checkbox"   id="allCheckTable1" onClick="selectAll(this)"  />All</th>
 																		<th style="width:2%;">Sr.No.</th>
 																		<th>Item Name</th>
 																		<th class="col-md-2">PO Qty</th>
