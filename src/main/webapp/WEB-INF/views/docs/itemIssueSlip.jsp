@@ -192,9 +192,7 @@ hr {
 					<th>ITEM</th>
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>ISSUED QTY.</th>
-					<th>WT/SIZE</th>
-					<th>RECEIVER</th>
+					<th>ISSUED QTY.</th> 
 
 				</tr>
 			</thead>
@@ -294,9 +292,7 @@ hr {
 					<th>ITEM</th>
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>ISSUED QTY.</th>
-					<th>WT/SIZE</th>
-					<th>RECEIVER</th>
+					<th>ISSUED QTY.</th> 
 
 				</tr>
 			</thead>
@@ -316,13 +312,10 @@ hr {
 				<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="50%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="60%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
 					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.itemIssueQty}" /></td>
-					<td width="0" align="center"><c:out
-							value="NA" /></td>
-					<td width="0" align="center"><c:out
-							value="NA" /></td>
+			 
 
 				</tr>
 

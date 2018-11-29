@@ -111,7 +111,7 @@
 								<input type="button" id="expExcel" class="btn btn-primary"
 							value="EXPORT TO Excel" onclick="exportToExcel();">
 							<button class="btn btn-primary" value="PDF" id="PDFButton"
-					disabled="disabled" onclick="genPdf()">PDF</button>
+					  onclick="genPdf()">PDF</button>
 
 									</div>
 								</div>
@@ -217,7 +217,7 @@
 					document.getElementById("PDFButton").disabled = true;
 				}
 				document.getElementById("PDFButton").disabled = false;
-				alert("asd");
+				 
 				exportExcel();
 			}
 

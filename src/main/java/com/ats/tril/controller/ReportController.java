@@ -110,7 +110,7 @@ public class ReportController {
 				rowData = new ArrayList<String>();
 				cnt = cnt + i;
 				rowData.add("" + (cnt));
-				rowData.add("" + getItemList.get(i).getItemCode());
+				rowData.add("" + getItemList.get(i).getItemCode()+" - "+ getItemList.get(i).getItemDesc());
 				rowData.add("" + getItemList.get(i).getItemDate());
 				rowData.add("" + getItemList.get(i).getItemWt());
 				rowData.add("" + getItemList.get(i).getItemUom());
@@ -300,7 +300,8 @@ public class ReportController {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showBillwisePurchasePdf");
 
-		List<GetItem> itemList = getItemList;
+		GetItem[] getItem = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class); 
+		List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(getItem));;
 
 		// moneyOutList = prodPlanDetailList;
 		Document document = new Document(PageSize.A4);
@@ -327,10 +328,10 @@ public class ReportController {
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 1.4f, 3.7f, 2.8f, 2.8f, 3.2f });
-			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
-			headFont1.setColor(BaseColor.WHITE);
+			table.setWidths(new float[] { 1.4f, 5.7f, 2.0f, 2.0f, 2.0f });
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK);
+			headFont1.setColor(BaseColor.BLACK);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLUE);
 
 			PdfPCell hcell = new PdfPCell();
@@ -378,9 +379,9 @@ public class ReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase(item.getItemCode(), headFont));
+				cell = new PdfPCell(new Phrase(item.getItemCode()+" - "+ item.getItemDesc(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
@@ -420,6 +421,7 @@ public class ReportController {
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 
 			document.add(new Paragraph("\n"));
+			table.setHeaderRows(1);
 			document.add(table);
 
 			int totalPages = writer.getPageNumber();
