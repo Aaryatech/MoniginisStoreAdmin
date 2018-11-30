@@ -121,7 +121,7 @@ body {
 <c:url var="exportExcelforMrn" value="/exportExcelforMrn" />
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
 	<c:url var="getPODetailList" value="/getPODetailList" />
-	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
+	<c:url var="genrateNo" value="/genrateNo" />
 	<c:url var="getTempPoDetail" value="/getTempPoDetail" />
 
 	<c:url var="insertMrnProcess" value="/insertMrnProcess" />
@@ -1267,17 +1267,17 @@ body {
 				var date = $("#grn_date").val();
 				var catId = $("#grn_type").val();
 
-				$.getJSON('${getInvoiceNo}', {
+				$.getJSON('${genrateNo}', {
 
 					catId : 1,
-					docId : 3,
+					docId : 1,
 					date : date,
 					typeId : catId,
 					ajax : 'true',
 
 				}, function(data) {
 
-					document.getElementById("grn_no").value = data.code;
+					document.getElementById("grn_no").value = data.message;
 
 				});
 

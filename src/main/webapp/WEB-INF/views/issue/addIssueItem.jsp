@@ -44,7 +44,7 @@
 	 <c:url var="getBatchByItemId" value="/getBatchByItemId"></c:url>
 	  <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 	  <c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
-	  <c:url var="getInvoiceNo" value="/getInvoiceNo" />
+	  <c:url var="genrateNo" value="/genrateNo" />
       <c:url var="addItmeInIssueList" value="/addItmeInIssueList"></c:url>
 	  <c:url var="editItemInIssueList" value="/editItemInIssueList"></c:url>
 	  <c:url var="deleteItemFromIssueList" value="/deleteItemFromIssueList"></c:url>
@@ -847,19 +847,19 @@ function getInvoiceNo() {
 	var date = $("#issueDate").val();
 	var toDateValue = date.split('-'); 
 	var type = $("#poTyped").val();
-	var min = toDateValue[2]+"-"+(toDateValue[1] - 1 )+"-"+toDateValue[0];
+	var min = toDateValue[2]+"-"+(toDateValue[1])+"-"+toDateValue[0];
 	 
-	$.getJSON('${getInvoiceNo}', {
+	$.getJSON('${genrateNo}', {
 
 		catId:1,
-		docId:6,
+		docId:2,
 		date : min,
 		typeId : type,
 		ajax : 'true',
 
 	}, function(data) { 
 		
-	document.getElementById("issueNo").value=data.code;  
+	document.getElementById("issueNo").value=data.message;  
 	document.getElementById("type").value=type; 
 	getBatchByItemId();
 	});

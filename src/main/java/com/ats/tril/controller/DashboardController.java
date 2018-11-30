@@ -125,9 +125,10 @@ public class DashboardController {
 
 				List<GetPoHeader> headerList = new ArrayList<GetPoHeader>();
 				try {
+					String sts="0,1";
 					map = new LinkedMultiValueMap<String, Object>();
 					map.add("poType", 1);
-					map.add("status",1);
+					map.add("status",sts);
 					headerList=rest.postForObject(Constants.url+"getPoHeaderDashList", map, List.class);
 			     model.addObject("headerList", headerList);
 					System.err.println(headerList.toString());

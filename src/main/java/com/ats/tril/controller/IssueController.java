@@ -1083,5 +1083,38 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 
 		return ret;
 	}
+	
+	@RequestMapping(value = "/genrateNo", method = RequestMethod.GET)
+	@ResponseBody
+	public ErrorMessage getInvoiceNo(HttpServletRequest request, HttpServletResponse response) {
+
+		String invNo = "";
+		ErrorMessage errorMessage = new ErrorMessage();
+		try {
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int docId = Integer.parseInt(request.getParameter("docId"));
+			String date = request.getParameter("date");
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			
+			if (date == "") {
+				Date currDate = new Date();
+				date = new SimpleDateFormat("yyyy-MM-dd").format(currDate);
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("docType", docId); 
+			map.add("date", DateConvertor.convertToYMD(date)); 
+			
+			RestTemplate restTemplate = new RestTemplate();
+
+			errorMessage = restTemplate.postForObject(Constants.url + "generateIssueNoAndMrnNo", map, ErrorMessage.class);
+			 
+			System.out.println(errorMessage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return errorMessage;
+	}
 
 }

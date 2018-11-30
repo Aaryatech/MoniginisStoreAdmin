@@ -544,17 +544,23 @@ h6{
 
 					
 					<div class="clearfix"></div>
+					<div class="col-md-9"></div>
+								<label for="search" class="col-md-3" id="search"> <i
+									class="fa fa-search" style="font-size: 20px"></i> <input
+									type="text" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name">
+								</label>
 					<div class="table-responsive" style="border: 1px; ">
 						<table class="table table-advance" id="mrnTable" >  
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr No</th>
+											<th width="2%">Sr No</th>
 											<th class="col-md-1">Indent No</th>
 											<th class="col-md-1">Date</th>
-											<th class="col-md-1">PO No.</th>
-
+											<th class="col-md-1">PO No.</th> 
 											<th class="col-md-1">PO Date</th>
 											 <th class="col-md-1">PO Type</th> 
+											 <th class="col-md-2">Vendor Name</th> 
 											 <th class="col-md-1">PO Status</th> 
 											 <th class="col-md-1">Action</th> 
 										</tr>
@@ -686,6 +692,7 @@ function getPoList() {
 										 		poStatus="Closed";
 									 		}
 										 	tr.append($('<td></td>').html(poType));
+										 	tr.append($('<td></td>').html(poList.vendorCode));
 										 	tr.append($('<td></td>').html(poStatus));
 										 	if(poList.poStatus==2)
 									 		{
@@ -762,18 +769,34 @@ function myFunction() {
   var input, filter, table, tr, td ,td1,td2, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  table = document.getElementById("table");
+  table = document.getElementById("mrnTable");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[2];
     td1 = tr[i].getElementsByTagName("td")[3]; 
-    if (td || td1 ) {
+    td2 = tr[i].getElementsByTagName("td")[4];
+    td3 = tr[i].getElementsByTagName("td")[1];
+    td4 = tr[i].getElementsByTagName("td")[5];
+    td5 = tr[i].getElementsByTagName("td")[6];
+    if (td || td1 || td2|| td3|| td4|| td5) {
     	
     	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
     	        tr[i].style.display = "";
     	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
     	        tr[i].style.display = "";
     	      } 
+    	      else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      	        tr[i].style.display = "";
+      	      } 
+    	      else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      	        tr[i].style.display = "";
+      	      } 
+    	      else if (td4.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      	        tr[i].style.display = "";
+      	      } 
+    	      else if (td5.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      	        tr[i].style.display = "";
+      	      } 
     	      else {
     	        tr[i].style.display = "none";
     	      }
