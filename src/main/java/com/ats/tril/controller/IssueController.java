@@ -306,10 +306,10 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 IssueHeader issueHeader = new IssueHeader();
 		 
 			 issueHeader.setIssueDate(issueDate);
-			 DocumentBean docBean=null;
+			 //DocumentBean docBean=null;
 				try {
 					
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 					map.add("docId",6);
 					map.add("catId", 1);
 					map.add("date", issueDate);
@@ -327,11 +327,19 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 						String j = "0";
 						code.append(j);
 					}
-					code.append(String.valueOf(counter));
+					code.append(String.valueOf(counter));*/
 					
-					 issueHeader.setIssueNo(""+code);
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("docType", 2); 
+					map.add("date", issueDate); 
 					
-					docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+					RestTemplate restTemplate = new RestTemplate();
+
+					ErrorMessage errorMessage = restTemplate.postForObject(Constants.url + "generateIssueNoAndMrnNo", map, ErrorMessage.class);
+					 
+					 issueHeader.setIssueNo(""+errorMessage.getMessage());
+					
+					//docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
 				}catch (Exception e) {
 					e.printStackTrace();
 					 issueHeader.setIssueNo("1");
@@ -392,7 +400,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 	          {
 	        		try {
 	        			
-	        			SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+	        			//SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
 
 	        		
 	        		}catch (Exception e) {

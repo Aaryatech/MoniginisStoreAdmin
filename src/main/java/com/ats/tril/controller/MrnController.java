@@ -393,12 +393,12 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 
 			MrnHeader mrnHeader = new MrnHeader();
 			//----------------------------Inv No---------------------------------
-			DocumentBean docBean=null;
+			//DocumentBean docBean=null;
 			
 			
 			try {
 				
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("docId", 3);
 				map.add("catId", 1);
 				map.add("date", DateConvertor.convertToYMD(grnDate));
@@ -416,11 +416,20 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 					String j = "0";
 					code.append(j);
 				}
-				code.append(String.valueOf(counter));
+				code.append(String.valueOf(counter));*/
 				
-				mrnHeader.setMrnNo(""+code);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("docType", 1); 
+				map.add("date", DateConvertor.convertToYMD(grnDate)); 
 				
-				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				RestTemplate restTemplate = new RestTemplate();
+
+				ErrorMessage errorMessage = restTemplate.postForObject(Constants.url + "generateIssueNoAndMrnNo", map, ErrorMessage.class);
+				
+				
+				mrnHeader.setMrnNo(""+errorMessage.getMessage());
+				
+				//docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -492,7 +501,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 	          {
 	        		try {
 	        			
-	        			SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+	        			//SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
 
 	        		
 	        		}catch (Exception e) {
