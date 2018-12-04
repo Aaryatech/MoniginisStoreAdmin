@@ -43,6 +43,8 @@
 	  <c:url var="qtyValidationFromBatch" value="/qtyValidationFromBatch"></c:url>
 	 <c:url var="getBatchByItemId" value="/getBatchByItemId"></c:url>
 	  <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
+	  <c:url var="getItemIdByCatIdInIssue" value="/getItemIdByCatIdInIssue"></c:url>
+	  
 	  <c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
 	  <c:url var="genrateNo" value="/genrateNo" />
       <c:url var="addItmeInIssueList" value="/addItmeInIssueList"></c:url>
@@ -187,13 +189,13 @@
 							
 							<div class="box-content">
 								
-									<div class="col-md-2" >Select Group</div>
+									<div class="col-md-2" >Select Category</div>
 									<div class="col-md-3">
 										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()"  id="groupId"  >
-											<option   value="">Select Group</option>
+											<option   value="">Select Category</option>
 											
-											<c:forEach items="${itemGroupList}" var="itemGroupList"> 
-														<option value="${itemGroupList.grpId}"> ${itemGroupList.grpCode} &nbsp;&nbsp; ${itemGroupList.grpDesc} </option>
+											<c:forEach items="${categoryList}" var="categoryList"> 
+														<option value="${categoryList.catId}"> ${categoryList.catDesc} </option>
 											 </c:forEach>
 											</select>
 									</div>
@@ -429,18 +431,18 @@
 
 			var grpId = document.getElementById("groupId").value;
 
-			$.getJSON('${getItemIdByGroupId}', {
+			$.getJSON('${getItemIdByCatIdInIssue}', {
 
 				grpId : grpId,
 				ajax : 'true'
 			}, function(data) {
 
-				var html = '<option value="">Select ItemGroup</option>';
+				var html = '<option value="">Select Item</option>';
 
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].itemId + '">'
-							+ data[i].itemCode + '&nbsp;&nbsp;&nbsp;'+data[i].itemDesc+'</option>';
+							+ data[i].itemCode + ' &nbsp; '+data[i].itemDesc+'</option>';
 				}
 				html += '</option>';
 				$('#itemId').html(html);

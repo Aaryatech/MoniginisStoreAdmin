@@ -29,7 +29,7 @@
 	  <c:url var="getBatchByItemIdInIssueEdit" value="/getBatchByItemIdInIssueEdit"></c:url>
 	 <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
 	  <c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
-	  
+	  <c:url var="getItemIdByCatIdInIssue" value="/getItemIdByCatIdInIssue"></c:url>
 <c:url var="addItmeInEditIssueList" value="/addItmeInEditIssueList"></c:url>
 	<c:url var="editItemInEditIssueList" value="/editItemInEditIssueList"></c:url>
 	<c:url var="deleteItemFromEditIssueList" value="/deleteItemFromEditIssueList"></c:url>
@@ -189,13 +189,13 @@
 							
 							<div class="box-content">
 								
-									<div class="col-md-2" >Select Group</div>
+									<div class="col-md-2" >Select Category</div>
 									<div class="col-md-3">
 										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()"  id="groupId"  >
-											<option   value="">Select Group</option>
+											<option   value="">Select Category</option>
 											
-											<c:forEach items="${itemGroupList}" var="itemGroupList"> 
-														<option value="${itemGroupList.grpId}">${itemGroupList.grpCode} &nbsp;&nbsp; ${itemGroupList.grpDesc}</option>
+											<c:forEach items="${categoryList}" var="categoryList"> 
+														<option value="${categoryList.catId}"> ${categoryList.catDesc} </option>
 											 </c:forEach>
 											</select>
 									</div>
@@ -446,7 +446,7 @@
 						if(data[i].remainingQty>0){
 						
 						html += '<option value="' + data[i].mrnDetailId + '">'
-						+ data[i].batchNo + '&nbsp;&nbsp;&nbsp;'+ data[i].remainingQty+'</option>';
+						+ data[i].batchNo + ' &nbsp;&nbsp;&nbsp; '+ data[i].remainingQty+'</option>';
 					}
 				}
 				html += '</option>';
@@ -459,18 +459,18 @@
 
 			var grpId = document.getElementById("groupId").value;
 
-			$.getJSON('${getItemIdByGroupId}', {
+			$.getJSON('${getItemIdByCatIdInIssue}', {
 
 				grpId : grpId,
 				ajax : 'true'
 			}, function(data) {
 
-				var html = '<option value="">Select ItemGroup</option>';
+				var html = '<option value="">Select Item</option>';
 
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 					html += '<option value="' + data[i].itemId + '">'
-							+ data[i].itemCode + '&nbsp;&nbsp;&nbsp;'+data[i].itemDesc+'</option>';
+							+ data[i].itemCode + ' &nbsp; '+data[i].itemDesc+'</option>';
 				}
 				html += '</option>';
 				$('#itemId').html(html);

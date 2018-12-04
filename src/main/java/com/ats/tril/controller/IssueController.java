@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccountHead;
+import com.ats.tril.model.Category;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetIssueDetail;
@@ -65,9 +66,13 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept)); 
 			model.addObject("deparmentList", deparmentList);
 			
-			GetItemGroup[] itemGroupList = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
+			/*GetItemGroup[] itemGroupList = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
 					GetItemGroup[].class);
-			model.addObject("itemGroupList", itemGroupList);
+			model.addObject("itemGroupList", itemGroupList);*/
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
 			
 			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed", AccountHead[].class);
 			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
@@ -115,6 +120,27 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			e.printStackTrace();
 		} 
 		return subDeptList;
+	}
+	List<GetItem> itemListbyCatId = new ArrayList<GetItem>();
+	
+	@RequestMapping(value = "/getItemIdByCatIdInIssue", method = RequestMethod.GET)
+	@ResponseBody
+	public List<GetItem> getItemIdByCatIdInIssue(HttpServletRequest request, HttpServletResponse response) {
+
+		itemListbyCatId = new ArrayList<GetItem>();
+		
+		try {
+			int grpId = Integer.parseInt(request.getParameter("grpId")); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("catId", grpId); 
+			GetItem[] GetItem = rest.postForObject(Constants.url + "itemListByCatId", map, GetItem[].class);
+			itemListbyCatId = new ArrayList<>(Arrays.asList(GetItem));
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return itemListbyCatId;
 	}
 	
 	@RequestMapping(value = "/getBatchByItemId", method = RequestMethod.GET)
@@ -201,7 +227,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 IssueDetail issueDetail = new IssueDetail();
 				 issueDetail.setItemId(itemId);
 				 issueDetail.setItemIssueQty(qty);
-				 issueDetail.setItemGroupId(groupId);
+				 
 				 issueDetail.setDeptId(deptId);
 				 issueDetail.setSubDeptId(subDeptId);
 				 issueDetail.setAccHead(acc);
@@ -211,6 +237,14 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 issueDetail.setSubDeptName(subDeptName);
 				 issueDetail.setAccName(accName);
 				 issueDetail.setDelStatus(1);
+				 
+				 for(int i = 0 ;i< itemListbyCatId.size() ; i++)
+				 {
+					 if(itemListbyCatId.get(i).getItemId()==itemId) {
+						 
+						 issueDetail.setItemGroupId(itemListbyCatId.get(i).getGrpId());
+					 }
+				 }
 				 for(int i = 0 ;i< batchList.size() ; i++)
 				 {
 					 if(batchList.get(i).getMrnDetailId()==mrnDetailId)
@@ -584,9 +618,13 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept)); 
 			model.addObject("deparmentList", deparmentList);
 			
-			GetItemGroup[] itemGroupList = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
+			/*GetItemGroup[] itemGroupList = rest.getForObject(Constants.url + "/getAllItemGroupByIsUsed",
 					GetItemGroup[].class);
-			model.addObject("itemGroupList", itemGroupList);
+			model.addObject("itemGroupList", itemGroupList);*/
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
 			
 			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed", AccountHead[].class);
 			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
@@ -707,8 +745,7 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 {
 				 GetIssueDetail issueDetail = new GetIssueDetail();
 				 issueDetail.setItemId(itemId);
-				 issueDetail.setItemIssueQty(qty);
-				 issueDetail.setItemGroupId(groupId);
+				 issueDetail.setItemIssueQty(qty); 
 				 issueDetail.setDeptId(deptId);
 				 issueDetail.setSubDeptId(subDeptId);
 				 issueDetail.setAccHead(acc);
@@ -719,6 +756,15 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				 issueDetail.setAccHeadDesc(accName);
 				 issueDetail.setDelStatus(1);
 				 issueDetail.setStatus(2);
+				 
+				 for(int i = 0 ;i< itemListbyCatId.size() ; i++)
+				 {
+					 if(itemListbyCatId.get(i).getItemId()==itemId) {
+						 
+						 issueDetail.setItemGroupId(itemListbyCatId.get(i).getGrpId());
+					 }
+				 }
+				 
 				 for(int i = 0 ;i< batchListInEditIssue.size() ; i++)
 				 {
 					 if(batchListInEditIssue.get(i).getMrnDetailId()==mrnDetailId)
