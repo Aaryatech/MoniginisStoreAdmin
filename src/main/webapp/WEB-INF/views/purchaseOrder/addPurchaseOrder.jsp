@@ -488,16 +488,16 @@ body {
 										style="width: 100%; font-size: 14px;" id="table_grid2"  >
 										<thead>
 											<tr>
-										<th>SR</th>
+										<th width="2%">SR</th>
 										<th>Item Name </th>
-										<th>Uom</th>
-										<th>Ind Qty</th> 
-										<th>PO Qty</th>
-										<th>Bal QTY</th>
-										<th>Rate</th>
+										<th class="col-md-1">Uom</th>
+										<th class="col-md-1">Ind Qty</th> 
+										<th class="col-md-1">PO Qty</th>
+										<th class="col-md-1">Bal QTY</th>
+										<th class="col-md-1">Rate</th>
 										<!-- <th>Disc%</th> -->
 										<th class="col-md-1">Sch Date</th>
-										<th>Value</th>
+										<th class="col-md-1">Value</th>
 
 									</tr>
 										</thead>
@@ -713,6 +713,7 @@ body {
 										<th class="col-md-1">Rate</th>
 										<!-- <th>Disc%</th> -->
 										<!-- <th>Sch Days</th> -->
+										<th class="col-md-1">Sch Date</th>
 										<th class="col-md-1">Remark</th>
 
 									</tr>
@@ -1164,6 +1165,11 @@ function itemByIntendId()
 								  	/* tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" id="disc'+itemList.indDId+'" name="disc'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"   >')); */
 							  		}
 							  	
+							  	var schDate = itemList.indItemSchddt.split("-");
+							  	
+							  	var f =  schDate[2]+'-'+(schDate[1] - 1)+'-'+schDate[0];
+							  	
+							  	tr.append($('<td></td>').html(f));
 							  	//tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
 							  	if(itemList.indRemark==null || itemList.indRemark==""){
 							  		 
@@ -1458,7 +1464,7 @@ function getVendorListByIndId() {
 		var len = data.length;
 		for (var i = 0; i < len; i++) {
 			html += '<option value="' + data[i].vendorId + '">'
-					+ data[i].vendorCode +'&nbsp;&nbsp;&nbsp;'+data[i].vendorName+'</option>';
+					+ data[i].vendorCode +' &nbsp; '+data[i].vendorName+'</option>';
 		}
 		html += '</option>';
 		$('#vendId').html(html);

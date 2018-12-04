@@ -181,7 +181,7 @@ body {
 											 <c:forEach items="${vendorList}" var="vendorList" >
 											<c:choose>
 									 			<c:when test="${vendorList.vendorId==getPoHeader.vendId}">
-							  						<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
+							  						<option value="${vendorList.vendorId}" selected> ${vendorList.vendorCode} &nbsp; ${vendorList.vendorName} </option>
  												</c:when>
  												<%-- <c:otherwise>
  													<option value="${vendorList.vendorId}"  >${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
@@ -348,10 +348,10 @@ body {
 										<th class="col-md-1"> PO Qty </th>
 										<th> Bal QTY </th>
 										<th class="col-md-1"> Rate </th>
+										<th> Sch Date </th>
 										<th> Value </th>
 										<!-- <th> Disc% </th> -->
-										<!-- <th> Sch Days </th> -->
-										<th> Remark </th>
+										<!-- <th> Sch Days </th> --> 
 										<th> Action </th>
 									</tr>
 										</thead>
@@ -387,18 +387,20 @@ body {
 													  			  <c:choose>
 													  			 	<c:when test="${(poDetailList.status==7 or poDetailList.status==9) && (getPoHeader.poStatus==9 or getPoHeader.poStatus==7)}">
 															  			 	<td align="right"><input style="text-align:right; width:95px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required></td>
+															  			 	<td ><c:out value="${poDetailList.schDate}" /> </td>
 															  			 	<td align="right" id="value${count.index}"><c:out value="${poDetailList.basicValue}" /> </td>
 															  				 <input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="hidden" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required> 
 															  				<!-- <td align="right"> --><input style="text-align:right; width:50px" type="hidden" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><!-- </td> -->
-													  						<td align="left"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required></td> 
+													  						 <input style="text-align:right; width:50px" type="hidden" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" required> 
 													  			
 															  		</c:when>
 															  		<c:otherwise>
 															  				<td align="right"><input style="text-align:right; width:95px" onchange="changeItemRate(${count.index})" type="text" id="rate${count.index}" name="rate${count.index}" value="${poDetailList.itemRate}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly></td>
+															  				<td  ><c:out value="${poDetailList.schDate}" /> </td>
 															  				<td align="right" id="value${count.index}"><c:out value="${poDetailList.basicValue}" /> </td>
 															  				 <input style="text-align:right; width:70px" onchange="changeItemRate(${count.index})" type="hidden" id="disc${count.index}" name="disc${count.index}" value="${poDetailList.discPer}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly> 
 															  				<!-- <td align="right"> --><input style="text-align:right; width:50px" type="hidden" id="indItemSchd${count.index}" name="indItemSchd${count.index}" value="${poDetailList.schDays}"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" readonly><!-- </td> -->
-													  						<td align="left"><input style="text-align:right; width:50px" type="text" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" readonly></td> 
+													  						 <input style="text-align:right; width:50px" type="hidden" id="indRemark${count.index}" name="indRemark${count.index}" value="${poDetailList.schRemark}"  class="form-control" readonly> 
 													  			 
 															  		</c:otherwise>
 													  			 </c:choose>
@@ -620,8 +622,8 @@ body {
 										<th class="col-md-1">Rate</th>
 										<!-- <th>Disc%</th> -->
 										<!-- <th>Sch Days</th> -->
-										<th>Remark</th>
-
+										<th class="col-md-1">Sch Date</th>
+										<th class="col-md-1">Remark</th>
 									</tr>
 										</thead>
 										<tbody>
@@ -961,6 +963,10 @@ function itemByIntendId()
 							  	 
 							  	//tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchdAdd'+itemList.indDId+'" name="indItemSchdAdd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
 							  	 
+							  	var schDate = itemList.indItemSchddt.split("-"); 
+							  	var f =  schDate[2]+'-'+(schDate[1] - 1)+'-'+schDate[0]; 
+							  	tr.append($('<td></td>').html(f));
+							  	
 							  	if(itemList.indRemark==null || itemList.indRemark==""){
 							  		
 							  		tr.append($('<td ></td>').html('<input style="text-align:right; width:120px" type="hidden" id="discAdd'+itemList.indDId+'" name="discAdd'+itemList.indDId+'" value="0"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  ><input style="text-align:right; width:100px" type="hidden" id="indItemSchdAdd'+itemList.indDId+'" name="indItemSchdAdd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required><input style="text-align:right; width:120px" type="text" id="indRemarkAdd'+itemList.indDId+'" name="indRemarkAdd'+itemList.indDId+'" value="-"  class="form-control"  >'));
