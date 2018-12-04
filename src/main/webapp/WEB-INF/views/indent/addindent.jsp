@@ -386,10 +386,11 @@ body {
 									</div>
 									 <input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
 								</div>  -->
+								 <input   id="group"  type="hidden" name="group" value="0" />
 								 
 								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
 								
-								<div class="box-content">
+								<%-- <div class="box-content">
 									<label class="col-md-2">Group </label>
 									<div class="col-sm-6 col-lg-10 controls">
 
@@ -409,7 +410,7 @@ body {
 											data-rule-required="true" />
 									</div> -->
 								</div>
-								<br/> 
+								<br/>  --%>
 
 								<div class="box-content">
 									<label class="col-md-2">Item
@@ -417,8 +418,14 @@ body {
 									<div class="col-sm-6 col-lg-10 controls">
 
 										<select id="item_name" name="item_name"
-											class="form-control chosen" placeholder="Item Name"
-											  >
+											class="form-control chosen" placeholder="Item Name" >
+											
+											<option value=""><c:out value="select Item"/></option>  
+										<c:forEach items="${itemList}" var="itemList" >
+											 
+													<option value="${itemList.itemId}">${itemList.itemCode} &nbsp; ${itemList.itemDesc}
+												  
+											</c:forEach>
 
 										</select>
 									</div>
@@ -873,7 +880,7 @@ $(document).ready(function() {
 
 
 	<script type="text/javascript">
-$(document).ready(function() {
+/* $(document).ready(function() {
 	
     $('#ind_cat').change(
             function() {
@@ -908,6 +915,45 @@ $(document).ready(function() {
         			html += '</option>';
         			$('#item_name').html(html);
         			$("#item_name").trigger("chosen:updated");
+                });
+            });
+}); */
+
+$(document).ready(function() {
+	
+    $('#ind_cat').change(
+            function() {
+            	
+                $.getJSON('${getgroupListByCatId}', {
+                    catId : $(this).val(),
+                    ajax : 'true'
+                }, function(data) {
+                
+                    var len = data.length;
+
+					$('#item_name')
+				    .find('option')
+				    .remove()
+				    .end()
+				// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+				    var html = '<option value="">Select Item</option>';
+        			html += '</option>';
+        			$('#item_name').html(html);
+                    for ( var i = 0; i < len; i++) {
+                            
+                                
+                        $("#item_name").append(
+                                $("<option></option>").attr(
+                                    "value", data[i].itemId).text(data[i].itemCode+' '+data[i].itemDesc)
+                            );
+                    }
+
+                    $("#item_name").trigger("chosen:updated");
+                    
+                    /* var html = '<option value="" selected >Select Item</option>';
+        			html += '</option>';
+        			$('#item_name').html(html);
+        			$("#item_name").trigger("chosen:updated"); */
                 });
             });
 });
@@ -1041,6 +1087,9 @@ function deleteIndentItem(itemId,key){
 		if(data==""){
 			alert("No Record ");
 			  $('#ind_cat').prop('disabled', false).trigger("chosen:updated");  
+			  document.getElementById("ind_cat").value="";
+			  $("#ind_cat").trigger("chosen:updated");
+			  
 			document.getElementById("submitt").disabled=true;
 			var html = '<option value="" selected >Select Item</option>';
 			html += '</option>';

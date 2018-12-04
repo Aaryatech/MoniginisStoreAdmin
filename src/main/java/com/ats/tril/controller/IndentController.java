@@ -378,12 +378,13 @@ public class IndentController {
 				}
 				
 			}
-			
+			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("catId", catIdTemp); 
-			List itemGrpList = rest.postForObject(Constants.url + "getgroupListByCatId", map, List.class);
+			map.add("catId", catIdTemp);  
+			GetItem[] GetItem = rest.postForObject(Constants.url + "itemListByCatId", map, GetItem[].class);
+			itemList = new ArrayList<>(Arrays.asList(GetItem));
 			
-			model.addObject("itemGrpList", itemGrpList);
+			model.addObject("itemList", itemList);
 			model.addObject("tempIndentList", tempIndentList);
 			model.addObject("isSubmit", 1);
  
@@ -581,10 +582,10 @@ public class IndentController {
 	}
 
 	@RequestMapping(value = "/getgroupListByCatId", method = RequestMethod.GET)
-	public @ResponseBody List<GetItemGroup> getgroupListByCatId(HttpServletRequest request,
+	public @ResponseBody List<GetItem> getgroupListByCatId(HttpServletRequest request,
 			HttpServletResponse response) {
-		System.err.println("In get group by cat Id ");
-		List<GetItemGroup> itemGrpList = new ArrayList<GetItemGroup>();
+		
+		 
 		try {
 
 			int catId = 0;
@@ -596,15 +597,10 @@ public class IndentController {
 			System.out.println("catIds Id " + catIds);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-			// MultiValueMap<String, Object> mapItemList = new LinkedMultiValueMap<String,
-			// Object>();
-
-			map.add("catId", catId);
-
-			RestTemplate restTemplate = new RestTemplate();
-
-			itemGrpList = restTemplate.postForObject(Constants.url + "getgroupListByCatId", map, List.class);
+ 
+			map.add("catId", catId); 
+			GetItem[] GetItem = rest.postForObject(Constants.url + "itemListByCatId", map, GetItem[].class);
+			itemList = new ArrayList<>(Arrays.asList(GetItem));
 
 		} catch (Exception e) {
 
@@ -613,7 +609,7 @@ public class IndentController {
 
 			e.printStackTrace();
 		}
-		return itemGrpList;
+		return itemList;
 	}
 
 	List<GetItem> itemList = new ArrayList<GetItem>();
@@ -1226,7 +1222,7 @@ public class IndentController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/editIndent/" + indentId;
+		return "redirect:/getIndents";
 
 	}
 

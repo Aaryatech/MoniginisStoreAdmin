@@ -258,7 +258,8 @@
 <hr/>
 								<div>
 								<span style="text-align: left; font-weight: bold;font-size: 20px;">Add Item</span>
-									<div class="box-content">
+									<!-- <div class="box-content">
+									
 										<label class="col-md-2">Group </label>
 										<div class="col-sm-6 col-lg-10 controls">
 
@@ -266,14 +267,15 @@
 												placeholder="Group" data-rule-required="true">
 											</select>
 										</div>
-										<!-- <label class="col-sm-3 col-lg-2 control-label">Quantity</label>
+										<label class="col-sm-3 col-lg-2 control-label">Quantity</label>
 									<div class="col-sm-6 col-lg-4 controls">
 										<input type="text" name="quantity" id="quantity"
 											class="form-control" placeholder="Quantity"
 											data-rule-required="true" />
-									</div> -->
 									</div>
-									<br />
+									</div>
+									<br /> -->
+									<input   id="group"  type="hidden"   name="group" value="0"   />
 
 									<div class="box-content">
 										<label class="col-md-2">Item
@@ -345,10 +347,10 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1" >Sr</th>
+													<th width="2%">Sr</th>
 													<th class="col-md-1" >Item
 														Code</th>
-													<th class="col-md-3" >Item
+													<th   >Item
 														Desc</th>
 													<th class="col-md-1" >UOM</th>
 												
@@ -367,13 +369,13 @@
 													varStatus="count">
 
 													<tr>
-														<td  class="col-sm-1"><c:out
+														<td  width="2%"><c:out
 																value="${count.index+1}" /></td>
 																
 																<td  class="col-md-1"><c:out
 																value="${indDetail.itemCode}" /></td>
 
-														<td  class="col-md-3"><c:out
+														<td   ><c:out
 																value="${indDetail.itemDesc}" /></td>
 																
 																	
@@ -604,10 +606,10 @@
 						alert("Item Already Added in Indent");
 					}
 					var tr = $('<tr></tr>');
-					tr.append($('<td  class="col-sm-1"></td>').html(key + 1));
+					tr.append($('<td  width="2%"></td>').html(key + 1));
 					tr.append($('<td  class="col-md-1"></td>').html(trans.itemCode));
 
-					tr.append($('<td  class="col-md-2"></td>').html(trans.itemDesc));
+					tr.append($('<td   "></td>').html(trans.itemDesc));
 					tr.append($('<td  class="col-md-1"></td>').html(trans.itemUom));
 
 					//tr.append($('<td></td>').html(trans.qty));
@@ -730,10 +732,10 @@
 			$('#table1 td').remove();
 			$.each(data, function(key, trans) {
 			var tr = $('<tr></tr>');
-				tr.append($('<td  class="col-sm-1"></td>').html(key + 1));
+				tr.append($('<td  width="2%"></td>').html(key + 1));
 				tr.append($('<td  class="col-md-1"></td>').html(trans.itemCode));
 
-				tr.append($('<td  class="col-md-2"></td>').html(trans.itemDesc));
+				tr.append($('<td   ></td>').html(trans.itemDesc));
 				tr.append($('<td  class="col-md-1"></td>').html(trans.itemUom));
 
 				//tr.append($('<td></td>').html(trans.indQty));
@@ -922,26 +924,29 @@
 
 																	var len = data.length;
 
-																	$('#group')
+																	$('#item_name')
 																			.find(
 																					'option')
 																			.remove()
 																			.end()
 																	// $("#items").append($("<option></option>").attr( "value",-1).text("ALL"));
+																			var html = '<option value="">Select Item</option>';
+												        			html += '</option>';
+												        			$('#item_name').html(html);
 																	for (var i = 0; i < len; i++) {
 
 																		$(
-																				"#group")
+																				"#item_name")
 																				.append(
 																						$(
 																								"<option></option>")
 																								.attr(
 																										"value",
-																										data[i].grpId)
-																								.text(data[i].grpCode+' '+data[i].grpDesc));
+																										data[i].itemId)
+																								.text(data[i].itemCode+' '+data[i].itemDesc));
 																	}
 
-																	$("#group")
+																	$("#item_name")
 																			.trigger(
 																					"chosen:updated");
 																});
