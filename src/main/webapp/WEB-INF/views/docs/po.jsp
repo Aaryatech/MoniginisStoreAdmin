@@ -121,43 +121,67 @@ hr {
 				style="float: right;">${documentBean.docIsoSerialNumber}</span>
 		</p>
 		<!-- p -->
+ 
+		 
+<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0" width="1000px">
 
-				<table width="100%">
+				<tr class="information">
+					<td valign="top">
+						<table width="100%">
 							<tr>
-								<td width="23%" > 
-									<img src="${pageContext.request.contextPath}/resources/img/monginislogo.png" width="95" height="60" />
+								<td width="22.33%" >
+								<img src="${pageContext.request.contextPath}/resources/img/monginislogo.png" width="95" height="60" />
 								</td>
 
-								<td width="85%" style="text-align: center;">
- <h4 align="center">${company.companyName}</h4>
-
-
-
-		<h6 style="font-weight: bold; margin: 0px;" align="center">Delivery
-			& Billing Addr.: ${company.factoryAdd}</h6>
-		<h6 style="font-weight: normal; margin: 0px;" align="center">CIN
-			NO : ${company.cinNumber}</h6>
+								<td width="53.33%" valign="top" style="font-weight: bold; margin: 0px;" align="center">
+ 													<h4 align="center" style=" font-size: 16px;">${company.companyName}</h4> 
+								<h6 style="font-weight: bold; margin: 0px;font-size: 10px;" align="center">Delivery
+									& Billing Addr.: ${company.factoryAdd}</h6>
+								<h6 style="font-weight: normal; margin: 0px;font-size: 10px;" align="center">CIN
+									NO : ${company.cinNumber}</h6>
+								</td>
+								
+								<td width="22.33%" valign="top"  style="font-weight: bold; margin: 0px;" align="right"> 
 								</td>
 
 							</tr>
 
 						</table>
- 
-		 
-		 <span style="float: left; font-weight: bold; font-size: 13px;">GST&nbsp; NO&nbsp; : ${company.gstNumber}
-		 <br>PAN &nbsp;NO&nbsp; : ${company.panNumber}
-			</span>
-		<p style="text-align: center; font-weight: bold; font-size: 13px; margin-left: 100px;"> 
-			PURCHASE ORDER 
-			
-			<span style="float: right;">Order
-				No.&nbsp; : ${item.poNo}<br>&nbsp;&nbsp; Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-				${item.poDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			</span>
-		</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<br> 
+		
+		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0" width="1000px">
 
-		<br>
+				<tr class="information">
+					<td valign="top">
+						<table width="100%">
+							<tr>
+								<td width="33.33%" 
+									 valign="top" style="font-weight: bold; margin: 0px;" align="left">GST&nbsp; NO&nbsp; : ${company.gstNumber} <br>PAN &nbsp;NO&nbsp; : ${company.panNumber}
+								</td>
 
+								<td width="33.33%" valign="top" style="font-weight: bold; margin: 0px;" align="center">
+ 													PURCHASE ORDER   
+								</td>
+								
+								<td width="33.33%" valign="top"  style="font-weight: bold; margin: 0px;" align="right">Order
+				No.&nbsp; : ${item.poNo}<br> Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+				${item.poDate} 
+								</td>
+
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+<br> 
 		<!-- t -->
 
 
@@ -220,7 +244,7 @@ hr {
 		<c:set var="totalPage" value="${item.pOReportDetailList.size()/8}" />
 		
 		<table align="center" border="1" cellpadding="0" cellspacing="0"
-			style="table-layout: fixed; display: block; height: 476px; width: 100%;"
+			 
 			id="table_grid">
 			<thead>
 				<tr style="font-size: 15px;">
@@ -231,7 +255,9 @@ hr {
 					<th width=5%>UOM</th>
 					<th align="right" width=7%>Qty</th>
 					<th align="right" width=10%>Rate</th>
-					<th align="right" width=3%>Disc%</th>
+					<th align="right" width=4%>CGST </th>
+					<th align="right" width=4%>SGST </th>
+					<th align="right" width=4%>IGST </th>
 					<th align="right" width=10%>Value</th>
 					<th align="center" width=30%>Schedule</th>
 				</tr>
@@ -250,7 +276,7 @@ hr {
 
 						<c:when test="${totalRowCount eq maxRowCount}">
 
-							<c:set var="totalRowCount" value="${totalRowCount+1}" />
+							 
 
 
 
@@ -476,7 +502,7 @@ hr {
 
 		</h5>
 		<table align="center" border="1" cellpadding="0" cellspacing="0"
-			style="table-layout: fixed; display: block; height: 476px; width: 100%;"
+			 
 			id="table_grid">
 			<thead>
 				<tr style="font-size: 15px;">
@@ -487,7 +513,9 @@ hr {
 					<th width=5%>UOM</th>
 					<th align="right" width=7%>Qty</th>
 					<th align="right" width=10%>Rate</th>
-					<th align="right" width=3%>Disc%</th>
+					<th align="right" width=4%>CGST </th>
+					<th align="right" width=4%>SGST </th>
+					<th align="right" width=4%>IGST </th>
 					<th align="right" width=10%>Value</th>
 					<th align="center" width=30%>Schedule</th>
 				</tr>
@@ -510,45 +538,99 @@ hr {
 
 				</c:choose>
 
-				<c:set var="totalRowCount" value="${totalRowCount+1}" />
+				 
 
 				<c:set var="total" value="${total+row.basicValue-row.discValue}" />
 				<tr style="font-size: 13px;">
 					<td height="5px" style="max-height: 5px" align="center"
 						width="30px"><c:out value="${count.index+1}" /></td>
-					<td align="center"><c:out value="${row.itemCode}" /></td>
-					<td align="left" width=50% style="padding: 5px;"><c:out value="${row.itemDesc}" /></td>
+					<td align="center" style="padding: 2px;"><c:out value="${row.itemCode}" /></td>
+					<td align="left" width=40% style="padding: 5px;"><c:out value="${row.itemDesc}" /></td>
 					<td align="center"><c:out value="${row.itemUom}" /></td>
 					<td align="right" style="padding: 5px;"><c:out value="${row.itemQty}" /></td>
 					<td align="right" style="padding: 5px;">
 					<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${row.itemRate}" /> </td>
-					<td align="right" style="padding: 5px;">
-					<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${row.discPer}" /> </td>
+					
+														<c:choose>
+													  				<c:when test="${row.igst==0}">
+													  					<td align="right" style="padding: 5px;"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${row.taxValue/2}"/>(${row.cgst}%)
+															  			<td align="right" style="padding: 5px;"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${row.taxValue/2}"/>(${row.sgst}%)
+															  			<td align="right" style="padding: 5px;"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="0"/>(${row.igst}%)
+													  				</c:when>
+													  				<c:otherwise>
+													  					<td align="right" style="padding: 5px;"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="0"/>(${row.cgst}%)
+															  			<td align="right" style="padding: 5px;"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="0"/>(${row.sgst}%)
+															  			<td align="right" style="padding: 5px;"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${row.taxValue}"/>(${row.igst}%)
+													  				
+													  				</c:otherwise>
+													  			</c:choose>
+													  			
+					<%-- <td align="right" style="padding: 5px;"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${row.cgst+row.sgst+row.igst}" /> </td> --%>
 					<td align="right" style="padding: 5px;">
 					<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
 										value="${row.basicValue-row.discValue}" /> </td>
-					<td align="center"><c:out
-							value="On / Before ${row.schDate} ${row.schRemark} " /></td>
+					<td align="center" width=10%><c:out
+							value=" ${row.schDate} " /></td>
 
 				</tr>
+				 
 	</c:forEach>
+	
+	<tr style="font-size: 13px;">
+					<td  colspan="9"><c:out value="Total " /></td> 
+					
+					<td align="right" style="padding: 5px;"><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
+										value="${total}" /></td>
+					<td  align="center">- </td> 
+				</tr>
 
 	</tbody>
 	</table>
 
+<br>
 
-
-	<p style="text-align: left; font-weight: normal;">
-		<span style="float: right; margin-right: 96px;">TOTAL -
-			<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2"
-										value="${total}" /></span>
-	</p>
-
-
-	<br>
-
+		<div class="invoice-box">
+					<table cellpadding="0" cellspacing="0" width="1000px">
+		
+						<tr class="information">
+							<td valign="top">
+								<table width="100%">
+									<tr>
+										<td width="80%" 
+											 valign="top" style="font-weight: bold; margin: 0px;" align="left"> </td>
+		
+										<td width="10%" valign="top" style="font-weight: bold; margin: 0px;" align="left">
+		 													     Total Value : <br> 
+		 													     Pack. Value : <br>
+		 													     Insu. Value : <br> 
+		 													     Fret. Value : <br> 
+		 													     Tax Value : <br> 
+		 													     Other Charge : <br> 
+		 													     Total : <br>
+										</td>
+										
+										<td width="10%" valign="top"  style="font-weight: bold; margin: 0px;" align="right"> 
+										
+										 <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${total}" /> <br> 
+			  							<fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.poPackVal}" /> <br> 
+			  							 <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.poInsuVal}" /> <br> 
+			  							 <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.poFrtVal}" /> <br> 
+			  							 <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.poTaxValue}" /> <br> 
+			  							 <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.otherChargeAfter}" /> <br> 
+			  							 <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${total+item.poPackVal+item.poInsuVal+item.poFrtVal+item.poTaxValue+item.otherChargeAfter}" /> <br>
+										</td>
+		
+									</tr>
+		
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
+		<br> 
+ 
 	<table cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%">
 
 				<tr >
@@ -647,12 +729,13 @@ hr {
 	<h5 style="font-weight: bold; margin: 0px; padding-bottom: 5px"  align="left">FACTORY/WORKS:
 		${company.factoryAdd}</h5>
 
-<p style="font-weight: normal; margin: 0px; padding-bottom: 10px"
+<%-- <p style="font-weight: normal; margin: 0px; padding-bottom: 10px"
 		align="right"> ${pageCount}/<fmt:formatNumber value="${totalPage+(1-(totalPage%1))%1}" type="number" pattern="#"/> 
 		<c:set var="pageCount" value="${pageCount+1}" />
-	</p>
+	</p> --%>
 	<!-- END Main Content -->
- 
+	  
+ <div style="page-break-after: always;"></div>
 	</c:forEach>
 </body>
 </html>

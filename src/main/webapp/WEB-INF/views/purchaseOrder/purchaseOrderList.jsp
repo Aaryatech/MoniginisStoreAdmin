@@ -411,13 +411,19 @@
 
 
 <script type="text/javascript">
-			function genPdf(id) {
+
+function genPdf(id) {
+
+	window.open('pdfForReport?url=/pdf/poPdf/' + id);
+
+}
+			/* function genPdf(id) {
 				//alert(id);
 		
 				window.open('poPdf/'
 						+ id );
 
-			}
+			} */
 			
 			function commonPdf() {
 

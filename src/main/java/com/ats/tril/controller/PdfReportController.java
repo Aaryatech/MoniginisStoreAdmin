@@ -61,7 +61,64 @@ public class PdfReportController {
 	
 	//
 	
-	@RequestMapping(value = "/poPdf/{id}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/poPdf/{id}", method = RequestMethod.GET)
+	public ModelAndView poPdf ( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
+
+		
+		ModelAndView model = new ModelAndView("docs/po");
+		try {
+		System.out.println("PO List ids " + id);
+		 
+		
+		RestTemplate restTemplate = new RestTemplate();
+
+	    MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+	    List<Integer> integersList = new ArrayList<Integer>();
+
+		for (int i = 0; i < id.length; i++) {
+
+			if (id[i] > 0) {
+
+				integersList.add(id[i]);
+			}
+		}
+
+		String listOfIds = integersList.stream().map(Object::toString).collect(Collectors.joining(","));
+    
+	    
+		map.add("poIdList", listOfIds);
+		
+		POReport[] reportarray =restTemplate.postForObject(Constants.url + "/getAllPoListHeaderDetailReport", map,POReport[].class );
+		
+		List<POReport>reportsList=new ArrayList<POReport>(Arrays.asList(reportarray));
+		
+		System.out.println("PO Report data " + reportsList.toString());
+		
+		model.addObject("list", reportsList);
+		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 2);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+						
+		}
+		
+		return model;
+	}*/
+	
+	@RequestMapping(value = "/pdf/poPdf/{id}", method = RequestMethod.GET)
 	public ModelAndView poPdf ( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
 
 		
@@ -117,8 +174,6 @@ public class PdfReportController {
 		
 		return model;
 	}
-	
-	
 	
 	// Indent Doc
 

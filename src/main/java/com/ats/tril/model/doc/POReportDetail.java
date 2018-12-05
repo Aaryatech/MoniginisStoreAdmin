@@ -1,6 +1,7 @@
 package com.ats.tril.model.doc;
 
 import java.util.Date;
+ 
 
 
 public class POReportDetail {
@@ -61,9 +62,10 @@ public class POReportDetail {
 	private float otherChargesAfter;
 
 	private float landingCost;
-
-	
-	
+ 
+	private float cgst; 
+	private float sgst; 
+	private float igst;
 	
 	
 	
@@ -293,6 +295,30 @@ public class POReportDetail {
 		this.landingCost = landingCost;
 	}
 
+	public float getCgst() {
+		return cgst;
+	}
+
+	public void setCgst(float cgst) {
+		this.cgst = cgst;
+	}
+
+	public float getSgst() {
+		return sgst;
+	}
+
+	public void setSgst(float sgst) {
+		this.sgst = sgst;
+	}
+
+	public float getIgst() {
+		return igst;
+	}
+
+	public void setIgst(float igst) {
+		this.igst = igst;
+	}
+
 	@Override
 	public String toString() {
 		return "POReportDetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indMDate=" + indMDate + ", indId="
@@ -303,7 +329,7 @@ public class POReportDetail {
 				+ schRemark + ", status=" + status + ", basicValue=" + basicValue + ", packValue=" + packValue
 				+ ", insu=" + insu + ", otherChargesBefor=" + otherChargesBefor + ", taxValue=" + taxValue
 				+ ", freightValue=" + freightValue + ", otherChargesAfter=" + otherChargesAfter + ", landingCost="
-				+ landingCost + "]";
+				+ landingCost + ", cgst=" + cgst + ", sgst=" + sgst + ", igst=" + igst + "]";
 	}
 
 	
