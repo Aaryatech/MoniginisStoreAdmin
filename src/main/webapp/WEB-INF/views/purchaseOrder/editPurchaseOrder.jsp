@@ -341,18 +341,18 @@ body {
 										style="width: 100%; font-size: 14px;" id="table_grid2">
 										<thead>
 											<tr>
-											<th> SR </th>
-										<th class="col-md-4"> Item Name </th>
-										<th> Uom </th>
-										<th> Ind Qty </th> 
-										<th class="col-md-1"> PO Qty </th>
-										<th> Bal QTY </th>
-										<th class="col-md-1"> Rate </th>
-										<th> Sch Date </th>
-										<th> Value </th>
+											<th width="2%"> SR </th>
+										<th  > Item Name </th>
+										<th width="5%"> Uom </th>
+										<th width="6%"> Ind Qty </th> 
+										<th width="6%"> PO Qty </th>
+										<th width="6%"> Bal QTY </th>
+										<th width="6%"> Rate </th>
+										<th class="col-md-1"> Sch Date </th>
+										<th width="7%"> Value </th>
 										<!-- <th> Disc% </th> -->
 										<!-- <th> Sch Days </th> --> 
-										<th> Action </th>
+										<th width="3%"> Action </th>
 									</tr>
 										</thead>
 										<tbody>

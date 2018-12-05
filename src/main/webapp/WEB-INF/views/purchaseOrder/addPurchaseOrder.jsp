@@ -490,14 +490,18 @@ body {
 											<tr>
 										<th width="2%">SR</th>
 										<th>Item Name </th>
-										<th class="col-md-1">Uom</th>
-										<th class="col-md-1">Ind Qty</th> 
-										<th class="col-md-1">PO Qty</th>
-										<th class="col-md-1">Bal QTY</th>
-										<th class="col-md-1">Rate</th>
+										<th width="5%">Uom</th>
+										<th width="6%">Ind Qty</th> 
+										<th width="6%">PO Qty</th>
+										<th width="6%">Bal QTY</th>
+										<th width="6%">Rate</th>
 										<!-- <th>Disc%</th> -->
+										<th width="7%">Value</th>
+										<th width="7%">CGST</th>
+										<th width="7%">SGST</th>
+										<th width="7%">IGST</th>
 										<th class="col-md-1">Sch Date</th>
-										<th class="col-md-1">Value</th>
+										 
 
 									</tr>
 										</thead>
@@ -517,8 +521,23 @@ body {
 													  			<td align="right"><c:out value="${poDetailList.balanceQty}" /></td>
 													  			<td align="right"><c:out value="${poDetailList.itemRate}" /></td>
 													  			<%-- <td align="right"><c:out value="${poDetailList.discPer}" /></td> --%>
+													  			<td align="right"><c:out value="${poDetailList.basicValue}" /></td>
+													  			<c:choose>
+													  				<c:when test="${poDetailList.igst==0}">
+													  					<td align="right"><fmt:formatNumber type="number" maxFractionDigits="2" value="${poDetailList.taxValue/2}"/> (${poDetailList.cgst}%)
+															  			<td align="right"><fmt:formatNumber type="number" maxFractionDigits="2" value="${poDetailList.taxValue/2}"/> (${poDetailList.sgst}%)
+															  			<td align="right"><fmt:formatNumber type="number" maxFractionDigits="2" value="0"/> (${poDetailList.igst}%)
+													  				</c:when>
+													  				<c:otherwise>
+													  					<td align="right"><fmt:formatNumber type="number" maxFractionDigits="2" value="0"/> (${poDetailList.cgst}%)
+															  			<td align="right"><fmt:formatNumber type="number" maxFractionDigits="2" value="0"/> (${poDetailList.sgst}%)
+															  			<td align="right"><fmt:formatNumber type="number" maxFractionDigits="2" value="${poDetailList.taxValue}"/> (${poDetailList.igst}%)
+													  				
+													  				</c:otherwise>
+													  			</c:choose>
+													  			
 													  			<td align="left" ><c:out value="${poDetailList.schDate}" /></td>
-													  			<td align="right"><c:out value="${poDetailList.basicValue}" /></td> 
+													  			
 																</tr>
 												</c:forEach>
  
@@ -1374,7 +1393,7 @@ function requiredField(key)
   			},
   			function(data) {
   				
-  				$('#table_grid1 td').remove();
+  				$('#table_grid2 td').remove();
   				$('#loader').hide();
 
   				if (data == "") {
@@ -1392,6 +1411,35 @@ function requiredField(key)
   				document.getElementById("finalValue").value = (data.poBasicValue-data.discValue+data.poPackVal+data.poInsuVal
   				+data.poFrtVal+data.poTaxValue+data.otherChargeAfter).toFixed(2);
   				
+  				
+  				$.each(
+						data.poDetailList,
+						function(key, itemList) {
+							var tr = $('<tr></tr>'); 
+						  	  tr.append($('<td></td>').html(key+1)); 
+						  	tr.append($('<td></td>').html(itemList.itemCode));
+						  	tr.append($('<td></td>').html(itemList.itemUom));
+						  	tr.append($('<td align="right"></td>').html((itemList.indedQty).toFixed(2)));
+						  	tr.append($('<td align="right"></td>').html((itemList.itemQty).toFixed(2)));
+						  	tr.append($('<td align="right"></td>').html((itemList.balanceQty).toFixed(2)));
+						  	tr.append($('<td align="right"></td>').html((itemList.itemRate).toFixed(2)));
+						  	tr.append($('<td align="right"></td>').html((itemList.basicValue).toFixed(2)));
+						  	if(itemList.igst==0){
+						  		tr.append($('<td align="right"></td>').html((itemList.taxValue/2).toFixed(2)+' ('+ itemList.cgst+')%'));
+							  	tr.append($('<td align="right"></td>').html((itemList.taxValue/2).toFixed(2)+' ('+ itemList.sgst+')%'));
+							  	tr.append($('<td align="right"></td>').html((0).toFixed(2)+' ('+ itemList.igst+')%'));
+						  	}else{
+						  		tr.append($('<td align="right"></td>').html((0).toFixed(2)+' ('+ itemList.cgst+')%'));
+							  	tr.append($('<td align="right"></td>').html((0).toFixed(2)+' ('+ itemList.sgst+')%'));
+							  	tr.append($('<td align="right"></td>').html((itemList.taxValue).toFixed(2)+' ('+ itemList.igst+')%'));
+						  	}
+						   
+						  	tr.append($('<td></td>').html(itemList.schDate));
+						  
+						  	 $('#table_grid2 tbody').append(tr);
+						  	
+						})
+						 
   				
   			});
   	
