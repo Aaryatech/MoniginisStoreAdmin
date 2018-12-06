@@ -1186,7 +1186,7 @@ function itemByIntendId()
 							  	
 							  	var schDate = itemList.indItemSchddt.split("-");
 							  	
-							  	var f =  schDate[2]+'-'+(schDate[1] - 1)+'-'+schDate[0];
+							  	var f =  schDate[2]+'-'+(schDate[1])+'-'+schDate[0];
 							  	
 							  	tr.append($('<td></td>').html(f));
 							  	//tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="hidden" id="indItemSchd'+itemList.indDId+'" name="indItemSchd'+itemList.indDId+'" value="'+itemList.indItemSchd+'"  class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
