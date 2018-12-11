@@ -595,6 +595,7 @@ body {
 										<th width="10%">Qty</th>
 										<th width="10%">Delv Date</th>
 										<th width="7%">Bal To Be Rec</th>
+										<th width="7%">MOQ</th>
 										<th width="7%">MIN Level</th> 
 										<th width="7%"> Actual Stock</th> 
 										<th width="7%">Issue Avg</th> 
@@ -621,6 +622,7 @@ body {
 										<th width="10%">Qty</th>
 										<th width="10%">Delv Date</th>
 										<th width="7%">Bal To Be Rec</th>
+										<th width="7%">MOQ</th>
 										<th width="7%"> MAX Level</th> 
 										<th width="7%"> Actual Stock</th> 
 										<th width="7%">Issue Avg</th> 
@@ -647,6 +649,7 @@ body {
 										<th width="10%">Qty</th>
 										<th width="10%">Delv Date</th>
 										<th width="7%">Bal To Be Rec</th>
+										<th width="7%">MOQ</th>
 										<th width="7%"> ROL Level</th>
 										<th width="7%"> Actual Stock</th> 
 										<th width="7%">Issue Avg</th>
@@ -1305,6 +1308,7 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" onchange="checkQty('+itemList.itemId+');" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 									  	tr.append($('<td ></td>').html('<input class="form-control " id="schDate'+itemList.itemId+'"  type="date" name="schDate'+itemList.itemId+'"   />'));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
+									  	tr.append($('<td style="text-align: right;"></td>').html('<input   type="hidden" id="moqQty'+itemList.itemId+'" value='+itemList.itemopQty+' name="moqQty'+itemList.itemId+'" >'+itemList.itemopQty));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.minLevel));  
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.clsQty)); 
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
@@ -1321,6 +1325,7 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" onchange="checkQty('+itemList.itemId+');" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 									  	tr.append($('<td ></td>').html('<input class="form-control " id="schDate'+itemList.itemId+'"  type="date" name="schDate'+itemList.itemId+'"   />'));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
+									  	tr.append($('<td style="text-align: right;"></td>').html('<input   type="hidden" id="moqQty'+itemList.itemId+'" value='+itemList.itemopQty+' name="moqQty'+itemList.itemId+'" >'+itemList.itemopQty));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.maxLevel)); 
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.clsQty));
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
@@ -1337,6 +1342,7 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td ></td>').html('<input style="text-align:right; width:100px" type="text" onchange="checkQty('+itemList.itemId+');" id="qty'+itemList.itemId+'" name="qty'+itemList.itemId+'"   onchange="checkQty('+itemList.itemId+')" class="form-control"  pattern="[+-]?([0-9]*[.])?[0-9]+"  >'));
 									  	tr.append($('<td ></td>').html('<input class="form-control " id="schDate'+itemList.itemId+'"  type="date" name="schDate'+itemList.itemId+'"   />'));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
+									  	tr.append($('<td style="text-align: right;"></td>').html('<input   type="hidden" id="moqQty'+itemList.itemId+'" value='+itemList.itemopQty+' name="moqQty'+itemList.itemId+'" >'+itemList.itemopQty));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.rolLevel));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.clsQty)); 
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
@@ -1417,6 +1423,8 @@ function changeTable(value) {
 function checkQty(key)
 {
 	var itemQty = parseFloat($("#qty"+key).val()); 
+	var moqQty = parseFloat($("#moqQty"+key).val()); 
+	
 	if(itemQty==0 || itemQty=="" )
 	{
 		document.getElementById("qty"+key).value=""; 
@@ -1424,6 +1432,12 @@ function checkQty(key)
 		document.getElementById("select_to_approve"+key).checked=false;  
 	}
 	else{
+		var rem=itemQty%moqQty;
+		 if(rem!=0){
+			 alert("Enter Multiple of "+ moqQty +" Qty ");
+			 document.getElementById("qty"+key).value=moqQty; 
+		 }
+		
 		document.getElementById("select_to_approve"+key).checked=true;  
 	}
 	 
