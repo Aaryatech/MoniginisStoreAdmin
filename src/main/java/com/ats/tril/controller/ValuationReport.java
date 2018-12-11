@@ -38,6 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ExportToExcel;
@@ -49,12 +50,14 @@ import com.ats.tril.model.IssueAndMrnGroupWise;
 import com.ats.tril.model.IssueAndMrnItemWise;
 import com.ats.tril.model.IssueDeptWise;
 import com.ats.tril.model.IssueMonthWiseList;
+import com.ats.tril.model.ItemExpectedReport;
 import com.ats.tril.model.ItemValuationList;
 import com.ats.tril.model.MonthCategoryWiseMrnReport;
 import com.ats.tril.model.MonthItemWiseMrnReport;
 import com.ats.tril.model.MonthSubDeptWiseIssueReport;
 import com.ats.tril.model.MonthWiseIssueReport;
 import com.ats.tril.model.MrnMonthWiseList;
+import com.ats.tril.model.ShortItemReport;
 import com.ats.tril.model.StockValuationCategoryWise;
 import com.ats.tril.model.Type;
 import com.itextpdf.text.BaseColor;
@@ -74,8 +77,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 @Controller
 @Scope("session")
 public class ValuationReport {
-
-	
+ 
 	RestTemplate rest = new RestTemplate();
 	String fromDate;
 	String toDate;
@@ -5885,7 +5887,6 @@ public class ValuationReport {
 		return model;
 	}
 	
-	
 	@RequestMapping(value = "/indentStatusReportPDF", method = RequestMethod.GET)
 	public void indentStatusReportPDF(HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
@@ -6050,6 +6051,661 @@ public class ValuationReport {
 				Paragraph headingDate=new Paragraph("Indent Status Report, From Date: " + fromDate+"  To Date: "+toDate+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 				
+			document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	List<ItemExpectedReport> itemExpectedReportForPdf = new ArrayList<>();
+	Company companyInfo = new Company();
+	@RequestMapping(value = "/poItemExpectedReport", method = RequestMethod.GET)
+	public ModelAndView poItemExpectedReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/poItemExpectedReport");
+		try {
+			 
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 
+				 fromDate =  "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 toDate = dd.format(date); 
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",yy.format(date)); 
+		 			map.add("status","0,1,2"); 
+		 			ItemExpectedReport[] itemExpectedReport = rest.postForObject(Constants.url + "/getItemExpectedReportBetweenDate",map, ItemExpectedReport[].class);
+					List<ItemExpectedReport> list = new ArrayList<ItemExpectedReport>(Arrays.asList(itemExpectedReport));
+					itemExpectedReportForPdf=list;
+					model.addObject("itemExpectedReport", list);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", dd.format(date));
+					 
+			}
+			else {
+				 
+				 fromDate = request.getParameter("fromDate");
+				 toDate = request.getParameter("toDate");
+				
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate));  
+		 			map.add("status","0,1,2"); 
+		 			ItemExpectedReport[] itemExpectedReport = rest.postForObject(Constants.url + "/getItemExpectedReportBetweenDate",map, ItemExpectedReport[].class);
+					List<ItemExpectedReport> list = new ArrayList<ItemExpectedReport>(Arrays.asList(itemExpectedReport));
+					
+					model.addObject("itemExpectedReport", list);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", toDate);
+					itemExpectedReportForPdf=list;
+			}
+			
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+			
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+ 
+			rowData.add("FROM DATE-"); 
+			rowData.add(fromDate); 
+			rowData.add("TO DATE"); 
+			rowData.add(toDate);
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				
+			rowData.add("SR. No");
+			rowData.add("PO No"); 
+			rowData.add("PO DATE"); 
+			rowData.add("Vendor Name"); 
+			rowData.add("Item Name"); 
+			rowData.add("UOM"); 
+			rowData.add("QTY");
+			rowData.add("SCH DATE"); 
+			  
+			
+			expoExcel.setRowData(rowData); 
+			exportToExcelList.add(expoExcel);
+			
+			int k=0;
+			for (int i = 0; i < itemExpectedReportForPdf.size(); i++) {
+				 
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				k++;
+				rowData.add((k)+"");
+				rowData.add(itemExpectedReportForPdf.get(i).getPoNo()); 
+				rowData.add(""+itemExpectedReportForPdf.get(i).getPoDate());
+				rowData.add(""+itemExpectedReportForPdf.get(i).getVendorCode()+" - " + itemExpectedReportForPdf.get(i).getVendorName());
+				rowData.add(""+itemExpectedReportForPdf.get(i).getItemCode()+" - " + itemExpectedReportForPdf.get(i).getItemDesc());
+				rowData.add(""+itemExpectedReportForPdf.get(i).getUom()); 
+				rowData.add(""+itemExpectedReportForPdf.get(i).getItemQty());
+				rowData.add(""+itemExpectedReportForPdf.get(i).getSchDate()); 
+				
+				
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				 
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "poItemExpectedList");
+			 companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+			 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/poItemExpectedReportPdf", method = RequestMethod.GET)
+	public void poItemExpectedReportPdf(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+	
+		PdfPTable table = new PdfPTable(8);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.6f, 1.5f, 1.5f,3.0f,3.0f, 1.0f, 1.0f, 1.5f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("PO No", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			  
+			hcell = new PdfPCell(new Phrase("PO Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Vendor Name", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Item Name", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("UOM", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Delivery Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			  
+			int index = 0;
+			if(!itemExpectedReportForPdf.isEmpty()) {
+					for (int k = 0; k < itemExpectedReportForPdf.size(); k++) {
+                              
+							index++; 
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(itemExpectedReportForPdf.get(k).getPoNo(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						 
+							cell = new PdfPCell(new Phrase(""+itemExpectedReportForPdf.get(k).getPoDate(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemExpectedReportForPdf.get(k).getVendorCode()+" - "+itemExpectedReportForPdf.get(k).getVendorName(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemExpectedReportForPdf.get(k).getItemCode()+" - "+itemExpectedReportForPdf.get(k).getItemDesc(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemExpectedReportForPdf.get(k).getUom(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemExpectedReportForPdf.get(k).getItemQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+itemExpectedReportForPdf.get(k).getSchDate(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+						 
+					}
+			}
+			
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						companyInfo.getOfficeAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+
+				Paragraph headingDate=new Paragraph("Purchase Order Item Expected Report, From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER);
+			document.add(headingDate);
+			
+			Paragraph ex3=new Paragraph("\n");
+			document.add(ex3);
+			table.setHeaderRows(1);
+			document.add(table);
+			
+		
+			int totalPages = writer.getPageNumber();
+
+			System.out.println("Page no " + totalPages);
+
+			document.close();
+			// Atul Sir code to open a Pdf File
+			if (file != null) {
+
+				String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+				if (mimeType == null) {
+
+					mimeType = "application/pdf";
+
+				}
+
+				response.setContentType(mimeType);
+
+				response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+				response.setContentLength((int) file.length());
+
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+				try {
+					FileCopyUtils.copy(inputStream, response.getOutputStream());
+				} catch (IOException e) {
+					System.out.println("Excep in Opening a Pdf File");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (DocumentException ex) {
+
+			System.out.println("Pdf Generation Error" + ex.getMessage());
+
+			ex.printStackTrace();
+
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	List<ShortItemReport> shortItemReportForPdf = new ArrayList<ShortItemReport>();
+	@RequestMapping(value = "/materialShortRecievedReport", method = RequestMethod.GET)
+	public ModelAndView materialShortRecievedReport(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("valuationReport/materialShortRecievedReport");
+		try {
+			 
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				
+				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = new Date();
+				  Calendar calendar = Calendar.getInstance();
+				  calendar.setTime(date);
+				   
+				 
+				 fromDate =  "01"+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+				 toDate = dd.format(date); 
+				 
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",yy.format(date)); 
+		 			//map.add("status","0,1,2"); 
+		 			ShortItemReport[] shortItemReport = rest.postForObject(Constants.url + "/getShortItemReportBetweenDate",map, ShortItemReport[].class);
+					List<ShortItemReport> list = new ArrayList<ShortItemReport>(Arrays.asList(shortItemReport));
+					shortItemReportForPdf=list;
+					model.addObject("shortItemReportForPdf", list);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", dd.format(date));
+					 
+			}
+			else {
+				 
+				 fromDate = request.getParameter("fromDate");
+				 toDate = request.getParameter("toDate");
+				
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		 			map.add("toDate",DateConvertor.convertToYMD(toDate));  
+		 			//map.add("status","0,1,2"); 
+		 			ShortItemReport[] shortItemReport = rest.postForObject(Constants.url + "/getShortItemReportBetweenDate",map, ShortItemReport[].class);
+					List<ShortItemReport> list = new ArrayList<ShortItemReport>(Arrays.asList(shortItemReport));
+					shortItemReportForPdf=list;
+					model.addObject("shortItemReportForPdf", list);
+					model.addObject("fromDate", fromDate);
+					model.addObject("toDate", toDate);
+					shortItemReportForPdf=list;
+			}
+			
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+			
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+ 
+			rowData.add("FROM DATE-"); 
+			rowData.add(fromDate); 
+			rowData.add("TO DATE"); 
+			rowData.add(toDate);
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				
+			rowData.add("SR. No");
+			rowData.add("PO No"); 
+			rowData.add("PO DATE");  
+			rowData.add("Item Name"); 
+			rowData.add("PO Qty"); 
+			rowData.add("GRN Qty");
+			rowData.add("Short");
+			rowData.add("SCH DATE"); 
+			  
+			
+			expoExcel.setRowData(rowData); 
+			exportToExcelList.add(expoExcel);
+			
+			int k=0;
+			for (int i = 0; i < shortItemReportForPdf.size(); i++) {
+				 
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				k++;
+				rowData.add((k)+"");
+				rowData.add(shortItemReportForPdf.get(i).getPoNo()); 
+				rowData.add(""+shortItemReportForPdf.get(i).getPoDate()); 
+				rowData.add(""+shortItemReportForPdf.get(i).getItemCode()+" - " + shortItemReportForPdf.get(i).getItemDesc());
+				rowData.add(""+shortItemReportForPdf.get(i).getItemQty()); 
+				rowData.add(""+shortItemReportForPdf.get(i).getMrnQty());
+				rowData.add(""+shortItemReportForPdf.get(i).getPendingQty());
+				rowData.add(""+shortItemReportForPdf.get(i).getSchDate()); 
+				
+				
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				 
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", "shortItemList");
+			 companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+			 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/materialShortRecievedReportPdf", method = RequestMethod.GET)
+	public void materialShortRecievedReportPdf(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException {
+		BufferedOutputStream outStream = null;
+		try {
+		Document document = new Document(PageSize.A4);
+		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+		String reportDate = DF.format(new Date());
+        document.addHeader("Date: ", reportDate);
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+		String timeStamp = dateFormat.format(cal.getTime());
+		String FILE_PATH = Constants.REPORT_SAVE;
+		File file = new File(FILE_PATH);
+
+		PdfWriter writer = null;
+
+		FileOutputStream out = new FileOutputStream(FILE_PATH);
+		try {
+			writer = PdfWriter.getInstance(document, out);
+		} catch (DocumentException e) {
+
+			e.printStackTrace();
+		}
+	
+		PdfPTable table = new PdfPTable(8);
+		try {
+			System.out.println("Inside PDF Table try");
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {0.6f, 1.5f, 1.5f,3.0f, 1.5f, 1.5f, 1.5f, 1.5f});
+			Font headFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+
+			PdfPCell hcell = new PdfPCell();
+			
+			hcell.setPadding(4);
+			hcell = new PdfPCell(new Phrase("SR", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("PO No", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			  
+			hcell = new PdfPCell(new Phrase("PO Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			  
+			hcell = new PdfPCell(new Phrase("Item Name", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("PO QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("GRN QTY", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("SHORT", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Delivery Date", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			  
+			int index = 0;
+			if(!shortItemReportForPdf.isEmpty()) {
+					for (int k = 0; k < shortItemReportForPdf.size(); k++) {
+                              
+							index++; 
+							PdfPCell cell;
+							
+							cell = new PdfPCell(new Phrase(""+index, headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPadding(3);
+							table.addCell(cell);
+
+						
+							cell = new PdfPCell(new Phrase(shortItemReportForPdf.get(k).getPoNo(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+						 
+							cell = new PdfPCell(new Phrase(""+shortItemReportForPdf.get(k).getPoDate(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+							cell = new PdfPCell(new Phrase(""+shortItemReportForPdf.get(k).getItemCode()+" - "+shortItemReportForPdf.get(k).getItemDesc(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+shortItemReportForPdf.get(k).getItemQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+shortItemReportForPdf.get(k).getMrnQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+shortItemReportForPdf.get(k).getPendingQty(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+shortItemReportForPdf.get(k).getSchDate(), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+						 
+					}
+			}
+			
+			document.open();
+			Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+			company.setAlignment(Element.ALIGN_CENTER);
+			document.add(company);
+			
+				Paragraph heading1 = new Paragraph(
+						companyInfo.getOfficeAdd(),f1);
+				heading1.setAlignment(Element.ALIGN_CENTER);
+				document.add(heading1);
+				Paragraph ex2=new Paragraph("\n");
+				document.add(ex2);
+
+				Paragraph headingDate=new Paragraph("Material Short Report, From Date: " + fromDate+"  To Date: "+toDate+"",f1);
+				headingDate.setAlignment(Element.ALIGN_CENTER);
 			document.add(headingDate);
 			
 			Paragraph ex3=new Paragraph("\n");
