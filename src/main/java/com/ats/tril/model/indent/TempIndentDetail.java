@@ -17,8 +17,9 @@ public class TempIndentDetail {
 	String remark;
 	
 	int isDuplicate; //1 for yes 0 for no
-	
-	
+	private float poPending;  
+	private float avgIssueQty; 
+	private float moqQty; 
 	public int getIsDuplicate() {
 		return isDuplicate;
 	}
@@ -93,11 +94,36 @@ public class TempIndentDetail {
 		this.itemCode = itemCode;
 	}
 
+	public float getPoPending() {
+		return poPending;
+	}
+
+	public void setPoPending(float poPending) {
+		this.poPending = poPending;
+	}
+
+	public float getAvgIssueQty() {
+		return avgIssueQty;
+	}
+
+	public void setAvgIssueQty(float avgIssueQty) {
+		this.avgIssueQty = avgIssueQty;
+	}
+
+	public float getMoqQty() {
+		return moqQty;
+	}
+
+	public void setMoqQty(float moqQty) {
+		this.moqQty = moqQty;
+	}
+
 	@Override
 	public String toString() {
 		return "TempIndentDetail [itemId=" + itemId + ", itemName=" + itemName + ", qty=" + qty + ", uom=" + uom
 				+ ", curStock=" + curStock + ", schDays=" + schDays + ", date=" + date + ", itemCode=" + itemCode
-				+ ", remark=" + remark + ", isDuplicate=" + isDuplicate + "]";
+				+ ", remark=" + remark + ", isDuplicate=" + isDuplicate + ", poPending=" + poPending + ", avgIssueQty="
+				+ avgIssueQty + ", moqQty=" + moqQty + "]";
 	}
 
 	

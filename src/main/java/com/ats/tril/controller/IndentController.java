@@ -187,6 +187,30 @@ public class IndentController {
 		return totalIndentValueText;
 	}
 	
+	@RequestMapping(value = "/getMoqQtyForValidation", method = RequestMethod.GET)
+	@ResponseBody
+	public GetItem getMoqQtyForValidation(HttpServletRequest request, HttpServletResponse response) {
+  
+		GetItem getItem  = new GetItem();
+		 
+		try {
+			   
+				 int itemId = Integer.parseInt(request.getParameter("itemId"));
+				 
+				 for(int i=0;i<itemList.size();i++) {
+					 if(itemId==itemList.get(i).getItemId()) {
+						 getItem = itemList.get(i);
+					 }
+					 
+				 }
+			 
+			 			  
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return getItem;
+	}
+	
 	@RequestMapping(value = "/getIndentPendingValueLimit", method = RequestMethod.GET)
 	@ResponseBody
 	public float getIndentPendingValueLimit(HttpServletRequest request, HttpServletResponse response) {
@@ -371,6 +395,9 @@ public class IndentController {
 						detail.setDate(DateConvertor.convertToDMY(request.getParameter("schDate"+itemListWithCurrentStockList.get(j).getItemId())));
 						detail.setUom(itemListWithCurrentStockList.get(j).getItemUom());
 						detail.setItemCode(itemListWithCurrentStockList.get(j).getItemCode()); 
+						detail.setPoPending(itemListWithCurrentStockList.get(j).getPoPending());
+						detail.setAvgIssueQty(itemListWithCurrentStockList.get(j).getAvgIssueQty());
+						detail.setMoqQty(itemListWithCurrentStockList.get(j).getItemopQty());
 						tempIndentList.add(detail);
 						break;
 
@@ -441,8 +468,8 @@ public class IndentController {
 						map.add("fromDate", fromDateForStock);
 						map.add("toDate", toDateForStock);
 						map.add("itemId", itemId);
-						GetCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getCurrentStockByItemId",map,GetCurrentStock.class);
-			 			
+						//GetCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getCurrentStockByItemId",map,GetCurrentStock.class);
+						ItemListWithCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getItemListByItemIdWithStock",map,ItemListWithCurrentStock.class);
 						
 						TempIndentDetail detail = new TempIndentDetail();
 						String uom = null;
@@ -451,6 +478,7 @@ public class IndentController {
 							if (itemList.get(j).getItemId() == itemId) {
 								uom = itemList.get(j).getItemUom();
 								itemCode = itemList.get(j).getItemCode();
+								detail.setMoqQty(itemList.get(j).getItemOpQty());
 								break;
 							}
 						}
@@ -465,6 +493,8 @@ public class IndentController {
 						detail.setUom(uom);
 						detail.setItemCode(itemCode);
 						detail.setRemark(remark);
+						detail.setPoPending(getCurrentStockByItemId.getPoPending());
+						detail.setAvgIssueQty(getCurrentStockByItemId.getAvgIssueQty());
 						tempIndentList.add(detail);
 					//}
 				} // end of if tempIndentList.size>0
@@ -485,8 +515,8 @@ public class IndentController {
 					map.add("fromDate", fromDateForStock);
 					map.add("toDate", toDateForStock);
 					map.add("itemId", itemId);
-					GetCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getCurrentStockByItemId",map,GetCurrentStock.class);
-		 			
+					//GetCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getCurrentStockByItemId",map,GetCurrentStock.class);
+					ItemListWithCurrentStock getCurrentStockByItemId = rest.postForObject(Constants.url + "/getItemListByItemIdWithStock",map,ItemListWithCurrentStock.class);
 
 					for (int j = 0; j < itemList.size(); j++) {
 
@@ -494,7 +524,7 @@ public class IndentController {
 
 							uom = itemList.get(j).getItemUom();
 							itemCode = itemList.get(j).getItemCode();
-
+							detail.setMoqQty(itemList.get(j).getItemOpQty());
 							break;
 						}
 					}
@@ -510,6 +540,8 @@ public class IndentController {
 					detail.setUom(uom);
 					detail.setItemCode(itemCode);
 					detail.setRemark(remark);
+					detail.setPoPending(getCurrentStockByItemId.getPoPending());
+					detail.setAvgIssueQty(getCurrentStockByItemId.getAvgIssueQty());
 					tempIndentList.add(detail);
 				} // else it is first item
 			} // end of if key==-1

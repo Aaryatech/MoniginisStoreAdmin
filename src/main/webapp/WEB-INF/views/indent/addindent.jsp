@@ -101,7 +101,7 @@ body {
 	<c:url var="getIndentValueLimit" value="/getIndentValueLimit" />
 	<c:url var="getIndentPendingValueLimit" value="/getIndentPendingValueLimit" />
 	<c:url var="getLastRate" value="/getLastRate" />
-	
+	<c:url var="getMoqQtyForValidation" value="/getMoqQtyForValidation" />
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -418,7 +418,7 @@ body {
 									<div class="col-sm-6 col-lg-10 controls">
 
 										<select id="item_name" name="item_name"
-											class="form-control chosen" placeholder="Item Name" >
+										onchange="getMoqQty()"	class="form-control chosen" placeholder="Item Name" >
 											
 											<option value=""><c:out value="select Item"/></option>  
 										<c:forEach items="${itemList}" var="itemList" >
@@ -454,7 +454,19 @@ body {
 											  />
 									</div>
  
-								</div><br><br><br>
+								</div><br/><br/>
+								<div class="box-content">
+									<label class="col-md-2"> MOQ Qty</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="moqQtyByItemId" id="moqQtyByItemId"
+											class="form-control" placeholder="MOQ Qty"
+											  readonly/>
+ 
+									</div>
+								</div>
+								<br/>
+								<br><br><br>
 								
 								
 								<div class="row">
@@ -511,7 +523,9 @@ body {
 
 													<th class="col-md-1" >Indent
 														Qty</th>
-													 
+													<th class="col-md-1" >Bal To Be Rec</th>
+													<th class="col-md-1" >Issue Avg</th>
+													 <th class="col-md-1" >MOQ</th>
 													<th class="col-md-1" >Sch
 														Date</th>
 														 
@@ -533,6 +547,9 @@ body {
 																<td  ><c:out value="${tempIndentList.uom}" /></td>
 																<td  ><c:out value="${tempIndentList.curStock}" /></td>
 													  			<td  ><c:out value="${tempIndentList.qty}" /></td> 
+													  			<td  ><c:out value="${tempIndentList.poPending}" /></td> 
+													  			<td  ><c:out value="${tempIndentList.avgIssueQty}" /></td> 
+													  			<td  ><c:out value="${tempIndentList.moqQty}" /></td> 
 													  			<td  ><c:out value="${tempIndentList.date}" /></td> 
 													  			<td  ><a href='#' class='action_btn' onclick="deleteIndentItem(${tempIndentList.itemId},${count.index})"><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a></td> 
 																</tr>
@@ -979,7 +996,17 @@ $(document).ready(function() {
 		 var catId=$('#ind_cat').val();
 		 var indentDate=$('#indent_date').val();
 		  
-		if(qty>0 && (itemId!="" || itemId!=null) && schDay!=""){
+		 var moqQty = parseFloat(document.getElementById("moqQtyByItemId").value);
+		 
+		 
+		 var rem=qty%moqQty;
+		 
+		 if(rem!=0){
+			 alert("Enter Multiple of "+ moqQty +" Qty ");
+			 document.getElementById("qty"+key).value=moqQty; 
+		 }
+		 
+		if(rem==0 && (itemId!="" || itemId!=null) && schDay!=""){
 		$.getJSON('${getIndentDetail}', {
 			itemId : itemId,
 			qty : qty,
@@ -1008,9 +1035,12 @@ $(document).ready(function() {
 		  	tr.append($('<td   ></td>').html(trans.curStock));
 
 		  	tr.append($('<td   ></td>').html(trans.qty)); 
+		  	tr.append($('<td   ></td>').html(trans.poPending)); 
+		  	tr.append($('<td   ></td>').html((trans.avgIssueQty).toFixed(2))); 
+		  	tr.append($('<td   ></td>').html(trans.moqQty)); 
 		  	tr.append($('<td   ></td>').html(trans.date)); 
 
-		  	
+		  	 
 		  	/* tr
 			.append($(
 					'<td class="col-md-1" style="text-align: center;"></td>')
@@ -1046,7 +1076,15 @@ $(document).ready(function() {
 		   $("#group").focus();
 		 //document.getElementById("rm_cat").selectedIndex = "0";  
 		 }else{
-			 alert("Please Enter  valid Infromation");
+			 if(rem!=0){
+				 alert("Enter Multiple of "+ moqQty +" Qty ");
+				 
+			 }
+			 else{
+				 
+				 alert("Please Enter  valid Infromation");
+			 }
+			
 		 }
 		}
 	</script>
@@ -1117,6 +1155,9 @@ function deleteIndentItem(itemId,key){
 		  	tr.append($('<td   ></td>').html(trans.curStock));
 
 		  	tr.append($('<td   ></td>').html(trans.qty)); 
+		  	tr.append($('<td   ></td>').html(trans.poPending)); 
+		  	tr.append($('<td   ></td>').html((trans.avgIssueQty).toFixed(2))); 
+		  	tr.append($('<td   ></td>').html(trans.moqQty)); 
 		  	tr.append($('<td   ></td>').html(trans.date)); 
 	  	
 	  /* 	tr
@@ -1260,6 +1301,24 @@ function getLastRate(qty,flag) {
 		   
 			document.getElementById("totalIndentValue").innerHTML = data;
 			document.getElementById("totalIndentValueText").value = data;
+		  
+	});
+
+}
+
+function getMoqQty() {
+	 
+	var itemId = $("#item_name").val();
+	 
+	$.getJSON('${getMoqQtyForValidation}', {
+  
+		itemId : itemId, 
+		ajax : 'true',
+
+	}, function(data) {  
+		   
+			 
+			document.getElementById("moqQtyByItemId").value = data.itemOpQty;
 		  
 	});
 
