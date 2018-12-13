@@ -1341,7 +1341,7 @@ body {
 																						tr
 																						.append($(
 																								'<td class="col-md-1" ></td>')
-																								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
+																								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
 						
 														/* tr
 																.append($(

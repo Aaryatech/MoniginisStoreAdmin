@@ -82,11 +82,11 @@ hr { height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,1
 								</td>
 
 <td valign="top" width="60%" align="center" style="font-weight: bold;  ">
-GOODS RECEIPT NOTE
+MATERIAL RECEIPT NOTE
 								</td>
 
-							<td align="left" width="20">GRN NO : &nbsp;&nbsp;${item.mrnNo }<br>
-							Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp; ${item.mrnDate }
+							<td align="left" width="20"><%-- MRN NO : &nbsp;&nbsp;${item.mrnNo }<br>
+							Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp; ${item.mrnDate } --%>
 							</td>
 						</tr>
 					</table>
@@ -111,20 +111,24 @@ GOODS RECEIPT NOTE
 				<td colspan="3" valign="top">
 					<table>
 						<tr>
-							<td valign="top" width="33%" align="left">
+							<%-- <td valign="top" width="33%" align="left">
 								Gate Entry No : ${item.gateEntryNo }<br>
-								Gate Entry Dt. : ${item.gateEntryDate }</td>
+								Gate Entry Dt. : ${item.gateEntryDate }</td> --%>
 
 
 
-							<td align="left" width="33%">Invoice No : ${item.billNo }<br>
+							<td align="left" width="70%">Invoice No : ${item.billNo }<br>
 							Invoice Dt&nbsp;&nbsp;: ${item.billDate }
 							</td>
 							
-							
-							<td align="left"  width="33%">D/C No. - ${item.docNo } <br>
-							D/C Dt.&nbsp;&nbsp;- ${item.docDate }
+							<td align="right" width="10%">Invoice No :  <br>
+							Invoice Dt&nbsp;&nbsp;: 
 							</td>
+							
+							
+							  <td align="right"  width="20%"> ${item.mrnNo }<br>
+							 ${item.mrnDate }
+							</td>  
 						</tr>
 					</table>
 				</td>
@@ -141,6 +145,7 @@ GOODS RECEIPT NOTE
 				<th >SR.</th>
 				<th >ITEM</th>
 				<th >DESCRIPTION</th>
+				<th >UOM</th>
 				<th >MRN QTY</th> 
 				<th >WT/SIZE</th>
 			</tr>
@@ -155,6 +160,7 @@ GOODS RECEIPT NOTE
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center" ><c:out value="${row.itemCode}" /></td>
 					<td width="60%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="0" align="center" ><c:out value="${row.itemUom}" /></td>
 					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.mrnQty}" /></td> 
 					<td width="0" align="center"><c:out value="NA" /></td>
 

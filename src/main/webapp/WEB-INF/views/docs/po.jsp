@@ -201,7 +201,7 @@ hr {
 								</td>
 
 								<td width="50%"
-									style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
+									valign="top" style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
 
 									<div class="invoice-box">
 										<table cellpadding="0" cellspacing="0">
@@ -210,7 +210,7 @@ hr {
 													<table>
 														<tr>
 
-															<td width="50%" valign="top">Party Cd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendorCode} &nbsp;&nbsp;&nbsp;&nbsp; Order Validity : ${item.approvStatus}</td>
+															<td width="50%" valign="top">Party Cd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendorCode}  </td>
 
 															 
 
@@ -219,9 +219,9 @@ hr {
 												</td>
 											</tr>
 										</table>
-									</div> Quotation No. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendQuation}<br> Quotation Dt. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendQuationDate}<br> 
+									</div> <%-- Quotation No. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendQuation}<br> Quotation Dt. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${item.vendQuationDate}<br>  --%>
 									Indent No. & Date :
-									${item.indNo}  ${item.indDate}
+									${item.indNo}  ${item.indDate}<br>Order Validity : ${item.approvStatus}
 								</td>
 
 							</tr>
@@ -705,7 +705,7 @@ hr {
 				<p
 					style="color: #000; font-size: 10px; vertical-align: top; text-align: center; margin: 0px; font-weight: normal;">
 					For ${company.companyName} <br> <br> <br> <br>
-					Purchase Order authorised Shabbir Fatehnagri/Shabbir Kanorewala
+					Authorised By <br> Shabbir Fatehnagri/Shabbir Kanorewala
 			</td>
 		</tr>
 

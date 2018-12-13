@@ -2214,6 +2214,7 @@ public class PurchaseOrderController {
 			//String excelFilePath = "C:/pdf/Books.xlsx";
 			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books.xlsx";
 			String excelFilePath = "/home/supertom/Books.xlsx";
+			//String excelFilePath = "/home/lenovo/Downloads/Books.xlsx";
 	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 	         
 	        Workbook workbook = new XSSFWorkbook(inputStream);
@@ -2232,8 +2233,8 @@ public class PurchaseOrderController {
 	            while (cellIterator.hasNext()) {
 	                Cell cell = cellIterator.next();
 	                
-	                
-	               
+	                try {
+	                	 
 	                //importExcelForPo.setItemId(Integer.parseInt(cell.getStringCellValue()));
 	                 switch (cell.getCellType()) {
 	                 
@@ -2258,6 +2259,9 @@ public class PurchaseOrderController {
 	                index++;
 	                
 	                System.out.print(" - ");
+	                } catch (Exception e) {
+	        			 
+	        		}
 	            }
 	            
 	            list.add(importExcelForPo);

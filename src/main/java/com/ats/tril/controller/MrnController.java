@@ -1296,6 +1296,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			//String excelFilePath = "C:/pdf/Books1.xlsx";
 			//String excelFilePath = "http://132.148.143.124:8080/triluploads/Books1.xlsx";
 			String excelFilePath = "/home/supertom/Books1.xlsx";
+			//String excelFilePath = "/home/lenovo/Downloads/Books1.xlsx";
 	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 	         
 	        Workbook workbook = new XSSFWorkbook(inputStream);
@@ -1315,7 +1316,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 	                Cell cell = cellIterator.next();
 	                
 	                
-	               
+	               try {
 	                //importExcelForPo.setItemId(Integer.parseInt(cell.getStringCellValue()));
 	                 switch (cell.getCellType()) {
 	                 
@@ -1340,6 +1341,9 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 	                index++;
 	                
 	                System.out.print(" - ");
+	               } catch (Exception e) {
+	       			 
+	       		}
 	            }
 	            
 	            list.add(importExcelForPo);

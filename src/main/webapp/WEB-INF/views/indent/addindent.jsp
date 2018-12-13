@@ -1001,12 +1001,12 @@ $(document).ready(function() {
 		 
 		 var rem=qty%moqQty;
 		 
-		 if(rem!=0){
+		 /* if(rem!=0){
 			 alert("Enter Multiple of "+ moqQty +" Qty ");
 			 document.getElementById("qty"+key).value=moqQty; 
-		 }
+		 } */
 		 
-		if(rem==0 && (itemId!="" || itemId!=null) && schDay!=""){
+		if(qty!=0 && (itemId!="" || itemId!=null) && schDay!=""){
 		$.getJSON('${getIndentDetail}', {
 			itemId : itemId,
 			qty : qty,
@@ -1076,14 +1076,14 @@ $(document).ready(function() {
 		   $("#group").focus();
 		 //document.getElementById("rm_cat").selectedIndex = "0";  
 		 }else{
-			 if(rem!=0){
+			/*  if(rem!=0){
 				 alert("Enter Multiple of "+ moqQty +" Qty ");
 				 
 			 }
-			 else{
+			 else{ */
 				 
 				 alert("Please Enter  valid Infromation");
-			 }
+			 //}
 			
 		 }
 		}
@@ -1491,11 +1491,11 @@ function checkQty(key)
 		document.getElementById("select_to_approve"+key).checked=false;  
 	}
 	else{
-		var rem=itemQty%moqQty;
+		/* var rem=itemQty%moqQty;
 		 if(rem!=0){
 			 alert("Enter Multiple of "+ moqQty +" Qty ");
 			 document.getElementById("qty"+key).value=moqQty; 
-		 }
+		 } */
 		
 		document.getElementById("select_to_approve"+key).checked=true;  
 	}

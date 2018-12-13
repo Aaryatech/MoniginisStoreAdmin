@@ -83,13 +83,13 @@
 											type="text" name="to_date" required value="${toDate}" />
 									</div>
 
-<div class="col-md-1">Grn
+<div class="col-md-1">MRN
 										Type</div>
 									<div class="col-md-2 ">
 										<select name="grn_type" id="grn_type"
 											class="form-control chosen" placeholder="Grn Type" onchange="getInvoiceNo()"
 											data-rule-required="true">
-												<option value="-1">Select Grn Type</option>
+												<option value="-1">Select MRN Type</option>
 											<c:forEach items="${typeList}" var="typeList"> 
 															<option value="${typeList.typeId}">${typeList.typeName}</option>
 														</c:forEach>
@@ -98,6 +98,33 @@
 <div class="col-md-1">
 										<input type="submit" width="20px;" value="Submit" class="btn btn-primary">
 									</div>
+									
+									<c:set value="0" var="isEdit"></c:set>
+								<c:set value="0" var="isDelete"></c:set>
+									<c:forEach items="${sessionScope.newModuleList}" var="allModuleList" >
+															<c:choose>
+																<c:when test="${allModuleList.moduleId==sessionScope.sessionModuleId}">
+																	  <c:forEach items="${allModuleList.subModuleJsonList}" var="subModuleJsonList" >
+																	  		<c:choose>
+																			  	<c:when test="${subModuleJsonList.subModuleId==sessionScope.sessionSubModuleId}">
+																			  		  <c:choose>
+																			  		  
+																			  				<c:when test="${subModuleJsonList.editReject eq 'visible'}">
+																			  				<c:set value="1" var="isEdit"></c:set>
+																			  				</c:when>
+																			  			</c:choose>
+																			  			<c:choose>
+																			  				<c:when test="${subModuleJsonList.deleteRejectApprove eq 'visible'}">
+																			  				<c:set value="1" var="isDelete"></c:set>
+																			  				</c:when> 
+																			  			</c:choose>
+																			  	</c:when>
+																		  	</c:choose>
+																	  </c:forEach>
+																</c:when> 
+															</c:choose>
+														 
+														</c:forEach> 
 
 								</div>
 <div class="col-md-8" ></div> 
@@ -184,18 +211,22 @@
 															class="glyphicon glyphicon glyphicon-file"></i></a>
 													
 														&nbsp;&nbsp;&nbsp;
-														<a
+														<c:choose>
+																<c:when test="${isEdit==1}"><a
 															href="${pageContext.request.contextPath}/showEditViewMrnDetail/${mrn.mrnId}" title="View/Edit"><span
-																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+																class="glyphicon glyphicon-info-sign"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;</c:when></c:choose>
 															<%-- 	<a
 															href="${pageContext.request.contextPath}/editIndent/${mrn.mrnId}"><span
 											 					class="glyphicon glyphicon-info-sign"></span></a> --%>
-											 					
+											 					<c:choose>
+											 					<c:when test="${isDelete==1}">
 											 					<c:choose>
 											 						<c:when test="${mrn.mrnStatus==4}">
 											 						<a href="${pageContext.request.contextPath}/deleteMrn/${mrn.mrnId}" title="Delete" onClick="return confirm('Are you sure want to delete this record');"><span
 																class="fa fa-trash-o"></span></a>
 											 						</c:when> 
+											 					</c:choose>
+											 					</c:when>
 											 					</c:choose>
 																
 														</td>
