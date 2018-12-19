@@ -223,20 +223,7 @@ public class PdfReportController {
 		model.addObject("list", reportsList);
 		model.addObject("fromDate", fromDate);
 		model.addObject("toDate", toDate);
-		
-		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
-				Company.class);
-		model.addObject("company", company);
-		
-		Date date = new Date();
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		 map = new LinkedMultiValueMap<String, Object>();
-		 map.add("docId", 2);
-		 map.add("date", sf.format(date));
-		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
-				DocumentBean.class);
-		model.addObject("documentBean", documentBean);
-		
+		 
 		}catch (Exception e) {
 			e.printStackTrace();
 						

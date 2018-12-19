@@ -320,4 +320,38 @@ public class RmRateVarificationController {
 			return ItemListByVendId;
 		}
 	 
+	 
+	 @RequestMapping(value = "/getItemRateListByCatId", method = RequestMethod.GET)
+		public ModelAndView getItemRateListByCatId(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView model = null;
+			try {
+				RestTemplate rest = new RestTemplate();
+				model = new ModelAndView("rmRateVarification/getItemRateListByCatId");
+			 
+				Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+				List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+				model.addObject("categoryList", categoryList);
+				
+				if(request.getParameter("catId")!=null) {
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+					 
+					int catId = Integer.parseInt(request.getParameter("catId")); 
+					 
+					map.add("catId", catId); 
+					
+					GetRmRateVerificationRecord[] getRmRateVerificationRecord = rest.postForObject(Constants.url + "/getItemRateListByCatId",map,  GetRmRateVerificationRecord[].class); 
+					List<GetRmRateVerificationRecord> getRmRateVerificationRecordList = new ArrayList<GetRmRateVerificationRecord>(Arrays.asList(getRmRateVerificationRecord));
+					model.addObject("getRmRateVerificationRecordList", getRmRateVerificationRecordList);
+					model.addObject("catId", catId);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return model;
+		}
+	 
 }

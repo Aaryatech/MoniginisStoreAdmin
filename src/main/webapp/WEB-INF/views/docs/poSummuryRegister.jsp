@@ -146,7 +146,7 @@ hr {
 								 
 
 								<td width="100%" valign="top" style="font-weight: bold; margin: 0px;" align="center">
- 													PURCHASE ORDER REGISTER BETWEEN ${fromDate} To ${toDate}
+ 													PURCHASE ORDER REGISTER FROM ${fromDate} TO ${toDate}
 								</td>
 								 
 							</tr>
