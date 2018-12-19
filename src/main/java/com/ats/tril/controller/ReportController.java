@@ -1437,6 +1437,18 @@ public class ReportController {
 
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/getTypeListForPendingPo", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Type> getTypeListForPendingPo(HttpServletRequest request, HttpServletResponse response) {
+
+		Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+		List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+	 
+	 
+		return typeList;
+	}
 
 	@RequestMapping(value = "/getPoListReport", method = RequestMethod.GET)
 	@ResponseBody

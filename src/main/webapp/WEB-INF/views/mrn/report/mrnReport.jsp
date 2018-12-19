@@ -109,8 +109,8 @@
 
 								</div>
 							</div>
-							<br>
-							<div class="box-content">
+							<br><input type="hidden" value="-1" id="mrn_status" name="mrn_status">
+							<!-- <div class="box-content">
 								<div class="col-md-2">Select Mrn Status</div>
 								<div class="col-md-3">
 
@@ -126,7 +126,7 @@
 
 								</div>
 							</div>
-							<br>
+							<br> -->
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 									<input type="button" class="btn btn-primary" value="Search "

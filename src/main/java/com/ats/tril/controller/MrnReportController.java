@@ -172,7 +172,7 @@ public class MrnReportController {
 
 			if (statusList.contains("-1")) {
 
-				map.add("statusList", "0" + "," + "1" + "," + "2" + "," + "3");
+				map.add("statusList", "0,5,4" + "," + "1" + "," + "2" + "," + "3");
 			} else {
 
 				map.add("statusList", selectedStatus);
@@ -181,6 +181,7 @@ public class MrnReportController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 
+			System.out.println(map);
 			MrnReport[] mrnReport = restTemplate.postForObject(Constants.url + "/getMrnHeadReport", map,
 					MrnReport[].class);
 

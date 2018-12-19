@@ -367,14 +367,14 @@ h6{
 								${indentList.indMNo}
 									</div>
 									
-									<div class="col-md-1"><b>Date:</b></div>
+									<div class="col-md-2"><b>Date:</b></div>
 									<div class="col-md-2">
 										${indentList.indMDate} 
 									</div>
-									 <div class="col-md-2"><b>Account Head:</b></div>
+									<%--  <div class="col-md-2"><b>Account Head:</b></div>
 									<div class="col-md-2">
 										${indentList.accountHead}  
-									</div>
+									</div> --%>
 									 
 								</div>
 							<br>
@@ -391,21 +391,16 @@ h6{
 										</c:choose>
 									</div>
 										<div class="col-md-2"><b>Indent Type:</b></div>
-									<div class="col-md-1">
+									<div class="col-md-2">
+									
+									<c:forEach items="${typeList}" var="typeList" >
 										<c:choose>
-										<c:when test="${indentList.indMType==1}">
-										Regular
+										<c:when test="${indentList.indMType==typeList.typeId}">
+										${typeList.typeName}
 										</c:when>
-										<c:when test="${indentList.indMType==3}">
-										General
-										</c:when>
-											<c:when test="${indentList.indMType==2}">
-										JobWork
-										</c:when>
-										<c:when test="${indentList.indMType==4}">
-										Other
-										</c:when>
+										 
 										</c:choose>
+										</c:forEach>
 									</div>
 										<div class="col-md-2"><b>Category:</b></div>
 									<div class="col-md-2">
@@ -416,7 +411,7 @@ h6{
                         <div class="col-md-12">
                         
                         			<div class="" id="todayslist">
-						<div class="box-title" style="background-color: #ec9da5;">
+						<div class="box-title" style="background-color: #b6d1f2;">
 							<h3>
 								<i class="fa fa-table"></i>Indent Details
 							</h3>
@@ -440,7 +435,7 @@ h6{
 											<th class="col-md-5">Name</th>
 											<th class="col-md-1">UOM</th>
 											<th class="col-md-1">Ind Qty</th>
-											<th class="col-md-1">Current Stk</th>
+											<!-- <th class="col-md-1">Current Stk</th> -->
 											<th class="col-md-1">Sch Date</th>
 											<th class="col-md-1">Status</th>
 										</tr>
@@ -454,7 +449,7 @@ h6{
 												<td ><c:out value="${indent.indItemDesc}" /></td>
 												<td ><c:out value="${indent.indItemUom}" /></td>
  												<td ><c:out value="${indent.indQty}" /></td>
- 												<td ><c:out value="${indent.indItemCurstk}" /></td>
+ 												<%-- <td ><c:out value="${indent.indItemCurstk}" /></td> --%>
  												<td ><c:out value="${indent.indItemSchddt}" /></td>
 										        <td >
 										        <c:choose>
@@ -462,10 +457,10 @@ h6{
 										          <c:out value="Pending"/>
 										        </c:when>
 										          <c:when test="${indent.indDStatus==1}">
-										          <c:out value="Enquiry"/>
+										          <c:out value="Partial Pending"/>
 										        </c:when>
 										        <c:when test="${indent.indDStatus==2}">
-										          <c:out value="Partial Pending"/>
+										          <c:out value="Completed"/>
 										        </c:when>
 										       <c:otherwise>
 										        <c:out value="closed"/>

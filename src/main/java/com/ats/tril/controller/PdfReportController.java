@@ -36,13 +36,17 @@ import org.zefer.pd4ml.PD4ML;
 import org.zefer.pd4ml.PD4PageMark;
 
 import com.ats.tril.common.Constants;
+import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccountHead;
+import com.ats.tril.model.Category;
 import com.ats.tril.model.Company;
 import com.ats.tril.model.EnquiryDetail;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItem;
+import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.SettingValue;
+import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.GatePassReport;
 import com.ats.tril.model.doc.IndentReport;
@@ -153,6 +157,72 @@ public class PdfReportController {
 		System.out.println("PO Report data " + reportsList.toString());
 		
 		model.addObject("list", reportsList);
+		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 2);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+						
+		}
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/poSummuryRegister", method = RequestMethod.GET)
+	public ModelAndView poSummuryRegister(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseOrder/poSummuryRegister");
+		try {
+
+			/*Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
+
+			 
+				model.addObject("fromDate", display.format(date));
+				model.addObject("toDate", display.format(date));*/
+			 
+			  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/pdf/poSummuryRegisterPdf/{fromDate}/{toDate}", method = RequestMethod.GET)
+	public ModelAndView poSummuryRegister ( @PathVariable String fromDate,@PathVariable String toDate, HttpServletRequest request, HttpServletResponse response) {
+
+		
+		ModelAndView model = new ModelAndView("docs/poSummuryRegister");
+		try {
+		 
+		  
+		RestTemplate restTemplate = new RestTemplate();
+
+	    MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+ 
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
+		
+		POReport[] reportarray =restTemplate.postForObject(Constants.url + "/getAllPoListHeaderDetailReportByDate", map,POReport[].class );
+		
+		List<POReport>reportsList=new ArrayList<POReport>(Arrays.asList(reportarray));
+		 
+		model.addObject("list", reportsList);
+		model.addObject("fromDate", fromDate);
+		model.addObject("toDate", toDate);
 		
 		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
 				Company.class);
@@ -659,9 +729,9 @@ public class PdfReportController {
 		// String url="/showEditViewIndentDetail/1";
 		System.out.println("URL " + url);
 
-		File f = new File("/report.pdf");
+		//File f = new File("/report.pdf");
 		//File f = new File("C:/pdf/report.pdf");
-		//File f =new File("/home/lenovo/Documents/pdf/Report.pdf");
+		File f =new File("/home/lenovo/Documents/pdf/Report.pdf");
 		try {
 			runConverter(Constants.ReportURL + url, f, request, response);
 			// runConverter("www.google.com", f,request,response);
@@ -674,10 +744,10 @@ public class PdfReportController {
 		// get absolute path of the application
 		ServletContext context = request.getSession().getServletContext();
 		String appPath = context.getRealPath("");
-		String filePath = "/report.pdf";
+		//String filePath = "/report.pdf";
 
 		//String filePath ="C:/pdf/report.pdf";
-		//String filePath ="/home/lenovo/Documents/pdf/Report.pdf";
+		String filePath ="/home/lenovo/Documents/pdf/Report.pdf";
 		// construct the complete absolute path of the file
 		String fullPath = appPath + filePath;
 		File downloadFile = new File(filePath);

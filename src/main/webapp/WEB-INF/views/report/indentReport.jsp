@@ -370,22 +370,7 @@
 					tr.append($('<td></td>').html(itemList.indMNo));
 					tr.append($('<td></td>').html(itemList.indMDate));
 					tr.append($('<td></td>').html(itemList.catDesc));
-					var modType2;
-					if (itemList.indIsmonthly == 0) {
-						modType2 = "No";
-					} else if (itemList.indIsmonthly == 1) {
-						modType2 = "Yes";
-					}
-
-					var modType3;
-					if (itemList.indIsdev == 0) {
-						modType3 = "No";
-					} else if (itemList.indIsdev == 1) {
-						modType3 = "Yes";
-					}
-
-					/* tr.append($('<td></td>').html(modType2));
-					tr.append($('<td></td>').html(modType3)); */
+					 
 					var modType;
 					if (itemList.indMStatus == 0) {
 						modType = "Pending";
@@ -393,6 +378,10 @@
 						modType = "Partial Pending";
 					} else if (itemList.indMStatus == 2) {
 						modType = "Closed";
+					}else if (itemList.indMStatus == 9) {
+						modType = "1st Approved Pending";
+					}else if (itemList.indMStatus == 7) {
+						modType = "2nd Approved Pending";
 					}
 					tr.append($('<td></td>').html(modType));
 					if (itemList.indMStatus == 3) {

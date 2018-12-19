@@ -8,7 +8,7 @@
 <body>
 
 	<c:url var="getPoListReport" value="/getPoListReport"></c:url>
-	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
+	<c:url var="getTypeListForPendingPo" value="/getTypeListForPendingPo"></c:url>
 
 
 	<div class="container" id="main-container">
@@ -123,7 +123,7 @@
 										<option value="-1">All</option>
 										<option value="0">Pending</option>
 										<option value="1">Partial Pending</option>
-										<option value="2">Return</option>
+										<option value="2">Completed</option>
 
 									</select>
 
@@ -158,13 +158,11 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
+											<th width="2%">Sr no.</th>
 											<th class="col-md-1">PO Date</th>
-											<th class="col-md-1">Vendor Name</th>
-											<th class="col-md-1">Po No</th>
-											<th class="col-md-1">Po Basic value</th>
-											<th class="col-md-1">Po Total Value</th>
-											<th class="col-md-1">Tax Applicable</th>
+											<th class="col-md-3">Vendor Name</th>
+											<th class="col-md-1">Po No</th> 
+											<th class="col-md-1">Po Total Value</th> 
 											<th class="col-md-1">Po Status</th>
 											<th class="col-md-1">Po Type</th>
 										</tr>
@@ -322,6 +320,15 @@
 				ajax : 'true'
 
 			}, function(data) {
+				
+				
+				$.getJSON('${getTypeListForPendingPo}',
+
+						{
+ 
+							ajax : 'true'
+
+						}, function(data1) {
 
 				$('#table1 td').remove();
 				$('#loader').hide();
@@ -341,34 +348,36 @@
 					tr.append($('<td></td>').html(itemList.poDate));
 					tr.append($('<td></td>').html(itemList.vendorName));
 					tr.append($('<td></td>').html(itemList.poNo));
-					tr.append($('<td></td>').html(itemList.poBasicValue));
-					tr.append($('<td></td>').html(itemList.totalValue));
-					tr.append($('<td></td>').html(itemList.poTaxValue));
-
+					tr.append($('<td align="right"></td>').html((itemList.poBasicValue-itemList.discValue+itemList.poTaxValue+itemList.poPackVal+itemList.poFrtVal+itemList.otherChargeAfter).toFixed(2))); 
+					 
+					 
 					if (itemList.poStatus == 0) {
 						modType = "Pending";
 
 					} else if (itemList.poStatus == 1) {
 						modType = "Partial Pending";
 					} else if (itemList.poStatus == 2) {
-						modType = "Return";
+						modType = "Completed";
 					}
 					tr.append($('<td></td>').html(modType));
-
-					if (itemList.poType == 1) {
-						modType1 = "Regular";
-
-					} else if (itemList.poType == 2) {
-						modType1 = "Job Work";
-					} else if (itemList.poType == 3) {
-						modType1 = "General";
-					} else if (itemList.poType == 4) {
-						modType1 = "Other";
+					
+					var modType1;
+					for(var i=0;i<data1.length ; i++){
+						
+						if(data1[i].typeId==itemList.poType){
+							modType1 = data1[i].typeName;
+							break;
+						}
+						
 					}
+
+					 
 					tr.append($('<td></td>').html(modType1));
 
 					$('#table1 tbody').append(tr);
 				})
+				
+						});
 
 			});
 		}

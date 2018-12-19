@@ -913,24 +913,29 @@ public class PurchaseOrderController {
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
 				map.add("catId",0);
+				map.add("typeId",0);
 				
 				model.addObject("fromDate", display.format(date));
 				model.addObject("toDate", display.format(date));
 				model.addObject("catId",0);
+				model.addObject("typeId",0);
 			}
 			else {
 				
 				String fromDate = request.getParameter("fromDate");
 				String toDate = request.getParameter("toDate");
 				int catId = Integer.parseInt(request.getParameter("catId"));
+				int typeId = Integer.parseInt(request.getParameter("typeId"));
 				
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
 				map.add("catId",catId);
+				map.add("typeId",typeId);
+				
 				model.addObject("fromDate", fromDate);
 				model.addObject("toDate", toDate);
 				model.addObject("catId", catId);
-				
+				model.addObject("typeId",typeId);
 			}
 			
 

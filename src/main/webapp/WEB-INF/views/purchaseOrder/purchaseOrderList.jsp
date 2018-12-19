@@ -110,7 +110,7 @@
 														</c:forEach> 
 							<div class="box-content">
 
-									<div class="col-md-2">Select Type*</div>
+									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="catId" id="catId"
 											required>
@@ -122,6 +122,26 @@
 												</c:when>
 												<c:otherwise>
 												<option value="${categoryList.catId}">${categoryList.catDesc}</option> 
+												</c:otherwise>
+											</c:choose> 
+													 
+											</c:forEach>
+										</select>
+
+									</div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Select Type*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="typeId" id="typeId"
+											required>
+											<option value="0">All</option>
+											<c:forEach items="${typeList}" var="typeList">
+											<c:choose>
+												<c:when test="${typeList.typeId==typeId}">
+												<option value="${typeList.typeId}" selected>${typeList.typeName}</option> 
+												</c:when>
+												<c:otherwise>
+												<option value="${typeList.typeId}">${typeList.typeName}</option> 
 												</c:otherwise>
 											</c:choose> 
 													 
