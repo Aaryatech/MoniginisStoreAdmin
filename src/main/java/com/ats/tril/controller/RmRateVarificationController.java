@@ -1,7 +1,20 @@
 package com.ats.tril.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetRmRateVerificationRecord;
 import com.ats.tril.model.ItemListByRateVerification;
@@ -30,6 +46,18 @@ import com.ats.tril.model.RmRateVerificationRecord;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.VendorListForRateVarification;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Controller
 @Scope("session")
@@ -37,7 +65,7 @@ public class RmRateVarificationController {
 	
 	List<GetItem> itemList = new ArrayList<>();
 	RmRateVerificationList rmRateVerificationList = new RmRateVerificationList();
-	
+	Company companyInfo = new Company();
 
 	public static Logger logger = LoggerFactory.getLogger(RmRateVarificationController.class);
 
@@ -320,6 +348,7 @@ public class RmRateVarificationController {
 			return ItemListByVendId;
 		}
 	 
+	 List<GetRmRateVerificationRecord> getRmRateVerificationRecordListForPdf =  new ArrayList<GetRmRateVerificationRecord>();
 	 
 	 @RequestMapping(value = "/getItemRateListByCatId", method = RequestMethod.GET)
 		public ModelAndView getItemRateListByCatId(HttpServletRequest request, HttpServletResponse response) {
@@ -345,13 +374,211 @@ public class RmRateVarificationController {
 					List<GetRmRateVerificationRecord> getRmRateVerificationRecordList = new ArrayList<GetRmRateVerificationRecord>(Arrays.asList(getRmRateVerificationRecord));
 					model.addObject("getRmRateVerificationRecordList", getRmRateVerificationRecordList);
 					model.addObject("catId", catId);
+					getRmRateVerificationRecordListForPdf=getRmRateVerificationRecordList;
 				}
+				else {
+					getRmRateVerificationRecordListForPdf =  new ArrayList<GetRmRateVerificationRecord>();
+				}
+				
+				companyInfo = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			return model;
+		}
+	 
+	 @RequestMapping(value = "/itemRateListByCatIdPdf/{catDesc}", method = RequestMethod.GET)
+		public void materialShortRecievedReportPdf(@PathVariable String catDesc, HttpServletRequest request, HttpServletResponse response)
+				throws FileNotFoundException {
+			BufferedOutputStream outStream = null;
+			try {
+			Document document = new Document(PageSize.A4);
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+			String reportDate = DF.format(new Date());
+	        document.addHeader("Date: ", reportDate);
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+
+			System.out.println("time in Gen Bill PDF ==" + dateFormat.format(cal.getTime()));
+			String timeStamp = dateFormat.format(cal.getTime());
+			String FILE_PATH = Constants.REPORT_SAVE;
+			File file = new File(FILE_PATH);
+
+			PdfWriter writer = null;
+
+			FileOutputStream out = new FileOutputStream(FILE_PATH);
+			try {
+				writer = PdfWriter.getInstance(document, out);
+			} catch (DocumentException e) {
+
+				e.printStackTrace();
+			}
+		
+			PdfPTable table = new PdfPTable(6);
+			try {
+				System.out.println("Inside PDF Table try");
+				table.setWidthPercentage(100);
+				table.setWidths(new float[] {0.6f, 2.5f,3.0f, 1.5f, 2.0f, 2.0f });
+				Font headFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
+				Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+				Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
+				Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.DARK_GRAY);
+
+				PdfPCell hcell = new PdfPCell();
+				
+				hcell.setPadding(4);
+				hcell = new PdfPCell(new Phrase("SR", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell);
+
+				hcell = new PdfPCell(new Phrase("Item Name ", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell);
+				  
+				hcell = new PdfPCell(new Phrase("Vendor Name", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell);
+				  
+				hcell = new PdfPCell(new Phrase("Date", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell);
+				
+				hcell = new PdfPCell(new Phrase("Rate Incl", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell);
+				
+				hcell = new PdfPCell(new Phrase("Rate Extra", headFont1));
+				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				hcell.setBackgroundColor(BaseColor.PINK);
+				table.addCell(hcell); 
+				  
+				int index = 0;
+				if(!getRmRateVerificationRecordListForPdf.isEmpty()) {
+						for (int k = 0; k < getRmRateVerificationRecordListForPdf.size(); k++) {
+	                              
+								index++; 
+								PdfPCell cell;
+								
+								cell = new PdfPCell(new Phrase(""+index, headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+								cell.setPadding(3);
+								table.addCell(cell);
+
+							
+								cell = new PdfPCell(new Phrase(getRmRateVerificationRecordListForPdf.get(k).getItemDesc(), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+								cell.setPaddingRight(2);
+								cell.setPadding(3);
+								table.addCell(cell);
+							 
+								cell = new PdfPCell(new Phrase(""+getRmRateVerificationRecordListForPdf.get(k).getVendorName(), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+								cell.setPaddingRight(2);
+								cell.setPadding(3);
+								table.addCell(cell);
+								 
+								cell = new PdfPCell(new Phrase(""+getRmRateVerificationRecordListForPdf.get(k).getRateDate(), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+								cell.setPaddingRight(2);
+								cell.setPadding(3);
+								table.addCell(cell);
+								
+								cell = new PdfPCell(new Phrase(""+getRmRateVerificationRecordListForPdf.get(k).getRateTaxIncl(), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+								cell.setPaddingRight(2);
+								cell.setPadding(3);
+								table.addCell(cell);
+								
+								cell = new PdfPCell(new Phrase(""+getRmRateVerificationRecordListForPdf.get(k).getRateTaxExtra(), headFont));
+								cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+								cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+								cell.setPaddingRight(2);
+								cell.setPadding(3);
+								table.addCell(cell);
+								 
+								 
+							 
+						}
+				}
+				
+				document.open();
+				Paragraph company = new Paragraph(companyInfo.getCompanyName()+"\n", f);
+				company.setAlignment(Element.ALIGN_CENTER);
+				document.add(company);
+				
+					Paragraph heading1 = new Paragraph(
+							companyInfo.getOfficeAdd(),f1);
+					heading1.setAlignment(Element.ALIGN_CENTER);
+					document.add(heading1);
+					Paragraph ex2=new Paragraph("\n");
+					document.add(ex2);
+
+					Paragraph headingDate=new Paragraph(catDesc+" Rate List",f1);
+					headingDate.setAlignment(Element.ALIGN_CENTER);
+				document.add(headingDate);
+				
+				Paragraph ex3=new Paragraph("\n");
+				document.add(ex3);
+				table.setHeaderRows(1);
+				document.add(table);
+				
+			
+				int totalPages = writer.getPageNumber();
+
+				System.out.println("Page no " + totalPages);
+
+				document.close();
+				// Atul Sir code to open a Pdf File
+				if (file != null) {
+
+					String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+					if (mimeType == null) {
+
+						mimeType = "application/pdf";
+
+					}
+
+					response.setContentType(mimeType);
+
+					response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+					response.setContentLength((int) file.length());
+
+					InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+					try {
+						FileCopyUtils.copy(inputStream, response.getOutputStream());
+					} catch (IOException e) {
+						System.out.println("Excep in Opening a Pdf File");
+						e.printStackTrace();
+					}
+				}
+
+			} catch (DocumentException ex) {
+
+				System.out.println("Pdf Generation Error" + ex.getMessage());
+
+				ex.printStackTrace();
+
+			}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	 
 }

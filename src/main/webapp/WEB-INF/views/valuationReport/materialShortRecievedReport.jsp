@@ -80,21 +80,22 @@
 								
 				 
 							</div><br>
-							<%-- 
+							
 							<div class="box-content">
 
-									<div class="col-md-2">Select Type*</div>
+									 
+									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
-										<select class="form-control chosen" name="typeId" id="typeId"
+										<select class="form-control chosen" name="catId" id="catId"
 											required>
 											<option value="0">All</option>
-											<c:forEach items="${typeList}" var="typeList">
+											<c:forEach items="${categoryList}" var="categoryList">
 											<c:choose>
-												<c:when test="${typeList.typeId==typeId}">
-												<option value="${typeList.typeId}" selected>${typeList.typeName}</option> 
+												<c:when test="${categoryList.catId==catId}">
+												<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option> 
 												</c:when>
 												<c:otherwise>
-												<option value="${typeList.typeId}">${typeList.typeName}</option> 
+												<option value="${categoryList.catId}">${categoryList.catDesc}</option> 
 												</c:otherwise>
 											</c:choose> 
 													 
@@ -102,38 +103,8 @@
 										</select>
 
 									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">Is Development*</div>
-									<div class="col-md-3">
-										<select class="form-control chosen" name="isDev" id="isDev"
-											required>
-											<c:choose>
-												<c:when test="${isDevelompent==-1}">
-													<option value="-1" selected>All</option>
-													 <option value="0">No</option>
-													 <option value="1">Yes</option>
-												</c:when>
-												<c:when test="${isDevelompent==0}">
-													<option value="-1" >All</option>
-													 <option value="0" selected>No</option>
-													 <option value="1">Yes</option>
-												</c:when>
-											
-											 <c:when test="${isDevelompent==1}">
-													<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1"selected>Yes</option>
-												</c:when>  
-												<c:otherwise>
-												<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1" >Yes</option>
-												</c:otherwise>
-												</c:choose>
-										</select>
-
-									</div>
-								</div><br> --%><br>
+								</div><br> <br> 
+						 
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">

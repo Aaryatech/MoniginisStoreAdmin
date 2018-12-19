@@ -943,9 +943,35 @@ public class MasterController {
 		ModelAndView model = new ModelAndView("masters/getItemList");
 		try {
 
-			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
-			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
-			model.addObject("itemList", itemList);
+			
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
+			
+			if(request.getParameter("catId")==null) {
+				
+				GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+				List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
+				model.addObject("itemList", itemList);
+			}else {
+				
+				int catId = Integer.parseInt(request.getParameter("catId")); 
+				 if(catId==0) {
+					 GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+						List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
+						model.addObject("itemList", itemList);
+				 }else {
+					 
+					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+						map.add("catId", catId); 
+						GetItem[] GetItem = rest.postForObject(Constants.url + "itemListByCatId", map, GetItem[].class);
+						List<GetItem> itemList = new ArrayList<>(Arrays.asList(GetItem));
+						model.addObject("itemList", itemList);
+				 }
+				 model.addObject("catId", catId);
+				
+			}
 			 
 
 		} catch (Exception e) {

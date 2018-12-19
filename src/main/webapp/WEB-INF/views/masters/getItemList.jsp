@@ -81,8 +81,41 @@
 															</c:choose>
 														 
 														</c:forEach> 
-
+ 		<form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/getItemList" method="get">
 						<div class="box-content">
+						
+						<div class="box-content">
+
+									 
+									<div class="col-md-2">Select Category*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="catId" id="catId"
+											required>
+											<option value="0">All</option>
+											<c:forEach items="${categoryList}" var="categoryList">
+											<c:choose>
+												<c:when test="${categoryList.catId==catId}">
+												<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option> 
+												</c:when>
+												<c:otherwise>
+												<option value="${categoryList.catId}">${categoryList.catDesc}</option> 
+												</c:otherwise>
+											</c:choose> 
+													 
+											</c:forEach>
+										</select>
+
+									</div>
+								</div><br> <br> 
+								
+								<div class="row">
+							<div class="col-md-12" style="text-align: center">
+								<input type="submit" class="btn btn-info"   value="Search">
+								  
+							</div>
+							
+						</div> <br>
+						
 						
 							<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
@@ -148,7 +181,7 @@
 							
 							
 						</div>
-
+</form>
 					</div>
 				</div>
  

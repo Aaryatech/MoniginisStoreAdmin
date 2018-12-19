@@ -6112,6 +6112,11 @@ public class ValuationReport {
 		ModelAndView model = new ModelAndView("valuationReport/poItemExpectedReport");
 		try {
 			 
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
+			
+			
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
 				
 				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
@@ -6128,6 +6133,7 @@ public class ValuationReport {
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",yy.format(date)); 
 		 			map.add("status","0,1,2"); 
+		 			map.add("catId","0"); 
 		 			ItemExpectedReport[] itemExpectedReport = rest.postForObject(Constants.url + "/getItemExpectedReportBetweenDate",map, ItemExpectedReport[].class);
 					List<ItemExpectedReport> list = new ArrayList<ItemExpectedReport>(Arrays.asList(itemExpectedReport));
 					itemExpectedReportForPdf=list;
@@ -6140,17 +6146,20 @@ public class ValuationReport {
 				 
 				 fromDate = request.getParameter("fromDate");
 				 toDate = request.getParameter("toDate");
-				
+				int catId = Integer.parseInt(request.getParameter("catId"));
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",DateConvertor.convertToYMD(toDate));  
-		 			map.add("status","0,1,2"); 
+		 			map.add("status","0,1,2");
+		 			map.add("catId",catId);
+		 			
 		 			ItemExpectedReport[] itemExpectedReport = rest.postForObject(Constants.url + "/getItemExpectedReportBetweenDate",map, ItemExpectedReport[].class);
 					List<ItemExpectedReport> list = new ArrayList<ItemExpectedReport>(Arrays.asList(itemExpectedReport));
 					
 					model.addObject("itemExpectedReport", list);
 					model.addObject("fromDate", fromDate);
 					model.addObject("toDate", toDate);
+					model.addObject("catId", catId);
 					itemExpectedReportForPdf=list;
 			}
 			
@@ -6439,6 +6448,11 @@ public class ValuationReport {
 		ModelAndView model = new ModelAndView("valuationReport/materialShortRecievedReport");
 		try {
 			 
+			
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
+			
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
 				
 				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
@@ -6454,7 +6468,7 @@ public class ValuationReport {
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",yy.format(date)); 
-		 			//map.add("status","0,1,2"); 
+		 			map.add("catId","0"); 
 		 			ShortItemReport[] shortItemReport = rest.postForObject(Constants.url + "/getShortItemReportBetweenDate",map, ShortItemReport[].class);
 					List<ShortItemReport> list = new ArrayList<ShortItemReport>(Arrays.asList(shortItemReport));
 					shortItemReportForPdf=list;
@@ -6467,17 +6481,20 @@ public class ValuationReport {
 				 
 				 fromDate = request.getParameter("fromDate");
 				 toDate = request.getParameter("toDate");
-				
+				int catId = Integer.parseInt(request.getParameter("catId"));
+				 
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",DateConvertor.convertToYMD(toDate));  
-		 			//map.add("status","0,1,2"); 
+		 			map.add("catId",catId);
 		 			ShortItemReport[] shortItemReport = rest.postForObject(Constants.url + "/getShortItemReportBetweenDate",map, ShortItemReport[].class);
 					List<ShortItemReport> list = new ArrayList<ShortItemReport>(Arrays.asList(shortItemReport));
 					shortItemReportForPdf=list;
 					model.addObject("shortItemReportForPdf", list);
 					model.addObject("fromDate", fromDate);
 					model.addObject("toDate", toDate);
+					model.addObject("catId", catId);
+					
 					shortItemReportForPdf=list;
 			}
 			

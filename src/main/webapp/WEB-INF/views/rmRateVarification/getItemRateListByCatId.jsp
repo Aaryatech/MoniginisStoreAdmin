@@ -82,7 +82,7 @@
 							<div class="box-content">
 
 									 
-									<div class="col-md-2">Select Vendor*</div>
+									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="catId" id="catId"
 											required>
@@ -105,14 +105,17 @@
 							
 							<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
+								<input type="submit" class="btn btn-info"   value="Search">
+								 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />
 								<%-- <c:choose>
 												<c:when test="${fromDate!=null}">
 									 
 								 
 											 
 											 
-											
+											<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />
 											 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
@@ -469,7 +472,8 @@ function showChart(){
 
 	<script type="text/javascript">
 	function genPdf(){
-		window.open('${pageContext.request.contextPath}/issueAndMrnCategoryWisePDF/');
+		 var catDesc = $("#catId option:selected").text();
+		window.open('${pageContext.request.contextPath}/itemRateListByCatIdPdf/'+catDesc);
 	}
 	function exportToExcel()
 	{

@@ -141,6 +141,9 @@
 												</thead>
 												<tbody>
 													<c:set var="srNo" value="0" />
+													<c:set var="totalInQty" value="0" />
+													<c:set var="totalOutQty" value="0" />
+													 
 													<c:forEach items="${itemValuationList}" var="itemValuationList"
 														varStatus="count">
 
@@ -153,8 +156,9 @@
 
 															<c:choose>
 																<c:when test="${itemValuationList.type==1}">
-																	<td align="right"><c:out value="${itemValuationList.qty}" /></td>
+																	<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${itemValuationList.qty}"/> </td>
 																	<c:set var="oppyQty" value="${oppyQty+itemValuationList.qty}"></c:set>
+																	<c:set var="totalInQty" value="${totalInQty+itemValuationList.qty}"></c:set>
 																</c:when>
 																<c:otherwise>
 																	<td align="center"><c:out value="-" /></td>
@@ -163,16 +167,27 @@
 
 															<c:choose>
 																<c:when test="${itemValuationList.type==0}">
-																	<td align="right"><c:out value="${itemValuationList.qty}" /></td>
+																	<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${itemValuationList.qty}"/> </td>
 																	<c:set var="oppyQty" value="${oppyQty-itemValuationList.qty}"></c:set>
+																	<c:set var="totalOutQty" value="${totalOutQty+itemValuationList.qty}"></c:set>
 																</c:when>
 																<c:otherwise>
 																	<td align="center"><c:out value="-" /></td>
 																</c:otherwise>
 															</c:choose>
 															
-															<td align="right"><c:out value="${oppyQty}" /></td>
+															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${oppyQty}"/></td>
+															</tr>
 													</c:forEach>
+													
+													<tr>
+															<td colspan="4"> <c:out value="Total" /></td>
+															 
+															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${totalInQty}"/></td>
+															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${totalOutQty}"/></td>
+															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${totalInQty-totalOutQty}"/></td>
+
+													</tr>
 
 
 												</tbody>
