@@ -141,13 +141,21 @@
 								<c:choose>
 												<c:when test="${fromDate!=null}">
 									 
-								 
-											 
-											 
-											
-											 <input type="button" value="PDF" class="btn btn-primary"
+								 			 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+													 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+												</c:when>
+												<c:otherwise>
+												 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" disabled/>&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled>
+												</c:otherwise>
+											</c:choose>
+												
+												
+											
 											&nbsp;
 											      <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph">  
 											 
@@ -181,9 +189,19 @@
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">CATEGORY NAME</th> 
 										<th class="col-md-1">APPV QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">APPV VALUE</th>
+										</c:when>
+										</c:choose>
+										
 										<th class="col-md-1">ISSUE QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">ISSUE VALUE</th>   
+										</c:when>
+										</c:choose>
+										
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -202,12 +220,22 @@
 												<td  ><c:out value="${categoryWiseReport.catDesc}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${categoryWiseReport.approveQty}" /></td>
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${categoryWiseReport.approvedQtyValue}" /></td> 
+													</c:when>
+													</c:choose>
+													
 											<td class="col-md-1"><c:out
 													value="${categoryWiseReport.issueQty}" /></td> 
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${categoryWiseReport.issueQtyValue}" /></td> 
+													</c:when>
+													</c:choose>
+													
 											 <td><a href="${pageContext.request.contextPath}/issueAndMrnReportGroupWise/${categoryWiseReport.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>

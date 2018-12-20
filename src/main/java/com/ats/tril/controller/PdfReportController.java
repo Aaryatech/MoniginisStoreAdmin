@@ -184,7 +184,7 @@ public class PdfReportController {
 
 		ModelAndView model = new ModelAndView("purchaseOrder/poSummuryRegister");
 		try {
-
+			RestTemplate restTemplate = new RestTemplate();
 			/*Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat display = new SimpleDateFormat("dd-MM-yyyy");
@@ -192,6 +192,10 @@ public class PdfReportController {
 			 
 				model.addObject("fromDate", display.format(date));
 				model.addObject("toDate", display.format(date));*/
+			
+			Category[] category = restTemplate.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
 			 
 			  
 		} catch (Exception e) {
@@ -201,8 +205,9 @@ public class PdfReportController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/pdf/poSummuryRegisterPdf/{fromDate}/{toDate}", method = RequestMethod.GET)
-	public ModelAndView poSummuryRegister ( @PathVariable String fromDate,@PathVariable String toDate, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/pdf/poSummuryRegisterPdf/{fromDate}/{toDate}/{catId}", method = RequestMethod.GET)
+	public ModelAndView poSummuryRegister ( @PathVariable String fromDate,@PathVariable String toDate,
+			@PathVariable int catId, HttpServletRequest request, HttpServletResponse response) {
 
 		
 		ModelAndView model = new ModelAndView("docs/poSummuryRegister");
@@ -215,6 +220,7 @@ public class PdfReportController {
  
 		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 		map.add("toDate", DateConvertor.convertToYMD(toDate));
+		map.add("catId", catId);
 		
 		POReport[] reportarray =restTemplate.postForObject(Constants.url + "/getAllPoListHeaderDetailReportByDate", map,POReport[].class );
 		

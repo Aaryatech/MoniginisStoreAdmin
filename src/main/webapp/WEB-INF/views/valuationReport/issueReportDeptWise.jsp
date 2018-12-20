@@ -153,24 +153,40 @@
 										</select>
 
 									</div><div class="col-md-1" >
-								<input type="submit" class="btn btn-info"   value="Search"> 
+								
 							</div>
-									<c:choose>
-												<c:when test="${fromDate!=null}">
-									<div class="form-group"  id="range">
+									
+									 
+								</div><br><br>
+								
+								<div class="row">
+							<div class="col-md-12" style="text-align: center">
+								 <input type="submit" class="btn btn-primary"   value="Search">
 								 
-											 
-											<div class="col-md-4  controls">
-											
+								 <c:choose>
+												<c:when test="${fromDate!=null}">
+									  <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 											&nbsp;
-											    <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph"></div>
-											</div>
-											</c:when></c:choose>
-									 
-								</div>
+											</c:when>
+											<c:otherwise>
+											 <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" disabled/>&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled>
+											&nbsp;
+											
+											</c:otherwise>
+											</c:choose>
+											
+											    <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph"> 
+											 
+											</c:when></c:choose> 
+											
+							</div>
+						</div> <br>
 							
 						<!-- 	<div class="row">
 							<div class="col-md-12" style="text-align: center">
@@ -206,7 +222,12 @@
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">DEPARMENT NAME</th>  
 										<th class="col-md-1">ISSUE QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">ISSUE VALUE</th>   
+										</c:when>
+										</c:choose>
+										
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -226,8 +247,13 @@
 												<td  ><c:out value="${deptWiselist.deptCode}" /></td>   
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQty}" /></td> 
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQtyValue}" /></td> 
+													</c:when>
+													</c:choose>
+													
 											 <td><a href="${pageContext.request.contextPath}/issueReportSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</c:when>
 											 </c:choose>

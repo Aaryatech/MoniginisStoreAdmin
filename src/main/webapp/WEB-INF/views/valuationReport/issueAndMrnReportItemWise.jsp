@@ -105,12 +105,23 @@
 								
 								<div class="row">
 							<div class="col-md-12" style="text-align: center">
-								  
+								  <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											 <input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
 											&nbsp;
-											   <!--  <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">  -->
+											  </c:when>
+											  <c:otherwise>
+											  
+											  <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" disabled/>&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled>
+											&nbsp;
+											  
+											  </c:otherwise>
+											  </c:choose>
+											  
 											  
 							</div>
 						</div> <br>
@@ -129,9 +140,18 @@
 										<th style="width:1%;">Sr no.</th>
 										<th class="col-md-4">ITEM NAME</th> 
 										<th class="col-md-1">APPV QTY</th>
+										 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">APPV VALUE</th>
+										</c:when>
+										</c:choose>
 										<th class="col-md-1">ISSUE QTY</th>
+										 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">ISSUE VALUE</th> 
+										</c:when>
+										</c:choose>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -148,12 +168,21 @@
 												 <td  ><c:out value="${list.itemCode}" /></td> 
 											<td class="col-md-1"><c:out
 													value="${list.approveQty}" /></td>
+													 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${list.approvedQtyValue}" /></td> 
+													</c:when>
+													</c:choose>
+													
 											<td class="col-md-1"><c:out
 													value="${list.issueQty}" /></td> 
+													 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${list.issueQtyValue}" /></td> 
+											 </c:when>
+											 </c:choose>
 											 
 											 
 											</tr>

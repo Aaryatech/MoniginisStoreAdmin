@@ -168,7 +168,29 @@
 							</div>
 						</div> <br> -->
 							 
-								
+								<div class="row">
+							<div class="col-md-12" style="text-align: center">
+								 
+								 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+								  <input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+												&nbsp;
+												</c:when>
+												<c:otherwise>
+												<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" disabled/>&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled>
+												&nbsp;
+												
+												</c:otherwise>
+												</c:choose>
+												
+											    <input type="button" class="btn search_btn" onclick="showChart()"  value="Graph">
+											
+							</div>
+						</div> <br>
 								<div align="center" id="loader" style="display: none">
 
 								<span>
@@ -194,7 +216,12 @@
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">SUB DEPARMENT NAME</th>  
 										<th class="col-md-1">ISSUE QTY</th>
+										 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">ISSUE VALUE</th>   
+										</c:when>
+										</c:choose>
+										
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -211,8 +238,12 @@
 												<td  ><c:out value="${deptWiselist.deptCode}" /></td>   
 											<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQty}" /></td> 
-											<td class="col-md-1"><c:out
+													
+													<c:if test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1"><c:out
 													value="${deptWiselist.issueQtyValue}" /></td> 
+													</c:if>
+											
 											 <td><a href="${pageContext.request.contextPath}/issueReportItemWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</td>
 											</c:when>
@@ -226,7 +257,7 @@
   
 					</div> 
 					 
-					 	<div class="form-group"  id="range" >
+					 	<!-- <div class="form-group"  id="range" >
 								 
 											 
 											 
@@ -240,7 +271,7 @@
 											</div>
 											
 											
-											</div><br><br>
+											</div><br><br> -->
 											
 					<div id="chart" style="display: none"><br> <hr>
 		<div id="chart_div" style="width:100%; height:500px" align="center"></div>

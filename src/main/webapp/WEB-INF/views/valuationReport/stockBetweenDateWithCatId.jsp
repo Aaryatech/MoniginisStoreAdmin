@@ -135,15 +135,42 @@
 										<th style="width:1%;">Sr no.</th>
 										<th class="col-md-4">Item Name</th>
 										<th class="col-md-1">OP QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">OP VALUE</th>
+										</c:when>
+										</c:choose>
+										
 										<th class="col-md-1">APPV QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">APPV VALUE</th>
+										</c:when>
+										</c:choose>
+										
 										<th class="col-md-1">ISSUE QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">ISSUE VALUE</th> 
+										</c:when>
+										</c:choose>
+										
 										<th class="col-md-1">DAMAGE QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}"> 
 										<th class="col-md-1">DAMAGE VALUE</th> 
+										</c:when>
+												</c:choose>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}"></c:when>
+												</c:choose>
+												
 										<th class="col-md-1">C/L QTY</th>
+										<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">C/L VALUE</th> 
+										</c:when>
+										</c:choose>
 										<th class="col-md-1">Action</th>
 									</tr>
 								</thead>
@@ -164,29 +191,52 @@
 												<td  ><c:out value="${list.itemCode}" /></td>
 												 
 												<td  ><c:out value="${list.openingStock}" /></td>
-												 
+												 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 												<td class="col-md-1"><c:out
 													value="${list.opStockValue}" /></td> 
+													</c:when>
+													</c:choose>
+													
 											<td class="col-md-1"><c:out
 													value="${list.approveQty}" /></td>
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${list.approvedQtyValue}" /></td> 
+													</c:when>
+													</c:choose>
+													
 											<td class="col-md-1"><c:out
 													value="${list.issueQty}" /></td> 
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${list.issueQtyValue}" /></td>
+													</c:when>
+													</c:choose>
+													
 													
 											 <td class="col-md-1"><c:out
 													value="${list.damageQty}" /></td>
-													
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											 <td class="col-md-1"><c:out
 													value="${list.damagValue}" /></td>  
+													</c:when>
+													</c:choose>
+													
 											 <c:set var="closingStock" value="${list.openingStock+list.approveQty-list.issueQty-list.damageQty}" ></c:set>
 												<c:set var="closingStockValue" value="${list.opStockValue+list.approvedQtyValue
 												-list.issueQtyValue-list.damagValue}" ></c:set>
 												
 											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
+											 
+											 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
+											   </c:when>
+											   </c:choose>
 											   
 											   <td class="col-md-1"><a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a></td> 
 											</tr>

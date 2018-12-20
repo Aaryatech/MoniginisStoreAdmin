@@ -91,6 +91,8 @@
 								  name="flag" value="${flag}" type="hidden" >
 								  <input id="orignalPass" class="form-control"
 								  name="orignalPass" value="${editUser.password}" type="hidden" >
+								  <input id="currentDeptId" class="form-control"
+								  name="currentDeptId" value="${editUser.deptId}" type="hidden" >
 									</div>
 									<div class="col-md-1"></div>
 									
@@ -141,6 +143,39 @@
 									 
 								</div>
 								<br>
+								
+								<c:choose>
+										<c:when test="${flag==1}">
+								<div class="box-content">
+
+									
+									 
+										<div class="col-md-2">Select Department*</div>
+									<div class="col-md-5">
+									<select class="form-control chosen" name="deptId" id="deptId"
+											required>
+											<option value="">Select</option>
+											<c:forEach items="${departmentMasterList}" var="departmentMasterList">
+											<c:choose>
+												<c:when test="${departmentMasterList.deptId==editUser.deptId}">
+												<option value="${departmentMasterList.deptId}" selected>${departmentMasterList.deptName}</option> 
+												</c:when>
+												<c:otherwise>
+												<option value="${departmentMasterList.deptId}">${departmentMasterList.deptName}</option> 
+												</c:otherwise>
+											</c:choose> 
+													 
+											</c:forEach>
+										</select>
+										</div>
+										 
+									<div class="col-md-1"></div>
+									
+									 
+								</div>
+								<br>
+								</c:when> 
+									</c:choose>
 								
 								<c:choose>
 										<c:when test="${flag==0}">

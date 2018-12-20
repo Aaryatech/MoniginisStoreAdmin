@@ -188,7 +188,10 @@
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">ITEM NAME</th>  
 										<th class="col-md-1">ISSUE QTY</th>
+										<c:if test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1">ISSUE VALUE</th>   
+										</c:if>
+										
 										<!-- <th class="col-md-1">Action</th> -->
 									</tr>
 								</thead>
@@ -205,8 +208,12 @@
 												<td  ><c:out value="${itemWiselist.deptCode}" /></td>   
 											<td class="col-md-1"><c:out
 													value="${itemWiselist.issueQty}" /></td> 
+													
+													<c:if test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1"><c:out
 													value="${itemWiselist.issueQtyValue}" /></td> 
+													</c:if>
+													
 											 <%-- <td><a href="${pageContext.request.contextPath}/issueSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											 --%>
 											 </c:when>
@@ -222,9 +229,20 @@
 					 <div class="form-group"  id="range" >
 								 
 											<div class="col-md-5 controls">
+											<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
 											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											</c:when>
+											<c:otherwise>
+											<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" disabled/>&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled>
+											</c:otherwise>
+											</c:choose>
+											
+											 
 											</div>
 											</div><br><br>
 					 

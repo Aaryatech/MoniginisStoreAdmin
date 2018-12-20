@@ -45,7 +45,7 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>PO List
+								<i class="fa fa-table"></i>PO Summary Report
 							</h3>
 							<div class="box-tool">
 								<a href="${pageContext.request.contextPath}/addPurchaseOrder">
@@ -108,7 +108,7 @@
 															</c:choose>
 														 
 														</c:forEach> 
-							<%-- <div class="box-content">
+							 <div class="box-content">
 
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
@@ -129,7 +129,7 @@
 										</select>
 
 									</div>
-									<div class="col-md-1"></div>
+									<%-- <div class="col-md-1"></div>
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="typeId" id="typeId"
@@ -148,9 +148,9 @@
 											</c:forEach>
 										</select>
 
-									</div>
+									</div> --%>
 									  
-								</div><br> --%>
+								</div><br>  
 							<br>
 							<div class="form-group">
 								<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
@@ -470,7 +470,8 @@ function generateSummuryPdf() {
 
 	var fromDate = $("#fromDate").val();
 	var toDate = $("#toDate").val();
-	window.open('pdfForReport?url=/pdf/poSummuryRegisterPdf/' + fromDate+'/'+toDate);
+	var catId = $("#catId").val();
+	window.open('pdfForReport?url=/pdf/poSummuryRegisterPdf/' + fromDate+'/'+toDate+'/'+catId);
 
 }
 

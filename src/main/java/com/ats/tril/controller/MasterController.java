@@ -28,6 +28,7 @@ import com.ats.tril.common.VpsImageUpload;
 import com.ats.tril.model.AccountHead;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.DeliveryTerms;
+import com.ats.tril.model.DepartmentMaster;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.DispatchMode;
 import com.ats.tril.model.ErrorMessage;
@@ -1207,8 +1208,12 @@ public class MasterController {
 
 			User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
 			userList = new ArrayList<User>(Arrays.asList(user));
+			
+			DepartmentMaster[] departmentMaster = rest.getForObject(Constants.url + "/getDepartmentMasterList", DepartmentMaster[].class);
+			List<DepartmentMaster> departmentMasterList = new ArrayList<DepartmentMaster>(Arrays.asList(departmentMaster));
 
 			model.addObject("userList", userList);
+			model.addObject("departmentMasterList", departmentMasterList);
 			model.addObject("flag", 1);
 
 		} catch (Exception e) {
@@ -1257,6 +1262,8 @@ public class MasterController {
 			String pass = request.getParameter("pass");
 			int flag = Integer.parseInt(request.getParameter("flag"));
 			
+			
+			
 			User insert = new User();
 
 			if (userId == "" || userId == null) {
@@ -1266,9 +1273,18 @@ public class MasterController {
 				insert.setId(Integer.parseInt(userId));
 				insert.setRoleId(Integer.parseInt(roleId));
 			}
+			try {
+				
+				int deptId = Integer.parseInt(request.getParameter("deptId"));
+				insert.setDeptId(deptId);
+			}catch(Exception e) {
+				
+				int deptId = Integer.parseInt(request.getParameter("currentDeptId"));
+				insert.setDeptId(deptId);
+			}
 			insert.setUsername(userName); 
 			insert.setPassword(pass); 
-			insert.setDeptId(1);
+			//insert.setDeptId(1);
 			insert.setUsertype(1);
 			
 			
@@ -1309,6 +1325,10 @@ public class MasterController {
 				  User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
 					List<User> userList = new ArrayList<User>(Arrays.asList(user)); 
 					model.addObject("userList", userList);
+					DepartmentMaster[] departmentMaster = rest.getForObject(Constants.url + "/getDepartmentMasterList", DepartmentMaster[].class);
+					List<DepartmentMaster> departmentMasterList = new ArrayList<DepartmentMaster>(Arrays.asList(departmentMaster));
+ 
+					model.addObject("departmentMasterList", departmentMasterList);
 			  } 
 			  model.addObject("flag", flag);
 

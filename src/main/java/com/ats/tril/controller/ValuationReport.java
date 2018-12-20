@@ -2718,6 +2718,8 @@ public class ValuationReport {
 			if(!deptWiselistGlobal.isEmpty()) {
 					for (int k = 0; k < deptWiselistGlobal.size(); k++) {
                             
+						
+						if(deptWiselistGlobal.get(k).getIssueQty()>0 || deptWiselistGlobal.get(k).getIssueQtyValue()>0) {
 							index++;
 						
 							PdfPCell cell;
@@ -2748,6 +2750,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+						}
 					
 					}
 			}
