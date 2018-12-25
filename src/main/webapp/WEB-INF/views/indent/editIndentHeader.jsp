@@ -293,9 +293,9 @@
 									<div class="box-content">
 										<label class="col-md-2">Quantity</label>
 										<div class="col-sm-6 col-lg-2 controls">
-											<input type="text" name="quantity" id="quantity" min="1"
+											<input type="text" name="quantity" id="quantity"  
 												class="form-control" placeholder="Quantity"
-												  data-rule-number="true" />
+												    />
 										</div>
 										 
 										<label class="col-md-2">Schedule
@@ -385,7 +385,7 @@
 
 														<td  class="col-md-1"><input
 															type="text" class="form-control"
-															value="${indDetail.indQty}" min="1"  
+															style="text-align:right; " value="${indDetail.indQty}" min="1"  
 															onchange="(this.value,${indDetail.indDId},${indent.indMId})"
 															id="indQty${indDetail.indDId}"
 															name="indQty${indDetail.indDId}"></td>
@@ -555,7 +555,7 @@
 		alert("Please Select Item ");
 		}
 		
-		else if(isNaN(qty) || qty < 1 || qty=="")
+		else if(isNaN(qty) || qty <= 0 || qty=="")
 		{
 		isValid = false;
 		alert("Please enter Quantity");
@@ -695,7 +695,7 @@
 			var remark = $('#indRemark'+indDId).val();
 			var schDays = $('#indSchDays'+indDId).val();
 		//	alert("qty " +qty +"remark  " +remark + "schDays  " +schDays);
-		if(isNaN(qty) || qty < 1 || qty==""){
+		if(isNaN(qty) || qty <= 0 || qty==""){
 			alert("Enter Qty  ");
 		}
 		else{
@@ -744,7 +744,7 @@
 			.append($(
 					'<td class="col-md-1" ></td>')
 					.html(
-							"<input type='text' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='(this.value,"+trans.indDId+","+trans.indMId+")' />"));
+							"<input type='text' style='text-align:right; ' id='indQty"+trans.indDId+"' value="+trans.indQty+" class='form-control'onchange='(this.value,"+trans.indDId+","+trans.indMId+")' />"));
 		  	
 				tr.append($('<td  class="col-md-1"></td>').html("<input type=date style='text-align:left; ' class=form-control  name=indSchDays"
 						+ trans.indDId

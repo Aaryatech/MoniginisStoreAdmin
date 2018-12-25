@@ -487,7 +487,7 @@ function genPdf(id) {
 					list.push($(this).val());
 				});
 
-				window.open('poPdf/' + list);
+				window.open('pdfForReport?url=/pdf/poPdf/' + list);
 
 			}
 			

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -193,6 +194,8 @@ public class StockController {
 		return model;
 	}
 	
+	DecimalFormat df = new DecimalFormat("####0.00");
+	
 	@RequestMapping(value = "/submitMonthEnd", method = RequestMethod.POST)
 	public String submitMonthEnd(HttpServletRequest request, HttpServletResponse response) {
 
@@ -219,10 +222,11 @@ public class StockController {
 						 stockDetailList.get(i).setDamageValue(stockListForMonthEnd.get(j).getDamagValue());
 						 stockDetailList.get(i).setGatepassQty(stockListForMonthEnd.get(j).getGatepassQty());
 						 stockDetailList.get(i).setGatepassReturnQty(stockListForMonthEnd.get(j).getGatepassReturnQty());
-						 stockDetailList.get(i).setClosingQty(stockListForMonthEnd.get(j).getOpeningStock()+stockListForMonthEnd.get(j).getApproveQty()-stockListForMonthEnd.get(j).getIssueQty()
+						 stockDetailList.get(i).setClosingQty(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpeningStock()+stockListForMonthEnd.get(j).getApproveQty()-stockListForMonthEnd.get(j).getIssueQty()
 								 +stockListForMonthEnd.get(j).getReturnIssueQty()-stockListForMonthEnd.get(j).getDamageQty()-stockListForMonthEnd.get(j).getGatepassQty()
-								 +stockListForMonthEnd.get(j).getGatepassReturnQty());
-						 stockDetailList.get(i).setCloasingValue(stockListForMonthEnd.get(j).getOpStockValue()+stockListForMonthEnd.get(j).getApprovedQtyValue()-stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue());
+								 +stockListForMonthEnd.get(j).getGatepassReturnQty())));
+						 stockDetailList.get(i).setCloasingValue(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpStockValue()+stockListForMonthEnd.get(j).getApprovedQtyValue()
+								 -stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue())));
 						 
 					 }
 				 }
@@ -261,10 +265,11 @@ public class StockController {
 					 StockDetail stockDetail1 = new StockDetail();
 					 stockDetail1.setItemId(stockListForMonthEnd.get(j).getItemId());
 					 stockDetail1.setDelStatus(1);
-					 stockDetail1.setOpStockQty(stockListForMonthEnd.get(j).getOpeningStock()+stockListForMonthEnd.get(j).getApproveQty()-stockListForMonthEnd.get(j).getIssueQty()
+					 stockDetail1.setOpStockQty(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpeningStock()+stockListForMonthEnd.get(j).getApproveQty()-stockListForMonthEnd.get(j).getIssueQty()
 							 +stockListForMonthEnd.get(j).getReturnIssueQty()-stockListForMonthEnd.get(j).getDamageQty()-stockListForMonthEnd.get(j).getGatepassQty()
-							 +stockListForMonthEnd.get(j).getGatepassReturnQty());
-					 stockDetail1.setOpStockValue(stockListForMonthEnd.get(j).getOpStockValue()+stockListForMonthEnd.get(j).getApprovedQtyValue()-stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue());
+							 +stockListForMonthEnd.get(j).getGatepassReturnQty())));
+					 stockDetail1.setOpStockValue(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpStockValue()+
+							 stockListForMonthEnd.get(j).getApprovedQtyValue()-stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue())));
 					 
 					 insertNewList.add(stockDetail1);
 				 }

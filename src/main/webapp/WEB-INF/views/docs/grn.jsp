@@ -121,8 +121,8 @@ MATERIAL RECEIPT NOTE
 							Invoice Dt&nbsp;&nbsp;: ${item.billDate }
 							</td>
 							
-							<td align="right" width="10%">Invoice No :  <br>
-							Invoice Dt&nbsp;&nbsp;: 
+							<td align="right" width="10%">MRN No :  <br>
+							MRN Dt&nbsp;&nbsp;: 
 							</td>
 							
 							

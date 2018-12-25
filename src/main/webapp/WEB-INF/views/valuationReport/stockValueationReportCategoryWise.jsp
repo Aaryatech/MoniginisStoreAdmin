@@ -215,36 +215,31 @@
 
 												<td  ><c:out value="${categoryWiseReport.catDesc}" /></td>
 												 
-												<td class="col-md-1"><c:out value="${categoryWiseReport.openingStock}" /></td>
+												<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.openingStock}"/> </td>
 												 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-												<td class="col-md-1"><c:out
-													value="${categoryWiseReport.opStockValue}" /></td> 
+												<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.opStockValue}"/> </td> 
 													</c:when>
 													</c:choose>
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.approveQty}" /></td>
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.approveQty}"/>
+											 </td>
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.approvedQtyValue}" /></td> 
+											<td class="col-md-1">
+											<fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.approvedQtyValue}"/> </td> 
 													</c:when>
 													</c:choose>
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.issueQty}" /></td> 
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.issueQty}"/> </td> 
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.issueQtyValue}" /></td>
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.issueQtyValue}"/> </td>
 													</c:when>
 													</c:choose>
 													
-											 <td class="col-md-1"><c:out
-													value="${categoryWiseReport.damageQty}" /></td>
+											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.damageQty}"/> </td>
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											 <td class="col-md-1"><c:out
-													value="${categoryWiseReport.damageValue}" /></td>  
+											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.damageValue}"/> </td>  
 													</c:when>
 													</c:choose>
 											 <c:set var="closingStock" value="${categoryWiseReport.openingStock+categoryWiseReport.approveQty-categoryWiseReport.issueQty-categoryWiseReport.damageQty}" ></c:set>

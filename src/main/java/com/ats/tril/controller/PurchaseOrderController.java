@@ -420,6 +420,8 @@ public class PurchaseOrderController {
 							intendDetailList1.get(j).setTaxPer(rmRateVerificationList.get(i).getRate1TaxExtra());
 							intendDetailList1.get(j).setStateCode(rmRateVerificationList.get(i).getDate1());
 							intendDetailList.add(intendDetailList1.get(j)); 
+							
+							//System.out.println("intendDetailList1 " + intendDetailList1.size() + " intendDetailList " + intendDetailList.size());
 						}
 					} 
 			}
@@ -607,7 +609,7 @@ public class PurchaseOrderController {
 					//System.out.println(checkbox[j] + intendDetailList.get(i).getIndDId());
 					if (Integer.parseInt(checkbox[j]) == intendDetailList.get(i).getIndDId()) {
 						PoDetail poDetail = new PoDetail();
-						poDetail.setIndId(intendDetailList.get(i).getIndMId());
+						poDetail.setIndId(intendDetailList.get(i).getIndDId());
 						poDetail.setSchDays(intendDetailList.get(i).getIndItemSchd());
 						poDetail.setItemCode(intendDetailList.get(i).getItemCode());
 						poDetail.setItemId(intendDetailList.get(i).getItemId());

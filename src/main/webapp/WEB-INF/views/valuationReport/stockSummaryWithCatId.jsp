@@ -188,42 +188,35 @@
 
 												<td  ><c:out value="${list.itemCode}" /></td>
 												 
-												<td  ><c:out value="${list.openingStock}" /></td>
+												<td  ><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.openingStock}"/> </td>
 												 
 												 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-												<td class="col-md-1"><c:out
-													value="${list.opStockValue}" /></td> 
+												<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.opStockValue}"/> </td> 
 													</c:when>
 													</c:choose>
 													
-											<td class="col-md-1"><c:out
-													value="${list.approveQty}" /></td>
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.approveQty}"/> </td>
 													
 												<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${list.approvedQtyValue}" /></td> 
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.approvedQtyValue}"/> </td> 
 													</c:when>
 													</c:choose>
 													
-											<td class="col-md-1"><c:out
-													value="${list.issueQty}" /></td> 
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.issueQty}"/> </td> 
 													
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${list.issueQtyValue}" /></td>
+											<td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.issueQtyValue}"/> </td>
 													</c:when>
 													</c:choose>
 													
-											 <td class="col-md-1"><c:out
-													value="${list.damageQty}" /></td>
+											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.damageQty}"/> </td>
 													
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											 <td class="col-md-1"><c:out
-													value="${list.damagValue}" /></td>  
+											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${list.damagValue}"/> </td>  
 													</c:when>
 													</c:choose>
 													
