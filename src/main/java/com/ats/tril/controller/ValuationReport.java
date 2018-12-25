@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -402,7 +403,9 @@ public class ValuationReport {
 			}
 			
 			//----------------exel-------------------------
+			DecimalFormat df = new DecimalFormat("####0.00");
 			
+
 			
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -431,14 +434,14 @@ public class ValuationReport {
 
 				rowData.add((i+1)+"");
 				rowData.add(categoryWiseReport.get(i).getCatDesc());
-				rowData.add(""+categoryWiseReport.get(i).getOpeningStock());
-				rowData.add(""+categoryWiseReport.get(i).getOpStockValue());
-				rowData.add(""+categoryWiseReport.get(i).getApproveQty());
-				rowData.add(""+categoryWiseReport.get(i).getApprovedQtyValue());
-				rowData.add(""+categoryWiseReport.get(i).getIssueQty());
-				rowData.add(""+categoryWiseReport.get(i).getIssueQtyValue());
-				rowData.add(""+categoryWiseReport.get(i).getDamageQty());
-				rowData.add(""+categoryWiseReport.get(i).getDamageValue());
+				rowData.add(""+df.format(categoryWiseReport.get(i).getOpeningStock()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getOpStockValue()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getApproveQty()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getApprovedQtyValue()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getIssueQty()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getIssueQtyValue()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getDamageQty()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getDamageValue()));
 				
 				float closingQty = categoryWiseReport.get(i).getOpeningStock()+categoryWiseReport.get(i).getApproveQty()-
 						categoryWiseReport.get(i).getIssueQty()-categoryWiseReport.get(i).getDamageQty();
@@ -447,8 +450,8 @@ public class ValuationReport {
 						categoryWiseReport.get(i).getIssueQtyValue()-categoryWiseReport.get(i).getDamageValue();
 				
 				
-				rowData.add(""+closingQty);
-				rowData.add(""+closingValue);
+				rowData.add(""+df.format(closingQty));
+				rowData.add(""+df.format(closingValue));
 
 
 				expoExcel.setRowData(rowData);
@@ -485,6 +488,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -596,56 +603,56 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getOpeningStock(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getOpeningStock()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getOpStockValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getOpStockValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getApproveQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getApproveQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getApprovedQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getApprovedQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getDamageQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getDamageQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+stockCategoryWiseListForPdf.get(k).getDamageValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getDamageValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -658,14 +665,14 @@ public class ValuationReport {
 							float closingValue = stockCategoryWiseListForPdf.get(k).getOpStockValue()+stockCategoryWiseListForPdf.get(k).getApprovedQtyValue()-
 									stockCategoryWiseListForPdf.get(k).getIssueQtyValue()-stockCategoryWiseListForPdf.get(k).getDamageValue();
 							
-							cell = new PdfPCell(new Phrase(""+closingQty, headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(closingQty), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+closingValue, headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -676,12 +683,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd()+"\n",f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -827,7 +834,9 @@ public class ValuationReport {
 			 
 			//----------------exel-------------------------
 				
-				
+				DecimalFormat df = new DecimalFormat("####0.00");
+			
+
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -861,14 +870,14 @@ public class ValuationReport {
 					k++;
 					rowData.add((k)+"");
 					rowData.add(getStockBetweenDate.get(i).getItemCode());
-					rowData.add(""+getStockBetweenDate.get(i).getOpeningStock());
-					rowData.add(""+getStockBetweenDate.get(i).getOpStockValue());
-					rowData.add(""+getStockBetweenDate.get(i).getApproveQty());
-					rowData.add(""+getStockBetweenDate.get(i).getApprovedQtyValue());
-					rowData.add(""+getStockBetweenDate.get(i).getIssueQty());
-					rowData.add(""+getStockBetweenDate.get(i).getIssueQtyValue());
-					rowData.add(""+getStockBetweenDate.get(i).getDamageQty());
-					rowData.add(""+getStockBetweenDate.get(i).getDamagValue());
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getOpeningStock()));
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getOpStockValue()));
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getApproveQty()));
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getApprovedQtyValue()));
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getIssueQty()));
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getIssueQtyValue()));
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getDamageQty()));
+					rowData.add(""+df.format(getStockBetweenDate.get(i).getDamagValue()));
 					
 					float closingQty = getStockBetweenDate.get(i).getOpeningStock()+getStockBetweenDate.get(i).getApproveQty()-
 							getStockBetweenDate.get(i).getIssueQty()-getStockBetweenDate.get(i).getDamageQty();
@@ -877,8 +886,8 @@ public class ValuationReport {
 							getStockBetweenDate.get(i).getIssueQtyValue()-getStockBetweenDate.get(i).getDamagValue();
 					
 					
-					rowData.add(""+closingQty);
-					rowData.add(""+closingValue);
+					rowData.add(""+df.format(closingQty));
+					rowData.add(""+df.format(closingValue));
 
 
 					expoExcel.setRowData(rowData);
@@ -917,6 +926,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -1028,56 +1041,56 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getOpeningStock(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getOpeningStock()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getOpStockValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getOpStockValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getApproveQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getApproveQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getDamageQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getDamageQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseStockValuetionListForPDF.get(k).getDamagValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseStockValuetionListForPDF.get(k).getDamagValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -1090,14 +1103,14 @@ public class ValuationReport {
 							float closingValue = itemWiseStockValuetionListForPDF.get(k).getOpStockValue()+itemWiseStockValuetionListForPDF.get(k).getApprovedQtyValue()-
 									itemWiseStockValuetionListForPDF.get(k).getIssueQtyValue()-itemWiseStockValuetionListForPDF.get(k).getDamagValue();
 							
-							cell = new PdfPCell(new Phrase(""+closingQty, headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(closingQty), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+closingValue, headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -1108,12 +1121,11 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
-				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+				Paragraph heading1 = new Paragraph(comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -1185,7 +1197,8 @@ public class ValuationReport {
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
-			
+		
+
 			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null || request.getParameter("typeId")==null || request.getParameter("isDev")==null) {
 				
 				SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
@@ -1238,6 +1251,7 @@ public class ValuationReport {
 			
 			
 			//----------------exel-------------------------
+			DecimalFormat df = new DecimalFormat("####0.00");
 			
 			categoryWiseIssueAndMrnForPdf=categoryWiseReport;
 			
@@ -1265,10 +1279,10 @@ public class ValuationReport {
 				k++;
 				rowData.add((k)+"");
 				rowData.add(categoryWiseReport.get(i).getCatDesc()); 
-				rowData.add(""+categoryWiseReport.get(i).getApproveQty());
-				rowData.add(""+categoryWiseReport.get(i).getApprovedQtyValue());
-				rowData.add(""+categoryWiseReport.get(i).getIssueQty());
-				rowData.add(""+categoryWiseReport.get(i).getIssueQtyValue()); 
+				rowData.add(""+df.format(categoryWiseReport.get(i).getApproveQty()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getApprovedQtyValue()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getIssueQty()));
+				rowData.add(""+df.format(categoryWiseReport.get(i).getIssueQtyValue())); 
 				 
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
@@ -1312,6 +1326,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -1392,28 +1410,28 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						 
-							cell = new PdfPCell(new Phrase(""+categoryWiseIssueAndMrnForPdf.get(k).getApproveQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(categoryWiseIssueAndMrnForPdf.get(k).getApproveQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+categoryWiseIssueAndMrnForPdf.get(k).getApprovedQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(categoryWiseIssueAndMrnForPdf.get(k).getApprovedQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+categoryWiseIssueAndMrnForPdf.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(categoryWiseIssueAndMrnForPdf.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+categoryWiseIssueAndMrnForPdf.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(categoryWiseIssueAndMrnForPdf.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -1425,12 +1443,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+					comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -1527,6 +1545,8 @@ public class ValuationReport {
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				int k=0;
+				DecimalFormat df = new DecimalFormat("####0.00");
+				
 				for (int i = 0; i < groupWiseList.size(); i++) {
 					if( groupWiseList.get(i).getApproveQty()>0 || groupWiseList.get(i).getApprovedQtyValue()>0 || 
 							groupWiseList.get(i).getIssueQty()>0 || groupWiseList.get(i).getApprovedQtyValue()>0 ) {
@@ -1535,10 +1555,10 @@ public class ValuationReport {
 					k++;
 					rowData.add((k)+"");
 					rowData.add(groupWiseList.get(i).getGrpCode()); 
-					rowData.add(""+groupWiseList.get(i).getApproveQty());
-					rowData.add(""+groupWiseList.get(i).getApprovedQtyValue());
-					rowData.add(""+groupWiseList.get(i).getIssueQty());
-					rowData.add(""+groupWiseList.get(i).getIssueQtyValue()); 
+					rowData.add(""+df.format(groupWiseList.get(i).getApproveQty()));
+					rowData.add(""+df.format(groupWiseList.get(i).getApprovedQtyValue()));
+					rowData.add(""+df.format(groupWiseList.get(i).getIssueQty()));
+					rowData.add(""+df.format(groupWiseList.get(i).getIssueQtyValue())); 
 					 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
@@ -1586,6 +1606,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -1665,28 +1689,28 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						 
-							cell = new PdfPCell(new Phrase(""+issueAndMrnGroupWiseListForPdf.get(k).getApproveQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(issueAndMrnGroupWiseListForPdf.get(k).getApproveQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+issueAndMrnGroupWiseListForPdf.get(k).getApprovedQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(issueAndMrnGroupWiseListForPdf.get(k).getApprovedQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+issueAndMrnGroupWiseListForPdf.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(issueAndMrnGroupWiseListForPdf.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+issueAndMrnGroupWiseListForPdf.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(issueAndMrnGroupWiseListForPdf.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -1698,12 +1722,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+					comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -1773,7 +1797,11 @@ public class ValuationReport {
 		List<IssueAndMrnItemWise> itemWiseList = new ArrayList<IssueAndMrnItemWise>();
 		
 		try {
-		   
+			DecimalFormat df = new DecimalFormat("####0.00");
+			Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+
+
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 	 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
@@ -1808,10 +1836,10 @@ public class ValuationReport {
 					k++;
 					rowData.add((k)+"");
 					rowData.add(itemWiseList.get(i).getItemCode()); 
-					rowData.add(""+itemWiseList.get(i).getApproveQty());
-					rowData.add(""+itemWiseList.get(i).getApprovedQtyValue());
-					rowData.add(""+itemWiseList.get(i).getIssueQty());
-					rowData.add(""+itemWiseList.get(i).getIssueQtyValue()); 
+					rowData.add(""+df.format(itemWiseList.get(i).getApproveQty()));
+					rowData.add(""+df.format(itemWiseList.get(i).getApprovedQtyValue()));
+					rowData.add(""+df.format(itemWiseList.get(i).getIssueQty()));
+					rowData.add(""+df.format(itemWiseList.get(i).getIssueQtyValue())); 
 					 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
@@ -1852,6 +1880,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -1931,28 +1963,28 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						 
-							cell = new PdfPCell(new Phrase(""+itemWiseIssueAndMrnListForPdf.get(k).getApproveQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseIssueAndMrnListForPdf.get(k).getApproveQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseIssueAndMrnListForPdf.get(k).getApprovedQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseIssueAndMrnListForPdf.get(k).getApprovedQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseIssueAndMrnListForPdf.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseIssueAndMrnListForPdf.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemWiseIssueAndMrnListForPdf.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemWiseIssueAndMrnListForPdf.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -1964,12 +1996,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -2104,6 +2136,7 @@ public class ValuationReport {
 				
 			}
 			//------------------------ Export To Excel--------------------------------------
+			DecimalFormat df = new DecimalFormat("####0.00");
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -2123,8 +2156,8 @@ public class ValuationReport {
 
 				rowData.add((i+1)+"");
 				rowData.add(deptWiselist.get(i).getDeptCode());
-				rowData.add(""+deptWiselist.get(i).getIssueQty());
-				rowData.add(""+deptWiselist.get(i).getIssueQtyValue());
+				rowData.add(""+df.format(deptWiselist.get(i).getIssueQty()));
+				rowData.add(""+df.format(deptWiselist.get(i).getIssueQtyValue()));
 
 
 				expoExcel.setRowData(rowData);
@@ -2201,6 +2234,7 @@ public class ValuationReport {
 				model.addObject("deptId", deptId);
 				   deptWiselistGlobal=deptWiselist;
 				//------------------------ Export To Excel--------------------------------------
+					DecimalFormat df = new DecimalFormat("####0.00");
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -2220,8 +2254,8 @@ public class ValuationReport {
 
 					rowData.add((i+1)+"");
 					rowData.add(deptWiselist.get(i).getDeptCode());
-					rowData.add(""+deptWiselist.get(i).getIssueQty());
-					rowData.add(""+deptWiselist.get(i).getIssueQtyValue());
+					rowData.add(""+df.format(deptWiselist.get(i).getIssueQty()));
+					rowData.add(""+df.format(deptWiselist.get(i).getIssueQtyValue()));
 
 
 					expoExcel.setRowData(rowData);
@@ -2270,7 +2304,9 @@ public class ValuationReport {
 		ModelAndView model = new ModelAndView("valuationReport/issueReportItemWise");
 		try {
 				List<IssueDeptWise> itemWiselist = new ArrayList<IssueDeptWise>();
-			  
+				DecimalFormat df = new DecimalFormat("####0.00");
+			
+
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",DateConvertor.convertToYMD(toDate)); 
@@ -2302,8 +2338,8 @@ public class ValuationReport {
 
 					rowData.add((i+1)+"");
 					rowData.add(itemWiselist.get(i).getDeptCode());
-					rowData.add(""+itemWiselist.get(i).getIssueQty());
-					rowData.add(""+itemWiselist.get(i).getIssueQtyValue());
+					rowData.add(""+df.format(itemWiselist.get(i).getIssueQty()));
+					rowData.add(""+df.format(itemWiselist.get(i).getIssueQtyValue()));
 
 
 					expoExcel.setRowData(rowData);
@@ -2340,6 +2376,9 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -2405,13 +2444,13 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						
-							cell = new PdfPCell(new Phrase(""+deptWiselistGlobal.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(deptWiselistGlobal.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
-							cell = new PdfPCell(new Phrase(""+deptWiselistGlobal.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(deptWiselistGlobal.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -2422,12 +2461,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd()+"\n",f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -2505,6 +2544,9 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -2570,13 +2612,14 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						
-							cell = new PdfPCell(new Phrase(""+deptWiselistGlobal.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(deptWiselistGlobal.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
-							cell = new PdfPCell(new Phrase(""+deptWiselistGlobal.get(k).getIssueQtyValue(), headFont));
+							
+							cell = new PdfPCell(new Phrase(""+df.format(deptWiselistGlobal.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -2587,12 +2630,11 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
-				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+				Paragraph heading1 = new Paragraph(comp.getOfficeAdd()+"\n", f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -2671,6 +2713,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -2738,13 +2784,13 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 						
-							cell = new PdfPCell(new Phrase(""+deptWiselistGlobal.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(deptWiselistGlobal.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
-							cell = new PdfPCell(new Phrase(""+deptWiselistGlobal.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(deptWiselistGlobal.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -2756,12 +2802,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd()+"\n",f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -2900,6 +2946,9 @@ public class ValuationReport {
 			
 
 			//------------------------ Export To Excel--------------------------------------
+			DecimalFormat df = new DecimalFormat("####0.00");
+			
+
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -2964,7 +3013,7 @@ public class ValuationReport {
 					if(monthList.get(j).getDeptId()==deparmentList.get(i).getDeptId())
 					{
 						//rowData.add(""+monthList.get(j).getIssueQty());
-						rowData.add(""+monthList.get(j).getIssueQtyValue());
+						rowData.add(""+df.format(monthList.get(j).getIssueQtyValue()));
 					}
 				}
 				
@@ -3066,6 +3115,11 @@ public class ValuationReport {
 			
 
 			//------------------------ Export To Excel--------------------------------------
+			DecimalFormat df = new DecimalFormat("####0.00");
+			Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+
+
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -3104,7 +3158,7 @@ public class ValuationReport {
 					if(monthList.get(j).getDeptId()==deparmentList.get(i).getDeptId())
 					{
 						//rowData.add(""+monthList.get(j).getIssueQty());
-						rowData.add(""+monthList.get(j).getIssueQty());
+						rowData.add(""+df.format(monthList.get(j).getIssueQty()));
 					}
 				}
 				
@@ -3161,6 +3215,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -3288,7 +3346,7 @@ public class ValuationReport {
 											cell.setPadding(3);
 											table.addCell(cell);*/
 											
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getIssueQtyValue(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getIssueQtyValue()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -3302,12 +3360,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+					comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -3386,6 +3444,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -3527,12 +3589,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+					comp.getOfficeAdd()+"\n",f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -3621,6 +3683,11 @@ public class ValuationReport {
 				model.addObject("deptId", deptId);
 				deptIdForPdf=deptId;
 				//------------------------ Export To Excel--------------------------------------
+				DecimalFormat df = new DecimalFormat("####0.00");
+				Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+
+
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -3690,7 +3757,7 @@ public class ValuationReport {
 						if(monthList.get(j).getSubDeptId()==subDeptList.get(i).getSubDeptId())
 						{
 							//rowData.add(""+monthList.get(j).getIssueQty());
-							rowData.add(""+monthList.get(j).getIssueQtyValue());
+							rowData.add(""+df.format(monthList.get(j).getIssueQtyValue()));
 						}
 					}
 					
@@ -3740,6 +3807,11 @@ public class ValuationReport {
 				model.addObject("deptId", deptId);
 				deptIdForPdf=deptId;
 				//------------------------ Export To Excel--------------------------------------
+				DecimalFormat df = new DecimalFormat("####0.00");
+				Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+
+
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -3782,7 +3854,7 @@ public class ValuationReport {
 						if(monthList.get(j).getSubDeptId()==subDeptList.get(i).getSubDeptId())
 						{
 							//rowData.add(""+monthList.get(j).getIssueQty());
-							rowData.add(""+monthList.get(j).getIssueQty());
+							rowData.add(""+df.format(monthList.get(j).getIssueQty()));
 						}
 					}
 					
@@ -3839,6 +3911,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -3967,7 +4043,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getIssueQtyValue(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getIssueQtyValue()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -3982,12 +4058,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -4066,6 +4142,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -4194,7 +4274,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getIssueQty(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getIssueQty()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -4209,12 +4289,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -4300,6 +4380,11 @@ public class ValuationReport {
 				model.addObject("itemList", itemList);
 				itemListforPdf=itemList;
 				//------------------------ Export To Excel--------------------------------------
+				DecimalFormat df = new DecimalFormat("####0.00");
+				Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+
+
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -4368,7 +4453,7 @@ public class ValuationReport {
 						if(monthList.get(j).getSubDeptId()==itemList.get(i).getItemId())
 						{
 							//rowData.add(""+monthList.get(j).getIssueQty());
-							rowData.add(""+monthList.get(j).getIssueQtyValue());
+							rowData.add(""+df.format(monthList.get(j).getIssueQtyValue()));
 						}
 					}
 					
@@ -4415,6 +4500,11 @@ public class ValuationReport {
 				model.addObject("itemList", itemList);
 				itemListforPdf=itemList;
 				//------------------------ Export To Excel--------------------------------------
+				DecimalFormat df = new DecimalFormat("####0.00");
+				Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+						Company.class);
+
+
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -4458,7 +4548,7 @@ public class ValuationReport {
 						if(monthList.get(j).getSubDeptId()==itemList.get(i).getItemId())
 						{
 							//rowData.add(""+monthList.get(j).getIssueQty());
-							rowData.add(""+monthList.get(j).getIssueQty());
+							rowData.add(""+df.format(monthList.get(j).getIssueQty()));
 						}
 					}
 					
@@ -4502,6 +4592,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -4632,7 +4726,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getIssueQtyValue(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getIssueQtyValue()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -4647,12 +4741,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -4731,6 +4825,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -4861,7 +4959,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getIssueQty(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getIssueQty()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -4876,12 +4974,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -5033,6 +5131,12 @@ public class ValuationReport {
 			
 			mrnCategoryMonthWiseListForPdf=list;
 			//------------------------ Export To Excel--------------------------------------
+			
+			DecimalFormat df = new DecimalFormat("####0.00");
+			Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+
+
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -5101,7 +5205,7 @@ public class ValuationReport {
 					if(monthList.get(j).getCatId()==categoryList.get(i).getCatId())
 					{
 						//rowData.add(""+monthList.get(j).getApproveQty());
-						rowData.add(""+monthList.get(j).getApprovedQtyValue());
+						rowData.add(""+df.format(monthList.get(j).getApprovedQtyValue()));
 					}
 				}
 				
@@ -5212,6 +5316,8 @@ public class ValuationReport {
 			
 			mrnCategoryMonthWiseListForPdf=list;
 			//------------------------ Export To Excel--------------------------------------
+			
+			DecimalFormat df = new DecimalFormat("####0.00");
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -5280,7 +5386,7 @@ public class ValuationReport {
 					if(monthList.get(j).getCatId()==categoryList.get(i).getCatId())
 					{
 						//rowData.add(""+monthList.get(j).getApproveQty());
-						rowData.add(""+monthList.get(j).getApproveQty());
+						rowData.add(""+df.format(monthList.get(j).getApproveQty()));
 					}
 				}
 				
@@ -5336,6 +5442,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -5675,7 +5785,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getApprovedQtyValue(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(df.format(monthList.get(l).getApprovedQtyValue())), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -5690,12 +5800,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+					comp.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -5774,6 +5884,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -5903,7 +6017,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getApproveQty(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getApproveQty()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -5918,12 +6032,11 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
-				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+				Paragraph heading1 = new Paragraph(comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -6019,6 +6132,12 @@ public class ValuationReport {
 				 itemListforPdf=itemList;
 				 deptIdForPdf=catId;
 				//------------------------ Export To Excel--------------------------------------
+				 
+				DecimalFormat df = new DecimalFormat("####0.00");
+					Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+							Company.class);
+
+
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 				
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -6087,7 +6206,7 @@ public class ValuationReport {
 						if(monthList.get(j).getItemId()==itemList.get(i).getItemId())
 						{
 							//rowData.add(""+monthList.get(j).getApproveQty());
-							rowData.add(""+monthList.get(j).getApprovedQtyValue());
+							rowData.add(""+df.format(monthList.get(j).getApprovedQtyValue()));
 						}
 					}
 					
@@ -6146,6 +6265,7 @@ public class ValuationReport {
 				 itemListforPdf=itemList;
 				 deptIdForPdf=catId;
 				//------------------------ Export To Excel--------------------------------------
+				 DecimalFormat df = new DecimalFormat("####0.00");
 				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 				
 				ExportToExcel expoExcel = new ExportToExcel();
@@ -6187,7 +6307,7 @@ public class ValuationReport {
 						if(monthList.get(j).getItemId()==itemList.get(i).getItemId())
 						{
 							//rowData.add(""+monthList.get(j).getApproveQty());
-							rowData.add(""+monthList.get(j).getApproveQty());
+							rowData.add(""+df.format(monthList.get(j).getApproveQty()));
 						}
 					}
 					
@@ -6230,6 +6350,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -6359,7 +6483,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getApprovedQtyValue(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getApprovedQtyValue()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -6374,12 +6498,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -6458,6 +6582,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -6586,7 +6714,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+monthList.get(l).getApproveQty(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getApproveQty()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -6601,12 +6729,12 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -6715,7 +6843,11 @@ public class ValuationReport {
 					model.addObject("toDate", toDate);
 					indentStatusReportListForPdf=list;
 			}
-			
+			DecimalFormat df = new DecimalFormat("####0.00");
+			Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+
+
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 			
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -6795,6 +6927,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -6927,12 +7063,11 @@ public class ValuationReport {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph("\n"+comp.getCompanyName(), f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
-				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+				Paragraph heading1 = new Paragraph(comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -7052,7 +7187,9 @@ public class ValuationReport {
 					model.addObject("catId", catId);
 					itemExpectedReportForPdf=list;
 			}
+			DecimalFormat df = new DecimalFormat("####0.00");
 			
+
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 			
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -7135,6 +7272,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -7246,7 +7387,7 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+itemExpectedReportForPdf.get(k).getItemQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(itemExpectedReportForPdf.get(k).getItemQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -7387,7 +7528,11 @@ public class ValuationReport {
 					
 					shortItemReportForPdf=list;
 			}
-			
+			DecimalFormat df = new DecimalFormat("####0.00");
+			Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+
+
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 			
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -7427,9 +7572,9 @@ public class ValuationReport {
 				rowData.add(shortItemReportForPdf.get(i).getPoNo()); 
 				rowData.add(""+shortItemReportForPdf.get(i).getPoDate()); 
 				rowData.add(""+shortItemReportForPdf.get(i).getItemCode()+" - " + shortItemReportForPdf.get(i).getItemDesc());
-				rowData.add(""+shortItemReportForPdf.get(i).getItemQty()); 
-				rowData.add(""+shortItemReportForPdf.get(i).getMrnQty());
-				rowData.add(""+shortItemReportForPdf.get(i).getPendingQty());
+				rowData.add(""+df.format(shortItemReportForPdf.get(i).getItemQty())); 
+				rowData.add(""+df.format(shortItemReportForPdf.get(i).getMrnQty()));
+				rowData.add(""+df.format(shortItemReportForPdf.get(i).getPendingQty()));
 				rowData.add(""+shortItemReportForPdf.get(i).getSchDate()); 
 				
 				
@@ -7470,6 +7615,10 @@ public class ValuationReport {
 		File file = new File(FILE_PATH);
 
 		PdfWriter writer = null;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
 		try {
@@ -7567,7 +7716,7 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+shortItemReportForPdf.get(k).getItemQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(shortItemReportForPdf.get(k).getItemQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -7651,6 +7800,7 @@ public class ValuationReport {
 					System.out.println("Excep in Opening a Pdf File");
 					e.printStackTrace();
 				}
+				
 			}
 
 		} catch (DocumentException ex) {
