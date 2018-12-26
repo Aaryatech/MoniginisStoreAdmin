@@ -151,12 +151,12 @@
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-1">PO No.</th> 
-										<th class="col-md-1">PO Date</th>
-										<th class="col-md-3">Vendor Name</th>
-										<th class="col-md-3">Item Name</th>
-										<th class="col-md-1">UOM</th>   
-										<th class="col-md-1">QTY</th> 
-										<th class="col-md-1">Delivery Date</th>
+										<th class="col-md-1"  style="text-align: right">PO Date</th>
+										<th class="col-md-3"  style="text-align: right">Vendor Name</th>
+										<th class="col-md-3"  style="text-align: right">Item Name</th>
+										<th class="col-md-1"  style="text-align: right">UOM</th>   
+										<th class="col-md-1"  style="text-align: right">QTY</th> 
+										<th class="col-md-1"  style="text-align: right">Delivery Date</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -170,17 +170,16 @@
 												<c:set var="sr" value="${sr+1}" ></c:set>
 
 												<td  ><c:out value="${itemExpectedReport.poNo}" /></td> 
-											<td  ><c:out
+											<td   style="text-align: right"><c:out
 													value="${itemExpectedReport.poDate}" /></td>
-											<td  ><c:out
+											<td   style="text-align: right"><c:out
 													value="${itemExpectedReport.vendorCode} - ${itemExpectedReport.vendorName}" /></td> 
-											<td  ><c:out
+											<td  style="text-align: right" ><c:out
 													value="${itemExpectedReport.itemCode} - ${itemExpectedReport.itemDesc}" /></td> 
-											<td  ><c:out
+											<td   style="text-align: right"><c:out
 													value="${itemExpectedReport.uom}" /></td> 
-											<td  ><c:out
-													value="${itemExpectedReport.itemQty}" /></td> 
-											 <td  ><c:out
+											<td  ><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${itemExpectedReport.itemQty}" /></td> 
+											 <td   style="text-align: right"><c:out
 													value="${itemExpectedReport.schDate}" /></td> 
 											  
 											</tr>

@@ -187,9 +187,9 @@
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">ITEM NAME</th>  
-										<th class="col-md-1">ISSUE QTY</th>
+										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
 										<c:if test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">ISSUE VALUE</th>   
+										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th>   
 										</c:if>
 										
 										<!-- <th class="col-md-1">Action</th> -->
@@ -206,12 +206,10 @@
 												<c:set var="sr" value="${sr+1}" ></c:set>
  
 												<td  ><c:out value="${itemWiselist.deptCode}" /></td>   
-											<td class="col-md-1"><c:out
-													value="${itemWiselist.issueQty}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${itemWiselist.issueQty}" /></td> 
 													
 													<c:if test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${itemWiselist.issueQtyValue}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${itemWiselist.issueQtyValue}" /></td> 
 													</c:if>
 													
 											 <%-- <td><a href="${pageContext.request.contextPath}/issueSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>

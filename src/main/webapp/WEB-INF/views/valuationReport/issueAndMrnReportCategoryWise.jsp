@@ -60,7 +60,7 @@
 								 
 								<div class="box-content">
 							
-								<div class="col-md-2">From Date</div>
+								<div class="col-md-2" >From Date</div>
 									<div class="col-md-3">
 										<input id="fromDate" class="form-control date-picker"
 								 placeholder="From Date"  value="${fromDate}" name="fromDate" type="text"  >
@@ -186,23 +186,23 @@
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
-										<th style="width:1%;">SR</th>
-										<th class="col-md-4">CATEGORY NAME</th> 
-										<th class="col-md-1">APPV QTY</th>
+										<th style="width:1%;" >SR</th>
+										<th class="col-md-4" >CATEGORY NAME</th> 
+										<th class="col-md-1" style="text-align: right">APPV QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">APPV VALUE</th>
+										<th class="col-md-1" style="text-align: right">APPV VALUE</th>
 										</c:when>
 										</c:choose>
 										
-										<th class="col-md-1">ISSUE QTY</th>
+										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">ISSUE VALUE</th>   
+										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th>   
 										</c:when>
 										</c:choose>
 										
-										<th class="col-md-1">Action</th>
+										<th class="col-md-1" style="text-align: right">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -214,29 +214,25 @@
 											<tr>
 											
 												 
-												<td  ><c:out value="${sr+1}" /></td> 
+												<td><c:out value="${sr+1}" /></td> 
 												<c:set var="sr" value="${sr+1}" ></c:set>
 
-												<td  ><c:out value="${categoryWiseReport.catDesc}" /></td> 
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.approveQty}" /></td>
+												<td  style="text-align: left"><c:out value="${categoryWiseReport.catDesc}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${categoryWiseReport.approveQty}" /></td>
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.approvedQtyValue}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2"	value="${categoryWiseReport.approvedQtyValue}" /></td> 
 													</c:when>
 													</c:choose>
 													
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.issueQty}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${categoryWiseReport.issueQty}" /></td> 
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${categoryWiseReport.issueQtyValue}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${categoryWiseReport.issueQtyValue}" /></td> 
 													</c:when>
 													</c:choose>
 													
-											 <td><a href="${pageContext.request.contextPath}/issueAndMrnReportGroupWise/${categoryWiseReport.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td style="text-align: right"> <a href="${pageContext.request.contextPath}/issueAndMrnReportGroupWise/${categoryWiseReport.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 											</c:when>

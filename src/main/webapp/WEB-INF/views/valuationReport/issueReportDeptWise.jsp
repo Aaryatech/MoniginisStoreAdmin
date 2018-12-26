@@ -221,14 +221,14 @@
 									<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">DEPARMENT NAME</th>  
-										<th class="col-md-1">ISSUE QTY</th>
+										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">ISSUE VALUE</th>   
+										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th>   
 										</c:when>
 										</c:choose>
 										
-										<th class="col-md-1">Action</th>
+										<th class="col-md-1" style="text-align: right">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -245,16 +245,14 @@
 												<c:set var="sr" value="${sr+1}" ></c:set>
  
 												<td  ><c:out value="${deptWiselist.deptCode}" /></td>   
-											<td class="col-md-1"><c:out
-													value="${deptWiselist.issueQty}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${deptWiselist.issueQty}" /></td> 
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${deptWiselist.issueQtyValue}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${deptWiselist.issueQtyValue}" /></td> 
 													</c:when>
 													</c:choose>
 													
-											 <td><a href="${pageContext.request.contextPath}/issueReportSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+											 <td style="text-align: right"><a href="${pageContext.request.contextPath}/issueReportSubDeptWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											</c:when>
 											 </c:choose>
 											</tr>

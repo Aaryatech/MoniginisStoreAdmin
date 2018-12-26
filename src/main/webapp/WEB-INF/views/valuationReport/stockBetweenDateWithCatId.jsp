@@ -133,45 +133,45 @@
 									<thead>
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-4">Item Name</th>
-										<th class="col-md-1">OP QTY</th>
+										<th class="col-md-4" style="text-align: left">Item Name</th>
+										<th class="col-md-1" style="text-align: right">OP QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">OP VALUE</th>
+										<th class="col-md-1" style="text-align: right">OP VALUE</th>
 										</c:when>
 										</c:choose>
 										
-										<th class="col-md-1">APPV QTY</th>
+										<th class="col-md-1" style="text-align: right">APPV QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">APPV VALUE</th>
+										<th class="col-md-1" style="text-align: right">APPV VALUE</th>
 										</c:when>
 										</c:choose>
 										
-										<th class="col-md-1">ISSUE QTY</th>
+										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">ISSUE VALUE</th> 
+										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th> 
 										</c:when>
 										</c:choose>
 										
-										<th class="col-md-1">DAMAGE QTY</th>
+										<th class="col-md-1" style="text-align: right">DAMAGE QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}"> 
-										<th class="col-md-1">DAMAGE VALUE</th> 
+										<th class="col-md-1" style="text-align: right">DAMAGE VALUE</th> 
 										</c:when>
 												</c:choose>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}"></c:when>
 												</c:choose>
 												
-										<th class="col-md-1">C/L QTY</th>
+										<th class="col-md-1" style="text-align: right">C/L QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1">C/L VALUE</th> 
+										<th class="col-md-1" style="text-align: right">C/L VALUE</th> 
 										</c:when>
 										</c:choose>
-										<th class="col-md-1">Action</th>
+										<th class="col-md-1" style="text-align: right">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -190,39 +190,34 @@
 
 												<td  ><c:out value="${list.itemCode}" /></td>
 												 
-												<td  ><c:out value="${list.openingStock}" /></td>
+												<td style="text-align: right" ><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.openingStock}" /></td>
 												 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-												<td class="col-md-1"><c:out
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" 
 													value="${list.opStockValue}" /></td> 
 													</c:when>
 													</c:choose>
 													
-											<td class="col-md-1"><c:out
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" 
 													value="${list.approveQty}" /></td>
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${list.approvedQtyValue}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approvedQtyValue}" /></td> 
 													</c:when>
 													</c:choose>
 													
-											<td class="col-md-1"><c:out
-													value="${list.issueQty}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueQty}" /></td> 
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1"><c:out
-													value="${list.issueQtyValue}" /></td>
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueQtyValue}" /></td>
 													</c:when>
 													</c:choose>
 													
 													
-											 <td class="col-md-1"><c:out
-													value="${list.damageQty}" /></td>
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.damageQty}" /></td>
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											 <td class="col-md-1"><c:out
-													value="${list.damagValue}" /></td>  
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.damagValue}" /></td>  
 													</c:when>
 													</c:choose>
 													
@@ -230,15 +225,15 @@
 												<c:set var="closingStockValue" value="${list.opStockValue+list.approvedQtyValue
 												-list.issueQtyValue-list.damagValue}" ></c:set>
 												
-											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
 											 
 											 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											 <td class="col-md-1"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
 											   </c:when>
 											   </c:choose>
 											   
-											   <td class="col-md-1"><a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a></td> 
+											   <td class="col-md-1" style="text-align: right"><a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a></td> 
 											</tr>
 											</c:when>
 											</c:choose>

@@ -128,7 +128,7 @@
 												 
 												<td><c:out
 													value="${list.itemCode}" /></td> 
-													<td  align="right"><c:out value="${list.indQty}" /></td>
+													<td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.indQty}" /></td>
 											<td><c:out
 													value="${list.indItemSchddt}" /></td>
 											<td ><c:out

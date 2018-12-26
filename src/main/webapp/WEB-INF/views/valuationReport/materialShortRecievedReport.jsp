@@ -151,12 +151,12 @@
 									<tr class="bgpink">
 										<th style="width:2%;">SR</th>
 										<th class="col-md-1">PO No.</th> 
-										<th class="col-md-1">PO Date</th> 
-										<th class="col-md-3">Item Name</th>
-										<th class="col-md-1">PO QTY</th>   
-										<th class="col-md-1">GRN QTY</th> 
-										<th class="col-md-1">SHORT</th>
-										<th class="col-md-1">Delivery Date</th>
+										<th class="col-md-1"style="text-align: right">PO Date</th> 
+										<th class="col-md-3" style="text-align: right">Item Name</th>
+										<th class="col-md-1" style="text-align: right">PO QTY</th>   
+										<th class="col-md-1" style="text-align: right">GRN QTY</th> 
+										<th class="col-md-1" style="text-align: right">SHORT</th>
+										<th class="col-md-1" style="text-align: right">Delivery Date</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -175,11 +175,11 @@
 											 
 											<td  ><c:out
 													value="${shortItemReportForPdf.itemCode} - ${shortItemReportForPdf.itemDesc}" /></td> 
-											<td  ><c:out
+											<td  ><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2"
 													value="${shortItemReportForPdf.itemQty}" /></td> 
 											<td  ><c:out
 													value="${shortItemReportForPdf.mrnQty}" /></td> 
-													<td  ><c:out
+													<td  ><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2"
 													value="${shortItemReportForPdf.pendingQty}" /></td> 
 											 <td  ><c:out 
 													value="${shortItemReportForPdf.schDate}" /></td> 

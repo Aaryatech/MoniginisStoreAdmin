@@ -253,19 +253,19 @@
 										<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">CATEGORY NAME</th>  
-										<th class="col-md-1"  >APR</th>
-										<th class="col-md-1"  >MAY</th>   
-										<th class="col-md-1"  >JUN</th>
-										<th class="col-md-1"  >JUL</th>
-										<th class="col-md-1"  >AUG</th>
-										<th class="col-md-1"  >SEP</th>
-										<th class="col-md-1"  >OCT</th>
-										<th class="col-md-1"  >NOV</th>
-										<th class="col-md-1"  >DEC</th>
-										<th class="col-md-1"  >JAN</th>
-										<th class="col-md-1"  >FEB</th>
-										<th class="col-md-1"  >MAR</th>
-										<th class="col-md-1">Action</th> 
+										<th class="col-md-1"  style="text-align: right">APR</th>
+										<th class="col-md-1" style="text-align: right" >MAY</th>   
+										<th class="col-md-1"  style="text-align: right">JUN</th>
+										<th class="col-md-1"  style="text-align: right">JUL</th>
+										<th class="col-md-1"  style="text-align: right">AUG</th>
+										<th class="col-md-1"  style="text-align: right">SEP</th>
+										<th class="col-md-1" style="text-align: right" >OCT</th>
+										<th class="col-md-1" style="text-align: right" >NOV</th>
+										<th class="col-md-1" style="text-align: right" >DEC</th>
+										<th class="col-md-1" style="text-align: right" >JAN</th>
+										<th class="col-md-1"  style="text-align: right">FEB</th>
+										<th class="col-md-1"  style="text-align: right">MAR</th>
+										<th class="col-md-1" style="text-align: right">Action</th> 
 									</tr>
 								</thead>
 								<tbody>
@@ -280,13 +280,13 @@
 												 <c:choose>
 												 <c:when test="${monthList.catId==categoryList.catId}">
 												<%-- <td ><c:out value="${monthList.approveQty}" /></td> --%> 
-														<td ><c:out value="${monthList.approvedQtyValue}" /></td> 
+														<td style="text-align: right" ><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${monthList.approvedQtyValue}" /></td> 
 														
 														 </c:when>
 														</c:choose> 
 														</c:forEach> 
 												</c:forEach>
-												<td><a href="${pageContext.request.contextPath}/mrnMonthItemWiseReportBycatId/${categoryList.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
+												<td style="text-align: right"><a href="${pageContext.request.contextPath}/mrnMonthItemWiseReportBycatId/${categoryList.catId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
 											
 											</tr>
 										</c:forEach>

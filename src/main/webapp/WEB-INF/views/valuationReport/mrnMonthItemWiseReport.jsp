@@ -233,18 +233,18 @@
 										<tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">ITEM NAME</th>  
-										<th class="col-md-1"  >APR</th>
-										<th class="col-md-1"  >MAY</th>   
-										<th class="col-md-1"  >JUN</th>
-										<th class="col-md-1"  >JUL</th>
-										<th class="col-md-1"  >AUG</th>
-										<th class="col-md-1"  >SEP</th>
-										<th class="col-md-1"  >OCT</th>
-										<th class="col-md-1"  >NOV</th>
-										<th class="col-md-1"  >DEC</th>
-										<th class="col-md-1"  >JAN</th>
-										<th class="col-md-1"  >FEB</th>
-										<th class="col-md-1"  >MAR</th> 
+										<th class="col-md-1"   style="text-align: right">APR</th>
+										<th class="col-md-1"   style="text-align: right">MAY</th>   
+										<th class="col-md-1"   style="text-align: right">JUN</th>
+										<th class="col-md-1"  style="text-align: right">JUL</th>
+										<th class="col-md-1"   style="text-align: right">AUG</th>
+										<th class="col-md-1"   style="text-align: right">SEP</th>
+										<th class="col-md-1"   style="text-align: right">OCT</th>
+										<th class="col-md-1"   style="text-align: right">NOV</th>
+										<th class="col-md-1"   style="text-align: right">DEC</th>
+										<th class="col-md-1"   style="text-align: right">JAN</th>
+										<th class="col-md-1"   style="text-align: right">FEB</th>
+										<th class="col-md-1"   style="text-align: right">MAR</th> 
 									</tr>
 								</thead>
 								<tbody>
@@ -263,7 +263,7 @@
 												 <c:choose>
 												 <c:when test="${itemWiseMonthList.itemId==itemList.itemId}">
 												<%-- <td ><c:out value="${itemWiseMonthList.approveQty}" /></td>  --%>
-														<td ><c:out value="${itemWiseMonthList.approvedQtyValue}" /></td> 
+														<td style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${itemWiseMonthList.approvedQtyValue}" /></td> 
 														
 														 </c:when>
 														</c:choose> 

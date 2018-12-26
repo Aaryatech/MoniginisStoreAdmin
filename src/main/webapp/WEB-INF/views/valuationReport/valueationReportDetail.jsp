@@ -129,13 +129,13 @@
 												style="width: 100%" id="table_grid">
 												<thead>
 													<tr>
-														<th>Sr.No.</th>
-														<th>DATE</th>
-														<th>TYPE</th>
-														<th>RECIEPT NO.</th>
-														<th>IN QTY</th>
-														<th>OUT QTY</th>
-														<th>BALANCE QTY</th>
+														<th style="text-align: center">Sr.No.</th>
+														<th style="text-align: center">DATE</th>
+														<th style="text-align: center">TYPE</th>
+														<th style="text-align: center">RECIEPT NO.</th>
+														<th style="text-align: center">IN QTY</th>
+														<th style="text-align: center">OUT QTY</th>
+														<th style="text-align: center">BALANCE QTY</th>
  
 													</tr>
 												</thead>
@@ -148,31 +148,31 @@
 														varStatus="count">
 
 														<tr>
-															<td><c:out value="${count.index+1}" /></td>
+															<td style="text-align: center"><c:out value="${count.index+1}" /></td>
 															<c:set var="srNo" value="${srNo+1}" />
-															<td><c:out value="${itemValuationList.date}" /></td>
-															<td><c:out value="${itemValuationList.typeName}" /></td>
-															<td><c:out value="${itemValuationList.receptNo}" /></td>
+															<td style="text-align: center"><c:out value="${itemValuationList.date}" /></td>
+															<td style="text-align: left"><c:out value="${itemValuationList.typeName}" /></td>
+															<td style="text-align: left"><c:out value="${itemValuationList.receptNo}" /></td>
 
 															<c:choose>
 																<c:when test="${itemValuationList.type==1}">
-																	<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${itemValuationList.qty}"/> </td>
+																	<td style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${itemValuationList.qty}"/> </td>
 																	<c:set var="oppyQty" value="${oppyQty+itemValuationList.qty}"></c:set>
 																	<c:set var="totalInQty" value="${totalInQty+itemValuationList.qty}"></c:set>
 																</c:when>
 																<c:otherwise>
-																	<td align="center"><c:out value="-" /></td>
+																	<td align="right"><c:out value="-" /></td>
 																</c:otherwise>
 															</c:choose>
 
 															<c:choose>
 																<c:when test="${itemValuationList.type==0}">
-																	<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${itemValuationList.qty}"/> </td>
+																	<td style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${itemValuationList.qty}"/> </td>
 																	<c:set var="oppyQty" value="${oppyQty-itemValuationList.qty}"></c:set>
 																	<c:set var="totalOutQty" value="${totalOutQty+itemValuationList.qty}"></c:set>
 																</c:when>
 																<c:otherwise>
-																	<td align="center"><c:out value="-" /></td>
+																	<td align="right"><c:out value="-" /></td>
 																</c:otherwise>
 															</c:choose>
 															
