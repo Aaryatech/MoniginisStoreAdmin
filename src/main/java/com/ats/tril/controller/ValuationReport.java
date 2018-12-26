@@ -5785,7 +5785,7 @@ public class ValuationReport {
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);*/
-											cell = new PdfPCell(new Phrase(""+df.format(df.format(monthList.get(l).getApprovedQtyValue())), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(monthList.get(l).getApprovedQtyValue()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
