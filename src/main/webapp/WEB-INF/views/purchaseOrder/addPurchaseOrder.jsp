@@ -171,9 +171,9 @@ body {
 				<div class=" box-content">
 					 
 		<div>
-			<form id="submitPurchaseOrder"
+			<form id="submitForm"
 				action="${pageContext.request.contextPath}/submitPurchaseOrder"
-				onsubmit="return confirm('Do you really want to submit the Purchase Order ?');" method="post">
+				  method="post">
 			<div class="box-content">
 			<div class="col-md-2" >PO Type</div>
 									<div class="col-md-3">
@@ -229,31 +229,7 @@ body {
 														</c:forEach>
 													</c:when>
 												</c:choose>
-												
-												<%-- <c:choose>
-													<c:when test="${poTypeTemp==''}">
-														<option value="" >Select PO Type</option>
-														 <c:forEach items="${typeList}" var="typeList">
-															 
-																	<option value="${typeList.typeId}">${typeList.typeName}</option>
-														</c:forEach>
-																
-														
-													</c:when> 
-													<c:otherwise>
-														<c:forEach items="${typeList}" var="typeList">
-															<c:choose>
-															
-																<c:when test="${poTypeTemp==typeList.typeId}">
-																	<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
-																</c:when>
-																 
-															</c:choose>
-														</c:forEach>
-													</c:otherwise>
-													
-												</c:choose> --%>
-										
+												 
 											</select>
 										
 										</c:otherwise>
@@ -276,7 +252,8 @@ body {
 						</div>
 									 
 									</div><br/>
-									
+									 
+									<c:set var="indentDate" value="-"></c:set>
 									<div class="box-content">
 								<div class="col-md-2" >Select Indend No.</div>
 									<div class="col-md-3">
@@ -289,6 +266,7 @@ body {
 												 <c:choose>
 												 	<c:when test="${intedList.indMId==indId}">
 												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 		
 												 	</c:when>
 												 	<%-- <c:otherwise>
 												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
@@ -305,6 +283,7 @@ body {
 												 <c:choose>
 												 	<c:when test="${intedList.indMId==indId}">
 												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
+												 		<c:set var="indentDate" value="${intedList.indMDate}"></c:set>
 												 	</c:when>
 												 	<%-- <c:otherwise>
 												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
@@ -319,7 +298,7 @@ body {
 									</div>	
 									<div class="col-md-2"></div>
 									<div class="col-md-2"><input type="button" class="btn btn-info" value="Get Item From Indend "  id="myBtn"></div>
-									
+									<input type="hidden"  value="${indentDate}"  id="indentDateText" name="indentDateText">
 									 
 					</div>
 			 		<br/>
@@ -327,8 +306,8 @@ body {
 				<div class="box-content">
 				<div class="col-md-2" >Vendor Name</div>
 									<div class="col-md-10">
-										<select name="vendId" id="vendId"   class="form-control chosen"   required>
-										 
+									 
+										<select name="vendId" id="vendId"   class="form-control chosen"   required> 
 										 <c:set var="vendSelected" value="0"></c:set>
 												<c:forEach items="${vendorList}" var="vendorList" >
 												  <c:choose>
@@ -347,20 +326,10 @@ body {
 														</c:forEach>
 													</c:when>
 												</c:choose>
-												
-											 <%-- <c:forEach items="${vendorList}" var="vendorList" >
-											<c:choose>
-									 			<c:when test="${vendorList.vendorId==vendIdTemp}">
-							  						<option value="${vendorList.vendorId}" selected>${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
- 												</c:when>
- 												<c:otherwise>
- 													<option value="${vendorList.vendorId}"  >${vendorList.vendorName}&nbsp;&nbsp; ${vendorList.vendorCode}</option>
- 												</c:otherwise>
- 												</c:choose>	 
-												</c:forEach> --%>
-						
-
+											  
 										</select>
+										
+										<input type="hidden" id="vendSelectedtext" name="vendSelectedtext" value="${vendSelected}">
 									</div>
 									
 				 
@@ -897,7 +866,41 @@ jQuery(document).ready(function() {
 		
 		
 		<script type="text/javascript">
- 
+		
+		$(function() {
+			$('#submitForm').submit(
+					function() {
+						 
+						var poDate = $("#poDate").val().split('-'); 
+						var indentDateText = $("#indentDateText").val().split('-'); 
+						 
+						 var firstDate=new Date();
+						 firstDate.setFullYear(poDate[2],(poDate[1] - 1 ),poDate[0]);
+
+						 var secondDate=new Date();
+						 secondDate.setFullYear(indentDateText[2],(indentDateText[1] - 1 ),indentDateText[0]); 
+						 
+						if(firstDate>=secondDate){
+							 
+							var x=confirm("Do you really want to submit the Purchase Order ?");
+							if(x==true)
+							{
+								$("input[type='submit']", this).val("Please Wait...")
+								.attr('disabled', 'disabled'); 
+								return true;
+							}else{
+								
+								return false;
+							}
+						}else{
+							 
+							alert("You Select Befor Date Than Indent Date...");
+							return false;
+						}
+						 
+					});
+		});
+		
 var specialKeys = new Array();
 specialKeys.push(8); //Backspace
 function IsNumeric(e) {
@@ -1452,6 +1455,8 @@ function getInvoiceNo() {
 	
 	var date = $("#poDate").val(); 
 	var poType = $("#poType").val();  
+	var vendSelectedtext = $("#vendSelectedtext").val();
+	
 	$.getJSON('${getInvoiceNo}', {
 
 		catId:1,
@@ -1461,7 +1466,10 @@ function getInvoiceNo() {
 		ajax : 'true',
 
 	}, function(data) { 
-		getIntendListByPoType();
+		if(vendSelectedtext==0){
+			getIntendListByPoType();
+		}
+		
 	document.getElementById("poNo").value=data.code;
 	document.getElementById("poNoTemp").value=data.code;
 	

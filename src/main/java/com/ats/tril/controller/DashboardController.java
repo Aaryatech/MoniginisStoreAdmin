@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.ConsumptionReportData;
 import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.EnquiryDetail;
@@ -322,6 +324,8 @@ public class DashboardController {
 		return mrnReportList;
 	}
 	
+	DecimalFormat df = new DecimalFormat("####0.00");
+	
 	@RequestMapping(value = "/consumptionMrnReportCategoryWisePdf/{fromDate}/{toDate}", method = RequestMethod.GET)
 	public void consumptionMrnReportCategoryWisePdf(@PathVariable String fromDate,@PathVariable String toDate , HttpServletRequest request, HttpServletResponse response)
 			throws FileNotFoundException {
@@ -451,13 +455,13 @@ public class DashboardController {
 							for (int j = 0; j < mrnReportList.get(k).getConsumptionReportList().size(); j++) {
 								 
 									 
-											cell = new PdfPCell(new Phrase(""+mrnReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(mrnReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
-											cell = new PdfPCell(new Phrase(""+mrnReportList.get(k).getConsumptionReportList().get(j).getYtd(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(mrnReportList.get(k).getConsumptionReportList().get(j).getYtd()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -471,13 +475,16 @@ public class DashboardController {
 				 
 			}
 			
+			Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");
@@ -787,13 +794,13 @@ public class DashboardController {
 							for (int j = 0; j < issueReportList.get(k).getConsumptionReportList().size(); j++) {
 								 
 									 
-											cell = new PdfPCell(new Phrase(""+issueReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(issueReportList.get(k).getConsumptionReportList().get(j).getMonthlyValue()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
 											cell.setPadding(3);
 											table.addCell(cell);
-											cell = new PdfPCell(new Phrase(""+issueReportList.get(k).getConsumptionReportList().get(j).getYtd(), headFont));
+											cell = new PdfPCell(new Phrase(""+df.format(issueReportList.get(k).getConsumptionReportList().get(j).getYtd()), headFont));
 											cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 											cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 											cell.setPaddingRight(2);
@@ -807,13 +814,16 @@ public class DashboardController {
 				 
 			}
 			
+			Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getFactoryAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
 				Paragraph ex2=new Paragraph("\n");

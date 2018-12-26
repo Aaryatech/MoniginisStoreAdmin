@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -360,16 +360,7 @@ h6{
  												<td class="col-md-1">
  												<c:choose><c:when test="${indent.indIsmonthly==1}">YES</c:when><c:when test="${indent.indIsmonthly==0}">NO</c:when></c:choose></td>
  												<td class="col-md-1"><c:out value="Pending" /></td>
-										       <%--  <td class="col-md-1">
-										        <c:choose>
-										        <c:when test="${indent.indDStatus==0}">
-										          <c:out value="Pending"/>
-										        </c:when>
-										       <c:otherwise>
-										        <c:out value="closed"/>
-										       </c:otherwise>
-										        </c:choose>
-										      </td> --%>
+										       
 											<td><a href="${pageContext.request.contextPath}/addPurchaseOrderFromDashboard/${indent.indMId}/${indent.indMType}">PO </a> </td>
 											</tr>
 										</c:forEach>
@@ -433,16 +424,7 @@ h6{
 												<td class="col-md-1"><c:out value="${enq.vendorName}" /></td>
 												<td class="col-md-1"><c:out value="${enq.vendorCode}" /></td>
  											
- 												<td class="col-md-1"><c:out value="Pending" /></td>       <%--  <td class="col-md-1">
-										        <c:choose>
-										        <c:when test="${indent.indDStatus==0}">
-										          <c:out value="Pending"/>
-										        </c:when>
-										       <c:otherwise>
-										        <c:out value="closed"/>
-										       </c:otherwise>
-										        </c:choose>
-										      </td> --%>
+ 												<td class="col-md-1"><c:out value="Pending" /></td>        
 												<td><a>PO </a><span style="visibility: hidden;" class="glyphicon glyphicon-ok" onclick="submit('+key+');" id="ok'+key+'"></span></td>
 										
 											</tr>
@@ -588,19 +570,19 @@ h6{
 										style="width: 100%" id="table_grid"> 
 									<thead>
 									<tr class="bgpink">
-										  <th class="col-sm-1"></th>
+										  <th style="width: 2%;"></th>
 											<th class="col-md-1"></th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
-											<th class="col-md-1" colspan="2">${category.catDesc}</th>
+											<th class="col-md-1" colspan="2" style="text-align: center">${category.catDesc}</th>
 											</c:forEach>
 										</tr>
 										<tr class="bgpink">
-										  <th class="col-sm-1">Sr No</th>
+										  <th style="width: 2%;">Sr No</th>
 											<th class="col-md-1">Type</th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
 											
-											<th class="col-md-1">Monthly</th>
-											<th class="col-md-1">YTD</th>
+											<th class="col-md-1" style="text-align: center;">Monthly</th>
+											<th class="col-md-1" style="text-align: center">YTD</th>
 											</c:forEach>
 										</tr>
 									</thead>
@@ -611,14 +593,14 @@ h6{
 											<tr>
 											
 												 
-												<td  ><c:out value="${sr+1}" /></td> 
+												<td  style="width: 2%;"><c:out value="${sr+1}" /></td> 
 												<c:set var="sr" value="${sr+1}" ></c:set>
 
 
 												<td  ><c:out value="${mrnReportList.typeName}" /></td>
 												 <c:forEach items="${mrnReportList.consumptionReportList}" var="consumptionReportList" varStatus="count">
-												 <td  ><c:out value="${consumptionReportList.monthlyValue}" /></td>
-												 <td  ><c:out value="${consumptionReportList.ytd}" /></td>
+												 <td  style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${consumptionReportList.monthlyValue}"/> </td>
+												 <td  style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${consumptionReportList.ytd}"/> </td>
 												 
 												 </c:forEach>
 												 
@@ -721,19 +703,19 @@ h6{
 										style="width: 100%" id="table_grid1"> 
 									<thead>
 									<tr class="bgpink">
-										  <th class="col-sm-1"></th>
+										  <th style="width: 2%;"></th>
 											<th class="col-md-1"></th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
-											<th class="col-md-1" colspan="2">${category.catDesc}</th>
+											<th class="col-md-1" colspan="2" style="text-align: center;">${category.catDesc}</th>
 											</c:forEach>
 										</tr>
 										<tr class="bgpink">
-										  <th class="col-sm-1">Sr No</th>
+										  <th style="width: 2%;">Sr No</th>
 											<th class="col-md-1">Type</th>
 												<c:forEach items="${categoryList}" var="category" varStatus="count">
 											
-											<th class="col-md-1">Monthly</th>
-											<th class="col-md-1">YTD</th>
+											<th class="col-md-1" style="text-align: center;">Monthly</th>
+											<th class="col-md-1" style="text-align: center;">YTD</th>
 											</c:forEach>
 										</tr>
 									</thead>
@@ -744,14 +726,14 @@ h6{
 											<tr>
 											
 												 
-												<td  ><c:out value="${sr+1}" /></td> 
+												<td  style="width: 2%;"><c:out value="${sr+1}" /></td> 
 												<c:set var="sr" value="${sr+1}" ></c:set>
 
 
 												<td  ><c:out value="${issueReportList.typeName}" /></td>
 												 <c:forEach items="${issueReportList.consumptionReportList}" var="consumptionReportList" varStatus="count">
-												 <td  ><c:out value="${consumptionReportList.monthlyValue}" /></td>
-												 <td  ><c:out value="${consumptionReportList.ytd}" /></td>
+												 <td  style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${consumptionReportList.monthlyValue}"/> </td>
+												 <td  style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${consumptionReportList.ytd}"/> </td>
 												 
 												 </c:forEach>
 												 
@@ -1694,8 +1676,8 @@ function search() {
 									  	
 									  	for(var i=0 ; i<itemList.consumptionReportList.length ;i++){
 									  		
-									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].monthlyValue));
-									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].ytd));
+									  		tr.append($('<td style="text-align: right;"></td>').html((itemList.consumptionReportList[i].monthlyValue).toFixed(2)));
+									  		tr.append($('<td style="text-align: right;"></td>').html((itemList.consumptionReportList[i].ytd).toFixed(2)));
 									  		
 									  	}
 									   
@@ -1759,8 +1741,8 @@ function searchIssueData() {
 									  	
 									  	for(var i=0 ; i<itemList.consumptionReportList.length ;i++){
 									  		
-									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].monthlyValue));
-									  		tr.append($('<td></td>').html(itemList.consumptionReportList[i].ytd));
+									  		tr.append($('<td style="text-align: right;"></td>').html((itemList.consumptionReportList[i].monthlyValue).toFixed(2)));
+									  		tr.append($('<td style="text-align: right;"></td>').html((itemList.consumptionReportList[i].ytd).toFixed(2)));
 									  		
 									  	}
 									   

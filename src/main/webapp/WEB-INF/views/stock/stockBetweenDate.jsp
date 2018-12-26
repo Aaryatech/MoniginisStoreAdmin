@@ -140,24 +140,24 @@
 										
 										<c:choose>  
 												<c:when test="${2==selectedQty}">
-													<th class="col-md-1">OP QTY</th> 
-													<th class="col-md-1">OP VALUE</th>
+													<th class="col-md-1" style="text-align: right">OP QTY</th> 
+													<th class="col-md-1" style="text-align: right">OP VALUE</th>
 												</c:when>
 												<c:when test="${3==selectedQty}">
-													<th class="col-md-1">C/L QTY</th>
-													<th class="col-md-1">C/L VALUE</th>
+													<th class="col-md-1" style="text-align: right">C/L QTY</th>
+													<th class="col-md-1" style="text-align: right">C/L VALUE</th>
 												</c:when> 
 												<c:otherwise>
-													<th>OP QTY</th> 
-													<th>OP VALUE</th>
-													<th>APPV QTY</th>
-													<th>APPV VALUE</th>
-													<th>ISSUE QTY</th>
-													<th>ISSUE VALUE</th> 
-													<th>DAMAGE QTY</th>
-													<th>DAMAGE VALUE</th> 
-													<th>C/L QTY</th>
-													<th>C/L VALUE</th> 
+													<th style="text-align: right">OP QTY</th> 
+													<th style="text-align: right">OP VALUE</th>
+													<th style="text-align: right">APPV QTY</th>
+													<th style="text-align: right">APPV VALUE</th>
+													<th style="text-align: right">ISSUE QTY</th>
+													<th style="text-align: right">ISSUE VALUE</th> 
+													<th style="text-align: right">DAMAGE QTY</th>
+													<th style="text-align: right">DAMAGE VALUE</th> 
+													<th style="text-align: right">C/L QTY</th>
+													<th style="text-align: right">C/L VALUE</th> 
 												</c:otherwise>
 										</c:choose>
 										

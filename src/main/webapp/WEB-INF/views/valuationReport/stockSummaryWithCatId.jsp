@@ -134,8 +134,8 @@
 						<table class="table table-advance" id="table1">  
 									<thead>
 									<tr class="bgpink">
-										<th style="width:1%; text-align: right" >Sr no.</th>
-										<th class="col-md-4" style="text-align: right">Item Name</th>
+										<th style="width:2%; " >Sr no.</th>
+										<th class="col-md-4" >Item Name</th>
 										<th class="col-md-1" style="text-align: right">OP QTY</th>
 										<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
