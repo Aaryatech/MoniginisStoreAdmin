@@ -246,6 +246,10 @@ public class DashboardController {
 				categoryList = new ArrayList<Category>(Arrays.asList(category));
 
 				model.addObject("categoryList", categoryList);
+				
+				Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+				model.addObject("typeList", typeList);
 				 
 				 
 			}

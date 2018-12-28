@@ -160,7 +160,9 @@ public class PurchaseOrderController {
 
 			model.addObject("date", sf.format(date));
 
-			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map.add("indId", indMId);
+			Vendor[] vendorRes = rest.postForObject(Constants.url + "/getVendorByIndendId",map, Vendor[].class); 
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 			model.addObject("vendorList", vendorList);
 
@@ -189,7 +191,7 @@ public class PurchaseOrderController {
 			model.addObject("indId", indMId);
 			model.addObject("isFromDashBoard", 1);
 			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<>();
 			map.add("status", "0,1");
 			map.add("poType", poType);
 			GetIndentByStatus[] inted = rest.postForObject(Constants.url + "/getIntendsByStatus", map,

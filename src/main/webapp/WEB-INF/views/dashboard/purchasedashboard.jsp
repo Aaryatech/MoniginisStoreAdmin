@@ -277,7 +277,15 @@ h6{
 												<td class="col-md-2"><c:out value="${indent.indMNo}" /></td>
 												<td class="col-md-2"><c:out value="${indent.indMDate}" /></td>
 												<td class="col-md-1"><c:out value="${indent.catDesc}" /></td>
-												<td class="col-md-1"><c:choose><c:when test="${indent.indMType==1}">Regular</c:when><c:when test="${indent.indMType==2}">Job Work</c:when><c:when test="${indent.indMType==3}">General</c:when></c:choose></td>
+												<td class="col-md-1">
+												<c:forEach items="${typeList}" var="typeList" >
+													<c:choose>
+														<c:when test="${indent.indMType==typeList.typeId}">
+														${typeList.typeName}
+														</c:when>
+													</c:choose>
+												</c:forEach>
+												</td>
  												<td class="col-md-1"><c:out value="${indent.accountHead}" /></td>
  												<td class="col-md-1" style="color: red;">
  												<c:choose><c:when test="${indent.indIsmonthly==1}">YES</c:when><c:when test="${indent.indIsmonthly==0}">NO</c:when></c:choose></td>
@@ -355,7 +363,15 @@ h6{
 												<td class="col-md-2"><c:out value="${indent.indMNo}" /></td>
 												<td class="col-md-2"><c:out value="${indent.indMDate}" /></td>
 												<td class="col-md-1"><c:out value="${indent.catDesc}" /></td>
-												<td class="col-md-1"><c:choose><c:when test="${indent.indMType==1}">Regular</c:when><c:when test="${indent.indMType==2}">Job Work</c:when><c:when test="${indent.indMType==3}">General</c:when></c:choose></td>
+												<td class="col-md-1"> 
+												<c:forEach items="${typeList}" var="typeList" >
+													<c:choose>
+														<c:when test="${indent.indMType==typeList.typeId}">
+														${typeList.typeName}
+														</c:when>
+													</c:choose>
+												</c:forEach>
+												</td>
  												<td class="col-md-1"><c:out value="${indent.accountHead}" /></td>
  												<td class="col-md-1">
  												<c:choose><c:when test="${indent.indIsmonthly==1}">YES</c:when><c:when test="${indent.indIsmonthly==0}">NO</c:when></c:choose></td>
