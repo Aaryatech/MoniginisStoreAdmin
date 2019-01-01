@@ -456,10 +456,19 @@ body {
  
 								</div><br/><br/>
 								<div class="box-content">
-									<label class="col-md-2"> MOQ Qty</label>
+									<label class="col-md-2"> Bal To Be Rec</label>
 									<div class="col-sm-6 col-lg-2 controls">
 									
-									<input type="text" name="moqQtyByItemId" id="moqQtyByItemId"
+									<input type="text" name="itemPendingMrnQty" id="itemPendingMrnQty"
+											class="form-control" placeholder="MOQ Qty"
+											  readonly/>
+ 
+									</div>
+									
+									<label class="col-md-2">Avg Issue Qty</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="itemAvgIssueQty" id="itemAvgIssueQty"
 											class="form-control" placeholder="MOQ Qty"
 											  readonly/>
  
@@ -1318,8 +1327,8 @@ function getMoqQty() {
 	}, function(data) {  
 		   
 			 
-			document.getElementById("moqQtyByItemId").value = data.itemOpQty;
-		  
+			document.getElementById("itemPendingMrnQty").value = data.poPending;
+			document.getElementById("itemAvgIssueQty").value = data.avgIssueQty;
 	});
 
 }

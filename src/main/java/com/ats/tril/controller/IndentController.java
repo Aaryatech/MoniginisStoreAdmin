@@ -189,20 +189,28 @@ public class IndentController {
 	
 	@RequestMapping(value = "/getMoqQtyForValidation", method = RequestMethod.GET)
 	@ResponseBody
-	public GetItem getMoqQtyForValidation(HttpServletRequest request, HttpServletResponse response) {
+	public ItemListWithCurrentStock getMoqQtyForValidation(HttpServletRequest request, HttpServletResponse response) {
   
-		GetItem getItem  = new GetItem();
+		ItemListWithCurrentStock getItem  = new ItemListWithCurrentStock();
 		 
 		try {
 			   
 				 int itemId = Integer.parseInt(request.getParameter("itemId"));
 				 
-				 for(int i=0;i<itemList.size();i++) {
+				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("fromDate", fromDateForStock);
+					map.add("toDate", toDateForStock);
+					map.add("itemId", itemId);
+					 
+					getItem = rest.postForObject(Constants.url + "/getItemListByItemIdWithStock",map,ItemListWithCurrentStock.class);
+					
+					  
+				/* for(int i=0;i<itemList.size();i++) {
 					 if(itemId==itemList.get(i).getItemId()) {
 						 getItem = itemList.get(i);
 					 }
 					 
-				 }
+				 }*/
 			 
 			 			  
 		}catch(Exception e) {
