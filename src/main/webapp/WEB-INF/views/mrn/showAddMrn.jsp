@@ -337,7 +337,7 @@ body {
 														data-rule-required="true" multiple="multiple">
 														
 														<c:if test="${poId!=0}">
-														<option selected value="${poId}">${poNo}</option>
+														<option selected value="${poId}">${poNo} &nbsp; ${errorMessage.message}</option>
 														</c:if>
 														
 													</select>

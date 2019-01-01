@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetCurrStockRol;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.GetPODetail;
@@ -296,6 +297,14 @@ public class HomeController {
 			
 			model.addObject("poId",poId);
 			model.addObject("poNo",poNo);
+			
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("poId", poId);
+			 
+			
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/getPoDetailScheduleDate", map, ErrorMessage.class);
+			model.addObject("errorMessage", errorMessage);
 			
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
