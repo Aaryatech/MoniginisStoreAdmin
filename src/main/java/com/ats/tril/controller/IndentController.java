@@ -766,14 +766,14 @@ public class IndentController {
 				String indDate = request.getParameter("indentDate");
 
 				int flag = 0;
-				for (int i = 0; i < indDetailListForEdit.size(); i++) {
+				/*for (int i = 0; i < indDetailListForEdit.size(); i++) {
 					indDetailListForEdit.get(i).setIsDuplicate(0);
 					if (indDetailListForEdit.get(i).getItemId() == itemId) {
 						flag = 1;
 						indDetailListForEdit.get(i).setIsDuplicate(1);
 
 					}
-				}
+				}*/
 				if (flag == 0) {
 					TempIndentDetail tempDetail = new TempIndentDetail();
 					String uom = null;
