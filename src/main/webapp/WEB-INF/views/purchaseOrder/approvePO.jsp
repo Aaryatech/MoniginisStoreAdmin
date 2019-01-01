@@ -85,6 +85,7 @@
 											<th class="col-md-1">PO TYPE</th>
 											<th class="col-md-4">Vendor Name</th>
 											<th class="col-md-2">Indent No</th>
+											<th class="col-md-2">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -115,6 +116,19 @@
 														value="${poList.vendorName}" /></td>
 
 												<td class="col-md-2"><c:out value="${poList.indNo}" /></td>
+												
+												<c:set var="sts" value="-"></c:set> 
+												<c:choose>
+																<c:when test="${poList.poStatus==9}">
+																	<c:set var="sts" value="Pending First Approve"></c:set>
+																</c:when>
+																<c:when test="${poList.poStatus==7}">
+																	<c:set var="sts" value="Pending Second Approve"></c:set>
+																</c:when>
+																 
+															</c:choose> 
+															
+															<td class="col-md-2"><c:out value="${sts}" /></td>
 
 												<td> 
 													<a href="${pageContext.request.contextPath}/approvePoDetail/${poList.poId}/${approve}"><abbr
@@ -154,6 +168,7 @@
 											<th class="col-md-1">PO TYPE</th>
 											<th class="col-md-4">Vendor Name</th>
 											<th class="col-md-2">Indent No</th>
+											<th class="col-md-2">Status</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -182,8 +197,21 @@
 												<td class="col-md-1"><c:out value="${type}" /></td>
 												<td class="col-md-4"><c:out
 														value="${poList.vendorName}" /></td>
-
+														 
 												<td class="col-md-2"><c:out value="${poList.indNo}" /></td>
+												
+												<c:set var="sts" value="-"></c:set> 
+												<c:choose>
+																<c:when test="${poList.poStatus==9}">
+																	<c:set var="sts" value="Pending First Approve"></c:set>
+																</c:when>
+																<c:when test="${poList.poStatus==7}">
+																	<c:set var="sts" value="Pending Second Approve"></c:set>
+																</c:when>
+																 
+															</c:choose> 
+															
+															<td class="col-md-2"><c:out value="${sts}" /></td>
 
 												<td> 
 													<a href="${pageContext.request.contextPath}/approvePoDetail/${poList.poId}/${approve}"><abbr

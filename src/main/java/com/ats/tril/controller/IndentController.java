@@ -205,12 +205,12 @@ public class IndentController {
 					getItem = rest.postForObject(Constants.url + "/getItemListByItemIdWithStock",map,ItemListWithCurrentStock.class);
 					
 					  
-				/* for(int i=0;i<itemList.size();i++) {
+				  for(int i=0;i<itemList.size();i++) {
 					 if(itemId==itemList.get(i).getItemId()) {
-						 getItem = itemList.get(i);
+						 getItem.setMaxLevel(itemList.get(i).getItemOpQty());
 					 }
 					 
-				 }*/
+				 } 
 			 
 			 			  
 		}catch(Exception e) {

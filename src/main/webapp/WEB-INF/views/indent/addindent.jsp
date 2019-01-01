@@ -456,6 +456,17 @@ body {
  
 								</div><br/><br/>
 								<div class="box-content">
+								
+								<label class="col-md-2"> MOQ Qty</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="moqQtyByItemId" id="moqQtyByItemId"
+											class="form-control" placeholder="MOQ Qty"
+											  readonly/>
+ 
+									</div>
+									
+									
 									<label class="col-md-2"> Bal To Be Rec</label>
 									<div class="col-sm-6 col-lg-2 controls">
 									
@@ -1005,10 +1016,10 @@ $(document).ready(function() {
 		 var catId=$('#ind_cat').val();
 		 var indentDate=$('#indent_date').val();
 		  
-		 var moqQty = parseFloat(document.getElementById("moqQtyByItemId").value);
+		 /* var moqQty = parseFloat(document.getElementById("moqQtyByItemId").value);
 		 
 		 
-		 var rem=qty%moqQty;
+		 var rem=qty%moqQty; */
 		 
 		 /* if(rem!=0){
 			 alert("Enter Multiple of "+ moqQty +" Qty ");
@@ -1326,7 +1337,7 @@ function getMoqQty() {
 
 	}, function(data) {  
 		   
-			 
+		document.getElementById("moqQtyByItemId").value = data.maxLevel;
 			document.getElementById("itemPendingMrnQty").value = data.poPending;
 			document.getElementById("itemAvgIssueQty").value = data.avgIssueQty;
 	});
