@@ -27,16 +27,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Damage;
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetDamage;
 import com.ats.tril.model.GetEnquiryDetail;
 import com.ats.tril.model.GetEnquiryHeader;
+import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetMrnDetailRej;
 import com.ats.tril.model.GetMrnHeaderRej;
 import com.ats.tril.model.GetpassDetail;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.GetpassReturnVendor;
+import com.ats.tril.model.MrnItemList;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
 import com.ats.tril.model.mrn.GetMrnDetail;
@@ -61,6 +66,10 @@ public class RejectionController {
 		ModelAndView model = new ModelAndView("rejection/addRejectionMemo");
 		try {
 
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			model.addObject("categoryList", categoryList);
+			
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
@@ -91,9 +100,12 @@ public class RejectionController {
 			
 			
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
 			map.add("vendId", vendId);
-			MrnHeader[] mrnHeaderList = rest.postForObject(Constants.url + "/getMrnListByVendorIdForRejectionMemo",map, MrnHeader[].class);
+			map.add("itemId", itemId);
+			MrnHeader[] mrnHeaderList = rest.postForObject(Constants.url + "/getMrnListByVendorIdForRejectionMemoForPune",map, MrnHeader[].class);
 			 mrnList = new ArrayList<MrnHeader>(Arrays.asList(mrnHeaderList));
 
 		} catch (Exception e) {
@@ -110,6 +122,7 @@ public class RejectionController {
 		try {
 
 			int mrnIdList = Integer.parseInt(request.getParameter("mrnId"));
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
 			System.out.println("mrn Td" + mrnIdList);
 
 			/*StringBuilder sb = new StringBuilder();
@@ -124,13 +137,13 @@ public class RejectionController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
 			map.add("status", mrnIdList);
-
+			map.add("itemId", itemId);
 			// getMrnList = rest.postForObject(Constants.url + "getMrnHeaderDetail", map,
 			// List.class);
 
 			ParameterizedTypeReference<List<GetMrnHeaderRej>> typeRef = new ParameterizedTypeReference<List<GetMrnHeaderRej>>() {
 			};
-			ResponseEntity<List<GetMrnHeaderRej>> responseEntity = rest.exchange(Constants.url + "getMrnHeaderDetail",
+			ResponseEntity<List<GetMrnHeaderRej>> responseEntity = rest.exchange(Constants.url + "getMrnHeaderDetailForPune",
 					HttpMethod.POST, new HttpEntity<>(map), typeRef);
 			getMrnList = responseEntity.getBody();
 			
@@ -149,34 +162,25 @@ public class RejectionController {
 
 		try {
 
-			List<RejectionMemo> rejectionMemoList = new ArrayList<RejectionMemo>();
+			List<Damage> rejectionMemoList = new ArrayList<Damage>();
 
 			int vendId = Integer.parseInt(request.getParameter("vendId"));
-
-			String rejectionNo =  request.getParameter("rejectionNo") ;
-
+ 
 			String rejectionDate = request.getParameter("rejectionDate");
-
-			String docDate = request.getParameter("docDate");
-
+ 
 			int mrnId = Integer.parseInt(request.getParameter("mrnId"));
 			String remark = request.getParameter("remark");
-
-			String remark1 = request.getParameter("remark1");
-
-			int docNo = Integer.parseInt(request.getParameter("docNo"));
-
-			String rejDate = DateConvertor.convertToYMD(rejectionDate);
-
-			String docuDate = DateConvertor.convertToYMD(docDate);
-			RejectionMemo rejectionMemo = new RejectionMemo();
+ 
+			 
+ 
+			Damage rejectionMemo = new Damage();
 			DocumentBean docBean=null;
 			try {
 				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("docId", 7);
+				map.add("docId", 9);
 				map.add("catId", 1);
-				map.add("date", DateConvertor.convertToYMD(rejDate));
+				map.add("date", DateConvertor.convertToYMD(rejectionDate));
 				map.add("typeId", 1);
 				RestTemplate restTemplate = new RestTemplate();
 
@@ -193,26 +197,19 @@ public class RejectionController {
 					}
 					code.append(String.valueOf(counter));
 				
-				rejectionMemo.setMrnNo(""+code);
+				rejectionMemo.setDamageNo(""+code);
 				
 				docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
 
+			List<MrnItemList> list = new ArrayList<>();
 			
 			//for (int i = 0; i < mrnIdList.length; i++) {
 				//System.out.println(" \n current mrn Id" + mrnIdList[i].toString()); 
-				rejectionMemo.setDcoDate(docuDate);
-				rejectionMemo.setDcoId(docNo);
-				rejectionMemo.setIsUsed(1);
-				rejectionMemo.setMrnId(mrnId);
-				rejectionMemo.setRejectionDate(rejDate);
-				rejectionMemo.setRejectionNo(rejectionNo);
-				rejectionMemo.setRejectionRemark(remark);
-				rejectionMemo.setRejectionRemark1(remark1);
-				rejectionMemo.setStatus(1);
-				rejectionMemo.setVendorId(vendId);
+				 
+				 
 				rejectionMemoDetailList = new ArrayList<RejectionMemoDetail>();
 
 				for (int j = 0; j < getMrnList.size(); j++) {
@@ -220,37 +217,63 @@ public class RejectionController {
 					if (mrnId == getMrnList.get(j).getMrnId()) {
 
 						for (int k = 0; k < getMrnList.get(j).getGetMrnDetailRejList().size(); k++) {
-							RejectionMemoDetail rejectionMemoDetail = new RejectionMemoDetail();
+							
+							MrnItemList mrnItemList = new MrnItemList();
+							
 							GetMrnDetailRej getMrnDetail = getMrnList.get(j).getGetMrnDetailRejList().get(k);
-							rejectionMemoDetail.setIsUsed(1);
-							rejectionMemo.setMrnNo(getMrnList.get(j).getMrnNo());
-
-							rejectionMemoDetail.setItemId(getMrnDetail.getItemId());
-							rejectionMemoDetail.setMemoQty(
-									Float.parseFloat(request.getParameter("memoQty" + getMrnDetail.getMrnDetailId())));
-							rejectionMemoDetail.setMrnDate(DateConvertor.convertToYMD(getMrnList.get(j).getMrnDate()));
-							rejectionMemoDetail.setMrnNo(getMrnList.get(j).getMrnNo());
-							rejectionMemoDetail.setRejectionQty(getMrnDetail.getRejectQty());
-							rejectionMemoDetail.setStatus(1);
-							rejectionMemoDetailList.add(rejectionMemoDetail);
+							
+							if(Float.parseFloat(request.getParameter("memoQty" + getMrnDetail.getMrnDetailId()))>0) {
+								
+								rejectionMemo.setItemId(getMrnDetail.getItemId());
+								rejectionMemo.setDelStatus(1);
+								rejectionMemo.setMrnId(mrnId);
+								rejectionMemo.setDate(DateConvertor.convertToYMD(rejectionDate));
+								rejectionMemo.setReason(remark); 
+								rejectionMemo.setExtra1(vendId);
+								rejectionMemo.setMrnDetailId(getMrnDetail.getMrnDetailId());
+								rejectionMemo.setMrnId(mrnId);
+								rejectionMemo.setValue(getMrnDetail.getChalanQty()); 
+								rejectionMemo.setQty(Float.parseFloat(request.getParameter("memoQty" + getMrnDetail.getMrnDetailId())));
+								rejectionMemo.setVar1(getMrnList.get(j).getMrnNo());
+								rejectionMemoList.add(rejectionMemo);
+								
+								mrnItemList.setMrnDetailedId(getMrnDetail.getMrnDetailId());
+								mrnItemList.setMrnId(getMrnDetail.getMrnId());
+								mrnItemList.setItemId(getMrnDetail.getItemId());
+								mrnItemList.setPendingQty(getMrnDetail.getRemainingQty());
+								mrnItemList.setReturnQty(rejectionMemo.getQty());
+								list.add(mrnItemList);
+							 
+							}
 						}
 
 					}
 				}
-				rejectionMemo.setRejectionMemoDetailList(rejectionMemoDetailList);
-				rejectionMemoList.add(rejectionMemo);
-
+				 
 			//}
 			System.out.println("rejectionMemoList" + rejectionMemoList);
-			List<RejectionMemo> res = rest.postForObject(Constants.url + "/saveRejectionMemoHeaderDetail",
-					rejectionMemoList, List.class);
-			System.out.println("response:" + res);
-
+			if(rejectionMemoList.size()>0) {
+				ErrorMessage res = rest.postForObject(Constants.url + "/saveDamage",
+						rejectionMemoList, ErrorMessage.class);
+				System.out.println("response:" + res);
+				if(res.isError()==false) {
+					
+					SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+				ErrorMessage errorMessage = rest.postForObject(Constants.url + "/updateApprovedQtyWhileReturnProcess",
+						list, ErrorMessage.class);
+				System.out.println("response errorMessage : " + errorMessage);
+				
+				}
+			}
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "redirect:/showRejectionMemo";
+		return "redirect:/listOfRejectionMemo";
 	}
 
 	@RequestMapping(value = "/getListOfRejectionMemo", method = RequestMethod.GET)
@@ -283,40 +306,36 @@ public class RejectionController {
 
 		ModelAndView model = new ModelAndView("rejection/listOfRejectionMemo");
 		try {
-			List<GetRejectionMemo> list = new ArrayList<GetRejectionMemo>();
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			  
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat show = new SimpleDateFormat("dd-MM-yyyy");
 			
-			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
-				 
-				Date date = new Date();
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				SimpleDateFormat disp = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+			
+			if( request.getParameter("fromDate")==null ||  request.getParameter("toDate")==null) {
 				
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
-				
-				model.addObject("fromDate", disp.format(date));
-				model.addObject("toDate", disp.format(date));
+				model.addObject("fromDate", show.format(date));
+				model.addObject("toDate", show.format(date)); 
 			}
 			else {
 				
-				String fromDate = request.getParameter("fromDate");
-				String toDate = request.getParameter("toDate");
- 
+				 String fromDate = request.getParameter("fromDate");
+				 String toDate = request.getParameter("toDate");
+				 
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
-				
-				model.addObject("fromDate", fromDate);
-				model.addObject("toDate", toDate);
+				model.addObject("fromDate", fromDate); 
+				model.addObject("toDate", toDate); 
 			}
 			
-			
-
-			GetRejectionMemo[] getlist = rest.postForObject(Constants.url + "/getRejectionMemoByDate", map,
-					GetRejectionMemo[].class);
-			list = new ArrayList<GetRejectionMemo>(Arrays.asList(getlist));
-			
-			model.addObject("list", list);
+			GetDamage[] getDamage = rest.postForObject(Constants.url + "/getDamageList",map,
+					GetDamage[].class);
+			List<GetDamage> getDamagelist = new ArrayList<GetDamage>(Arrays.asList(getDamage));
+			model.addObject("getDamagelist", getDamagelist);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -325,18 +344,34 @@ public class RejectionController {
 		return model;
 	}
 
-	@RequestMapping(value = "/deleteRejectionMemo/{rejectionId}", method = RequestMethod.GET)
-	public String deleteRejectionMemo(@PathVariable int rejectionId, HttpServletRequest request,
+	@RequestMapping(value = "/deleteRejectionMemo/{damageId}", method = RequestMethod.GET)
+	public String deleteRejectionMemo(@PathVariable int damageId, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("rejectionId", rejectionId);
+			map.add("damageId", damageId);
 
-			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteRejectionMemo", map,
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteDamage", map,
 					ErrorMessage.class);
 			System.out.println(errorMessage);
+			 
+			if(errorMessage.isError()==false) {
+				List<MrnItemList> list = new ArrayList<>();
+				
+				map = new LinkedMultiValueMap<String,Object>();
+				map.add("damageId", damageId);
+				GetDamage editDamage = rest.postForObject(Constants.url + "/getDamageById",map,
+						GetDamage.class);
+				
+				MrnItemList mrnItemList = new MrnItemList();
+				mrnItemList.setMrnDetailedId(editDamage.getMrnDetailId());
+				mrnItemList.setReturnQty(editDamage.getQty());
+				list.add(mrnItemList);
+				ErrorMessage res = rest.postForObject(Constants.url + "/updatePendingQtyWhileDeleteReturnProcess",list,
+						ErrorMessage.class);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -8,7 +8,7 @@
 <body onload="getInvoiceNo()">
 
 <c:url var="getInvoiceNo" value="/getInvoiceNo"></c:url>
-
+<c:url var="getItemIdByCatIdInIssue" value="/getItemIdByCatIdInIssue"></c:url>
 	<c:url var="getMrnListByMrnId" value="/getMrnListByMrnId"></c:url>
 	<c:url var="getMrnListByVendorIdForRejectionMemo" value="/getMrnListByVendorIdForRejectionMemo"></c:url>
 
@@ -83,6 +83,32 @@
 									</div>
 								</div>
 								<br>
+								
+								<div class="box-content">
+								
+									<div class="col-md-2" >Select Category</div>
+									<div class="col-md-3">
+										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()"  id="groupId"  >
+											<option   value="">Select Category</option>
+											
+											<c:forEach items="${categoryList}" var="categoryList"> 
+														<option value="${categoryList.catId}"> ${categoryList.catDesc} </option>
+											 </c:forEach>
+											</select>
+									</div>
+								  
+								</div><br> 
+								
+								<div class="box-content"> 
+								
+									<div class="col-md-2" >Select Item</div>
+									<div class="col-md-10">
+										<select   class="form-control chosen" onchange="getMrnList()" name="itemId"  id="itemId"  required>
+										 
+											</select>
+									</div> 
+								</div><br> 
+								
 								<div class="box-content">
 
 									<div class="col-md-2">Select Vendor</div>
@@ -125,7 +151,7 @@
 
 									<br><br>
 
-									<div class="box-content">
+									<!-- <div class="box-content">
 
 										<div class="col-md-2">Document Date*</div>
 										<div class="col-md-3">
@@ -142,23 +168,23 @@
 												placeholder="Document No" type="text" name="docNo" required/>
 										</div>
 									</div>
-									<br>
+									<br> -->
 									<div class="box-content">
 
 
 
 										<div class="col-md-2">Remark</div>
-										<div class="col-md-3">
+										<div class="col-md-10">
 											<input type="text" name="remark" id="remark"
 												placeholder="Remark" class="form-control" />
 
 										</div>
-										<div class="col-md-2">Remark1</div>
+										<!-- <div class="col-md-2">Remark1</div>
 										<div class="col-md-3">
 											<input type="text" name="remark1" id="remark1"
 												placeholder="Remark" class="form-control" />
 
-										</div>
+										</div> -->
 									</div>
 
 									<br><br>
@@ -180,10 +206,10 @@
 												<thead>
 													<tr>
 														<th style="width:2%;">Sr.No.</th>
-														<th class="col-md-1">Mrn No</th>
+														<th class="col-md-1">Batch No</th>
 														<th class="col-md-5">Item Name</th>
-														<th class="col-md-1">Rejection Qty</th>
-														<th class="col-md-1">Memo Qty</th>
+														<th class="col-md-1">Remaining Qty</th>
+														<th class="col-md-1">Return Qty</th>
  
 													</tr>
 												</thead>
@@ -299,10 +325,20 @@
 	
 	function getMrnList() {
 		 
-		var vendId = $("#vendId").val();  
+		var vendId = $("#vendId").val();
+		var itemId = $("#itemId").val(); 
+		
+		if(vendId=="" || vendId==null){
+			alert("Select Vendor ");
+		}else if(itemId=="" || itemId==null){
+			alert("Select Item ");
+		}else{
+			
+		
 		$.getJSON('${getMrnListByVendorIdForRejectionMemo}', {
 	 
 			vendId : vendId,
+			itemId : itemId,
 			ajax : 'true',
 
 		}, function(data) { 
@@ -319,12 +355,15 @@
 			$("#mrnId").trigger("chosen:updated");
 		
 		});
+		
+		}
 
 	}
 		function search() {
 
 			//alert("hi");
 			var mrnId = $("#mrnId").val();
+			var itemId = $("#itemId").val();
 			$('#loader').show();
 
 			$
@@ -333,7 +372,7 @@
 
 							{
 								mrnId : mrnId,
-
+								itemId : itemId, 
 								ajax : 'true'
 
 							},
@@ -355,7 +394,7 @@
 										tr.append($('<td></td>').html(j + 1));
 
 										tr.append($('<td></td>').html(
-												data[i].mrnNo));
+												data[i].getMrnDetailRejList[j].batchNo));
 										tr
 												.append($('<td></td>')
 														.html(
@@ -364,7 +403,7 @@
 										tr
 												.append($('<td></td>')
 														.html(
-																data[i].getMrnDetailRejList[j].rejectQty));
+																data[i].getMrnDetailRejList[j].remainingQty));
 
 										tr
 												.append($('<td > <input type="text" onchange="checkValue('+ data[i].getMrnDetailRejList[j].mrnDetailId+ ')" id= memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ ' class="form-control" value="'+data[i].getMrnDetailRejList[j].rejectQty+'" name=memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ '></td>'));
@@ -421,6 +460,28 @@
 			alert("Select Mrn ");
 			}
 			 
+		}
+		function getItemIdByGroupId() {
+
+			var grpId = document.getElementById("groupId").value;
+
+			$.getJSON('${getItemIdByCatIdInIssue}', {
+
+				grpId : grpId,
+				ajax : 'true'
+			}, function(data) {
+
+				var html = '<option value="">Select Item</option>';
+
+				var len = data.length;
+				for (var i = 0; i < len; i++) {
+					html += '<option value="' + data[i].itemId + '">'
+							+ data[i].itemCode + ' &nbsp; '+data[i].itemDesc+'</option>';
+				}
+				html += '</option>';
+				$('#itemId').html(html);
+				$("#itemId").trigger("chosen:updated");
+			});
 		}
 	</script>
 

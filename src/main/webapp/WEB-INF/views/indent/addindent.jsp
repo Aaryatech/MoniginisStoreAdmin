@@ -1389,7 +1389,7 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
 									  	tr.append($('<td style="text-align: right;"></td>').html('<input   type="hidden" id="moqQty'+itemList.itemId+'" value='+itemList.itemopQty+' name="moqQty'+itemList.itemId+'" >'+itemList.itemopQty));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.minLevel));  
-									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.clsQty)); 
+									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.clsQty).toFixed(2))); 
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
 										$('#table_grid1 tbody').append(tr); 
 										i++;
@@ -1406,7 +1406,7 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
 									  	tr.append($('<td style="text-align: right;"></td>').html('<input   type="hidden" id="moqQty'+itemList.itemId+'" value='+itemList.itemopQty+' name="moqQty'+itemList.itemId+'" >'+itemList.itemopQty));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.maxLevel)); 
-									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.clsQty));
+									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.clsQty).toFixed(2)));
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
 										$('#table_grid2 tbody').append(tr); 
 										j++;
@@ -1423,7 +1423,7 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.poPending));
 									  	tr.append($('<td style="text-align: right;"></td>').html('<input   type="hidden" id="moqQty'+itemList.itemId+'" value='+itemList.itemopQty+' name="moqQty'+itemList.itemId+'" >'+itemList.itemopQty));
 									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.rolLevel));
-									  	tr.append($('<td style="text-align: right;"></td>').html(itemList.clsQty)); 
+									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.clsQty).toFixed(2))); 
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
 										$('#table_grid3 tbody').append(tr); 
 										k++;

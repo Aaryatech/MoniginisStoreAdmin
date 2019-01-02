@@ -119,55 +119,54 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-										<th	 style="width:2%;"><input type="checkbox" name="name1"
-														value="0" /> All</th>
+										<!-- <th	 style="width:2%;"><input type="checkbox" name="name1"
+														value="0" /> All</th> -->
 										
 											<th style="width:2%;">Sr no.</th>
 											<th class="col-md-1">Rejection Date</th>
 											<th class="col-md-1">Rejection No.</th>
-											<th  >Vendor Name</th>
-											<th class="col-md-1">Mrn No</th>
-											<th class="col-md-1">Dco No</th>
-											<th class="col-md-1">Dco Date</th>
+											<th class="col-md-3">Vendor Name</th>
+											<th class="col-md-3">Item Name</th>
+											<th class="col-md-1">Qty</th>
+											<th class="col-md-2">Mrn No</th> 
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${list}" var="list" varStatus="count">
+										<c:forEach items="${getDamagelist}" var="list" varStatus="count">
 											<tr>
 											
 												
-										<td  > <input type="checkbox"
-															name="name1" value="${list.rejectionId}" /></td>
+										<%-- <td  > <input type="checkbox"
+															name="name1" value="${list.rejectionId}" /></td> --%>
 									
 												<td  ><c:out value="${count.index+1}" /></td>
 
 
 												<td  ><c:out
-														value="${list.rejectionDate}" /></td>
+														value="${list.date}" /></td>
 												<td  ><c:out
-														value="${list.rejectionNo}" /></td>
+														value="${list.damageNo}" /></td>
 
 												<td  ><c:out value="${list.vendorName}" /></td>
+												<td  ><c:out
+														value="${list.itemDesc}" /></td>
+												<td  ><c:out
+														value="${list.qty}" /></td>
 
-												<td  ><c:out value="${list.mrnNo}" /></td>
-
-												<td  ><c:out value="${list.dcoId}" /></td>
-												<td  ><c:out value="${list.dcoDate}" /></td>
-											
-
-
+												<td  ><c:out value="${list.var1}" /></td>
+ 
 
 												<td>
-												<a href="javascript:genPdf(${ list.rejectionId});"><abbr title="PDF"><i
-															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+												<%-- <a href="javascript:genPdf(${ list.rejectionId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a> --%>
 													
 												 
-												<a
-													href="${pageContext.request.contextPath}/editRejectionMemo/${list.rejectionId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a> <a
-													href="${pageContext.request.contextPath}/deleteRejectionMemo/${list.rejectionId}"
+												<%-- <a
+													href="${pageContext.request.contextPath}/editRejectionMemo/${list.damageId}"><abbr
+														title="Edit"><i class="fa fa-edit"></i></abbr></a> --%> <a
+													href="${pageContext.request.contextPath}/deleteRejectionMemo/${list.damageId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>
 
@@ -178,9 +177,9 @@
 
 								</table>
 <br> <br>
-										<button
+									<!-- 	<button
 											style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
-											onclick="commonPdf()">PDF</button>
+											onclick="commonPdf()">PDF</button> -->
 
 							</div>
 						</div>
