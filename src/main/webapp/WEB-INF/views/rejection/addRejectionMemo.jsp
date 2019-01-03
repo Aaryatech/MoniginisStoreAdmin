@@ -202,7 +202,7 @@
 									<div class="row">
 										<div class="col-md-12 table-responsive">
 											<table class="table table-bordered table-striped fill-head "
-												style="width: 100%" id="table_grid">
+												style="width: 100%;font-size: 14px;" id="table_grid" >
 												<thead>
 													<tr>
 														<th style="width:2%;">Sr.No.</th>
@@ -401,12 +401,12 @@
 																data[i].getMrnDetailRejList[j].itemCode+' '+data[i].getMrnDetailRejList[j].itemName));
 
 										tr
-												.append($('<td></td>')
+												.append($('<td align="right"></td>')
 														.html(
-																data[i].getMrnDetailRejList[j].remainingQty));
+																(data[i].getMrnDetailRejList[j].remainingQty).toFixed(2)));
 
 										tr
-												.append($('<td > <input type="text" onchange="checkValue('+ data[i].getMrnDetailRejList[j].mrnDetailId+ ')" id= memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ ' class="form-control" value="'+data[i].getMrnDetailRejList[j].rejectQty+'" name=memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ '></td>'));
+												.append($('<td > <input style="text-align: right;" type="text" onchange="checkValue('+ data[i].getMrnDetailRejList[j].mrnDetailId+ ','+data[i].getMrnDetailRejList[j].remainingQty+')" id= memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ ' class="form-control" value="'+data[i].getMrnDetailRejList[j].rejectQty+'" name=memoQty'+ data[i].getMrnDetailRejList[j].mrnDetailId+ '></td>'));
 
 										$('#table_grid tbody').append(tr);
 									}
@@ -416,13 +416,21 @@
 							});
 		}
 		
-		function checkValue(mrnDetailId) {
+		function checkValue(mrnDetailId,remQty) {
 			 
 			var memoQty = parseFloat($("#memoQty"+mrnDetailId).val()); 
   
 			 if(memoQty<0 || memoQty=="" || memoQty==null || isNaN(memoQty)){
 				 alert("Enter valid Qty");
 				 document.getElementById("memoQty"+mrnDetailId).value = 0;
+			 }else{
+				 
+				 if(memoQty>remQty){
+					 
+					 alert("Return Qty Is Greater Than Remaining Qty ");
+					 document.getElementById("memoQty"+mrnDetailId).value = 0;
+					 
+				 }
 			 }
 
 		}
@@ -450,8 +458,13 @@
 			 	   
 			var vendId = $("#vendId").val();
 			var mrnId = $("#mrnId").val();  
+			var itemId = $("#itemId").val();  
 			
-			if(vendId==null || vendId == "")
+			if(itemId==null || itemId == "")
+			{
+			alert("Select Item ");
+			}
+			else if(vendId==null || vendId == "")
 			{
 			alert("Select Vendor");
 			}
@@ -459,6 +472,7 @@
 			{
 			alert("Select Mrn ");
 			}
+			 
 			 
 		}
 		function getItemIdByGroupId() {
