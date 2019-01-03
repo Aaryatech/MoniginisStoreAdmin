@@ -19,6 +19,7 @@
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 
 	<c:url var="updateIndDetail" value="/updateIndDetail" />
+	<c:url var="getMoqQtyForValidation" value="/getMoqQtyForValidation" />
 
 	<div class="container" id="main-container">
 
@@ -283,7 +284,7 @@
 										<div class="col-sm-6 col-lg-10 controls">
 
 											<select id="item_name" name="item_name"
-												class="form-control chosen" placeholder="Item Name"
+												onchange="getMoqQty()" class="form-control chosen" placeholder="Item Name"
 												>
 
 											</select>
@@ -317,7 +318,38 @@
  
 									</div><br><br>
 									
+									<div class="box-content">
+								
+								<label class="col-md-2"> MOQ Qty</label>
+									<div class="col-sm-6 col-lg-2 controls">
 									
+									<input type="text" name="moqQtyByItemId" id="moqQtyByItemId"
+											class="form-control" placeholder="MOQ Qty"
+											  readonly/>
+ 
+									</div>
+									
+									
+									<label class="col-md-2"> Bal To Be Rec</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="itemPendingMrnQty" id="itemPendingMrnQty"
+											class="form-control" placeholder="Bal To Be Rec"
+											  readonly/>
+ 
+									</div>
+									
+									<label class="col-md-2">Avg Issue Qty</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="itemAvgIssueQty" id="itemAvgIssueQty"
+											class="form-control" placeholder="Avg Issue Qty"
+											  readonly/>
+ 
+									</div>
+								</div>
+								<br/>
+									<br><br><br>
 								<div class="row">
 						<div class="col-md-12" style="text-align: center">
 						<c:choose>
@@ -542,6 +574,24 @@
 	<!-- 1 -->
 	
 	<script type="text/javascript">
+	function getMoqQty() {
+		 
+		var itemId = $("#item_name").val();
+		 
+		$.getJSON('${getMoqQtyForValidation}', {
+	  
+			itemId : itemId, 
+			ajax : 'true',
+
+		}, function(data) {  
+			   
+			document.getElementById("moqQtyByItemId").value = data.maxLevel;
+				document.getElementById("itemPendingMrnQty").value = data.poPending;
+				document.getElementById("itemAvgIssueQty").value = (data.avgIssueQty).toFixed(2);
+		});
+
+	}
+	
 	function validation()
 	{
 		var itemId = $("#item_name").val();

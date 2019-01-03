@@ -494,7 +494,9 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 				
 			}
 			
-			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+			 String stockDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+			model.addObject("stockDate", DateConvertor.convertToDMY(stockDate));
 		 
 
 		} catch (Exception e) {

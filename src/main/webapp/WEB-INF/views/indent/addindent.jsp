@@ -471,7 +471,7 @@ body {
 									<div class="col-sm-6 col-lg-2 controls">
 									
 									<input type="text" name="itemPendingMrnQty" id="itemPendingMrnQty"
-											class="form-control" placeholder="MOQ Qty"
+											class="form-control" placeholder="Bal To Be Rec"
 											  readonly/>
  
 									</div>
@@ -480,7 +480,7 @@ body {
 									<div class="col-sm-6 col-lg-2 controls">
 									
 									<input type="text" name="itemAvgIssueQty" id="itemAvgIssueQty"
-											class="form-control" placeholder="MOQ Qty"
+											class="form-control" placeholder="Avg Issue Qty"
 											  readonly/>
  
 									</div>
@@ -1339,7 +1339,7 @@ function getMoqQty() {
 		   
 		document.getElementById("moqQtyByItemId").value = data.maxLevel;
 			document.getElementById("itemPendingMrnQty").value = data.poPending;
-			document.getElementById("itemAvgIssueQty").value = data.avgIssueQty;
+			document.getElementById("itemAvgIssueQty").value = (data.avgIssueQty).toFixed(2);
 	});
 
 }

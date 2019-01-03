@@ -78,6 +78,10 @@
 								
 				 
 							</div><br><br>
+							
+							 
+																
+
 							<c:set value="0" var="isEdit"></c:set>
 								<c:set value="0" var="isDelete"></c:set>
 									<c:forEach items="${sessionScope.newModuleList}" var="allModuleList" >
@@ -128,7 +132,7 @@
 									placeholder="Search.." title="Type in a name">
 								</label>
 
-					<br /> <br />
+					<br /> <br /> 
 					<div class="clearfix"></div>
 					<div class="table-responsive" style="border: 0">
 						<table class="table table-advance" id="table1">  
@@ -166,19 +170,31 @@
 													value="${issueHeaderList.deptCode}" /></td> 
 											
 											<td ><c:out
-													value="${issueHeaderList.subDeptCode}" /></td>  
+													value="${issueHeaderList.subDeptCode}" /> </td>  
+ 
  
 											<td>
+											 
 											<a href="javascript:genPdf(${issueHeaderList.issueId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
 																								
 											<c:choose>
-																<c:when test="${isEdit==1}"><a href="${pageContext.request.contextPath}/editIssueHeader/${issueHeaderList.issueId}"><abbr
-													title="Edit"><i class="fa fa-edit"></i></abbr></a></c:when></c:choose>
+																<c:when test="${isEdit==1}">
+																<a href="${pageContext.request.contextPath}/editIssueHeader/${issueHeaderList.issueId}"><abbr
+													title="Edit"><i class="fa fa-edit"></i></abbr></a>
+													
+													</c:when>
+													
+													</c:choose>
 													 
 													<c:choose>
-											 					<c:when test="${isDelete==1}"><a href="${pageContext.request.contextPath}/deleteIssueHeader/${issueHeaderList.issueId}" onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a></c:when></c:choose>
+											 					<c:when test="${isDelete==1}">
+											 					
+											 					 
+																  <a href="${pageContext.request.contextPath}/deleteIssueHeader/${issueHeaderList.issueId}" onClick="return confirm('Are you sure want to delete this record');"><span
+												class="glyphicon glyphicon-remove"></span></a>
+																  
+												</c:when></c:choose>
 												 
 												 </td>
 
