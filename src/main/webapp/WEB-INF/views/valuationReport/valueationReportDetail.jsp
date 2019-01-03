@@ -110,7 +110,8 @@
 									<div class="col-md-2">Opening Stock:</div>
 
 									<div class="col-md-2">
-										${openingStock}
+										<fmt:formatNumber var="stkQty" type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${openingStock}"/> 
+										${stkQty}
 										<c:set var="oppyQty" value="${openingStock}"></c:set>
 									</div>
 									<div class="col-md-1"></div>
@@ -185,7 +186,7 @@
 															 
 															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${totalInQty}"/></td>
 															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${totalOutQty}"/></td>
-															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${totalInQty-totalOutQty}"/></td>
+															<td align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${openingStock+totalInQty-totalOutQty}"/></td>
 
 													</tr>
 

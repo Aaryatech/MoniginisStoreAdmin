@@ -105,11 +105,11 @@
 										<th style="width:1%;">Sr no.</th>
 										<th style="width:10%;">INDENT NO</th>
 										<th class="col-md-1">INDENT DATE</th>
-										<th class="col-md-5">ITEM DESC</th> 
+										<th class="col-md-4">ITEM DESC</th> 
 										<th class="col-md-1" align="right" >INDENT QTY</th>
 										<th class="col-md-1">SCH DATE</th>
-										<th class="col-md-1">EXPRESS DAYS</th>
-										<th class="col-md-1">REMARK</th> 
+										<!-- <th class="col-md-1">EXPRESS DAYS</th> -->
+										<th class="col-md-3" style="text-align: center;">REMARK</th> 
 									</tr>
 								</thead>
 								<tbody>
@@ -131,8 +131,8 @@
 													<td  align="right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.indQty}" /></td>
 											<td><c:out
 													value="${list.indItemSchddt}" /></td>
-											<td ><c:out
-													value="${list.excessDays}" /></td> 
+											<%-- <td ><c:out
+													value="${list.excessDays}" /></td>  --%>
 											<td ><c:out
 													value="${list.remark}" /></td> 
 											 </tr>
@@ -233,7 +233,7 @@
  
 	<script>
 function myFunction() {
-  var input, filter, table, tr, td ,td1 ,td2 , i;
+  var input, filter, table, tr, td ,td1 ,td2,td3 , i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   table = document.getElementById("table1");
@@ -242,6 +242,8 @@ function myFunction() {
     td = tr[i].getElementsByTagName("td")[1]; 
     td1 = tr[i].getElementsByTagName("td")[2]; 
     td2 = tr[i].getElementsByTagName("td")[3]; 
+    td3 = tr[i].getElementsByTagName("td")[6]; 
+    
     if (td) {
     	
     	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
@@ -251,6 +253,8 @@ function myFunction() {
  	        tr[i].style.display = "";
  	      }
     	 else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+ 	        tr[i].style.display = "";
+ 	      }else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
  	        tr[i].style.display = "";
  	      }else {
     	        tr[i].style.display = "none";
