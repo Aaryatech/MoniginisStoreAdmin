@@ -219,6 +219,7 @@
 										 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th>   
+										<th class="col-md-1" style="text-align: right">ISSUE LANDING VALUE</th>  
 										</c:when>
 										</c:choose>
 										
@@ -239,7 +240,8 @@
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${deptWiselist.issueQty}" /></td> 
 													
 													<c:if test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-														<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${deptWiselist.issueQtyValue}" /></td> 
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${deptWiselist.issueQtyValue}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${deptWiselist.issueLandingValue}" /></td> 
 													</c:if>
 											
 											 <td style="text-align: right"><a href="${pageContext.request.contextPath}/issueReportItemWise/${deptWiselist.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>

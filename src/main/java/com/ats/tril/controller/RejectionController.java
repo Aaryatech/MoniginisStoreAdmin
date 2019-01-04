@@ -233,6 +233,7 @@ public class RejectionController {
 								rejectionMemo.setMrnDetailId(getMrnDetail.getMrnDetailId());
 								rejectionMemo.setMrnId(mrnId);
 								rejectionMemo.setValue(getMrnDetail.getChalanQty()); 
+								rejectionMemo.setFloat1(getMrnDetail.getIndentQty());
 								rejectionMemo.setQty(Float.parseFloat(request.getParameter("memoQty" + getMrnDetail.getMrnDetailId())));
 								rejectionMemo.setVar1(getMrnList.get(j).getMrnNo());
 								rejectionMemoList.add(rejectionMemo);

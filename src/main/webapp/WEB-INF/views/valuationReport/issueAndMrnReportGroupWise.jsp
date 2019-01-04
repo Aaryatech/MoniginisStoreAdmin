@@ -144,12 +144,14 @@
 										 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1" style="text-align: right">APPV VALUE</th>
+										<th class="col-md-1" style="text-align: right">APPV LANDING VALUE</th>
 										</c:when>
 										</c:choose>
 										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
 										 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th>
+										<th class="col-md-1" style="text-align: right">ISSUE LANDING VALUE</th>
 										</c:when>
 										</c:choose>
 										
@@ -172,6 +174,7 @@
 													 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approvedQtyValue}" /></td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approvedLandingValue}" /></td> 
 													</c:when>
 													</c:choose>
 													
@@ -179,6 +182,7 @@
 													 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueQtyValue}" /></td>
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueLandingValue}" /></td> 
 													</c:when>
 													</c:choose>
 													

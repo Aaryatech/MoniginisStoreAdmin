@@ -19,6 +19,8 @@ public class GetCurrentStock {
 	private float damagValue; 
 	private float gatepassQty; 
 	private float gatepassReturnQty; 
+	private float opLandingValue; 
+	private float damageLandingValue;
 	private float rolLevel;
 	
 	public int getItemId() {
@@ -119,6 +121,19 @@ public class GetCurrentStock {
 	public void setDamagValue(float damagValue) {
 		this.damagValue = damagValue;
 	}
+	
+	public float getOpLandingValue() {
+		return opLandingValue;
+	}
+	public void setOpLandingValue(float opLandingValue) {
+		this.opLandingValue = opLandingValue;
+	}
+	public float getDamageLandingValue() {
+		return damageLandingValue;
+	}
+	public void setDamageLandingValue(float damageLandingValue) {
+		this.damageLandingValue = damageLandingValue;
+	}
 	@Override
 	public String toString() {
 		return "GetCurrentStock [itemId=" + itemId + ", itemCode=" + itemCode + ", openingStock=" + openingStock
@@ -126,7 +141,8 @@ public class GetCurrentStock {
 				+ approvedQtyValue + ", approvedLandingValue=" + approvedLandingValue + ", issueQty=" + issueQty
 				+ ", issueQtyValue=" + issueQtyValue + ", issueLandingValue=" + issueLandingValue + ", returnIssueQty="
 				+ returnIssueQty + ", damageQty=" + damageQty + ", damagValue=" + damagValue + ", gatepassQty="
-				+ gatepassQty + ", gatepassReturnQty=" + gatepassReturnQty + ", rolLevel=" + rolLevel + "]";
+				+ gatepassQty + ", gatepassReturnQty=" + gatepassReturnQty + ", opLandingValue=" + opLandingValue
+				+ ", damageLandingValue=" + damageLandingValue + ", rolLevel=" + rolLevel + "]";
 	}
 	
 	

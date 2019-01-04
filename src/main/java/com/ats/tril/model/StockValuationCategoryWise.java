@@ -13,7 +13,9 @@ public class StockValuationCategoryWise {
 	private float issueQtyValue;  
 	private float issueLandingValue; 
 	private float damageQty; 
-	private float damageValue;
+	private float damageValue; 
+	private float opLandingValue;  
+	private float damageLandingValue;
 	public int getCatId() {
 		return catId;
 	}
@@ -86,13 +88,27 @@ public class StockValuationCategoryWise {
 	public void setDamageValue(float damageValue) {
 		this.damageValue = damageValue;
 	}
+	
+	public float getOpLandingValue() {
+		return opLandingValue;
+	}
+	public void setOpLandingValue(float opLandingValue) {
+		this.opLandingValue = opLandingValue;
+	}
+	public float getDamageLandingValue() {
+		return damageLandingValue;
+	}
+	public void setDamageLandingValue(float damageLandingValue) {
+		this.damageLandingValue = damageLandingValue;
+	}
 	@Override
 	public String toString() {
 		return "StockValuationCategoryWise [catId=" + catId + ", catDesc=" + catDesc + ", openingStock=" + openingStock
 				+ ", opStockValue=" + opStockValue + ", approveQty=" + approveQty + ", approvedQtyValue="
 				+ approvedQtyValue + ", approvedLandingValue=" + approvedLandingValue + ", issueQty=" + issueQty
 				+ ", issueQtyValue=" + issueQtyValue + ", issueLandingValue=" + issueLandingValue + ", damageQty="
-				+ damageQty + ", damageValue=" + damageValue + "]";
+				+ damageQty + ", damageValue=" + damageValue + ", opLandingValue=" + opLandingValue
+				+ ", damageLandingValue=" + damageLandingValue + "]";
 	}
 	
 	

@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.GetCurrentStock;
 import com.ats.tril.model.MinAndRolLevelReport;
@@ -220,14 +221,16 @@ public class StockController {
 						 stockDetailList.get(i).setReturnIssueQty(stockListForMonthEnd.get(j).getReturnIssueQty());
 						 stockDetailList.get(i).setDamageQty(stockListForMonthEnd.get(j).getDamageQty());
 						 stockDetailList.get(i).setDamageValue(stockListForMonthEnd.get(j).getDamagValue());
-						 stockDetailList.get(i).setGatepassQty(stockListForMonthEnd.get(j).getGatepassQty());
-						 stockDetailList.get(i).setGatepassReturnQty(stockListForMonthEnd.get(j).getGatepassReturnQty());
+						 
 						 stockDetailList.get(i).setClosingQty(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpeningStock()+stockListForMonthEnd.get(j).getApproveQty()-stockListForMonthEnd.get(j).getIssueQty()
 								 +stockListForMonthEnd.get(j).getReturnIssueQty()-stockListForMonthEnd.get(j).getDamageQty()-stockListForMonthEnd.get(j).getGatepassQty()
 								 +stockListForMonthEnd.get(j).getGatepassReturnQty())));
 						 stockDetailList.get(i).setCloasingValue(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpStockValue()+stockListForMonthEnd.get(j).getApprovedQtyValue()
 								 -stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue())));
 						 
+						 //stockDetailList.get(i).setGatepassValue(stockListForMonthEnd.get(j).getGatepassQty());
+						 stockDetailList.get(i).setGatepassReturnValue(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpLandingValue()+stockListForMonthEnd.get(j).getApprovedLandingValue()
+								 -stockListForMonthEnd.get(j).getIssueLandingValue()-stockListForMonthEnd.get(j).getDamageLandingValue())));
 					 }
 				 }
 			 }
@@ -270,6 +273,8 @@ public class StockController {
 							 +stockListForMonthEnd.get(j).getGatepassReturnQty())));
 					 stockDetail1.setOpStockValue(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpStockValue()+
 							 stockListForMonthEnd.get(j).getApprovedQtyValue()-stockListForMonthEnd.get(j).getIssueQtyValue()-stockListForMonthEnd.get(j).getDamagValue())));
+					 stockDetail1.setGatepassValue(Float.valueOf(df.format(stockListForMonthEnd.get(j).getOpLandingValue()+stockListForMonthEnd.get(j).getApprovedLandingValue()
+							 -stockListForMonthEnd.get(j).getIssueLandingValue()-stockListForMonthEnd.get(j).getDamageLandingValue())));
 					 
 					 insertNewList.add(stockDetail1);
 				 }
@@ -469,7 +474,7 @@ public class StockController {
 			throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		try {
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
 		DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 		String reportDate = DF.format(new Date());
         document.addHeader("Date: ", reportDate);
@@ -480,7 +485,10 @@ public class StockController {
 		String timeStamp = dateFormat.format(cal.getTime());
 		String FILE_PATH = Constants.REPORT_SAVE;
 		File file = new File(FILE_PATH);
-
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Company comp = rest.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		
 		PdfWriter writer = null;
 
 		FileOutputStream out = new FileOutputStream(FILE_PATH);
@@ -491,11 +499,11 @@ public class StockController {
 			e.printStackTrace();
 		}
 	
-		PdfPTable table = new PdfPTable(12);
+		PdfPTable table = new PdfPTable(17);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] {0.4f, 2.7f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+			table.setWidths(new float[] {0.7f, 2.7f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 9, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
@@ -524,12 +532,22 @@ public class StockController {
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 			
+			hcell = new PdfPCell(new Phrase("OP LAND VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
 			hcell = new PdfPCell(new Phrase("MRN QTY", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 			
 			hcell = new PdfPCell(new Phrase("MRN VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MRN LAND VALUE", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
@@ -544,6 +562,11 @@ public class StockController {
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 			
+			hcell = new PdfPCell(new Phrase("ISSUE LAND VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
 			hcell = new PdfPCell(new Phrase("DAMAGE QTY", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
@@ -554,12 +577,22 @@ public class StockController {
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 			
+			hcell = new PdfPCell(new Phrase("DAMAGE LAND VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
 			hcell = new PdfPCell(new Phrase("C/L QTY", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 			
 			hcell = new PdfPCell(new Phrase("C/L VALUE", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("C/L LAND VALUE", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
@@ -581,7 +614,7 @@ public class StockController {
 							
 							cell = new PdfPCell(new Phrase(""+index, headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 							cell.setPadding(3);
 							table.addCell(cell);
 
@@ -593,56 +626,85 @@ public class StockController {
 							cell.setPadding(3);
 							table.addCell(cell);
 						
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getOpeningStock(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getOpeningStock()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getOpStockValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getOpStockValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getOpLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getApproveQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getApproveQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							 
+							
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getApprovedQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getApprovedQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getApprovedLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getIssueQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getIssueQtyValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getDamageQty(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getIssueLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+getStockBetweenDateForPdf.get(k).getDamagValue(), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getDamageQty()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getDamagValue()), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(getStockBetweenDateForPdf.get(k).getDamageLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -654,15 +716,24 @@ public class StockController {
 							
 							float closingValue = getStockBetweenDateForPdf.get(k).getOpStockValue()+getStockBetweenDateForPdf.get(k).getApprovedQtyValue()-
 									getStockBetweenDateForPdf.get(k).getIssueQtyValue()-getStockBetweenDateForPdf.get(k).getDamagValue();
+							float closingLandingValue = getStockBetweenDateForPdf.get(k).getOpLandingValue()+getStockBetweenDateForPdf.get(k).getApprovedLandingValue()-
+									getStockBetweenDateForPdf.get(k).getIssueLandingValue()-getStockBetweenDateForPdf.get(k).getDamageLandingValue();
 							
-							cell = new PdfPCell(new Phrase(""+closingQty, headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(closingQty), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+closingValue, headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
+							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+							cell.setPaddingRight(2);
+							cell.setPadding(3);
+							table.addCell(cell);
+							
+							cell = new PdfPCell(new Phrase(""+df.format(closingLandingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
@@ -673,17 +744,15 @@ public class StockController {
 			}
 			
 			document.open();
-			Paragraph company = new Paragraph("Trambak Rubber Industries Limited\n", f);
+			Paragraph company = new Paragraph(comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);
 			document.add(company);
 			
 				Paragraph heading1 = new Paragraph(
-						"Address:  S. D. Aphale(General Manager) Flat No. 02, Maruti Building,\n Maharaj Nagar, Tagore Nagar NSK- 6, Nashik Road, Nashik - 422101, Maharashtra, India	",f1);
+						comp.getFactoryAdd()+"",f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
-				Paragraph ex2=new Paragraph("\n");
-				document.add(ex2);
-
+				 
 				Paragraph headingDate=new Paragraph("Date Wise Stock Report , From Date: " + fromDateForPdf+"  To Date: "+toDateForPdf+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 			document.add(headingDate);
