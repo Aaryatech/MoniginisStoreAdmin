@@ -23,9 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccountHead;
+import com.ats.tril.model.BillOfMaterialHeader;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.GetBillOfMaterialList;
 import com.ats.tril.model.GetIssueDetail;
 import com.ats.tril.model.GetIssueHeader;
 import com.ats.tril.model.GetItemGroup;
@@ -506,6 +508,286 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 		return model;
 	}
 	
+	@RequestMapping(value = "/getBomListFromAdminPanel", method = RequestMethod.GET)
+	public ModelAndView getBomListFromAdminPanel(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("issue/bomList");
+		try {
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat disply = new SimpleDateFormat("dd-MM-yyyy");
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			if(request.getParameter("fromDate")==null || request.getParameter("toDate")==null) {
+				
+				map.add("status", "0,1,2,3,4"); 
+				GetBillOfMaterialList getBillOfMaterialList = rest.postForObject(Constants.adminUrl + "/getBOMListForStoreSWHeaderBmsAndStore",map, GetBillOfMaterialList.class);
+			 
+				model.addObject("bomList", getBillOfMaterialList.getBillOfMaterialHeader());
+				
+				model.addObject("fromDate", disply.format(date));
+				model.addObject("toDate", disply.format(date));
+				
+			}
+			else {
+				
+				String fromDate = request.getParameter("fromDate");
+				String toDate = request.getParameter("toDate");
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				
+				GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList",map, GetIssueHeader[].class);
+				List<GetIssueHeader> issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader)); 
+				model.addObject("issueHeaderList", issueHeaderList);
+				
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				
+			}
+			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+			 String stockDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+			model.addObject("stockDate", DateConvertor.convertToDMY(stockDate));
+		  
+			 model.addObject("date", sf.format(date));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	BillOfMaterialHeader billOfMaterialHeader = new BillOfMaterialHeader();
+	
+	@RequestMapping(value = "/bomHeaderWithDetail/{reqId}", method = RequestMethod.GET) 
+	public ModelAndView bomHeaderWithDetail(@PathVariable int reqId, HttpServletRequest request, HttpServletResponse response) {
+ 
+		ModelAndView model = new ModelAndView("issue/bomHeaderWithDetail");
+		
+		try {
+			
+			issueDetailList = new ArrayList<IssueDetail>();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("reqId",reqId); 
+			 billOfMaterialHeader = rest.postForObject(Constants.adminUrl + "/getBomdetailedListByIdAndRmType",map, BillOfMaterialHeader.class); 
+			
+			String itemIds = new String();
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			for(int i=0 ; i<billOfMaterialHeader.getBillOfMaterialDetailed().size() ; i++) {
+				
+				itemIds=itemIds+","+billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getRmId();
+				
+			}
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemIds", itemIds.substring(1, itemIds.length()));
+			map.add("date", sf.format(date)); 
+			MrnDetail[] mrnDetail = rest.postForObject(Constants.url + "getBatchByMultipleItemIds", map, MrnDetail[].class);
+			batchList = new ArrayList<>(Arrays.asList(mrnDetail));
+			model.addObject("billOfMaterialHeader", billOfMaterialHeader);
+			model.addObject("batchList", batchList);
+			
+			StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
+			 String stockDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+			model.addObject("stockDateDDMMYYYY", DateConvertor.convertToDMY(stockDate));
+			
+			Dept[] Dept = rest.getForObject(Constants.url + "/getAllDeptByIsUsed", Dept[].class);
+			List<Dept> deparmentList = new ArrayList<Dept>(Arrays.asList(Dept)); 
+			model.addObject("deparmentList", deparmentList);
+		  
+			 model.addObject("date", sf.format(date));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitIssueByBomRequest", method = RequestMethod.POST)
+	public String submitIssueByBomRequest(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+   
+			 
+			String issueNo = request.getParameter("issueNo"); 
+			String issueDate = request.getParameter("issueDate");
+			int deptId = Integer.parseInt(request.getParameter("deptId"));
+			int subDeptId = Integer.parseInt(request.getParameter("subDeptId"));
+			//int acc = Integer.parseInt(request.getParameter("acc"));
+			//int type = Integer.parseInt(request.getParameter("type"));
+			String issueSlipNo = request.getParameter("issueSlipNo"); 
+			
+			System.out.println("issueDate " + issueDate);
+			 IssueHeader issueHeader = new IssueHeader();
+		 
+			 issueHeader.setIssueDate(issueDate);
+			 //DocumentBean docBean=null;
+				try {
+					 
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("docType", 2); 
+					map.add("date", issueDate); 
+					
+					RestTemplate restTemplate = new RestTemplate();
+
+					ErrorMessage errorMessage = restTemplate.postForObject(Constants.url + "generateIssueNoAndMrnNo", map, ErrorMessage.class);
+					 
+					 issueHeader.setIssueNo(""+errorMessage.getMessage());
+					
+					//docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				}catch (Exception e) {
+					e.printStackTrace();
+					 issueHeader.setIssueNo("1");
+				}
+				
+				for(int i=0;i<billOfMaterialHeader.getBillOfMaterialDetailed().size();i++) {
+					
+					if(Float.parseFloat(request.getParameter("issueQty"+billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getReqDetailId()))>0) {
+						
+						float issueQty=Float.parseFloat(request.getParameter("issueQty"+billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getReqDetailId()));
+						int mrnDetailId = Integer.parseInt(request.getParameter("batchId"+billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getReqDetailId()));
+						IssueDetail issueDetail = new IssueDetail();
+						 issueDetail.setItemId(billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getRmId());
+						 issueDetail.setItemIssueQty(issueQty); 
+						 issueDetail.setDeptId(deptId);
+						 issueDetail.setSubDeptId(subDeptId);
+						 issueDetail.setAccHead(1);   
+						 issueDetail.setDelStatus(1);  
+						 issueDetail.setMrnDetailId(mrnDetailId); 
+						 issueDetail.setStatus(2);
+						 billOfMaterialHeader.getBillOfMaterialDetailed().get(i).setRmIssueQty(billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getRmIssueQty()+issueQty);
+						 
+						 if(billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getRmIssueQty()==billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getRmReqQty()) {
+							 billOfMaterialHeader.getBillOfMaterialDetailed().get(i).setExInt1(2);
+						 }else if(billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getRmIssueQty()==0) {
+							 billOfMaterialHeader.getBillOfMaterialDetailed().get(i).setExInt1(0);
+						 }else {
+							 billOfMaterialHeader.getBillOfMaterialDetailed().get(i).setExInt1(1);
+						 }
+						 
+						
+						 try {
+							 if(billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getExVarchar1()==null) {
+								 
+								 billOfMaterialHeader.getBillOfMaterialDetailed().get(i).setExVarchar1(String.valueOf(mrnDetailId));
+								 
+							 }else {
+								 
+								 billOfMaterialHeader.getBillOfMaterialDetailed().get(i).setExVarchar1(billOfMaterialHeader.getBillOfMaterialDetailed().get(i).getExVarchar1()+","+mrnDetailId);
+							 }
+							 
+						 }catch(Exception e) {
+							 
+							 billOfMaterialHeader.getBillOfMaterialDetailed().get(i).setExVarchar1(String.valueOf(mrnDetailId));
+						 }
+						 issueDetailList.add(issueDetail);
+						 
+					}
+				}
+				
+				
+			 issueHeader.setDeleteStatus(1);
+			 
+			 issueHeader.setDeptId(deptId);
+			 issueHeader.setSubDeptId(subDeptId);
+			 issueHeader.setAccHead(1);
+			 issueHeader.setItemCategory(2);
+			 issueHeader.setIssueSlipNo(issueSlipNo);
+			 issueHeader.setStatus(2);
+					
+			 
+			 String mrnDetailList = new String();
+			 String itemIds = new String();
+			 
+			 for(int i=0 ; i<issueDetailList.size() ; i++)
+			 {
+				 mrnDetailList = mrnDetailList+","+issueDetailList.get(i).getMrnDetailId(); 
+				 itemIds = itemIds+","+issueDetailList.get(i).getItemId();
+				  
+			 }
+  
+			 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
+			 itemIds = itemIds.substring(1, itemIds.length());
+			  
+			 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 map.add("mrnDetailList", mrnDetailList);
+			 MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,
+					 MrnDetail[].class);
+			 
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("itemIds", itemIds); 
+			GetItem[] item = rest.postForObject(Constants.url + "/getItemByItemIds",map,  GetItem[].class); 
+			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item)); 
+			 
+			 updateMrnDetail = new ArrayList<MrnDetail>(Arrays.asList(MrnDetail));
+			 
+			 for(int j=0 ; j<issueDetailList.size() ; j++)
+			 {
+				 for(int i=0 ; i<updateMrnDetail.size() ; i++)
+				 { 
+					 if(updateMrnDetail.get(i).getMrnDetailId()==issueDetailList.get(j).getMrnDetailId())
+					 {
+						 updateMrnDetail.get(i).setRemainingQty(updateMrnDetail.get(i).getRemainingQty()-issueDetailList.get(j).getItemIssueQty());
+						 updateMrnDetail.get(i).setIssueQty(updateMrnDetail.get(i).getIssueQty()+issueDetailList.get(j).getItemIssueQty());
+						 issueDetailList.get(j).setBatchNo(updateMrnDetail.get(i).getBatchNo());
+						 if(updateMrnDetail.get(i).getIssueQty()>0) {
+							 updateMrnDetail.get(i).setChalanQty(1);
+						 }
+						 else {
+							 updateMrnDetail.get(i).setChalanQty(0);
+						 }
+					 }
+				 }
+			 }
+			 
+			 for(int j=0 ; j<issueDetailList.size() ; j++)
+			 {
+				 for(int i=0 ; i<itemList.size() ; i++)
+				 { 
+					 if(itemList.get(i).getItemId()==issueDetailList.get(j).getItemId())
+					 {
+						 issueDetailList.get(j).setItemGroupId(itemList.get(i).getGrpId());
+					 }
+				 }
+			 }
+			 issueHeader.setIssueDetailList(issueDetailList);
+			 
+			 System.out.println("issueHeader  " + issueHeader); 
+			 
+			  IssueHeader res = rest.postForObject(Constants.url + "/saveIssueHeaderAndDetail", issueHeader,
+					IssueHeader.class);
+			 if(res!=null)
+	          {
+	        		try {
+	        			
+	        			//SubDocument subDocRes = rest.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+	        			MrnDetail[] update = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
+		    					 MrnDetail[].class);
+	        			
+	        			System.out.println("billOfMaterialHeader "+ billOfMaterialHeader);
+	        			ErrorMessage updateBom = rest.postForObject(Constants.adminUrl + "/updateBomWhileIssueFromStore", billOfMaterialHeader,
+	        					ErrorMessage.class);
+	        			 
+	        		
+	        		}catch (Exception e) {
+						e.printStackTrace();
+					}
+	        		
+	        		 
+	          }
+			System.out.println(res); 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/getBomListFromAdminPanel";
+	}
+	
 	@RequestMapping(value = "/getIssueDateBetweenDate", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GetIssueHeader> getIssueDateBetweenDate(HttpServletRequest request, HttpServletResponse response) {
@@ -546,9 +828,11 @@ List<MrnDetail> updateMrnDetail = new ArrayList<MrnDetail>();
 			 {
 				 mrnDetailList = mrnDetailList+","+getIssueHeader.getIssueDetailList().get(i).getMrnDetailId();
 			 }
- 
+			try {
 			 mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
-			 
+			}catch(Exception e) {
+				mrnDetailList="0";
+			}
 			 map = new LinkedMultiValueMap<>();
 			 map.add("mrnDetailList", mrnDetailList);
 			 MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,

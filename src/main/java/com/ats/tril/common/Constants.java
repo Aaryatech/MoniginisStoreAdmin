@@ -3,6 +3,7 @@ package com.ats.tril.common;
 public class Constants {
  
 	public static final String url="http://localhost:8099/";
+	public static final String adminUrl="http://localhost:8098/";
 	//public static final String url="http://tomcat.aaryatechindia.in:2908/webapi/"; 
 	//public static final String url="http://192.168.1.25:8080/MonginisStoreWebApi/"; 
 	//public static final String ReportURL = "http://tomcat.aaryatechindia.in:2908/admin";
@@ -18,6 +19,7 @@ public class Constants {
 	public static int delStatus = 1;
 	public static int subAct=0;
 	public static int mainAct=0;
+	 
 
 	
 	

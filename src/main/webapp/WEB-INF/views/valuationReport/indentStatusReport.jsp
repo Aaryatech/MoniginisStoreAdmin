@@ -78,6 +78,35 @@
 				 
 							</div><br>
 							
+							<div class="box-content">
+
+									<div class="col-md-2">Select Date*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="flag" id="flag"
+											required>
+											<c:choose>
+												<c:when test="${flag==0}">
+													<option value="0" selected>Indent Date </option>
+													<option value="1">Schedule Date </option>
+												</c:when>
+												<c:when test="${flag==1}">
+													<option value="0" >Indent Date </option>
+													<option value="1" selected>Schedule Date </option>
+												</c:when>
+												<c:otherwise>
+													<option value="0" >Indent Date </option>
+													<option value="1" >Schedule Date </option> 
+												</c:otherwise>
+											</c:choose>
+											
+											 
+										</select>
+
+									</div>
+									<div class="col-md-1"></div>
+									  <div class="col-md-3"></div>
+								</div><br><br>
+							
 							 <br>
 							
 							<div class="row">

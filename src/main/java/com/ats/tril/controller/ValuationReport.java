@@ -7342,22 +7342,26 @@ public class ValuationReport {
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",yy.format(date)); 
+		 			map.add("flag",0);//for compare schDate or Indent Date
 		 			IndentStatusReport[] indentStatusReport = rest.postForObject(Constants.url + "/indentStatusReport",map, IndentStatusReport[].class);
 					List<IndentStatusReport> list = new ArrayList<IndentStatusReport>(Arrays.asList(indentStatusReport));
 					
 					model.addObject("indentStatusReport", list);
 					model.addObject("fromDate", fromDate);
 					model.addObject("toDate", dd.format(date));
+					model.addObject("flag", 0);
 					indentStatusReportListForPdf=list;
 			}
 			else {
 				 
 				 fromDate = request.getParameter("fromDate");
 				 toDate = request.getParameter("toDate");
+				int flag = Integer.parseInt(request.getParameter("flag"));
 				
 				 MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 		 			map.add("toDate",DateConvertor.convertToYMD(toDate));  
+		 			map.add("flag",flag);  
 		 			
 		 			IndentStatusReport[] indentStatusReport = rest.postForObject(Constants.url + "/indentStatusReport",map, IndentStatusReport[].class);
 					List<IndentStatusReport> list = new ArrayList<IndentStatusReport>(Arrays.asList(indentStatusReport));
@@ -7365,6 +7369,7 @@ public class ValuationReport {
 					model.addObject("indentStatusReport", list);
 					model.addObject("fromDate", fromDate);
 					model.addObject("toDate", toDate);
+					model.addObject("flag", flag);
 					indentStatusReportListForPdf=list;
 			}
 			DecimalFormat df = new DecimalFormat("####0.00");
@@ -7464,13 +7469,13 @@ public class ValuationReport {
 			e.printStackTrace();
 		}
 	
-		PdfPTable table = new PdfPTable(8);
+		PdfPTable table = new PdfPTable(7);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] {1.0f, 1.7f, 1.7f, 5.0f,1.7f,1.7f,1.7f,2.0f});
+			table.setWidths(new float[] {1.0f, 1.7f, 1.7f, 5.0f,1.7f,1.7f,3.7f});
 			Font headFont = new Font(FontFamily.TIMES_ROMAN,8, Font.NORMAL, BaseColor.BLACK);
-			Font headFont1 = new Font(FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+			Font headFont1 = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
 			Font f = new Font(FontFamily.TIMES_ROMAN, 11.0f, Font.UNDERLINE, BaseColor.BLUE);
 			Font f1 = new Font(FontFamily.TIMES_ROMAN, 9.0f, Font.BOLD, BaseColor.GRAY);
 
@@ -7507,10 +7512,10 @@ public class ValuationReport {
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 			
-			hcell = new PdfPCell(new Phrase("EXPRESS DAYS", headFont1));
+			/*hcell = new PdfPCell(new Phrase("EXPRESS DAYS", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
-			table.addCell(hcell);
+			table.addCell(hcell);*/
 			
 			hcell = new PdfPCell(new Phrase("REMARK", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -7569,12 +7574,12 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 							
-							cell = new PdfPCell(new Phrase(""+indentStatusReportListForPdf.get(k).getExcessDays(), headFont));
+							/*cell = new PdfPCell(new Phrase(""+indentStatusReportListForPdf.get(k).getExcessDays(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
-							table.addCell(cell);
+							table.addCell(cell);*/
 							
 							cell = new PdfPCell(new Phrase(""+indentStatusReportListForPdf.get(k).getRemark(), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -7594,9 +7599,7 @@ public class ValuationReport {
 				Paragraph heading1 = new Paragraph(comp.getOfficeAdd(),f1);
 				heading1.setAlignment(Element.ALIGN_CENTER);
 				document.add(heading1);
-				Paragraph ex2=new Paragraph("\n");
-				document.add(ex2);
-
+				 
 				Paragraph headingDate=new Paragraph("Indent Status Report, From Date: " + fromDate+"  To Date: "+toDate+"",f1);
 				headingDate.setAlignment(Element.ALIGN_CENTER);
 				
