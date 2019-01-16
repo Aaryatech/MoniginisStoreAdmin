@@ -119,6 +119,28 @@
 									</div>
 
 								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 col-lg-2 control-label">Select Type</label>
+									<div class="col-sm-5 col-lg-3 controls">
+										 <select class="form-control chosen" name="typeId" id="typeId" required>
+											<option value="0">All</option>
+											<c:forEach items="${typeList}" var="typeList">
+											<c:choose>
+												<c:when test="${typeList.typeId==typeId}">
+												<option value="${typeList.typeId}" selected>${typeList.typeName}</option> 
+												</c:when>
+												<c:otherwise>
+												<option value="${typeList.typeId}">${typeList.typeName}</option> 
+												</c:otherwise>
+											</c:choose> 
+													 
+											</c:forEach>
+										</select>
+									</div>
+									 
+
+								</div>
 
 
 								<div class="clearfix"></div>
@@ -158,15 +180,13 @@
 											<thead>
 												<tr class="bgpink">
 
-													<th
-														style="width:2%;"><input type="checkbox" name="name1"
-														value="0" /> All</th>
+													<th style="width:2%;"><input type="checkbox" name="name1" value="0" /> All</th>
+													<th style="width:5%;" >Sr.</th>
 													<th class="col-md-1" >Indent No</th>
 													<th class="col-md-1">Date</th>
-													<th class="col-md-1">Category</th>
-													 
-
+													<th class="col-md-1">Category</th> 
 													<th class="col-md-1">Type</th> 
+													<th class="col-md-3">Status</th> 
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -183,12 +203,11 @@
 											</tr>
 										</thead> -->
 											<tbody>
-												<c:forEach items="${indentList}" var="indent">
+												<c:forEach items="${indentList}" var="indent" varStatus="count">
 													<tr>
-														<td > <input type="checkbox"
-															name="name1" value="${indent.indMId}" /></td>
-														<td  ><c:out
-																value="${indent.indMNo}" /></td>
+														<td > <input type="checkbox" name="name1" value="${indent.indMId}" /></td>
+														<td  ><c:out value="${count.index+1}" /></td>
+														<td  ><c:out value="${indent.indMNo}" /></td>
 														<td ><c:out
 																value="${indent.indMDate}" /></td>
 														<td  ><c:out
@@ -205,10 +224,28 @@
 															</c:choose> 
 														</c:forEach>
 
-														<td  ><c:out
-																value="${indmtype}" /></td>
-
-														 
+														<td  ><c:out value="${indmtype}" /></td>
+														
+														<c:set var="sts" value="-"></c:set>
+															<c:choose>
+																<c:when test="${indent.indMStatus==9}">
+																	<c:set var="sts" value="Approve peding"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==7}">
+																	<c:set var="sts" value="Approve peding"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==0}">
+																	<c:set var="sts" value="Indet Pending"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==1}">
+																	<c:set var="sts" value="Partially Indent"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==2}">
+																	<c:set var="sts" value="Indent Complete"></c:set>
+																</c:when>
+															</c:choose>
+																
+														 <td  ><c:out value="${sts}" /></td>
 
 														<td  ><a
 															href="javascript:genPdf(${indent.indMId});" title="PDF"><span

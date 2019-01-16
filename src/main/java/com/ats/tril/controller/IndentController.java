@@ -1050,13 +1050,16 @@ public class IndentController {
 	@RequestMapping(value = "/getIndents", method = RequestMethod.GET)
 	public ModelAndView getIndents(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = null;
+		ModelAndView model = new ModelAndView("indent/viewindent");
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			// String fromDate,toDate;
-
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+			
 			if (request.getParameter("from_date") == null || request.getParameter("to_date") == null) {
 				Date date = new Date();
 				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -1066,26 +1069,22 @@ public class IndentController {
 
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
-
+				map.add("typeId", 0);
 				System.out.println("inside if ");
 			} else {
 				fromDate = request.getParameter("from_date");
 				toDate = request.getParameter("to_date");
-
-				System.out.println("inside Else ");
-
-				System.out.println("fromDate " + fromDate);
-
-				System.out.println("toDate " + toDate);
+				int typeId = Integer.parseInt(request.getParameter("typeId"));
 
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
-
+				map.add("typeId", typeId);
+				model.addObject("typeId", typeId);
 			}
 			map.add("status", "0,1,2,9,7");
 
-			model = new ModelAndView("indent/viewindent");
-			GetIndent[] indents = rest.postForObject(Constants.url + "/getIndents", map, GetIndent[].class);
+			
+			GetIndent[] indents = rest.postForObject(Constants.url + "/getIndentsByType", map, GetIndent[].class);
 
 			indentList = new ArrayList<GetIndent>();
 
@@ -1097,9 +1096,7 @@ public class IndentController {
 			model.addObject("fromDate", fromDate);
 			model.addObject("toDate", toDate);
 			
-			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
-			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
-			model.addObject("typeList", typeList);
+			 
 
 		} catch (Exception e) {
 
@@ -1196,6 +1193,15 @@ public class IndentController {
 				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 				
 				model.addObject("typeList", typeList);
+				
+				StockHeader stockHeader = rest.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
+						StockHeader.class);
+
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+				fromDateForStock = stockHeader.getYear() + "-" + stockHeader.getMonth() + "-" + "01";
+				toDateForStock = sf.format(date);
 
 		} catch (Exception e) {
 

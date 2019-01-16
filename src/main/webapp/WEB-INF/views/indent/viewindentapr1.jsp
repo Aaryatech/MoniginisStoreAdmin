@@ -113,22 +113,16 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
+ 
+														<th width="4%"  >Sr</th>
+													<th class="col-md-2" >Indent No</th>
+													<th class="col-md-2"  >Date</th>
+													<th class="col-md-2"  >Category</th>
+													 
 
-													<!-- <th
-														style="text-align: center; padding: 0px; align-items: center;"
-														width="60"><input type="checkbox" name="name1"
-														value="0" /> &nbsp;&nbsp;&nbsp;All</th> -->
-														<th width="4%" style="text-align: center;">Sr</th>
-													<th width="180" style="text-align: center;"
-														style="width: 150px">Indent No</th>
-													<th width="100" style="text-align: center;" align="center">Date</th>
-													<th width="150" style="text-align: center;" align="center">Category</th>
-													<!-- <th width="150" style="text-align: center;" align="center">Account Head</th> -->
-
-													<th width="150" style="text-align: center;" align="center">Type</th>
-													<!-- <th width="150" style="text-align: center;" align="center">Development</th>
-													<th width="150" style="text-align: center;" align="center">Monthly</th> -->
-													<th width="150" style="text-align: center;" align="center">Action</th>
+													<th class="col-md-2"  >Type</th>
+													 <th class="col-md-3">Status</th> 
+													<th class="col-md-1"  >Action</th>
 												</tr>
 											</thead>
 											<!-- 	<div class="table-responsive" style="border: 0">
@@ -151,16 +145,15 @@
 															style="text-align: left; padding: 0px; align-items: center; align-content: center;"
 															width="60">&nbsp;&nbsp;<input type="checkbox"
 															name="name1" value="${indent.indMId}" /></td> --%>
-															<td style="text-align: center;" width="4%"><c:out
+															<td  ><c:out
 																value="${count.index+1}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indent.indMNo}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indent.indMDate}" /></td>
-														<td align="left" style="text-align: center;"><c:out
+														<td  ><c:out
 																value="${indent.catDesc}" /></td>
-																<%-- <td align="left" style="text-align: center;"><c:out
-																value="${indent.accHeadDesc}" /></td> --%>
+																 
 														<c:set var="indmtype" value="o"></c:set>
 														<c:forEach items="${typeList}" var="typeList"  varStatus="count">
 														<c:choose>
@@ -170,39 +163,32 @@
 															 
 														</c:choose>
 														</c:forEach>
-
-														<%-- <c:set var="indIsDev" value="o"></c:set>
-
-														<c:choose>
-															<c:when test="${indent.indIsdev==1}">
-																<c:set var="indIsDev" value="Yes"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="indIsDev" value="No"></c:set>
-															</c:otherwise>
-														</c:choose>
-
-														<c:set var="indIsmonthly" value="o"></c:set>
-
-														<c:choose>
-															<c:when test="${indent.indIsmonthly==1}">
-																<c:set var="indIsmonthly" value="Yes"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="indIsmonthly" value="No"></c:set>
-															</c:otherwise>
-														</c:choose> --%>
-
-														<td align="left" style="text-align: center;"><c:out
+ 
+														<td  ><c:out
 																value="${indmtype}" /></td>
-
-														<%-- <td align="left" style="text-align: center;"><c:out
-																value="${indIsDev}" /></td>
-
-														<td align="left" style="text-align: center;"><c:out
-																value="${indIsmonthly}" /></td> --%>
-
-														<td align="left" style="text-align: center;">
+																
+														<c:set var="sts" value="-"></c:set>
+															<c:choose>
+																<c:when test="${indent.indMStatus==9}">
+																	<c:set var="sts" value="Approve peding"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==7}">
+																	<c:set var="sts" value="Approve peding"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==0}">
+																	<c:set var="sts" value="Indet Pending"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==1}">
+																	<c:set var="sts" value="Partially Indent"></c:set>
+																</c:when>
+																<c:when test="${indent.indMStatus==2}">
+																	<c:set var="sts" value="Indent Complete"></c:set>
+																</c:when>
+															</c:choose>
+																
+														 <td  ><c:out value="${sts}" /></td>
+ 
+														<td  >
 															<a
 															href="${pageContext.request.contextPath}/getIndentDetailToApprove/${indent.indMId}/${apr}" title="Get Indent To Approve "><span
 																class="glyphicon glyphicon-th-list"></span></a>&nbsp;&nbsp;&nbsp;
