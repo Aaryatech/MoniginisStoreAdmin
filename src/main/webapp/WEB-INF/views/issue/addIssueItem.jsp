@@ -21,7 +21,7 @@
 		} 
 	</script> -->
 	<script type="text/javascript">
-	 function disabledDate () {
+	   function disabledDate () {
 		 var c = document.getElementById("stockDateDDMMYYYY").value; 
 			var toDateValue = c.split('-');
 			 var dtToday = new Date();
@@ -37,7 +37,29 @@
 	  		$('#issueDate').attr('min', maxDate);
 	  		getInvoiceNo();
 	  
-	 }
+	 }  
+	 
+	 /* function disabledDate () {
+		 var c = document.getElementById("issueDate").value; 
+		
+		 var days=6; // Days you want to subtract
+		 var date = new Date(c);
+		 alert(date);
+		 var last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
+		 var day =last.getDate();
+		 var month=last.getMonth()+1;
+		 var year=last.getFullYear();
+		  
+			  if(month < 10)
+				  month = '0' + month.toString();
+			  if(day < 10)
+			      day = '0' + day.toString(); 
+			  var maxDate = year + '-' + month + '-' + day;  
+	  		$('#issueDate').attr('min', maxDate);
+	  		$('#issueDate').attr('max', c);
+	  		 
+	  
+	 } */
  
  </script>
 	  <c:url var="qtyValidationFromBatch" value="/qtyValidationFromBatch"></c:url>

@@ -572,6 +572,7 @@ public class MastersController {
 			 vendor.setVendorAdd4("1234567890");
 			 vendor.setVendorItem("-");
 			 vendor.setVendorAdd3("-");
+			 vendor.setCreatedIn(1);
 			 model.addObject("editVendor", vendor);
 
 		} catch (Exception e) {
@@ -657,7 +658,7 @@ public class MastersController {
 
 			String vendorItem = request.getParameter("vendorItem");
 			String vendorDate = request.getParameter("vendorDate");
-
+			int active =Integer.parseInt(request.getParameter("active"));
 			Vendor vendor = new Vendor();
 			if (vendorId == "" || vendorId == null)
 				vendor.setVendorId(0);
@@ -690,7 +691,7 @@ public class MastersController {
 			vendor.setVendorApprvBy("113");
 			vendor.setVendorType(Integer.parseInt(vendorType));
 			vendor.setIsUsed(1);
-			vendor.setCreatedIn(1);
+			vendor.setCreatedIn(active);
 			vendor.setDeletedIn(0);
 			vendor.setVendorApprvBy(approvedBy);
 

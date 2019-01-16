@@ -534,6 +534,26 @@
 									
 								</select>
 									</div>
+									
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Is Active*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen"   name="active" id="active"
+									required>
+									<c:choose>
+									 <c:when test="${editVendor.createdIn==0}">
+									 	<option value="1" >YES</option>
+										<option value="0" selected>NO  </option>
+									 </c:when> 
+									 <c:otherwise>
+									 <option value="1" selected>YES</option>
+										<option value="0" >NO   </option>
+									 </c:otherwise>
+									
+									</c:choose>
+									
+								</select>
+									</div>
 									 
 								</div>
 								<br>   

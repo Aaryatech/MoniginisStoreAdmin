@@ -170,7 +170,7 @@ public class RejectionController {
  
 			int mrnId = Integer.parseInt(request.getParameter("mrnId"));
 			String remark = request.getParameter("remark");
- 
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			 
  
 			Damage rejectionMemo = new Damage();
@@ -230,6 +230,7 @@ public class RejectionController {
 								rejectionMemo.setDate(DateConvertor.convertToYMD(rejectionDate));
 								rejectionMemo.setReason(remark); 
 								rejectionMemo.setExtra1(vendId);
+								rejectionMemo.setExtra2(typeId);
 								rejectionMemo.setMrnDetailId(getMrnDetail.getMrnDetailId());
 								rejectionMemo.setMrnId(mrnId);
 								rejectionMemo.setValue(getMrnDetail.getChalanQty()); 
@@ -319,18 +320,26 @@ public class RejectionController {
 				
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
+				map.add("typeId", "0,1");
 				model.addObject("fromDate", show.format(date));
 				model.addObject("toDate", show.format(date)); 
+				model.addObject("typeId", -1); 
 			}
 			else {
 				
 				 String fromDate = request.getParameter("fromDate");
 				 String toDate = request.getParameter("toDate");
-				 
+				 int typeId = Integer.parseInt(request.getParameter("typeId"));
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				if(typeId==-1) {
+					map.add("typeId", "0,1");
+				}else {
+					map.add("typeId", typeId);
+				}
 				model.addObject("fromDate", fromDate); 
 				model.addObject("toDate", toDate); 
+				model.addObject("typeId", typeId); 
 			}
 			
 			GetDamage[] getDamage = rest.postForObject(Constants.url + "/getDamageList",map,

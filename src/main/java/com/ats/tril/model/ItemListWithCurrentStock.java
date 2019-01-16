@@ -20,7 +20,7 @@ public class ItemListWithCurrentStock {
 	private float avgIssueQty;  
 	private float clsQty;
 	private float itemopQty; 
-	
+	private int active;
 	public int getItemId() {
 		return itemId;
 	}
@@ -131,6 +131,13 @@ public class ItemListWithCurrentStock {
 	public void setItemopQty(float itemopQty) {
 		this.itemopQty = itemopQty;
 	}
+	
+	public int getActive() {
+		return active;
+	}
+	public void setActive(int active) {
+		this.active = active;
+	}
 	@Override
 	public String toString() {
 		return "ItemListWithCurrentStock [itemId=" + itemId + ", itemCode=" + itemCode + ", catId=" + catId + ", grpId="
@@ -138,7 +145,7 @@ public class ItemListWithCurrentStock {
 				+ maxLevel + ", rolLevel=" + rolLevel + ", openingStock=" + openingStock + ", approveQty=" + approveQty
 				+ ", issueQty=" + issueQty + ", issueReturnQty=" + issueReturnQty + ", damageQty=" + damageQty
 				+ ", poPending=" + poPending + ", avgIssueQty=" + avgIssueQty + ", clsQty=" + clsQty + ", itemopQty="
-				+ itemopQty + "]";
+				+ itemopQty + ", active=" + active + "]";
 	}
 	
 	

@@ -149,7 +149,20 @@
 									</div>
 									</div>
 
-									<br><br>
+									<br> 
+									
+									<div class="box-content">
+								
+									<div class="col-md-2" >Select</div>
+									<div class="col-md-3">
+										<select   class="form-control chosen" name="typeId"    id="typeId"  >
+											 
+														<option value="0" selected> Rejection </option>
+											 			 <option value="1"> Damage </option>
+											</select>
+									</div>
+								  
+								</div><br> 
 
 									<!-- <div class="box-content">
 

@@ -206,7 +206,23 @@
 								</thead>
 								<tbody>
 								<c:set var="sr" value="0"> </c:set>
-								<c:forEach items="${categoryWiseReport}" var="categoryWiseReport" varStatus="count">
+								<c:set var="opQtyTotal" value="0" ></c:set>
+								<c:set var="opValueTotal" value="0" ></c:set>
+								<c:set var="opLandValueTotal" value="0" ></c:set>
+								<c:set var="appvQtyTotal" value="0" ></c:set>
+								<c:set var="appvValueTotal" value="0" ></c:set>
+								<c:set var="appvLandValueTotal" value="0" ></c:set>
+								<c:set var="issueQtyTotal" value="0" ></c:set>
+								<c:set var="issueValueTotal" value="0" ></c:set>
+								<c:set var="issueLandValueTotal" value="0" ></c:set>
+								<c:set var="dmgQtyTotal" value="0" ></c:set>
+								<c:set var="dmgValueTotal" value="0" ></c:set>
+								<c:set var="dmgLandValueTotal" value="0" ></c:set>
+								<c:set var="colsQtyTotal" value="0" ></c:set>
+								<c:set var="colsValueTotal" value="0" ></c:set>
+								<c:set var="colsLandValueTotal" value="0" ></c:set>
+								  <c:forEach items="${categoryWiseReport}" var="categoryWiseReport" varStatus="count">
+								 
 								<c:choose>
 												 	<c:when test="${categoryWiseReport.approveQty>0 or categoryWiseReport.approvedQtyValue>0 
 												 	or categoryWiseReport.issueQty>0 or categoryWiseReport.issueQtyValue>0 or categoryWiseReport.damageQty>0 or categoryWiseReport.damageValue>0 
@@ -220,36 +236,52 @@
 
 												<td  style="text-align: left"><c:out value="${categoryWiseReport.catDesc}" /></td>
 												 
-												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.openingStock}"/> </td>
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.openingStock}"/>  
+												<c:set var="opQtyTotal" value="${categoryWiseReport.openingStock+opQtyTotal}" ></c:set>
+												</td>
+												
 												 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.opStockValue}"/> </td>
-												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${categoryWiseReport.opLandingValue}" /> </td> 
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${categoryWiseReport.opLandingValue}" /> 
+												
+												<c:set var="opValueTotal" value="${categoryWiseReport.opStockValue+opValueTotal}" ></c:set>
+												<c:set var="opLandValueTotal" value="${categoryWiseReport.opLandingValue+opLandValueTotal}" ></c:set> </td>
+												
 													</c:when>
 													</c:choose>
 													
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.approveQty}"/>
+											 <c:set var="appvQtyTotal" value="${categoryWiseReport.approveQty+appvQtyTotal}" ></c:set>
 											 </td>
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.approvedQtyValue}"/> </td> 
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${categoryWiseReport.approvedLandingValue}" /> </td>
+													<c:set var="appvValueTotal" value="${categoryWiseReport.approvedQtyValue+appvValueTotal}" ></c:set>
+													<c:set var="appvLandValueTotal" value="${categoryWiseReport.approvedLandingValue+appvLandValueTotal}" ></c:set> 
 													</c:when>
 													</c:choose>
 													
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.issueQty}"/> </td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.issueQty}"/> 
+											<c:set var="issueQtyTotal" value="${categoryWiseReport.issueQty+issueQtyTotal}" ></c:set></td> 
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.issueQtyValue}"/> </td>
 											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.issueLandingValue}"/> </td>
+													<c:set var="issueValueTotal" value="${categoryWiseReport.issueQtyValue+issueValueTotal}" ></c:set> 
+													<c:set var="issueLandValueTotal" value="${categoryWiseReport.issueLandingValue+issueLandValueTotal}" ></c:set> 
 													</c:when>
 													</c:choose>
 													
 											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.damageQty}"/> </td>
+													<c:set var="dmgQtyTotal" value="${categoryWiseReport.damageQty+dmgQtyTotal}" ></c:set>
 													<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
 											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.damageValue}"/> </td> 
 											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${categoryWiseReport.damageLandingValue}"/> </td> 
+													<c:set var="dmgValueTotal" value="${categoryWiseReport.damageValue+dmgValueTotal}" ></c:set>
+													<c:set var="dmgLandValueTotal" value="${categoryWiseReport.damageLandingValue+dmgLandValueTotal}" ></c:set>
 													</c:when>
 													</c:choose>
 											 <c:set var="closingStock" value="${categoryWiseReport.openingStock+categoryWiseReport.approveQty-categoryWiseReport.issueQty-categoryWiseReport.damageQty}" ></c:set>
@@ -257,6 +289,9 @@
 												-categoryWiseReport.issueQtyValue-categoryWiseReport.damageValue}" ></c:set>
 												<c:set var="closingStockLandingValue" value="${categoryWiseReport.opLandingValue+categoryWiseReport.approvedLandingValue-categoryWiseReport.issueLandingValue-categoryWiseReport.damageLandingValue}" ></c:set>	
 												
+												<c:set var="colsQtyTotal" value="${closingStock+colsQtyTotal}" ></c:set>
+												<c:set var="colsValueTotal" value="${closingStockValue+colsValueTotal}" ></c:set>
+												<c:set var="colsLandValueTotal" value="${closingStockLandingValue+colsLandValueTotal}" ></c:set>
 											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
 											<c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
@@ -265,11 +300,66 @@
 											 </c:when>
 											 </c:choose>
 											 <td><a href="${pageContext.request.contextPath}/stockSummaryWithCatId/${categoryWiseReport.catId}/" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
-											
+											</td>
 											</tr>
 											</c:when>
 											</c:choose>
-										</c:forEach>
+										</c:forEach> 
+										
+										  <tr>
+											
+												 
+												<td  style="text-align: center;" colspan="2"> Total </td>
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${opQtyTotal}"/> </td>
+												 
+												 <c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${opValueTotal}"/> </td>
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${opLandValueTotal}" /> </td>
+												 
+													</c:when>
+													</c:choose>
+													
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${appvQtyTotal}"/>
+											 
+											 </td>
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${appvValueTotal}"/> </td> 
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${appvLandValueTotal}" /> </td>
+													 
+													</c:when>
+													</c:choose>
+													
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${issueQtyTotal}"/> 
+											 </td> 
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${issueValueTotal}"/> </td>
+											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${issueLandValueTotal}"/> </td> 
+													</c:when>
+													</c:choose>
+													
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${dmgQtyTotal}"/> </td>
+													 
+													<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${dmgValueTotal}"/> </td> 
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${dmgLandValueTotal}"/> </td> 
+													 
+													</c:when>
+													</c:choose>
+											   
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${colsQtyTotal}"/></td>
+											 
+											<c:choose>
+												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${colsValueTotal}"/></td>
+											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${colsLandValueTotal}"/></td>
+											 </c:when>
+											 </c:choose>
+											 <td>- </td>
+											</tr>   
   
 								</tbody>
 

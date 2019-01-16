@@ -987,11 +987,12 @@ $(document).ready(function() {
         			$('#item_name').html(html);
                     for ( var i = 0; i < len; i++) {
                             
-                                
+                         if(data[i].itemIsCons==0){    
                         $("#item_name").append(
                                 $("<option></option>").attr(
                                     "value", data[i].itemId).text(data[i].itemCode+' '+data[i].itemDesc)
                             );
+                         }   
                     }
 
                     $("#item_name").trigger("chosen:updated");
@@ -1378,6 +1379,7 @@ function getItemFroItemListBelowROL()
 									
 									 
 									if(itemList.clsQty<=itemList.minLevel){
+										if(itemList.active==0){
 										var tr = $('<tr></tr>');
 										tr.append($('<td></td>').html('<input type="checkbox" onchange="requiredField('+itemList.itemId+')" name="select_to_approve"'+
 												'id="select_to_approve'+itemList.itemId+'" value="'+itemList.itemId+'" >'));
@@ -1393,8 +1395,10 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
 										$('#table_grid1 tbody').append(tr); 
 										i++;
+										}
 									}
 									if(itemList.clsQty<=itemList.maxLevel && itemList.clsQty>itemList.rolLevel){
+										if(itemList.active==0){
 										var tr = $('<tr></tr>');
 										tr.append($('<td></td>').html('<input type="checkbox" onchange="requiredField('+itemList.itemId+')" name="select_to_approve"'+
 												'id="select_to_approve'+itemList.itemId+'" value="'+itemList.itemId+'" >'));
@@ -1410,8 +1414,10 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
 										$('#table_grid2 tbody').append(tr); 
 										j++;
+										}
 									}
 									if(itemList.clsQty<=itemList.rolLevel && itemList.clsQty>itemList.minLevel){
+										if(itemList.active==0){
 										var tr = $('<tr></tr>');
 										tr.append($('<td></td>').html('<input type="checkbox" onchange="requiredField('+itemList.itemId+')" name="select_to_approve"'+
 												'id="select_to_approve'+itemList.itemId+'" value="'+itemList.itemId+'" >'));
@@ -1427,6 +1433,7 @@ function getItemFroItemListBelowROL()
 									  	tr.append($('<td style="text-align: right;"></td>').html((itemList.avgIssueQty).toFixed(2)));
 										$('#table_grid3 tbody').append(tr); 
 										k++;
+										}
 									}
 										
 										  /* $('#ind_cat').prop('disabled', true).trigger("chosen:updated");

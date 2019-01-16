@@ -84,6 +84,35 @@
 
 							</div>
 							<br> <br>
+							
+							<div class="box-content">
+								
+									<div class="col-md-2" >Select Type</div>
+									<div class="col-md-3">
+										<select   class="form-control chosen" name="typeId"    id="typeId"  >
+											 
+											 <c:choose>
+											 	<c:when test="${typeId==-1}">
+											 		<option value="-1"  selected> All </option>
+														<option value="0"  > Rejection </option>
+											 			 <option value="1"> Damage </option>
+											 	</c:when>
+											 	<c:when test="${typeId==0}">
+											 		<option value="-1"  > All </option>
+														<option value="0"  selected> Rejection </option>
+											 			 <option value="1"> Damage </option>
+											 	</c:when>
+											 	<c:when test="${typeId==1}">
+											 		<option value="-1"  > All </option>
+														<option value="0"  > Rejection </option>
+											 			 <option value="1" selected> Damage </option>
+											 	</c:when>
+											 </c:choose>
+														 
+											</select>
+									</div>
+								  
+								</div><br> <br>
 
 							
 						
@@ -125,10 +154,12 @@
 											<th style="width:2%;">Sr no.</th>
 											<th class="col-md-1">Rejection Date</th>
 											<th class="col-md-1">Rejection No.</th>
-											<th class="col-md-3">Vendor Name</th>
-											<th class="col-md-3">Item Name</th>
+											<th class="col-md-2">Vendor Name</th>
+											<th class="col-md-2">Item Name</th>
+											<th class="col-md-1">Type</th>
 											<th class="col-md-1">Qty</th>
 											<th class="col-md-2">Mrn No</th> 
+											<th class="col-md-1">Remark</th>
 											<th class="col-md-1">Action</th>
 										</tr>
 									</thead>
@@ -150,22 +181,24 @@
 														value="${list.damageNo}" /></td>
 
 												<td  ><c:out value="${list.vendorName}" /></td>
-												<td  ><c:out
-														value="${list.itemDesc}" /></td>
-												<td  ><c:out
-														value="${list.qty}" /></td>
+												<td  ><c:out value="${list.itemDesc}" /></td>
+												<c:set value="-" var="type"></c:set>
+												<c:choose>
+													 <c:when test="${list.extra2==0}">
+													 	<c:set value="Rejected" var="type"></c:set>
+													 </c:when>
+													 <c:when test="${list.extra2==1}">
+													 	<c:set value="Damage" var="type"></c:set>
+													 </c:when>
+												</c:choose>
+												<td  ><c:out value="${type}" /></td>
+												<td  ><c:out value="${list.qty}" /></td>
 
 												<td  ><c:out value="${list.var1}" /></td>
- 
+ 												<td  ><c:out value="${list.reason}" /></td>
 
 												<td>
-												<%-- <a href="javascript:genPdf(${ list.rejectionId});"><abbr title="PDF"><i
-															class="glyphicon glyphicon glyphicon-file"></i></abbr></a> --%>
-													
-												 
-												<%-- <a
-													href="${pageContext.request.contextPath}/editRejectionMemo/${list.damageId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a> --%> <a
+												  <a
 													href="${pageContext.request.contextPath}/deleteRejectionMemo/${list.damageId}"
 													onClick="return confirm('Are you sure want to delete this record');"><span
 														class="glyphicon glyphicon-remove"></span></a></td>

@@ -552,7 +552,7 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">Item Con*</div>
+									<div class="col-md-2">Is Active*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" title="Please Select"
 											name="itemCon" id="itemCon" required>
@@ -560,16 +560,16 @@
 
 											<c:choose>
 												<c:when test="${editItem.itemIsCons==0}">
-													<option value="0" selected>NO</option>
-													<option value="1">YES</option>
+													<option value="0" selected>YES</option>
+													<option value="1">NO</option>
 												</c:when>
 												<c:when test="${editItem.itemIsCons==1}">
-													<option value="0">NO</option>
-													<option value="1" selected>YES</option>
+													<option value="0">YES</option>
+													<option value="1" selected>NO</option>
 												</c:when>
 												<c:otherwise>
-													<option value="0">NO</option>
-													<option value="1">YES</option>
+													<option value="0">YES</option>
+													<option value="1">NO</option>
 												</c:otherwise>
 
 											</c:choose>

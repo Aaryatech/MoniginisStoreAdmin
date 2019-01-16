@@ -984,16 +984,11 @@
 												        			html += '</option>';
 												        			$('#item_name').html(html);
 																	for (var i = 0; i < len; i++) {
-
-																		$(
-																				"#item_name")
-																				.append(
-																						$(
-																								"<option></option>")
-																								.attr(
-																										"value",
-																										data[i].itemId)
-																								.text(data[i].itemCode+' '+data[i].itemDesc));
+																		
+																		if(data[i].itemIsCons==0){
+																			$("#item_name").append($("<option></option>").attr("value",data[i].itemId)
+																					.text(data[i].itemCode+' '+data[i].itemDesc));
+																		} 
 																	}
 
 																	$("#item_name")
