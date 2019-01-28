@@ -314,7 +314,7 @@
 										<input id="opQty" class="form-control"
 											placeholder="Item OP Qty" name="opQty"
 											value="${editItem.itemOpQty}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" required>
+											pattern="[+-]?([0-9]*[.])?[0-9]+" title="Enter in Number Formate" type="text" required>
 
 
 									</div>
@@ -363,8 +363,8 @@
 									<div class="col-md-3">
 										<input id="clQty" class="form-control"
 											placeholder="Item OP Qty" name="clQty"
-											value="${editItem.itemClQty}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" required>
+											pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editItem.itemClQty}" style="text-align: left;"
+											title="Enter in Number Formate" type="text" required>
 
 
 									</div>
@@ -394,8 +394,8 @@
 									<div class="col-md-3">
 										<input id="minLevel" class="form-control"
 											placeholder="Item Min Level" name="minLevel"
-											value="${editItem.itemMinLevel}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" required>
+											pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editItem.itemMinLevel}" style="text-align: left;"
+											title="Enter in Number Formate" type="text" required>
 
 
 									</div>
@@ -405,8 +405,8 @@
 									<div class="col-md-3">
 										<input id="maxLevel" class="form-control"
 											placeholder="Item Max Level" name="maxLevel"
-											value="${editItem.itemMaxLevel}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" required>
+											pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editItem.itemMaxLevel}" style="text-align: left;"
+											title="Enter in Number Formate" type="text" required>
 
 
 									</div>
@@ -421,8 +421,8 @@
 									<div class="col-md-3">
 										<input id="rodLevel" class="form-control"
 											placeholder="Item Rod Level" name="rodLevel"
-											value="${editItem.itemRodLevel}" style="text-align: left;"
-											title="Enter in Number Formate" type="number" required>
+											pattern="[+-]?([0-9]*[.])?[0-9]+" value="${editItem.itemRodLevel}" style="text-align: left;"
+											title="Enter in Number Formate" type="text" required>
 
 
 									</div>

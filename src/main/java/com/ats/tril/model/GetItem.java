@@ -15,14 +15,14 @@ public class GetItem {
 	private int grpId; 
 	private int subGrpId;
 	private Float itemOpRate; 
-	private int itemOpQty; 
+	private Float itemOpQty; 
 	private Float itemClRate; 
-	private int itemClQty; 
+	private Float itemClQty; 
 	private String itemDate; 
 	private Float itemWt; 
-	private int itemMinLevel; 
-	private int itemMaxLevel; 
-	private int itemRodLevel; 
+	private Float itemMinLevel; 
+	private Float itemMaxLevel; 
+	private Float itemRodLevel; 
 	private String itemLocation; 
 	private String itemAbc; 
 	private int itemIsCritical; 
@@ -102,10 +102,10 @@ public class GetItem {
 	public void setItemOpRate(Float itemOpRate) {
 		this.itemOpRate = itemOpRate;
 	}
-	public int getItemOpQty() {
+	public Float getItemOpQty() {
 		return itemOpQty;
 	}
-	public void setItemOpQty(int itemOpQty) {
+	public void setItemOpQty(Float itemOpQty) {
 		this.itemOpQty = itemOpQty;
 	}
 	public Float getItemClRate() {
@@ -114,10 +114,10 @@ public class GetItem {
 	public void setItemClRate(Float itemClRate) {
 		this.itemClRate = itemClRate;
 	}
-	public int getItemClQty() {
+	public Float getItemClQty() {
 		return itemClQty;
 	}
-	public void setItemClQty(int itemClQty) {
+	public void setItemClQty(Float itemClQty) {
 		this.itemClQty = itemClQty;
 	}
 	public String getItemDate() {
@@ -132,22 +132,22 @@ public class GetItem {
 	public void setItemWt(Float itemWt) {
 		this.itemWt = itemWt;
 	}
-	public int getItemMinLevel() {
+	public Float getItemMinLevel() {
 		return itemMinLevel;
 	}
-	public void setItemMinLevel(int itemMinLevel) {
+	public void setItemMinLevel(Float itemMinLevel) {
 		this.itemMinLevel = itemMinLevel;
 	}
-	public int getItemMaxLevel() {
+	public Float getItemMaxLevel() {
 		return itemMaxLevel;
 	}
-	public void setItemMaxLevel(int itemMaxLevel) {
+	public void setItemMaxLevel(Float itemMaxLevel) {
 		this.itemMaxLevel = itemMaxLevel;
 	}
-	public int getItemRodLevel() {
+	public Float getItemRodLevel() {
 		return itemRodLevel;
 	}
-	public void setItemRodLevel(int itemRodLevel) {
+	public void setItemRodLevel(Float itemRodLevel) {
 		this.itemRodLevel = itemRodLevel;
 	}
 	public String getItemLocation() {
