@@ -224,7 +224,8 @@ body {
 									</div>
 									
 								</div>
-<br><br>
+<br><br>									<input   id="cur_date"  type="hidden" value="${date}" />
+
 									<input   id="machine_specific"  type="hidden" name="machine_specific" value="1" />
 										<input   id="acc_head"  type="hidden" name="acc_head" value="1" />
 										
@@ -1007,6 +1008,12 @@ $(document).ready(function() {
 </script>
 
 	<script type="text/javascript">
+	
+	function reformatDateString(s) {
+		  var b = s.split(/\D/);
+		  return b.reverse().join('-');
+		}
+	
 	function insertIndentDetail() {
 		
 		 var itemId=$('#item_name').val();
@@ -1016,6 +1023,23 @@ $(document).ready(function() {
 		 var itemName=$("#item_name option:selected").html();
 		 var catId=$('#ind_cat').val();
 		 var indentDate=$('#indent_date').val();
+		 
+		 var indentType	=$('#indent_type').val();
+		 var valid=true;
+if(indentType==1 || indentType==2){
+	var schDate = reformatDateString($("#sch_days").val());
+	var curDate=reformatDateString($("#cur_date").val());
+	 valid=false;
+	if(schDate < curDate){
+		valid=false;
+		//alert("Can not ")
+	}else{
+		//alert("=>");
+		valid=true;
+	}
+	
+	
+}
 		  
 		 /* var moqQty = parseFloat(document.getElementById("moqQtyByItemId").value);
 		 
@@ -1027,7 +1051,7 @@ $(document).ready(function() {
 			 document.getElementById("qty"+key).value=moqQty; 
 		 } */
 		 
-		if(qty!=0 && (itemId!="" || itemId!=null) && schDay!=""){
+		if(qty!=0 && (itemId!="" || itemId!=null) && schDay!="" && valid==true){
 		$.getJSON('${getIndentDetail}', {
 			itemId : itemId,
 			qty : qty,
