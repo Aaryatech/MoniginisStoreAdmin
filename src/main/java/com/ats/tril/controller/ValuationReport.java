@@ -599,6 +599,26 @@ public class ValuationReport {
 			hcell.setBackgroundColor(BaseColor.PINK);
 			table.addCell(hcell);
 
+			float totalOpStock=0;
+			float totalOpValue=0;
+			float totalOpLandValue=0;
+			
+			float totalAprvQty=0;
+			float totalAprvValue=0;
+			float totalAprvLandValue=0;
+			
+			float totalIssueQty=0;
+			float totalIssueValue=0;
+			float totalIssueLandValue=0;
+			
+			float totalDamageQty=0;
+			float totalDamageValue=0;
+			float totalDamageLandValue=0;
+			
+			float totalClsQty=0;
+			float totalClsValue=0;
+			float totalClsLandValue=0;
+			
 			
 			int index = 0;
 			if(!stockCategoryWiseListForPdf.isEmpty()) {
@@ -634,6 +654,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalOpStock=totalOpStock+stockCategoryWiseListForPdf.get(k).getOpeningStock();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getOpStockValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -641,6 +662,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalOpValue=totalOpValue+stockCategoryWiseListForPdf.get(k).getOpStockValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getOpLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -648,6 +670,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalOpLandValue=totalOpLandValue+stockCategoryWiseListForPdf.get(k).getOpLandingValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getApproveQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -655,6 +678,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalAprvQty=totalAprvQty+stockCategoryWiseListForPdf.get(k).getApproveQty();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getApprovedQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -662,6 +686,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalAprvValue=totalAprvValue+stockCategoryWiseListForPdf.get(k).getApprovedQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getApprovedLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -669,6 +694,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalAprvLandValue=totalAprvLandValue+stockCategoryWiseListForPdf.get(k).getApprovedLandingValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getIssueQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -676,6 +702,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueQty=totalIssueQty+stockCategoryWiseListForPdf.get(k).getIssueQty();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getIssueQtyValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -683,6 +710,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueValue=totalIssueValue+stockCategoryWiseListForPdf.get(k).getIssueQtyValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getApprovedLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -690,6 +718,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalIssueLandValue=totalIssueLandValue+stockCategoryWiseListForPdf.get(k).getApprovedLandingValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getDamageQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -697,6 +726,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalDamageQty=totalDamageQty+stockCategoryWiseListForPdf.get(k).getDamageQty();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getDamageValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -704,6 +734,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalDamageValue=totalDamageValue+stockCategoryWiseListForPdf.get(k).getDamageValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getDamageLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -711,6 +742,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalDamageLandValue=totalDamageLandValue+stockCategoryWiseListForPdf.get(k).getDamageLandingValue();
 							
 							float closingQty = stockCategoryWiseListForPdf.get(k).getOpeningStock()+stockCategoryWiseListForPdf.get(k).getApproveQty()-
 									stockCategoryWiseListForPdf.get(k).getIssueQty()-stockCategoryWiseListForPdf.get(k).getDamageQty();
@@ -726,6 +758,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalClsQty=totalClsQty+closingQty; 
 							
 							cell = new PdfPCell(new Phrase(""+df.format(closingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -733,6 +766,7 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalClsValue=totalClsValue+closingValue;
 							
 							cell = new PdfPCell(new Phrase(""+df.format(closingLandingValue), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -740,10 +774,139 @@ public class ValuationReport {
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
+							totalClsLandValue=totalClsLandValue+closingLandingValue;
 						}
 					}
 			}
 			
+			PdfPCell cell;
+			
+			cell = new PdfPCell(new Phrase("Total", headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setPadding(3);
+			cell.setColspan(2);
+			table.addCell(cell);
+ 
+		
+			cell = new PdfPCell(new Phrase(""+df.format(totalOpStock), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+		 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalOpValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalOpLandValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalAprvQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+		 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalAprvValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+		 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalAprvLandValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			  
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalIssueLandValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalDamageQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalDamageValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+		 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalDamageLandValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			 
+			cell = new PdfPCell(new Phrase(""+df.format(totalClsQty), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+		 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalClsValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+		 
+			
+			cell = new PdfPCell(new Phrase(""+df.format(totalClsLandValue), headFont));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			cell.setPaddingRight(2);
+			cell.setPadding(3);
+			table.addCell(cell);
+			  
 			document.open();
 			Paragraph company = new Paragraph(comp.getCompanyName()+"\n", f);
 			company.setAlignment(Element.ALIGN_CENTER);

@@ -487,6 +487,20 @@ body {
 									</div>
 								</div>
 								<br/>
+								
+								<div class="box-content">
+								
+								<label class="col-md-2">Current Stock</label>
+									<div class="col-sm-6 col-lg-2 controls">
+									
+									<input type="text" name="itemCurrentStock" id="itemCurrentStock"
+											class="form-control" placeholder="Current Stock"
+											  readonly/>
+ 
+									</div>
+									  
+								</div>
+								<br/>
 								<br><br><br>
 								
 								
@@ -1365,6 +1379,7 @@ function getMoqQty() {
 		document.getElementById("moqQtyByItemId").value = data.maxLevel;
 			document.getElementById("itemPendingMrnQty").value = data.poPending;
 			document.getElementById("itemAvgIssueQty").value = (data.avgIssueQty).toFixed(2);
+			document.getElementById("itemCurrentStock").value = (data.clsQty).toFixed(2);
 	});
 
 }
