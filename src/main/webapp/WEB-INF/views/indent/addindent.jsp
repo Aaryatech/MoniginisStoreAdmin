@@ -1040,7 +1040,7 @@ $(document).ready(function() {
 		 
 		 var indentType	=$('#indent_type').val();
 		 var valid=true;
-if(indentType==1 || indentType==2){
+/* if(indentType==1 || indentType==2){
 	var schDate = reformatDateString($("#sch_days").val());
 	var curDate=reformatDateString($("#cur_date").val());
 	 valid=false;
@@ -1053,7 +1053,7 @@ if(indentType==1 || indentType==2){
 	}
 	
 	
-}
+} */
 		  
 		 /* var moqQty = parseFloat(document.getElementById("moqQtyByItemId").value);
 		 
