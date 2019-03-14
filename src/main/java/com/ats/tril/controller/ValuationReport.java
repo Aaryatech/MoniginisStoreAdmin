@@ -712,13 +712,13 @@ public class ValuationReport {
 							table.addCell(cell);
 							totalIssueValue=totalIssueValue+stockCategoryWiseListForPdf.get(k).getIssueQtyValue();
 							
-							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getApprovedLandingValue()), headFont));
+							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getIssueLandingValue()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 							cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 							cell.setPaddingRight(2);
 							cell.setPadding(3);
 							table.addCell(cell);
-							totalIssueLandValue=totalIssueLandValue+stockCategoryWiseListForPdf.get(k).getApprovedLandingValue();
+							totalIssueLandValue=totalIssueLandValue+stockCategoryWiseListForPdf.get(k).getIssueLandingValue();
 							
 							cell = new PdfPCell(new Phrase(""+df.format(stockCategoryWiseListForPdf.get(k).getDamageQty()), headFont));
 							cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
