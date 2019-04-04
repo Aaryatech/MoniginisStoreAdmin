@@ -139,11 +139,11 @@
 									<tr class="bgpink">
 										<th style="width:1%;">Sr no.</th>
 										<th class="col-md-4">ITEM NAME</th> 
-										<th class="col-md-1"  style="text-align: right"0 >APPV QTY</th>
+										<th class="col-md-1"  style="text-align: right"0 >RECEIVED QTY</th>
 										 <c:choose>
 												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1"  style="text-align: right">APPV VALUE</th>
-										<th class="col-md-1"  style="text-align: right">APPV LANDING VALUE</th>
+										<th class="col-md-1"  style="text-align: right">RECEIVED VALUE</th>
+										<th class="col-md-1"  style="text-align: right">RECEIVED LANDING VALUE</th>
 										</c:when>
 										</c:choose>
 										<th class="col-md-1"  style="text-align: right">ISSUE QTY</th>

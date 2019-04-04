@@ -6,7 +6,7 @@
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
- 
+
 
 	<div class="container" id="main-container">
 
@@ -33,7 +33,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -42,18 +43,20 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Issue Department-Month Wise Report   
+								<i class="fa fa-table"></i>Issue Department-Month Wise Report
 							</h3>
 							<div class="box-tool">
-								 <a data-action="collapse" href="#"><i
+								<a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/issueMonthWieReport" method="get">
-								<div class="box-content">
-								
-								 
+						<form id="submitPurchaseOrder"
+							action="${pageContext.request.contextPath}/issueMonthWieReport"
+							method="get">
+							<div class="box-content">
+
+
 								<%-- <div class="box-content">
 							
 								<div class="col-md-2">From Date</div>
@@ -74,9 +77,9 @@
 								
 				 
 							</div><br> --%>
-							<input id="typeId" value="0"  name="typeId" type="hidden"  >
-								 <input id="isDev" value="-1"  name="isDev" type="hidden"  >
-							<%-- <div class="box-content">
+								<input id="typeId" value="0" name="typeId" type="hidden">
+								<input id="isDev" value="-1" name="isDev" type="hidden">
+								<%-- <div class="box-content">
 
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
@@ -130,39 +133,46 @@
 									</div>
 								</div><br> 
 								 <br> --%>
-							
-							<div class="row">
-							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-primary"   value="Search"> 
-								<input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" > 
-										 <input type="button" class="btn btn-primary" value="PDF" onclick="genPdf()" > 
-										    <!-- <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph"> -->   
-							</div>
-						</div> <br>
-							 
-								
+
+								<div class="row">
+									<div class="col-md-12" style="text-align: center">
+										<input type="submit" class="btn btn-primary" value="Search">
+										<input type="button" id="expExcel" class="btn btn-primary"
+											value="EXPORT TO Excel" onclick="exportToExcel();"> <input
+											type="button" class="btn btn-primary" value="PDF"
+											onclick="genPdf()">
+										<!-- <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph"> -->
+									</div>
+								</div>
+								<br>
+
+
 								<div align="center" id="loader" style="display: none">
 
-								<span>
-									<h4>
-										<font color="#343690">Loading</font>
-									</h4>
-								</span> <span class="l-1"></span> <span class="l-2"></span> <span
-									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-								<span class="l-6"></span>
-							</div>
-							<div class="col-md-9"></div>
+									<span>
+										<h4>
+											<font color="#343690">Loading</font>
+										</h4>
+									</span> <span class="l-1"></span> <span class="l-2"></span> <span
+										class="l-3"></span> <span class="l-4"></span> <span
+										class="l-5"></span> <span class="l-6"></span>
+								</div>
+								<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"><input
-									type="text1" id="myInput" onkeyup="myFunction()" 
-									placeholder="Search.." title="Type in a name" class="form-style-search" style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;">
-								</label> 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div style="overflow:scroll;height:100%;width:100%;overflow:auto" id="tbl">
-									<table width="100%" border="0"class="table table-bordered table-striped fill-head "
+									type="text1" id="myInput" onkeyup="myFunction()"
+									placeholder="Search.." title="Type in a name"
+									class="form-style-search"
+									style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;">
+								</label> <br /> <br />
+								<div class="clearfix"></div>
+								<div
+									style="overflow: scroll; height: 100%; width: 100%; overflow: auto"
+									id="tbl">
+									<table width="100%" border="0"
+										class="table table-bordered table-striped fill-head "
 										style="width: 100%" id="table_grid">
-									<thead>
-									<!-- <tr class="bgpink">
+										<thead>
+											<!-- <tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">DEPARMENT NAME</th>  
 										<th class="col-md-1" colspan="2">APR</th>
@@ -209,63 +219,58 @@
 											 <th class="col-md-1">Value</th>
 											 <th class="col-md-1"></th>
 										</tr> -->
-										
-										<tr class="bgpink">
-										<th style="width:1%;">SR</th>
-										<th class="col-md-4">DEPARMENT NAME</th>  
-										<th class="col-md-1" style="text-align: right" >APR</th>
-										<th class="col-md-1" style="text-align: right">MAY</th>   
-										<th class="col-md-1" style="text-align: right" >JUN</th>
-										<th class="col-md-1" style="text-align: right" >JUL</th>
-										<th class="col-md-1" style="text-align: right" >AUG</th>
-										<th class="col-md-1" style="text-align: right" >SEP</th>
-										<th class="col-md-1" style="text-align: right" >OCT</th>
-										<th class="col-md-1" style="text-align: right" >NOV</th>
-										<th class="col-md-1" style="text-align: right" >DEC</th>
-										<th class="col-md-1" style="text-align: right" >JAN</th>
-										<th class="col-md-1" style="text-align: right" >FEB</th>
-										<th class="col-md-1" style="text-align: right" >MAR</th>
-										<th class="col-md-1" style="text-align: right">Action</th> 
-								</thead>
-								<tbody>
-								<c:set var="sr" value="0"> </c:set>
-								<c:forEach items="${deparmentList}" var="deparmentList" varStatus="count">
-											<tr> 
-											<%-- <c:set var="flag" value="0"> </c:set>
-											<c:forEach items="${list}" var="list" varStatus="count">
-												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
-												 <c:choose>
-												 <c:when test="${monthList.deptId==deparmentList.deptId}">
-												  <c:choose>
-												 	<c:when test="${monthList.issueQty>0 or monthList.issueQtyValue>0}">
-												 	<c:set var="flag" value="0"> </c:set>
-												 	</c:when>
-												 	</c:choose>
-														 </c:when>
-														</c:choose> 
-														</c:forEach> 
-												</c:forEach> --%>
-												
-												
-												<td><c:out value="${count.index+1}" /></td>
- 
-												<td><c:out value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>  
-												<c:forEach items="${list}" var="list" varStatus="count">
-												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
-												 <c:choose>
-												 <c:when test="${monthList.deptId==deparmentList.deptId}">
-												<%-- <td><c:out value="${monthList.issueQty}"/></td>  --%>
-														<td style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${monthList.issueQtyValue}" /></td> 
-														
-														 </c:when>
-														</c:choose> 
-														</c:forEach> 
-												</c:forEach>
-												<td style="text-align: right"><a href="${pageContext.request.contextPath}/issueMonthSubDeptWieReportByDeptId/${deparmentList.deptId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
-											
-											</tr>
-										</c:forEach>
-										 <%-- <c:forEach items="${list}" var="list" varStatus="count">
+
+											<tr class="bgpink">
+												<th style="width: 1%;">SR</th>
+												<th class="col-md-4">DEPARMENT NAME</th>
+												<th class="col-md-1" style="text-align: right">APR</th>
+												<th class="col-md-1" style="text-align: right">MAY</th>
+												<th class="col-md-1" style="text-align: right">JUN</th>
+												<th class="col-md-1" style="text-align: right">JUL</th>
+												<th class="col-md-1" style="text-align: right">AUG</th>
+												<th class="col-md-1" style="text-align: right">SEP</th>
+												<th class="col-md-1" style="text-align: right">OCT</th>
+												<th class="col-md-1" style="text-align: right">NOV</th>
+												<th class="col-md-1" style="text-align: right">DEC</th>
+												<th class="col-md-1" style="text-align: right">JAN</th>
+												<th class="col-md-1" style="text-align: right">FEB</th>
+												<th class="col-md-1" style="text-align: right">MAR</th>
+												<th class="col-md-1" style="text-align: right">Action</th>
+										</thead>
+										<tbody>
+											<c:set var="sr" value="0">
+											</c:set>
+											<c:forEach items="${deparmentList}" var="deparmentList"
+												varStatus="count">
+												<tr>
+
+
+													<td><c:out value="${count.index+1}" /></td>
+
+													<td><c:out
+															value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>
+													<c:forEach items="${list}" var="list" varStatus="count">
+														<c:forEach items="${list.monthList}" var="monthList"
+															varStatus="count">
+															<c:choose>
+																<c:when test="${monthList.deptId==deparmentList.deptId}">
+																	<%-- <td><c:out value="${monthList.issueQty}"/></td>  --%>
+																	<td style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${monthList.issueQtyValue}" /></td>
+
+																</c:when>
+															</c:choose>
+														</c:forEach>
+													</c:forEach>
+													<td style="text-align: right"><a
+														href="${pageContext.request.contextPath}/issueMonthSubDeptWieReportByDeptId/${deparmentList.deptId}"
+														class='action_btn'> <abbr title='detailes'> <i
+																class='fa fa-list'></i></abbr></a>
+												</tr>
+											</c:forEach>
+											<%-- <c:forEach items="${list}" var="list" varStatus="count">
 													 
 														 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
 														 
@@ -274,53 +279,69 @@
 												 
 													 
 												</c:forEach> --%>
-										
-  
-								</tbody>
-
-								</table>
-								
-								<div id="chart" style="display: none"><br> <hr>
-		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
-		
-			<div   id="PiechartApr" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartMay" style="width:25%; height:300; float: Left;" ></div> 
-			<div   id="PiechartJun" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartJul" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartAug" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartSep" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartOct" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartNov" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartDec" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartJan" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartFeb" style="width:25%; height:300; float: Left;" ></div>
-			<div   id="PiechartMar" style="width:25%; height:300; float: Left;" ></div> 
-				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
-				</div>
-								 
-  
-					</div> 
-					 
-					 
-				</div>
-							</form> 
 
 
-						</div>
-						
+										</tbody>
+
+									</table>
+
+									<div id="chart" style="display: none">
+										<br>
+										<hr>
+										<div id="chart_div" style="width: 100%; height: 500px"
+											align="center"></div>
+
+										<div id="PiechartApr"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartMay"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartJun"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartJul"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartAug"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartSep"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartOct"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartNov"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartDec"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartJan"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartFeb"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<div id="PiechartMar"
+											style="width: 25%; height: 300; float: Left;"></div>
+										<br> <br> <br> <br> <br> <br> <br>
+										<br> <br> <br> <br> <br> <br> <br>
+									</div>
+
+
+								</div>
+
+
+							</div>
+						</form>
+
+
 					</div>
-					 
+
 				</div>
-				<footer>
+
+			</div>
+			<footer>
 				<p>2019 © MONGINIS</p>
 			</footer>
-			</div>
- 
-		 
 		</div>
-		
-		<!-- END Content -->
- 
+
+
+	</div>
+
+	<!-- END Content -->
+
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -386,110 +407,163 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-		  
+
 	<script type="text/javascript">
-	function search() {
-		  
-		
-		var fromDate = $("#fromDate").val();
-		var toDate = $("#toDate").val();
-		var catId = $("#catId").val();
-		
-		if(fromDate=="" || fromDate == null)
-			alert("Select From Date");
-		else if (toDate=="" || toDate == null)
-			alert("Select To Date");
-		 
-		$('#loader').show();
+		function search() {
 
-		$
-				.getJSON(
-						'${getStockBetweenDateWithCatId}',
+			var fromDate = $("#fromDate").val();
+			var toDate = $("#toDate").val();
+			var catId = $("#catId").val();
 
-						{
-							 
-							fromDate : fromDate,
-							toDate : toDate, 
-							catId : catId,
-							ajax : 'true'
+			if (fromDate == "" || fromDate == null)
+				alert("Select From Date");
+			else if (toDate == "" || toDate == null)
+				alert("Select To Date");
 
-						},
-						function(data) {
+			$('#loader').show();
 
-							$('#table1 td').remove();
-							$('#loader').hide();
+			$
+					.getJSON(
+							'${getStockBetweenDateWithCatId}',
 
-							if (data == "") {
-								alert("No records found !!");
+							{
 
-							}
-						 
+								fromDate : fromDate,
+								toDate : toDate,
+								catId : catId,
+								ajax : 'true'
 
-						  $.each( data,
-										function(key, itemList) {
-											  
-											var tr = $('<tr></tr>'); 
-										  	tr.append($('<td></td>').html(key+1));
-										  	tr.append($('<td></td>').html(itemList.itemCode));
-										  	tr.append($('<td></td>').html(itemList.openingStock));  
-										  	tr.append($('<td></td>').html(itemList.opStockValue)); 
-										  	tr.append($('<td></td>').html(itemList.approveQty));
-										  	tr.append($('<td></td>').html(itemList.approvedQtyValue));
-										  	tr.append($('<td></td>').html(itemList.issueQty));
-										  	tr.append($('<td></td>').html(itemList.issueQtyValue)); 
-										  	tr.append($('<td></td>').html(itemList.damageQty));
-										  	tr.append($('<td></td>').html(itemList.damagValue)); 
-										  	tr.append($('<td></td>').html(itemList.openingStock+itemList.approveQty-itemList.issueQty+itemList.returnIssueQty-itemList.damageQty-itemList.gatepassQty+itemList.gatepassReturnQty));
-											tr.append($('<td></td>').html(itemList.opStockValue+itemList.approvedQtyValue-itemList.issueQtyValue-itemList.damagValue)); 
-										  	tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
-										  	
-										    $('#table1 tbody').append(tr); 
-										})  
-										
-							 
-						}); 
-}
+							},
+							function(data) {
+
+								$('#table1 td').remove();
+								$('#loader').hide();
+
+								if (data == "") {
+									alert("No records found !!");
+
+								}
+
+								$
+										.each(
+												data,
+												function(key, itemList) {
+
+													var tr = $('<tr></tr>');
+													tr.append($('<td></td>')
+															.html(key + 1));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.itemCode));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.openingStock));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.opStockValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.approveQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.approvedQtyValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.issueQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.issueQtyValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.damageQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.damagValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.openingStock
+																					+ itemList.approveQty
+																					- itemList.issueQty
+																					+ itemList.returnIssueQty
+																					- itemList.damageQty
+																					- itemList.gatepassQty
+																					+ itemList.gatepassReturnQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.opStockValue
+																					+ itemList.approvedQtyValue
+																					- itemList.issueQtyValue
+																					- itemList.damagValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			"<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
+
+													$('#table1 tbody').append(
+															tr);
+												})
+
+							});
+		}
 	</script>
-	
+
 	<script>
-function myFunction() {
-  var input, filter, table, tr, td ,td1, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table_grid");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1]; 
-    if (td) {
-    	
-    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      } else {
-    	        tr[i].style.display = "none";
-    	      }
-       
-    }  
-    
-     
-  }
-}
- 
-</script>
-<script type="text/javascript">
+		function myFunction() {
+			var input, filter, table, tr, td, td1, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table_grid");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				if (td) {
 
-function genPdf(){
-	window.open('${pageContext.request.contextPath}/issueMonthWieReportPdf/');
-}
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
 
-</script>
-<script type="text/javascript">
-function exportToExcel()
-{
-	 
-	window.open("${pageContext.request.contextPath}/exportToExcel");
-			document.getElementById("expExcel").disabled=true;
-}
+				}
 
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		function genPdf() {
+			window
+					.open('${pageContext.request.contextPath}/issueMonthWieReportPdf/');
+		}
+	</script>
+	<script type="text/javascript">
+		function exportToExcel() {
+
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
+		}
 	</script>
 </body>
 </html>

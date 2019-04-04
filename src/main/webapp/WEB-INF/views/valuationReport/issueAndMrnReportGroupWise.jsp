@@ -7,9 +7,11 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
+	<c:url var="getStockBetweenDateWithCatId"
+		value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
-<c:url var="listForIssueAndMrnGraphGroupWise" value="/listForIssueAndMrnGraphGroupWise"></c:url>
+	<c:url var="listForIssueAndMrnGraphGroupWise"
+		value="/listForIssueAndMrnGraphGroupWise"></c:url>
 
 	<div class="container" id="main-container">
 
@@ -36,7 +38,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -49,15 +52,18 @@
 							</h3>
 							<div class="box-tool">
 								<%-- <a href="${pageContext.request.contextPath}/addPurchaseOrder">
-									Add PO</a> --%> <a data-action="collapse" href="#"><i
+									Add PO</a> --%>
+								<a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/submitMonthEnd" method="post">
-								<div class="box-content">
-								
-								 
+						<form id="submitPurchaseOrder"
+							action="${pageContext.request.contextPath}/submitMonthEnd"
+							method="post">
+							<div class="box-content">
+
+
 								<%-- <div class="box-content">
 							
 								<div class="col-md-2">From Date</div>
@@ -101,133 +107,232 @@
 								<input type="button" class="btn btn-info" onclick="search()" value="Search"> 
 							</div>
 						</div> <br> --%>
-							 
-								
+
+
 								<div class="row">
-							<div class="col-md-12" style="text-align: center">
-								  <c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											 <input type="button" value="PDF" class="btn btn-primary"
+									<div class="col-md-12" style="text-align: center">
+										<c:choose>
+											<c:when
+												test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+												<input type="button" value="PDF" class="btn btn-primary"
 													onclick="genPdf()" />&nbsp;
-											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" >
+											 <input type="button" id="expExcel" class="btn btn-primary"
+													value="EXPORT TO Excel" onclick="exportToExcel();">
 											&nbsp;
 											</c:when>
 											<c:otherwise>
-											<input type="button" value="PDF" class="btn btn-primary"
-													onclick="genPdf()" disabled/>&nbsp;
-											 <input type="button" id="expExcel" class="btn btn-primary" value="EXPORT TO Excel" onclick="exportToExcel();" disabled>
+												<input type="button" value="PDF" class="btn btn-primary"
+													onclick="genPdf()" disabled />&nbsp;
+											 <input type="button" id="expExcel" class="btn btn-primary"
+													value="EXPORT TO Excel" onclick="exportToExcel();" disabled>
 											&nbsp;
 											
 											</c:otherwise>
-											</c:choose>
-											
-											    <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph">
-											     <input type="button" class="btn btn-primary" onclick="showTable()"  value="Table">   
-											  
-							</div>
-						</div> <br>
-							<div class="col-md-9"></div>
+										</c:choose>
+
+										<input type="button" class="btn btn-primary"
+											onclick="showChart()" value="Graph"> <input
+											type="button" class="btn btn-primary" onclick="showTable()"
+											value="Table">
+
+									</div>
+								</div>
+								<br>
+								<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
 									type="text" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name">
-								</label> 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0" id="tbl">
-						<table class="table table-advance" id="table1">  
-									<thead>
-									<tr class="bgpink">
-										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-4">GROUP Name</th> 
-										<th class="col-md-1" style="text-align: right">APPV QTY</th>
-										 <c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1" style="text-align: right">APPV VALUE</th>
-										<th class="col-md-1" style="text-align: right">APPV LANDING VALUE</th>
-										</c:when>
-										</c:choose>
-										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
-										 <c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th>
-										<th class="col-md-1" style="text-align: right">ISSUE LANDING VALUE</th>
-										</c:when>
-										</c:choose>
-										
-										<th class="col-md-1" style="text-align: right">ACTION</th>  
-									</tr>
-								</thead>
-								<tbody>
-								<c:set var="sr" value="0"> </c:set>
-								<c:forEach items="${list}" var="list" varStatus="count">
-								<c:choose>
-												 	<c:when test="${list.approveQty>0 or list.approvedQtyValue>0 
-												 	or list.issueQty>0 or list.issueQtyValue>0}">
-											<tr>
-											 
-												<td  ><c:out value="${sr+1}" /></td> 
-												<c:set var="sr" value="${sr+1}" ></c:set>
+								</label> <br /> <br />
+								<div class="clearfix"></div>
+								<div class="table-responsive" style="border: 0" id="tbl">
+									<table class="table table-advance" id="table1">
+										<thead>
+											<tr class="bgpink">
+												<th style="width: 1%;">Sr no.</th>
+												<th class="col-md-4">GROUP Name</th>
+												<th class="col-md-1" style="text-align: right">RECEIVED
+													QTY</th>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<th class="col-md-1" style="text-align: right">RECEIVED
+															VALUE</th>
+														<th class="col-md-1" style="text-align: right">RECEIVED
+															LANDING VALUE</th>
+													</c:when>
+												</c:choose>
+												<th class="col-md-1" style="text-align: right">ISSUE
+													QTY</th>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<th class="col-md-1" style="text-align: right">ISSUE
+															VALUE</th>
+														<th class="col-md-1" style="text-align: right">ISSUE
+															LANDING VALUE</th>
+													</c:when>
+												</c:choose>
 
-												<td  ><c:out value="${list.grpCode}" /></td> 
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approveQty}" /></td>
-													 <c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approvedQtyValue}" /></td> 
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approvedLandingValue}" /></td> 
-													</c:when>
-													</c:choose>
-													
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueQty}" /></td> 
-													 <c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueQtyValue}" /></td>
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueLandingValue}" /></td> 
-													</c:when>
-													</c:choose>
-													
-												<td style="text-align: right"><a href="${pageContext.request.contextPath}/issueAndMrnReportItemWise/${list.grpId}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a>
-												 
-											 
+												<th class="col-md-1" style="text-align: right">ACTION</th>
 											</tr>
-											</c:when>
-											</c:choose>
-										</c:forEach>
-  
-								</tbody>
+										</thead>
+										<tbody>
+											<c:set var="sr" value="0"></c:set>
+											<c:set var="RECEIVEDQtyTotal" value="0"></c:set>
+											<c:set var="RECEIVEDValueTotal" value="0"></c:set>
+											<c:set var="RECEIVEDLandValueTotal" value="0"></c:set>
+											<c:set var="issueQtyTotal" value="0"></c:set>
+											<c:set var="issueValueTotal" value="0"></c:set>
+											<c:set var="issueLandValueTotal" value="0"></c:set>
 
-								</table>
-  
-					</div> 
-					
-					<div id="chart" style="display: none"><br> <hr>
-		<div id="chart_div" style="width:100%; height:500px" align="center"></div>
-		
-			<div   id="PiechartMrnValue" style="width:50%; height:300; float: Left;" ></div>
-			<div   id="PiechartIssueValue" style="width:50%; height:300; float: right;" ></div>  
-				 <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> <br> 
-				</div>
-					 
-					 
-				</div>
-							</form> 
+											<c:forEach items="${list}" var="list" varStatus="count">
+												<c:choose>
+													<c:when
+														test="${list.approveQty>0 or list.approvedQtyValue>0 
+												 	or list.issueQty>0 or list.issueQtyValue>0}">
+														<tr>
+
+															<td><c:out value="${sr+1}" /></td>
+															<c:set var="sr" value="${sr+1}"></c:set>
+
+															<td><c:out value="${list.grpCode}" /></td>
+															<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.approveQty}" /></td>
+															<c:set var="RECEIVEDQtyTotal"
+																value="${list.approveQty+RECEIVEDQtyTotal}"></c:set>
+															<c:choose>
+																<c:when
+																	test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${list.approvedQtyValue}" /></td>
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${list.approvedLandingValue}" /></td>
+																	<c:set var="RECEIVEDValueTotal"
+																		value="${list.approvedQtyValue+RECEIVEDValueTotal}"></c:set>
+																	<c:set var="RECEIVEDLandValueTotal"
+																		value="${list.approvedLandingValue+RECEIVEDLandValueTotal}"></c:set>
+																</c:when>
+															</c:choose>
+
+															<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.issueQty}" /></td>
+															<c:set var="issueQtyTotal"
+																value="${list.issueQty+issueQtyTotal}"></c:set>
+															<c:choose>
+																<c:when
+																	test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2" value="${list.issueQtyValue}" /></td>
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${list.issueLandingValue}" /></td>
+																	<c:set var="issueValueTotal"
+																		value="${list.issueQtyValue+issueValueTotal}"></c:set>
+																	<c:set var="issueLandValueTotal"
+																		value="${list.issueLandingValue+issueLandValueTotal}"></c:set>
+																</c:when>
+															</c:choose>
+
+															<td style="text-align: right"><a
+																href="${pageContext.request.contextPath}/issueAndMrnReportItemWise/${list.grpId}"
+																class='action_btn'> <abbr title='detailes'> <i
+																		class='fa fa-list'></i></abbr></a>
+														</tr>
+													</c:when>
+												</c:choose>
+											</c:forEach>
+											<tr>
 
 
-						</div>
-						
+												<td style="text-align: center;" colspan="2">Total</td>
+
+
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														value="${RECEIVEDQtyTotal}" /></td>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${RECEIVEDValueTotal}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${RECEIVEDLandValueTotal}" />
+														</td>
+
+													</c:when>
+												</c:choose>
+
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														value="${issueQtyTotal}" /></td>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${issueValueTotal}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${issueLandValueTotal}" />
+														</td>
+													</c:when>
+												</c:choose>
+
+
+												<td>-</td>
+											</tr>
+
+										</tbody>
+
+									</table>
+
+								</div>
+
+								<div id="chart" style="display: none">
+									<br>
+									<hr>
+									<div id="chart_div" style="width: 100%; height: 500px"
+										align="center"></div>
+
+									<div id="PiechartMrnValue"
+										style="width: 50%; height: 300; float: Left;"></div>
+									<div id="PiechartIssueValue"
+										style="width: 50%; height: 300; float: right;"></div>
+									<br> <br> <br> <br> <br> <br> <br>
+									<br> <br> <br> <br> <br> <br> <br>
+								</div>
+
+
+							</div>
+						</form>
+
+
 					</div>
-					 
+
 				</div>
-				<footer>
+
+			</div>
+			<footer>
 				<p>2019 © MONGINIS</p>
 			</footer>
-			</div>
- 
-		 
 		</div>
-		
-		<!-- END Content -->
- 
+
+
+	</div>
+
+	<!-- END Content -->
+
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -294,303 +399,399 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-function showTable(){
-	document.getElementById('chart').style.display = "display:none";
-	   document.getElementById("tbl").style="block";
-}
-function showChart(){
-		
-		document.getElementById('chart').style.display = "block";
-		   document.getElementById("tbl").style="display:none";
-		 
-				$.getJSON('${listForIssueAndMrnGraphGroupWise}',{
-					
-									 
-									ajax : 'true',
-
-								},
-								function(data) {			
-									//alert(data);
-									 if (data == "") {
-											alert("No records found !!");
-
-									 }
-									 var i=0;
-									 //alert(data);
-									 google.charts.load('current', {'packages':['corechart', 'bar']});
-									 google.charts.setOnLoadCallback(drawStuff);
-									 //alert(data);
-									 function drawStuff() {
-		 
-									   var chartDiv = document.getElementById('chart_div');
-									   document.getElementById("chart_div").style.border = "thin dotted red";
-								       var dataTable = new google.visualization.DataTable();
-								       
-								       dataTable.addColumn('string', 'GROUP'); // Implicit domain column.
-								     /*   dataTable.addColumn('number', 'Issue Qty');  */// Implicit data column.
-								      // dataTable.addColumn({type:'string', role:'interval'});
-								     //  dataTable.addColumn({type:'string', role:'interval'}); 
-								       dataTable.addColumn('number', 'MRN Value');
-								       dataTable.addColumn('number', 'ISSUE Value'); 
-								       $.each(data,function(key, item) {
-
-											//var tax=item.cgst + item.sgst;
-											//var date= item.billDate+'\nTax : ' + item.tax_per + '%';
-											 if(item.approvedQtyValue>0 || item.issueQtyValue>0){
-										   dataTable.addRows([
-											 
-										             [item.grpCode,item.approvedQtyValue,item.issueQtyValue]
-										           
-										           ]);
-											 }
-										  
-										     }) 
-								    
-		 /* var materialOptions = {
-		          width: 600,
-		          height:450,
-		          chart: {
-		            title: 'MRN & ISSUE GROUP VALUE',
-		            subtitle: 'CATEGORY WISE'
-		          },
-		          series: {
-		            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
-		            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
-		          },
-		          axes: {
-		            y: {
-		                distance: {label: 'Issue Quantity'}, // Left y-axis. 
-		              brightness: {side: 'right', label: 'VALUE'} // Right y-axis.
-		            },
-		            textStyle: {
-	                     color: '#1a237e',
-	                     fontSize: 5,
-	                     bold: true,
-	                     italic: true
-
-	                  },
-	                  titleTextStyle: {
-	                     color: '#1a237e',
-	                     fontSize: 5,
-	                     bold: true,
-	                     italic: true
-
-	                  }
-
-		          }
-		          
-		          
-		        }; */
-								       
-								       var materialOptions = {
-								    		    legend: {position:'top'},
-								    		    hAxis: {
-								    		        title: 'CATEGORY', 
-								    		        titleTextStyle: {color: 'black'}, 
-								    		        count: -1, 
-								    		        viewWindowMode: 'pretty', 
-								    		        slantedText: true
-								    		    },  
-								    		    vAxis: {
-								    		        title: 'VALUE', 
-								    		        titleTextStyle: {color: 'black'}, 
-								    		        count: -1, 
-								    		        format: '#'
-								    		    },
-								    		    /* colors: ['#F1CA3A'] */
-								    		  };
-								       var materialChart = new google.charts.Bar(chartDiv);
-								       
-								       function selectHandler() {
-									          var selectedItem = materialChart.getSelection()[0];
-									          if (selectedItem) {
-									            var topping = dataTable.getValue(selectedItem.row, 0);
-									           // alert('The user selected ' + selectedItem.row,0);
-									            i=selectedItem.row,0;
-									            itemSellBill(data[i].deptCode);
-									           // google.charts.setOnLoadCallback(drawBarChart);
-									          }
-									        }
-								       
-								       function drawMaterialChart() {
-								          // var materialChart = new google.charts.Bar(chartDiv);
-								           google.visualization.events.addListener(materialChart, 'select', selectHandler);    
-								           materialChart.draw(dataTable, google.charts.Bar.convertOptions(materialOptions));
-								          // button.innerText = 'Change to Classic';
-								          // button.onclick = drawClassicChart;
-								         }
-								        
-								        
-								       function drawMrnValueChart() {
-											 var dataTable = new google.visualization.DataTable();
-											 dataTable.addColumn('string', 'GROUP');
-											 dataTable.addColumn('number', 'MRN VALUE');
-									
-											   $.each(data,function(key, item) {
-
-												//	var amt=item.cash + item.card + item.other;
-
-												   dataTable.addRows([
-
-												             [item.grpCode, item.approvedQtyValue,]
-
-												           ]);
-												   
-
-												   }) 
-										 var options = {'title':'GROUP MRN VALUE',
-							                       'width':550,
-							                       'height':250};
-											   document.getElementById("PiechartMrnValue").style.border = "thin dotted red";
-										 var chart = new google.visualization.PieChart(document.getElementById('PiechartMrnValue'));
-									           
-									        chart.draw(dataTable, options);
-									      }
-								       
-								       function drawIssueChart() {
-											 var dataTable = new google.visualization.DataTable();
-											 dataTable.addColumn('string', 'GROUP');
-											 dataTable.addColumn('number', 'ISSUE VALUE');
-									
-											   $.each(data,function(key, item) {
-
-												//	var amt=item.cash + item.card + item.other;
-
-												   dataTable.addRows([
-
-												             [item.grpCode, item.issueQtyValue,]
-
-												           ]);
-												   
-
-												   }) 
-										 var options = {'title':'GROUP ISSUE VALUE',
-							                       'width':550,
-							                       'height':250};
-											   document.getElementById("PiechartIssueValue").style.border = "thin dotted red";
-										 var chart = new google.visualization.PieChart(document.getElementById('PiechartIssueValue'));
-									           
-									        chart.draw(dataTable, options);
-									      }
-								       
-								       
-										 
-								      /*  var chart = new google.visualization.ColumnChart(
-								                document.getElementById('chart_div'));
-								       chart.draw(dataTable,
-								          {width: 800, height: 600, title: 'Tax Summary Chart'}); */
-								       drawMaterialChart();
-								           
-								          google.charts.setOnLoadCallback(drawIssueChart);
-								           
-								       google.charts.setOnLoadCallback(drawMrnValueChart);
-									 };
-									 
-										
-							  	});
-			 
-}
-</script>
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript">
-	
-	function genPdf(){
-		window.open('${pageContext.request.contextPath}/issueAndMrnGroupWisePDF/');
-	}
-	function exportToExcel()
-	{
-		window.open("${pageContext.request.contextPath}/exportToExcel");
-		document.getElementById("expExcel").disabled=true;
-	}
-	
-	function search() {
-		  
-		
-		var fromDate = $("#fromDate").val();
-		var toDate = $("#toDate").val();
-		var catId = $("#catId").val();
-		
-		if(fromDate=="" || fromDate == null)
-			alert("Select From Date");
-		else if (toDate=="" || toDate == null)
-			alert("Select To Date");
-		 
-		$('#loader').show();
+		function showTable() {
+			document.getElementById('chart').style.display = "display:none";
+			document.getElementById("tbl").style = "block";
+		}
+		function showChart() {
 
-		$
-				.getJSON(
-						'${getStockBetweenDateWithCatId}',
+			document.getElementById('chart').style.display = "block";
+			document.getElementById("tbl").style = "display:none";
 
-						{
-							 
-							fromDate : fromDate,
-							toDate : toDate, 
-							catId : catId,
-							ajax : 'true'
+			$
+					.getJSON(
+							'${listForIssueAndMrnGraphGroupWise}',
+							{
 
-						},
-						function(data) {
+								ajax : 'true',
 
-							$('#table1 td').remove();
-							$('#loader').hide();
+							},
+							function(data) {
+								//alert(data);
+								if (data == "") {
+									alert("No records found !!");
 
-							if (data == "") {
-								alert("No records found !!");
+								}
+								var i = 0;
+								//alert(data);
+								google.charts.load('current', {
+									'packages' : [ 'corechart', 'bar' ]
+								});
+								google.charts.setOnLoadCallback(drawStuff);
+								//alert(data);
+								function drawStuff() {
 
-							}
-						 
+									var chartDiv = document
+											.getElementById('chart_div');
+									document.getElementById("chart_div").style.border = "thin dotted red";
+									var dataTable = new google.visualization.DataTable();
 
-						  $.each( data,
-										function(key, itemList) {
-											  
-											var tr = $('<tr></tr>'); 
-										  	tr.append($('<td></td>').html(key+1));
-										  	tr.append($('<td></td>').html(itemList.itemCode));
-										  	tr.append($('<td></td>').html(itemList.openingStock));  
-										  	tr.append($('<td></td>').html(itemList.opStockValue)); 
-										  	tr.append($('<td></td>').html(itemList.approveQty));
-										  	tr.append($('<td></td>').html(itemList.approvedQtyValue));
-										  	tr.append($('<td></td>').html(itemList.issueQty));
-										  	tr.append($('<td></td>').html(itemList.issueQtyValue)); 
-										  	tr.append($('<td></td>').html(itemList.damageQty));
-										  	tr.append($('<td></td>').html(itemList.damagValue)); 
-										  	tr.append($('<td></td>').html(itemList.openingStock+itemList.approveQty-itemList.issueQty+itemList.returnIssueQty-itemList.damageQty-itemList.gatepassQty+itemList.gatepassReturnQty));
-											tr.append($('<td></td>').html(itemList.opStockValue+itemList.approvedQtyValue-itemList.issueQtyValue-itemList.damagValue)); 
-										  	tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
-										  	
-										    $('#table1 tbody').append(tr); 
-										})  
-										
-							 
-						}); 
-}
+									dataTable.addColumn('string', 'GROUP'); // Implicit domain column.
+									/*   dataTable.addColumn('number', 'Issue Qty');  */// Implicit data column.
+									// dataTable.addColumn({type:'string', role:'interval'});
+									//  dataTable.addColumn({type:'string', role:'interval'}); 
+									dataTable.addColumn('number', 'MRN Value');
+									dataTable
+											.addColumn('number', 'ISSUE Value');
+									$.each(data, function(key, item) {
+
+										//var tax=item.cgst + item.sgst;
+										//var date= item.billDate+'\nTax : ' + item.tax_per + '%';
+										if (item.approvedQtyValue > 0
+												|| item.issueQtyValue > 0) {
+											dataTable.addRows([
+
+											[ item.grpCode,
+													item.approvedQtyValue,
+													item.issueQtyValue ]
+
+											]);
+										}
+
+									})
+
+									/* var materialOptions = {
+									         width: 600,
+									         height:450,
+									         chart: {
+									           title: 'MRN & ISSUE GROUP VALUE',
+									           subtitle: 'CATEGORY WISE'
+									         },
+									         series: {
+									           0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+									           1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+									         },
+									         axes: {
+									           y: {
+									               distance: {label: 'Issue Quantity'}, // Left y-axis. 
+									             brightness: {side: 'right', label: 'VALUE'} // Right y-axis.
+									           },
+									           textStyle: {
+									                color: '#1a237e',
+									                fontSize: 5,
+									                bold: true,
+									                italic: true
+
+									             },
+									             titleTextStyle: {
+									                color: '#1a237e',
+									                fontSize: 5,
+									                bold: true,
+									                italic: true
+
+									             }
+
+									         }
+									         
+									         
+									       }; */
+
+									var materialOptions = {
+										legend : {
+											position : 'top'
+										},
+										hAxis : {
+											title : 'CATEGORY',
+											titleTextStyle : {
+												color : 'black'
+											},
+											count : -1,
+											viewWindowMode : 'pretty',
+											slantedText : true
+										},
+										vAxis : {
+											title : 'VALUE',
+											titleTextStyle : {
+												color : 'black'
+											},
+											count : -1,
+											format : '#'
+										},
+									/* colors: ['#F1CA3A'] */
+									};
+									var materialChart = new google.charts.Bar(
+											chartDiv);
+
+									function selectHandler() {
+										var selectedItem = materialChart
+												.getSelection()[0];
+										if (selectedItem) {
+											var topping = dataTable.getValue(
+													selectedItem.row, 0);
+											// alert('The user selected ' + selectedItem.row,0);
+											i = selectedItem.row, 0;
+											itemSellBill(data[i].deptCode);
+											// google.charts.setOnLoadCallback(drawBarChart);
+										}
+									}
+
+									function drawMaterialChart() {
+										// var materialChart = new google.charts.Bar(chartDiv);
+										google.visualization.events
+												.addListener(materialChart,
+														'select', selectHandler);
+										materialChart
+												.draw(
+														dataTable,
+														google.charts.Bar
+																.convertOptions(materialOptions));
+										// button.innerText = 'Change to Classic';
+										// button.onclick = drawClassicChart;
+									}
+
+									function drawMrnValueChart() {
+										var dataTable = new google.visualization.DataTable();
+										dataTable.addColumn('string', 'GROUP');
+										dataTable.addColumn('number',
+												'MRN VALUE');
+
+										$.each(data, function(key, item) {
+
+											//	var amt=item.cash + item.card + item.other;
+
+											dataTable.addRows([
+
+											[ item.grpCode,
+													item.approvedQtyValue, ]
+
+											]);
+
+										})
+										var options = {
+											'title' : 'GROUP MRN VALUE',
+											'width' : 550,
+											'height' : 250
+										};
+										document
+												.getElementById("PiechartMrnValue").style.border = "thin dotted red";
+										var chart = new google.visualization.PieChart(
+												document
+														.getElementById('PiechartMrnValue'));
+
+										chart.draw(dataTable, options);
+									}
+
+									function drawIssueChart() {
+										var dataTable = new google.visualization.DataTable();
+										dataTable.addColumn('string', 'GROUP');
+										dataTable.addColumn('number',
+												'ISSUE VALUE');
+
+										$
+												.each(
+														data,
+														function(key, item) {
+
+															//	var amt=item.cash + item.card + item.other;
+
+															dataTable
+																	.addRows([
+
+																	[
+																			item.grpCode,
+																			item.issueQtyValue, ]
+
+																	]);
+
+														})
+										var options = {
+											'title' : 'GROUP ISSUE VALUE',
+											'width' : 550,
+											'height' : 250
+										};
+										document
+												.getElementById("PiechartIssueValue").style.border = "thin dotted red";
+										var chart = new google.visualization.PieChart(
+												document
+														.getElementById('PiechartIssueValue'));
+
+										chart.draw(dataTable, options);
+									}
+
+									/*  var chart = new google.visualization.ColumnChart(
+									          document.getElementById('chart_div'));
+									 chart.draw(dataTable,
+									    {width: 800, height: 600, title: 'Tax Summary Chart'}); */
+									drawMaterialChart();
+
+									google.charts
+											.setOnLoadCallback(drawIssueChart);
+
+									google.charts
+											.setOnLoadCallback(drawMrnValueChart);
+								}
+								;
+
+							});
+
+		}
 	</script>
-	
+	<script type="text/javascript">
+		function genPdf() {
+			window
+					.open('${pageContext.request.contextPath}/issueAndMrnGroupWisePDF/');
+		}
+		function exportToExcel() {
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
+		}
+
+		function search() {
+
+			var fromDate = $("#fromDate").val();
+			var toDate = $("#toDate").val();
+			var catId = $("#catId").val();
+
+			if (fromDate == "" || fromDate == null)
+				alert("Select From Date");
+			else if (toDate == "" || toDate == null)
+				alert("Select To Date");
+
+			$('#loader').show();
+
+			$
+					.getJSON(
+							'${getStockBetweenDateWithCatId}',
+
+							{
+
+								fromDate : fromDate,
+								toDate : toDate,
+								catId : catId,
+								ajax : 'true'
+
+							},
+							function(data) {
+
+								$('#table1 td').remove();
+								$('#loader').hide();
+
+								if (data == "") {
+									alert("No records found !!");
+
+								}
+
+								$
+										.each(
+												data,
+												function(key, itemList) {
+
+													var tr = $('<tr></tr>');
+													tr.append($('<td></td>')
+															.html(key + 1));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.itemCode));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.openingStock));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.opStockValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.approveQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.approvedQtyValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.issueQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.issueQtyValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.damageQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.damagValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.openingStock
+																					+ itemList.approveQty
+																					- itemList.issueQty
+																					+ itemList.returnIssueQty
+																					- itemList.damageQty
+																					- itemList.gatepassQty
+																					+ itemList.gatepassReturnQty));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.opStockValue
+																					+ itemList.approvedQtyValue
+																					- itemList.issueQtyValue
+																					- itemList.damagValue));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			"<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
+
+													$('#table1 tbody').append(
+															tr);
+												})
+
+							});
+		}
+	</script>
+
 	<script>
-function myFunction() {
-  var input, filter, table, tr, td ,td1, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1]; 
-    if (td) {
-    	
-    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      } else {
-    	        tr[i].style.display = "none";
-    	      }
-       
-    }  
-    
-     
-  }
-}
- 
-</script>
+		function myFunction() {
+			var input, filter, table, tr, td, td1, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				if (td) {
+
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+
+				}
+
+			}
+		}
+	</script>
 
 </body>
 </html>

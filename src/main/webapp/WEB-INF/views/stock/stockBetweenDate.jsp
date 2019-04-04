@@ -153,9 +153,9 @@
 													<th class="col-md-1" style="text-align: right">OP QTY</th>
 													<th class="col-md-1" style="text-align: right">OP VALUE</th>
 													<th class="col-md-1" style="text-align: right">OP LANDING VALUE</th>
-													<th class="col-md-1" style="text-align: right">APPV QTY</th>
-													<th class="col-md-1" style="text-align: right">APPV VALUE</th>
-													<th class="col-md-1" style="text-align: right">APPV LANDING VALUE</th>
+													<th class="col-md-1" style="text-align: right">RECEIVED QTY</th>
+													<th class="col-md-1" style="text-align: right">RECEIVED VALUE</th>
+													<th class="col-md-1" style="text-align: right">RECEIVED LANDING VALUE</th>
 													<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
 													<th class="col-md-1" style="text-align: right">ISSUE VALUE</th> 
 													<th class="col-md-1" style="text-align: right">ISSUE LANDING VALUE</th>

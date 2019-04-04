@@ -7,7 +7,8 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <body>
 
-	<c:url var="getStockBetweenDateWithCatId" value="/getStockBetweenDateWithCatId"></c:url>
+	<c:url var="getStockBetweenDateWithCatId"
+		value="/getStockBetweenDateWithCatId"></c:url>
 	<c:url var="getMixingAllListWithDate" value="/getMixingAllListWithDate"></c:url>
 
 
@@ -36,7 +37,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -48,21 +50,24 @@
 								<i class="fa fa-table"></i>Stock Between Date
 							</h3>
 							<div class="box-tool">
-								 <a data-action="collapse" href="#"><i
+								<a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
-						 <form id="submitPurchaseOrder" action="${pageContext.request.contextPath}/stockBetweenDateWithCatId" method="get">
+						<form id="submitPurchaseOrder"
+							action="${pageContext.request.contextPath}/stockBetweenDateWithCatId"
+							method="get">
+							<div class="box-content">
+
+
 								<div class="box-content">
-								
-								 
-								<div class="box-content">
-							
-								<div class="col-md-2">From Date</div>
+
+									<div class="col-md-2">From Date</div>
 									<div class="col-md-3">
 										<input id="fromDate" class="form-control date-picker"
-								 placeholder="From Date"   name="fromDate" value="${fromDate}" type="text"  >
+											placeholder="From Date" name="fromDate" value="${fromDate}"
+											type="text">
 
 
 									</div>
@@ -70,208 +75,412 @@
 									<div class="col-md-2">To Date</div>
 									<div class="col-md-3">
 										<input id="toDate" class="form-control date-picker"
-								 placeholder="To Date"   name="toDate" value="${toDate}" type="text"  >
+											placeholder="To Date" name="toDate" value="${toDate}"
+											type="text">
 
 
 									</div>
-								
-				 
-							</div><br>
-							
-							<div class="box-content">
+
+
+								</div>
+								<br>
+
+								<div class="box-content">
 
 									<div class="col-md-2">Select Category*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="catId" id="catId"
 											required>
 											<option value="">select</option>
-											<c:forEach items="${categoryList}" var="categoryList"> 
+											<c:forEach items="${categoryList}" var="categoryList">
 												<c:choose>
 													<c:when test="${categoryList.catId==catId}">
-													<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+														<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
 													</c:when>
 													<c:otherwise>
-													<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+														<option value="${categoryList.catId}">${categoryList.catDesc}</option>
 													</c:otherwise>
 												</c:choose>
-														 
+
 											</c:forEach>
 										</select>
 
 									</div>
 									<div class="col-md-1"></div>
-									  <div class="col-md-3"></div>
-								</div><br><br>
-							
-							<div class="row">
-							<div class="col-md-12" style="text-align: center">
-								<input type="submit" class="btn btn-info"   value="Search"> 
-							</div>
-						</div> <br>
-							 
-								
+									<div class="col-md-3"></div>
+								</div>
+								<br> <br>
+
+								<div class="row">
+									<div class="col-md-12" style="text-align: center">
+										<input type="submit" class="btn btn-info" value="Search">
+									</div>
+								</div>
+								<br>
+
+
 								<div align="center" id="loader" style="display: none">
 
-								<span>
-									<h4>
-										<font color="#343690">Loading</font>
-									</h4>
-								</span> <span class="l-1"></span> <span class="l-2"></span> <span
-									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-								<span class="l-6"></span>
-							</div>
-							<div class="col-md-9"></div>
+									<span>
+										<h4>
+											<font color="#343690">Loading</font>
+										</h4>
+									</span> <span class="l-1"></span> <span class="l-2"></span> <span
+										class="l-3"></span> <span class="l-4"></span> <span
+										class="l-5"></span> <span class="l-6"></span>
+								</div>
+								<div class="col-md-9"></div>
 								<label for="search" class="col-md-3" id="search"> <i
 									class="fa fa-search" style="font-size: 20px"></i> <input
 									type="text" id="myInput" onkeyup="myFunction()"
 									placeholder="Search.." title="Type in a name">
-								</label> 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
-									<thead>
-									<tr class="bgpink">
-										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-4" style="text-align: left">Item Name</th>
-										<th class="col-md-1" style="text-align: right">OP QTY</th>
-										<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1" style="text-align: right">OP VALUE</th>
-										<th class="col-md-1" style="text-align: right">OP LAND VALUE</th>
-										</c:when>
-										</c:choose>
-										
-										<th class="col-md-1" style="text-align: right">APPV QTY</th>
-										<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1" style="text-align: right">APPV VALUE</th>
-										<th class="col-md-1" style="text-align: right">APPV LAND VALUE</th>
-										</c:when>
-										</c:choose>
-										
-										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
-										<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th> 
-										<th class="col-md-1" style="text-align: right">ISSUE LAND VALUE</th>
-										</c:when>
-										</c:choose>
-										
-										<th class="col-md-1" style="text-align: right">DAMAGE QTY</th>
-										<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}"> 
-										<th class="col-md-1" style="text-align: right">DAMAGE VALUE</th> 
-										<th class="col-md-1" style="text-align: right">DAMAGE LAND VALUE</th>
-										</c:when>
+								</label> <br /> <br />
+								<div class="clearfix"></div>
+								<div class="table-responsive" style="border: 0">
+									<table class="table table-advance" id="table1">
+										<thead>
+											<tr class="bgpink">
+												<th style="width: 1%;">Sr no.</th>
+												<th class="col-md-4" style="text-align: left">Item Name</th>
+												<th class="col-md-1" style="text-align: right">OP QTY</th>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<th class="col-md-1" style="text-align: right">OP
+															VALUE</th>
+														<th class="col-md-1" style="text-align: right">OP
+															LAND VALUE</th>
+													</c:when>
 												</c:choose>
-										 
-										<th class="col-md-1" style="text-align: right">C/L QTY</th>
-										<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-										<th class="col-md-1" style="text-align: right">C/L VALUE</th> 
-										<th class="col-md-1" style="text-align: right">C/L LAND VALUE</th>
-										</c:when>
-										</c:choose>
-										<th class="col-md-1" style="text-align: right">Action</th>
-									</tr>
-								</thead>
-								<tbody>
-								
-								<c:set var="sr" value="0"> </c:set>
-								<c:forEach items="${list}" var="list" varStatus="count">
-								<c:choose>
-												 	<c:when test="${list.approveQty>0 or list.approvedQtyValue>0 
+
+												<th class="col-md-1" style="text-align: right">RECEIVED
+													QTY</th>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<th class="col-md-1" style="text-align: right">RECEIVED
+															VALUE</th>
+														<th class="col-md-1" style="text-align: right">RECEIVED
+															LAND VALUE</th>
+													</c:when>
+												</c:choose>
+
+												<th class="col-md-1" style="text-align: right">ISSUE
+													QTY</th>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<th class="col-md-1" style="text-align: right">ISSUE
+															VALUE</th>
+														<th class="col-md-1" style="text-align: right">ISSUE
+															LAND VALUE</th>
+													</c:when>
+												</c:choose>
+
+												<th class="col-md-1" style="text-align: right">DAMAGE
+													QTY</th>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<th class="col-md-1" style="text-align: right">DAMAGE
+															VALUE</th>
+														<th class="col-md-1" style="text-align: right">DAMAGE
+															LAND VALUE</th>
+													</c:when>
+												</c:choose>
+
+												<th class="col-md-1" style="text-align: right">C/L QTY</th>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<th class="col-md-1" style="text-align: right">C/L
+															VALUE</th>
+														<th class="col-md-1" style="text-align: right">C/L
+															LAND VALUE</th>
+													</c:when>
+												</c:choose>
+												<th class="col-md-1" style="text-align: right">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+
+											<c:set var="sr" value="0">
+											</c:set>
+
+											<c:set var="opQtyTotal" value="0"></c:set>
+											<c:set var="opValueTotal" value="0"></c:set>
+											<c:set var="opLandValueTotal" value="0"></c:set>
+											<c:set var="RECEIVEDQtyTotal" value="0"></c:set>
+											<c:set var="RECEIVEDValueTotal" value="0"></c:set>
+											<c:set var="RECEIVEDLandValueTotal" value="0"></c:set>
+											<c:set var="issueQtyTotal" value="0"></c:set>
+											<c:set var="issueValueTotal" value="0"></c:set>
+											<c:set var="issueLandValueTotal" value="0"></c:set>
+											<c:set var="dmgQtyTotal" value="0"></c:set>
+											<c:set var="dmgValueTotal" value="0"></c:set>
+											<c:set var="dmgLandValueTotal" value="0"></c:set>
+											<c:set var="colsQtyTotal" value="0"></c:set>
+											<c:set var="colsValueTotal" value="0"></c:set>
+											<c:set var="colsLandValueTotal" value="0"></c:set>
+											<c:forEach items="${list}" var="list" varStatus="count">
+												<c:choose>
+													<c:when
+														test="${list.approveQty>0 or list.approvedQtyValue>0 
 												 	or list.issueQty>0 or list.issueQtyValue>0 or list.damageQty>0 or list.damagValue>0 
 												 	or list.openingStock>0 or list.opStockValue>0}">
+														<tr>
+
+															<td><c:out value="${sr+1}" /></td>
+															<c:set var="sr" value="${sr+1}"></c:set>
+
+
+															<td><c:out value="${list.itemCode}" /></td>
+
+															<td style="text-align: right"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.openingStock}" /></td>
+															<c:set var="opQtyTotal"
+																value="${list.openingStock+opQtyTotal}"></c:set>
+															<c:choose>
+																<c:when
+																	test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2" value="${list.opStockValue}" /></td>
+																	<c:set var="opValueTotal"
+																		value="${list.opStockValue+opValueTotal}"></c:set>
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2" value="${list.opLandingValue}" /></td>
+																	<c:set var="opLandValueTotal"
+																		value="${list.opLandingValue+opLandValueTotal}"></c:set>
+																</c:when>
+															</c:choose>
+
+															<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.approveQty}" /></td>
+															<c:set var="RECEIVEDQtyTotal"
+																value="${list.approveQty+RECEIVEDQtyTotal}"></c:set>
+															<c:choose>
+																<c:when
+																	test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${list.approvedQtyValue}" /></td>
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${list.approvedLandingValue}" /></td>
+																	<c:set var="RECEIVEDValueTotal"
+																		value="${list.approvedQtyValue+RECEIVEDValueTotal}"></c:set>
+																	<c:set var="RECEIVEDLandValueTotal"
+																		value="${list.approvedLandingValue+RECEIVEDLandValueTotal}"></c:set>
+																</c:when>
+															</c:choose>
+
+															<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.issueQty}" /></td>
+															<c:set var="issueQtyTotal"
+																value="${list.issueQty+issueQtyTotal}"></c:set>
+															<c:choose>
+																<c:when
+																	test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2" value="${list.issueQtyValue}" /></td>
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${list.issueLandingValue}" /></td>
+																	<c:set var="issueValueTotal"
+																		value="${list.issueQtyValue+issueValueTotal}"></c:set>
+																	<c:set var="issueLandValueTotal"
+																		value="${list.issueLandingValue+issueLandValueTotal}"></c:set>
+																</c:when>
+															</c:choose>
+
+
+															<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${list.damageQty}" /></td>
+															<c:set var="dmgQtyTotal"
+																value="${list.damageQty+dmgQtyTotal}"></c:set>
+															<c:choose>
+																<c:when
+																	test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2" value="${list.damagValue}" /></td>
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${list.damageLandingValue}" /></td>
+																	<c:set var="dmgValueTotal"
+																		value="${list.damagValue+dmgValueTotal}"></c:set>
+																	<c:set var="dmgLandValueTotal"
+																		value="${list.damageLandingValue+dmgLandValueTotal}"></c:set>
+																</c:when>
+															</c:choose>
+
+															<c:set var="closingStock"
+																value="${list.openingStock+list.approveQty-list.issueQty-list.damageQty}"></c:set>
+															<c:set var="closingStockValue"
+																value="${list.opStockValue+list.approvedQtyValue-list.issueQtyValue-list.damagValue}"></c:set>
+															<c:set var="closingStockLandingValue"
+																value="${list.opLandingValue+list.approvedLandingValue-list.issueLandingValue-list.damageLandingValue}"></c:set>
+
+															<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																	type="number" maxFractionDigits="2"
+																	minFractionDigits="2" value="${closingStock}" /></td>
+
+															<c:set var="colsQtyTotal"
+																value="${closingStock+colsQtyTotal}"></c:set>
+															<c:set var="colsValueTotal"
+																value="${closingStockValue+colsValueTotal}"></c:set>
+															<c:set var="colsLandValueTotal"
+																value="${closingStockLandingValue+colsLandValueTotal}"></c:set>
+
+															<c:choose>
+																<c:when
+																	test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2" value="${closingStockValue}" /></td>
+																	<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																			type="number" maxFractionDigits="2"
+																			minFractionDigits="2"
+																			value="${closingStockLandingValue}" /></td>
+																</c:when>
+															</c:choose>
+
+															<td class="col-md-1" style="text-align: right"><a
+																href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}"
+																class='action_btn'> <abbr title='detailes'> <i
+																		class='fa fa-list'></i></abbr></a></td>
+														</tr>
+													</c:when>
+												</c:choose>
+
+											</c:forEach>
+
 											<tr>
-											 
-												<td  ><c:out value="${sr+1}" /></td> 
-												<c:set var="sr" value="${sr+1}" ></c:set>
 
 
-												<td  ><c:out value="${list.itemCode}" /></td>
-												 
-												<td style="text-align: right" ><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.openingStock}" /></td>
-												 <c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.opStockValue}" /></td> 
-												<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.opLandingValue}" /></td> 
+												<td style="text-align: center;" colspan="2">Total</td>
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														value="${opQtyTotal}" /></td>
+
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${opValueTotal}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${opLandValueTotal}" /></td>
+
 													</c:when>
-													</c:choose>
-													
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" 
-													value="${list.approveQty}" /></td>
-													<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approvedQtyValue}" /></td> 
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.approvedLandingValue}" /></td>
+												</c:choose>
+
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														value="${RECEIVEDQtyTotal}" /></td>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${RECEIVEDValueTotal}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${RECEIVEDLandValueTotal}" />
+														</td>
+
 													</c:when>
-													</c:choose>
-													
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueQty}" /></td> 
-													<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueQtyValue}" /></td>
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.issueLandingValue}" /></td>
+												</c:choose>
+
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														value="${issueQtyTotal}" /></td>
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${issueValueTotal}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${issueLandValueTotal}" />
+														</td>
 													</c:when>
-													</c:choose>
-													
-													
-											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.damageQty}" /></td>
-													<c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.damagValue}" /></td>  
-											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${list.damageLandingValue}" /></td>
+												</c:choose>
+
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														value="${dmgQtyTotal}" /></td>
+
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${dmgValueTotal}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${dmgLandValueTotal}" /></td>
+
 													</c:when>
-													</c:choose>
-													
-											 <c:set var="closingStock" value="${list.openingStock+list.approveQty-list.issueQty-list.damageQty}" ></c:set>
-											<c:set var="closingStockValue" value="${list.opStockValue+list.approvedQtyValue-list.issueQtyValue-list.damagValue}" ></c:set>
-											<c:set var="closingStockLandingValue" value="${list.opLandingValue+list.approvedLandingValue-list.issueLandingValue-list.damageLandingValue}" ></c:set>	
-												
-											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-											 
-											 <c:choose>
-												<c:when test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
-											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
-											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${closingStockLandingValue}" /></td>
-											   </c:when>
-											   </c:choose>
-											   
-											   <td class="col-md-1" style="text-align: right"><a href="${pageContext.request.contextPath}/valueationReportDetail/${list.itemId}/${list.openingStock}" class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr></a></td> 
+												</c:choose>
+
+												<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+														type="number" maxFractionDigits="2" minFractionDigits="2"
+														value="${colsQtyTotal}" /></td>
+
+												<c:choose>
+													<c:when
+														test="${sessionScope.userInfo.deptId==1 or sessionScope.userInfo.deptId==2}">
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${colsValueTotal}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${colsLandValueTotal}" /></td>
+													</c:when>
+												</c:choose>
+												<td>-</td>
 											</tr>
-											</c:when>
-											</c:choose>
-											
-										</c:forEach>
-  
-								</tbody>
 
-								</table>
-  
-					</div> 
-					 
-					 
-				</div>
-							</form> 
+										</tbody>
+
+									</table>
+
+								</div>
 
 
-						</div>
-						
+							</div>
+						</form>
+
+
 					</div>
-					 
+
 				</div>
-				<footer>
+
+			</div>
+			<footer>
 				<p>2019 © MONGINIS</p>
 			</footer>
-			</div>
- 
-		 
 		</div>
-		
-		<!-- END Content -->
- 
+
+
+	</div>
+
+	<!-- END Content -->
+
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -340,98 +549,163 @@
 
 
 	<script type="text/javascript">
-	function search() {
-		  
-		
-		var fromDate = $("#fromDate").val();
-		var toDate = $("#toDate").val();
-		var catId = $("#catId").val();
-		
-		if(fromDate=="" || fromDate == null)
-			alert("Select From Date");
-		else if (toDate=="" || toDate == null)
-			alert("Select To Date");
-		 
-		$('#loader').show();
+		function search() {
 
-		$
-				.getJSON(
-						'${getStockBetweenDateWithCatId}',
+			var fromDate = $("#fromDate").val();
+			var toDate = $("#toDate").val();
+			var catId = $("#catId").val();
 
-						{
-							 
-							fromDate : fromDate,
-							toDate : toDate, 
-							catId : catId,
-							ajax : 'true'
+			if (fromDate == "" || fromDate == null)
+				alert("Select From Date");
+			else if (toDate == "" || toDate == null)
+				alert("Select To Date");
 
-						},
-						function(data) {
+			$('#loader').show();
 
-							$('#table1 td').remove();
-							$('#loader').hide();
+			$
+					.getJSON(
+							'${getStockBetweenDateWithCatId}',
 
-							if (data == "") {
-								alert("No records found !!");
+							{
 
-							}
-						 
-							var index=0;
+								fromDate : fromDate,
+								toDate : toDate,
+								catId : catId,
+								ajax : 'true'
 
-						  $.each( data,
-										function(key, itemList) {
-											  if(itemList.openingStock>0 || itemList.opStockValue>0 || itemList.approveQty>0 || itemList.approvedQtyValue>0 ||
-													  itemList.issueQty>0 || itemList.issueQtyValue>0 || itemList.damageQty>0 || itemList.damagValue>0 )
-												  {
-											var tr = $('<tr></tr>'); 
-										  	tr.append($('<td></td>').html(index+1));
-										  	index=index+1;
-										  	tr.append($('<td></td>').html(itemList.itemCode));
-										  	tr.append($('<td></td>').html(itemList.openingStock));  
-										  	tr.append($('<td></td>').html(itemList.opStockValue)); 
-										  	tr.append($('<td></td>').html(itemList.approveQty));
-										  	tr.append($('<td></td>').html(itemList.approvedQtyValue));
-										  	tr.append($('<td></td>').html(itemList.issueQty));
-										  	tr.append($('<td></td>').html(itemList.issueQtyValue)); 
-										  	tr.append($('<td></td>').html(itemList.damageQty));
-										  	tr.append($('<td></td>').html(itemList.damagValue)); 
-										  	tr.append($('<td></td>').html(itemList.openingStock+itemList.approveQty-itemList.issueQty+itemList.returnIssueQty-itemList.damageQty-itemList.gatepassQty+itemList.gatepassReturnQty));
-											tr.append($('<td></td>').html(itemList.opStockValue+itemList.approvedQtyValue-itemList.issueQtyValue-itemList.damagValue)); 
-										  	tr.append($('<td></td>').html("<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
-										  	
-										    $('#table1 tbody').append(tr);
-												  }
-										})  
-										
-							 
-						}); 
-}
+							},
+							function(data) {
+
+								$('#table1 td').remove();
+								$('#loader').hide();
+
+								if (data == "") {
+									alert("No records found !!");
+
+								}
+
+								var index = 0;
+
+								$
+										.each(
+												data,
+												function(key, itemList) {
+													if (itemList.openingStock > 0
+															|| itemList.opStockValue > 0
+															|| itemList.approveQty > 0
+															|| itemList.approvedQtyValue > 0
+															|| itemList.issueQty > 0
+															|| itemList.issueQtyValue > 0
+															|| itemList.damageQty > 0
+															|| itemList.damagValue > 0) {
+														var tr = $('<tr></tr>');
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				index + 1));
+														index = index + 1;
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.itemCode));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.openingStock));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.opStockValue));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.approveQty));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.approvedQtyValue));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.issueQty));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.issueQtyValue));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.damageQty));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.damagValue));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.openingStock
+																						+ itemList.approveQty
+																						- itemList.issueQty
+																						+ itemList.returnIssueQty
+																						- itemList.damageQty
+																						- itemList.gatepassQty
+																						+ itemList.gatepassReturnQty));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				itemList.opStockValue
+																						+ itemList.approvedQtyValue
+																						- itemList.issueQtyValue
+																						- itemList.damagValue));
+														tr
+																.append($(
+																		'<td></td>')
+																		.html(
+																				"<a href='${pageContext.request.contextPath}/valueationReportDetail/"+itemList.itemId+"/"+itemList.openingStock+"' class='action_btn'> <abbr title='detailes'> <i class='fa fa-list' ></i></abbr>"));
+
+														$('#table1 tbody')
+																.append(tr);
+													}
+												})
+
+							});
+		}
 	</script>
-	
+
 	<script>
-function myFunction() {
-  var input, filter, table, tr, td ,td1, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1]; 
-    if (td) {
-    	
-    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      } else {
-    	        tr[i].style.display = "none";
-    	      }
-       
-    }  
-    
-     
-  }
-}
- 
-</script>
+		function myFunction() {
+			var input, filter, table, tr, td, td1, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				if (td) {
+
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+
+				}
+
+			}
+		}
+	</script>
 
 </body>
 </html>
