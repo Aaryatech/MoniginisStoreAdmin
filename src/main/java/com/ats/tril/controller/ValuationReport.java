@@ -435,27 +435,71 @@ public class ValuationReport {
 			rowData.add("C\\L VALUE");
 			rowData.add("C\\L LANDING VALUE");
 
+			float totalOpStock = 0;
+			float totalOpValue = 0;
+			float totalOpLandValue = 0;
+
+			float totalAprvQty = 0;
+			float totalAprvValue = 0;
+			float totalAprvLandValue = 0;
+
+			float totalIssueQty = 0;
+			float totalIssueValue = 0;
+			float totalIssueLandValue = 0;
+
+			float totalDamageQty = 0;
+			float totalDamageValue = 0;
+			float totalDamageLandValue = 0;
+
+			float totalClsQty = 0;
+			float totalClsValue = 0;
+			float totalClsLandValue = 0;
+
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
+
 			for (int i = 0; i < categoryWiseReport.size(); i++) {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
 
 				rowData.add((i + 1) + "");
 				rowData.add(categoryWiseReport.get(i).getCatDesc());
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getOpeningStock()));
+				totalOpStock = totalOpStock + categoryWiseReport.get(i).getOpeningStock();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getOpStockValue()));
+				totalOpValue = totalOpValue + categoryWiseReport.get(i).getOpStockValue();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getOpLandingValue()));
+				totalOpLandValue = totalOpLandValue + categoryWiseReport.get(i).getOpLandingValue();
 
 				rowData.add("" + df.format(categoryWiseReport.get(i).getApproveQty()));
+				totalAprvQty = totalAprvQty + categoryWiseReport.get(i).getApproveQty();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getApprovedQtyValue()));
+				totalAprvValue = totalAprvValue + categoryWiseReport.get(i).getApprovedQtyValue();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getApprovedLandingValue()));
+				totalAprvLandValue = totalAprvLandValue + categoryWiseReport.get(i).getApprovedLandingValue();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getIssueQty()));
+				totalIssueQty = totalIssueQty + categoryWiseReport.get(i).getIssueQty();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getIssueQtyValue()));
+				totalIssueValue = totalIssueValue + categoryWiseReport.get(i).getIssueQtyValue();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getIssueLandingValue()));
+				totalIssueLandValue = totalIssueLandValue + categoryWiseReport.get(i).getIssueLandingValue();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getDamageQty()));
+				totalDamageQty = totalDamageQty + categoryWiseReport.get(i).getDamageQty();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getDamageValue()));
+				totalDamageValue = totalDamageValue + categoryWiseReport.get(i).getDamageValue();
+
 				rowData.add("" + df.format(categoryWiseReport.get(i).getDamageLandingValue()));
+				totalDamageLandValue = totalDamageLandValue + categoryWiseReport.get(i).getDamageLandingValue();
 
 				float closingQty = categoryWiseReport.get(i).getOpeningStock()
 						+ categoryWiseReport.get(i).getApproveQty() - categoryWiseReport.get(i).getIssueQty()
@@ -474,10 +518,40 @@ public class ValuationReport {
 				rowData.add("" + df.format(closingValue));
 				rowData.add("" + df.format(closingLandingValue));
 
+				totalClsLandValue = totalClsLandValue + closingLandingValue;
+				totalClsValue = totalClsValue + closingValue;
+				totalClsQty = totalClsQty + closingQty;
+
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 
 			}
+
+			expoExcel = new ExportToExcel();
+			rowData = new ArrayList<String>();
+
+			rowData.add("-");
+			rowData.add("Total");
+
+			rowData.add("" + df.format(totalOpStock));
+			rowData.add("" + df.format(totalOpValue));
+			rowData.add("" + df.format(totalOpLandValue));
+			rowData.add("" + df.format(totalAprvQty));
+			rowData.add("" + df.format(totalAprvValue));
+			rowData.add("" + df.format(totalAprvLandValue));
+			rowData.add("" + df.format(totalIssueQty));
+			rowData.add("" + df.format(totalIssueValue));
+			rowData.add("" + df.format(totalIssueLandValue));
+			rowData.add("" + df.format(totalDamageQty));
+			rowData.add("" + df.format(totalDamageValue));
+			rowData.add("" + df.format(totalDamageLandValue));
+
+			rowData.add("" + df.format(totalClsQty));
+			rowData.add("" + df.format(totalClsValue));
+			rowData.add("" + df.format(totalClsLandValue));
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
 
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
@@ -793,6 +867,7 @@ public class ValuationReport {
 									+ stockCategoryWiseListForPdf.get(k).getApprovedQtyValue()
 									- stockCategoryWiseListForPdf.get(k).getIssueQtyValue()
 									- stockCategoryWiseListForPdf.get(k).getDamageValue();
+
 							float closingLandingValue = stockCategoryWiseListForPdf.get(k).getOpLandingValue()
 									+ stockCategoryWiseListForPdf.get(k).getApprovedLandingValue()
 									- stockCategoryWiseListForPdf.get(k).getIssueLandingValue()
@@ -821,6 +896,7 @@ public class ValuationReport {
 							cell.setPadding(3);
 							table.addCell(cell);
 							totalClsLandValue = totalClsLandValue + closingLandingValue;
+
 						}
 					}
 				}

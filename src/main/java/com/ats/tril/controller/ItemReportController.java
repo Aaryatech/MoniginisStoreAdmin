@@ -55,8 +55,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
+import com.itextpdf.text.pdf.PdfWriter; 
 
 @Controller
 @Scope("session")
