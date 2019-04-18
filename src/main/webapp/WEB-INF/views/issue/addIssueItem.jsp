@@ -278,7 +278,7 @@
 							<br>
 							<div class="box-content">
 
-								<label class="col-md-2">Current Stock</label>
+								<label class="col-md-2">Avg. Issue</label>
 								<div class="col-sm-6 col-lg-2 controls">
 
 									<input type="text" name="itemCurrentStock"
@@ -954,7 +954,7 @@
 							},
 							function(data) {
 
-								document.getElementById("itemCurrentStock").value = (data.clsQty)
+								document.getElementById("itemCurrentStock").value = (data.avgIssueQty)
 										.toFixed(2);
 							});
 

@@ -376,7 +376,7 @@ hr {
 				 
 				<tr style="font-size: 95%;">
 					<td width="5%" align="center"><c:out value="${count.index+1}" /></td>
-					<td   align="left" style="padding: 10px;"><c:out value="${row.indItemDesc}" /></td>
+					<td   align="left" style="padding: 10px;"><c:out value="${row.indItemDesc}--${row.indRemark}" /></td>
 					<td width="6%" align="center"><c:out value="${row.indItemUom}" /></td>
 					<td width="6%" align="right" style="padding: 10px;"><c:out value="${row.indQty}" /></td>
 					<td width="15%" align="center"><c:out
