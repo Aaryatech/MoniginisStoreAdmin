@@ -12,6 +12,8 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -84,6 +86,7 @@ public class ValuationReport {
 	int deptId;
 	int subDeptId;
 	int catId;
+	int year;
 
 	List<IssueMonthWiseList> listGlobal;
 	List<Dept> deparmentList;
@@ -3760,8 +3763,17 @@ public class ValuationReport {
 				 * map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 				 * map.add("toDate",DateConvertor.convertToYMD(toDate));
 				 */
+
+				Date date = new Date();
+				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				year = localDate.getYear();
+
+				System.out.println("year" + year);
+
 				map.add("typeId", typeId);
 				map.add("isDev", isDev);
+				map.add("isDev", isDev);
+				map.add("year", year);
 				System.out.println(map);
 				IssueMonthWiseList[] issueMonthWiseList = rest
 						.postForObject(Constants.url + "/issueMonthWiseReportByDept", map, IssueMonthWiseList[].class);
@@ -3790,6 +3802,7 @@ public class ValuationReport {
 				 */
 				typeId = Integer.parseInt(request.getParameter("typeId"));
 				isDev = Integer.parseInt(request.getParameter("isDev"));
+				year = Integer.parseInt(request.getParameter("Year"));
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				/*
@@ -3798,6 +3811,7 @@ public class ValuationReport {
 				 */
 				map.add("typeId", typeId);
 				map.add("isDev", isDev);
+				map.add("year", year);
 				System.out.println(map);
 				IssueMonthWiseList[] issueMonthWiseList = rest
 						.postForObject(Constants.url + "/issueMonthWiseReportByDept", map, IssueMonthWiseList[].class);
@@ -3822,10 +3836,10 @@ public class ValuationReport {
 
 			}
 
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
+
 			// ------------------------ Export To
 			// Excel--------------------------------------
-			DecimalFormat df = new DecimalFormat("####0.00");
-
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -3877,7 +3891,7 @@ public class ValuationReport {
 					for (int j = 0; j < monthList.size(); j++) {
 						if (monthList.get(j).getDeptId() == deparmentList.get(i).getDeptId()) {
 							// rowData.add(""+monthList.get(j).getIssueQty());
-							rowData.add("" + df.format(monthList.get(j).getIssueQtyValue()));
+							rowData.add("" + monthList.get(j).getIssueQtyValue());
 						}
 					}
 
@@ -5851,8 +5865,20 @@ public class ValuationReport {
 				 * map.add("fromDate",DateConvertor.convertToYMD(fromDate));
 				 * map.add("toDate",DateConvertor.convertToYMD(toDate));
 				 */
-				map.add("typeId", typeId);
+				Date date = new Date();
+				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				year = localDate.getYear();
+				int month = localDate.getMonthValue();
+				System.out.println("year" + year);
+				System.out.println("month" + month);
+				if (month < 4) {
+					year = year - 1;
 
+					System.out.println("year" + year);
+				}
+
+				map.add("typeId", typeId);
+				map.add("year", year);
 				map.add("deptId", deptId);
 				map.add("subDeptId", subDeptId);
 				if (isDev == -1) {
@@ -5896,6 +5922,7 @@ public class ValuationReport {
 
 				map.add("deptId", deptId);
 				map.add("subDeptId", subDeptId);
+				map.add("year", year);
 				if (isDev == -1) {
 					map.add("isDev", "0,1");
 				} else {
@@ -5921,10 +5948,6 @@ public class ValuationReport {
 			mrnCategoryMonthWiseListForPdf = list;
 			// ------------------------ Export To
 			// Excel--------------------------------------
-
-			DecimalFormat df = new DecimalFormat("####0.00");
-			Company comp = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
-
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 			ExportToExcel expoExcel = new ExportToExcel();
@@ -5979,7 +6002,7 @@ public class ValuationReport {
 					for (int j = 0; j < monthList.size(); j++) {
 						if (monthList.get(j).getCatId() == categoryList.get(i).getCatId()) {
 							// rowData.add(""+monthList.get(j).getApproveQty());
-							rowData.add("" + df.format(monthList.get(j).getApprovedQtyValue()));
+							rowData.add("" + monthList.get(j).getApprovedQtyValue());
 						}
 					}
 
@@ -5993,6 +6016,7 @@ public class ValuationReport {
 			HttpSession session = request.getSession();
 			session.setAttribute("exportExcelList", exportToExcelList);
 			session.setAttribute("excelName", "MrnCategoryMonthWiseList");
+			companyInfo = rest.getForObject(Constants.url + "getCompanyDetails", Company.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();

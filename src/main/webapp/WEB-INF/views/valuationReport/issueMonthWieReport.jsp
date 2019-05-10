@@ -77,9 +77,8 @@
 								
 				 
 							</div><br> --%>
-								<input id="typeId" value="0" name="typeId" type="hidden">
-								<input id="isDev" value="-1" name="isDev" type="hidden">
-								<%-- <div class="box-content">
+
+								<div class="box-content">
 
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
@@ -87,15 +86,15 @@
 											required>
 											<option value="0">All</option>
 											<c:forEach items="${typeList}" var="typeList">
-											<c:choose>
-												<c:when test="${typeList.typeId==typeId}">
-												<option value="${typeList.typeId}" selected>${typeList.typeName}</option> 
-												</c:when>
-												<c:otherwise>
-												<option value="${typeList.typeId}">${typeList.typeName}</option> 
-												</c:otherwise>
-											</c:choose> 
-													 
+												<c:choose>
+													<c:when test="${typeList.typeId==typeId}">
+														<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${typeList.typeId}">${typeList.typeName}</option>
+													</c:otherwise>
+												</c:choose>
+
 											</c:forEach>
 										</select>
 
@@ -108,71 +107,88 @@
 											<c:choose>
 												<c:when test="${isDevelompent==-1}">
 													<option value="-1" selected>All</option>
-													 <option value="0">No</option>
-													 <option value="1">Yes</option>
+													<option value="0">No</option>
+													<option value="1">Yes</option>
 												</c:when>
 												<c:when test="${isDevelompent==0}">
-													<option value="-1" >All</option>
-													 <option value="0" selected>No</option>
-													 <option value="1">Yes</option>
+													<option value="-1">All</option>
+													<option value="0" selected>No</option>
+													<option value="1">Yes</option>
 												</c:when>
-											
-											 <c:when test="${isDevelompent==1}">
-													<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1"selected>Yes</option>
-												</c:when>  
+
+												<c:when test="${isDevelompent==1}">
+													<option value="-1">All</option>
+													<option value="0">No</option>
+													<option value="1" selected>Yes</option>
+												</c:when>
 												<c:otherwise>
-												<option value="-1" >All</option>
-													 <option value="0"  >No</option>
-													 <option value="1" >Yes</option>
+													<option value="-1">All</option>
+													<option value="0">No</option>
+													<option value="1">Yes</option>
 												</c:otherwise>
-												</c:choose>
+											</c:choose>
 										</select>
 
 									</div>
-								</div><br> 
-								 <br> --%>
 
-								<div class="row">
-									<div class="col-md-12" style="text-align: center">
+									<br></br>
+									<div class="col-md-2">Year</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="Year" id="Year"
+											required>
+
+
+											<option value="2018">2018-2019</option>
+											<option value="2019">2019-2020</option>
+
+
+										</select>
+
+									</div>
+
+
+
+
+
+
+
+									<div class="col-md-6" style="text-align: right">
 										<input type="submit" class="btn btn-primary" value="Search">
 										<input type="button" id="expExcel" class="btn btn-primary"
-											value="EXPORT TO Excel" onclick="exportToExcel();"> <input
-											type="button" class="btn btn-primary" value="PDF"
+											value="EXPORT TO Excel" onclick="exportToExcel();">
+										<input type="button" class="btn btn-primary" value="PDF"
 											onclick="genPdf()">
 										<!-- <input type="button" class="btn btn-primary" onclick="showChart()"  value="Graph"> -->
 									</div>
-								</div>
-								<br>
+									<br>
 
 
-								<div align="center" id="loader" style="display: none">
+									<div align="center" id="loader" style="display: none">
 
-									<span>
-										<h4>
-											<font color="#343690">Loading</font>
-										</h4>
-									</span> <span class="l-1"></span> <span class="l-2"></span> <span
-										class="l-3"></span> <span class="l-4"></span> <span
-										class="l-5"></span> <span class="l-6"></span>
-								</div>
-								<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"><input
-									type="text1" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name"
-									class="form-style-search"
-									style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;">
-								</label> <br /> <br />
-								<div class="clearfix"></div>
-								<div
-									style="overflow: scroll; height: 100%; width: 100%; overflow: auto"
-									id="tbl">
-									<table width="100%" border="0"
-										class="table table-bordered table-striped fill-head "
-										style="width: 100%" id="table_grid">
-										<thead>
-											<!-- <tr class="bgpink">
+										<span>
+											<h4>
+												<font color="#343690">Loading</font>
+											</h4>
+										</span> <span class="l-1"></span> <span class="l-2"></span> <span
+											class="l-3"></span> <span class="l-4"></span> <span
+											class="l-5"></span> <span class="l-6"></span>
+									</div>
+									<div class="col-md-9"></div>
+									<label for="search" class="col-md-3" id="search"><input
+										type="text1" id="myInput" onkeyup="myFunction()"
+										placeholder="Search.." title="Type in a name"
+										class="form-style-search"
+										style="    background: url(${pageContext.request.contextPath}/resources/img/search.png) no-repeat 0px 0px #fcfcfc;">
+									</label> <br /> <br />
+									<div class="clearfix"></div>
+									<div
+										style="overflow: scroll; height: 100%; width: 100%; overflow: auto"
+										id="tbl">
+										<table width="100%" border="0"
+											class="table table-bordered table-striped fill-head "
+											style="width: 100%" id="table_grid">
+											<thead>
+												<!-- <tr class="bgpink">
 										<th style="width:1%;">SR</th>
 										<th class="col-md-4">DEPARMENT NAME</th>  
 										<th class="col-md-1" colspan="2">APR</th>
@@ -220,57 +236,69 @@
 											 <th class="col-md-1"></th>
 										</tr> -->
 
-											<tr class="bgpink">
-												<th style="width: 1%;">SR</th>
-												<th class="col-md-4">DEPARMENT NAME</th>
-												<th class="col-md-1" style="text-align: right">APR</th>
-												<th class="col-md-1" style="text-align: right">MAY</th>
-												<th class="col-md-1" style="text-align: right">JUN</th>
-												<th class="col-md-1" style="text-align: right">JUL</th>
-												<th class="col-md-1" style="text-align: right">AUG</th>
-												<th class="col-md-1" style="text-align: right">SEP</th>
-												<th class="col-md-1" style="text-align: right">OCT</th>
-												<th class="col-md-1" style="text-align: right">NOV</th>
-												<th class="col-md-1" style="text-align: right">DEC</th>
-												<th class="col-md-1" style="text-align: right">JAN</th>
-												<th class="col-md-1" style="text-align: right">FEB</th>
-												<th class="col-md-1" style="text-align: right">MAR</th>
-												<th class="col-md-1" style="text-align: right">Action</th>
-										</thead>
-										<tbody>
-											<c:set var="sr" value="0">
-											</c:set>
-											<c:forEach items="${deparmentList}" var="deparmentList"
-												varStatus="count">
-												<tr>
+												<tr class="bgpink">
+													<th style="width: 1%;">SR</th>
+													<th class="col-md-4">DEPARMENT NAME</th>
+													<th class="col-md-1">APR</th>
+													<th class="col-md-1">MAY</th>
+													<th class="col-md-1">JUN</th>
+													<th class="col-md-1">JUL</th>
+													<th class="col-md-1">AUG</th>
+													<th class="col-md-1">SEP</th>
+													<th class="col-md-1">OCT</th>
+													<th class="col-md-1">NOV</th>
+													<th class="col-md-1">DEC</th>
+													<th class="col-md-1">JAN</th>
+													<th class="col-md-1">FEB</th>
+													<th class="col-md-1">MAR</th>
+													<th class="col-md-1">Action</th>
+											</thead>
+											<tbody>
+												<c:set var="sr" value="0">
+												</c:set>
+												<c:forEach items="${deparmentList}" var="deparmentList"
+													varStatus="count">
+													<tr>
+														<%-- <c:set var="flag" value="0"> </c:set>
+											<c:forEach items="${list}" var="list" varStatus="count">
+												 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
+												 <c:choose>
+												 <c:when test="${monthList.deptId==deparmentList.deptId}">
+												  <c:choose>
+												 	<c:when test="${monthList.issueQty>0 or monthList.issueQtyValue>0}">
+												 	<c:set var="flag" value="0"> </c:set>
+												 	</c:when>
+												 	</c:choose>
+														 </c:when>
+														</c:choose> 
+														</c:forEach> 
+												</c:forEach> --%>
 
 
-													<td><c:out value="${count.index+1}" /></td>
+														<td><c:out value="${count.index+1}" /></td>
 
-													<td><c:out
-															value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>
-													<c:forEach items="${list}" var="list" varStatus="count">
-														<c:forEach items="${list.monthList}" var="monthList"
-															varStatus="count">
-															<c:choose>
-																<c:when test="${monthList.deptId==deparmentList.deptId}">
-																	<%-- <td><c:out value="${monthList.issueQty}"/></td>  --%>
-																	<td style="text-align: right"><fmt:formatNumber
-																			type="number" maxFractionDigits="2"
-																			minFractionDigits="2"
-																			value="${monthList.issueQtyValue}" /></td>
+														<td><c:out
+																value="${deparmentList.deptCode} ${deparmentList.deptDesc}" /></td>
+														<c:forEach items="${list}" var="list" varStatus="count">
+															<c:forEach items="${list.monthList}" var="monthList"
+																varStatus="count">
+																<c:choose>
+																	<c:when
+																		test="${monthList.deptId==deparmentList.deptId}">
+																		<%-- <td><c:out value="${monthList.issueQty}"/></td>  --%>
+																		<td><c:out value="${monthList.issueQtyValue}" /></td>
 
-																</c:when>
-															</c:choose>
+																	</c:when>
+																</c:choose>
+															</c:forEach>
 														</c:forEach>
-													</c:forEach>
-													<td style="text-align: right"><a
-														href="${pageContext.request.contextPath}/issueMonthSubDeptWieReportByDeptId/${deparmentList.deptId}"
-														class='action_btn'> <abbr title='detailes'> <i
-																class='fa fa-list'></i></abbr></a>
-												</tr>
-											</c:forEach>
-											<%-- <c:forEach items="${list}" var="list" varStatus="count">
+														<td><a
+															href="javascript:getDetailReport(${deparmentList.deptId},/ ${deparmentList.deptCode} ${deparmentList.deptDesc} /);"
+															class='action_btn'> <abbr title='detailes'> <i
+																	class='fa fa-list'></i></abbr></a>
+													</tr>
+												</c:forEach>
+												<%-- <c:forEach items="${list}" var="list" varStatus="count">
 													 
 														 <c:forEach items="${list.monthList}" var="monthList" varStatus="count">
 														 
@@ -281,49 +309,49 @@
 												</c:forEach> --%>
 
 
-										</tbody>
+											</tbody>
 
-									</table>
+										</table>
 
-									<div id="chart" style="display: none">
-										<br>
-										<hr>
-										<div id="chart_div" style="width: 100%; height: 500px"
-											align="center"></div>
+										<div id="chart" style="display: none">
+											<br>
+											<hr>
+											<div id="chart_div" style="width: 100%; height: 500px"
+												align="center"></div>
 
-										<div id="PiechartApr"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartMay"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartJun"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartJul"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartAug"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartSep"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartOct"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartNov"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartDec"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartJan"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartFeb"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<div id="PiechartMar"
-											style="width: 25%; height: 300; float: Left;"></div>
-										<br> <br> <br> <br> <br> <br> <br>
-										<br> <br> <br> <br> <br> <br> <br>
+											<div id="PiechartApr"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartMay"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartJun"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartJul"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartAug"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartSep"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartOct"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartNov"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartDec"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartJan"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartFeb"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<div id="PiechartMar"
+												style="width: 25%; height: 300; float: Left;"></div>
+											<br> <br> <br> <br> <br> <br> <br>
+											<br> <br> <br> <br> <br> <br> <br>
+										</div>
+
+
 									</div>
 
 
 								</div>
-
-
-							</div>
 						</form>
 
 
@@ -333,7 +361,7 @@
 
 			</div>
 			<footer>
-				<p>2019 © MONGINIS</p>
+				<p>2018 © TRAMBAK RUBBER</p>
 			</footer>
 		</div>
 
@@ -554,8 +582,11 @@
 	</script>
 	<script type="text/javascript">
 		function genPdf() {
+			var typeName = $("#typeId option:selected").text();
+			var isDevName = $("#isDev option:selected").text();
 			window
-					.open('${pageContext.request.contextPath}/issueMonthWieReportPdf/');
+					.open('${pageContext.request.contextPath}/issueMonthWieReportPdf/'
+							+ typeName + '/' + isDevName);
 		}
 	</script>
 	<script type="text/javascript">
@@ -563,6 +594,13 @@
 
 			window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled = true;
+		}
+		function getDetailReport(id, deptName) {
+			var typeName = $("#typeId option:selected").text();
+			var isDev = $("#isDev option:selected").text();
+			location.href = '${pageContext.request.contextPath}/issueMonthSubDeptWieReportByDeptId/'
+					+ id + "/" + typeName + "/" + isDev + '' + deptName;
+
 		}
 	</script>
 </body>
