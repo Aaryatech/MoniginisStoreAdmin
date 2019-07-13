@@ -159,6 +159,66 @@ public class RmRateVarificationController {
 		return ret;
 	}
 	
+	@RequestMapping(value = "/insertVendorItemLinkRecord", method = RequestMethod.GET)
+	public @ResponseBody RmRateVerificationRecord insertVendorItemLinkRecord(HttpServletRequest request, HttpServletResponse response) {
+
+		RestTemplate rest = new RestTemplate();
+		RmRateVerificationRecord resp = new RmRateVerificationRecord();
+		try {
+				int itemId = Integer.parseInt(request.getParameter("rm_id"));
+				int suppId = Integer.parseInt(request.getParameter("supp_id"));
+				String date = request.getParameter("curr_rate_date");
+				float currRateTaxExtra = Float.parseFloat(request.getParameter("curr_rate_tax_extra"));
+				float currRateTaxIncl = Float.parseFloat(request.getParameter("curr_rate_tax_incl"));
+				int groupId = Integer.parseInt(request.getParameter("groupId"));
+				int taxId = Integer.parseInt(request.getParameter("tax_id"));
+				int isItem = Integer.parseInt(request.getParameter("isItem"));
+				 
+				
+				rmRateVerificationList.setDate2(DateConvertor.convertToYMD(rmRateVerificationList.getDate1()));
+				rmRateVerificationList.setRate2TaxExtra(rmRateVerificationList.getRate1TaxExtra());
+				rmRateVerificationList.setRate2TaxIncl(rmRateVerificationList.getRate1TaxIncl());
+				
+				rmRateVerificationList.setDate1(DateConvertor.convertToYMD(rmRateVerificationList.getRateDate()));
+				rmRateVerificationList.setRate1TaxExtra(rmRateVerificationList.getRateTaxExtra());
+				rmRateVerificationList.setRate1TaxIncl(rmRateVerificationList.getRateTaxIncl());
+				
+				rmRateVerificationList.setRateDate(DateConvertor.convertToYMD(date));
+				rmRateVerificationList.setRateTaxExtra(currRateTaxExtra);
+				rmRateVerificationList.setRateTaxIncl(currRateTaxIncl);
+				rmRateVerificationList.setGrpId(groupId);
+				
+				rmRateVerificationList.setSuppId(suppId);
+				rmRateVerificationList.setRmId(itemId);
+				rmRateVerificationList.setTaxId(taxId);
+				
+				RmRateVerificationList res = rest.postForObject(Constants.url + "/saveRmRateVarification",rmRateVerificationList, RmRateVerificationList.class);
+				 
+				logger.info("res " + res);
+				
+				if(res!=null) {
+					RmRateVerificationRecord rmRateVerificationRecord = new RmRateVerificationRecord();
+					
+					rmRateVerificationRecord.setRateDate(DateConvertor.convertToYMD(date));
+					rmRateVerificationRecord.setRateTaxExtra(currRateTaxExtra);
+					rmRateVerificationRecord.setRateTaxIncl(currRateTaxIncl);
+					rmRateVerificationRecord.setSuppId(suppId);
+					rmRateVerificationRecord.setRmId(itemId);
+					
+					resp = rest.postForObject(Constants.url + "/saveRateVarificationRecord",rmRateVerificationRecord, RmRateVerificationRecord.class);
+					
+					logger.info("resp " + resp);
+					
+				}
+	 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return resp;
+	}
+	
 	@RequestMapping(value = "/itemLIstByCatIdForItemVarification", method = RequestMethod.GET)
 	public @ResponseBody List<GetItem>  itemLIstByCatIdForItemVarification(HttpServletRequest request, HttpServletResponse response) {
 

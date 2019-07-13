@@ -175,6 +175,7 @@ body {
 
 												<input type="hidden" name="catId" id="catId"
 													value="${catIdTemp}" />
+												<input type="hidden" name="vendId" id="vendId" value="0" />
 												<select id="ind_cat" name="ind_cat"
 													class="form-control chosen" placeholder="Indent Category"
 													onchange="getInvoiceNo()" disabled>
@@ -197,6 +198,7 @@ body {
 											</c:when>
 											<c:otherwise>
 												<input type="hidden" name="catId" id="catId" value="0" />
+												<input type="hidden" name="vendId" id="vendId" value="0" />
 												<select id="ind_cat" name="ind_cat"
 													class="form-control chosen" placeholder="Indent Category"
 													onchange="getInvoiceNo()" required>
@@ -259,7 +261,8 @@ body {
 									<label class="col-md-2">Select</label>
 									<div class="col-md-3">
 										<select name="indpomrn" id="indpomrn"
-											class="form-control chosen" required onchange="hideshowdiv();">
+											class="form-control chosen" required
+											onchange="hideshowdiv();">
 
 											<option value="3" selected>MRN</option>
 											<option value="2">PO</option>
@@ -279,15 +282,13 @@ body {
 										<label class="col-md-2">Bill No.</label>
 										<div class="col-md-3">
 											<input type="text" name="bill_no" id="bill_no"
-												class="form-control" placeholder="Bill No" value=""
-												required/>
+												class="form-control" placeholder="Bill No" value="" required />
 										</div>
 										<div class="col-md-1"></div>
 										<label class="col-md-2">Bill Date</label>
 										<div class="col-md-3">
 											<input class="form-control date-picker" id="bill_date"
-												type="text" name="bill_date" value="${date}"
-												required/>
+												type="text" name="bill_date" value="${date}" required />
 										</div>
 									</div>
 								</div>
@@ -492,13 +493,12 @@ body {
 		function hideshowdiv() {
 			var indpomrn = document.getElementById("indpomrn").value;
 			//alert("Machine Specific "+mac_spec);
-			
+
 			if (indpomrn != 3) {
 				document.getElementById('billDiv').style.display = "none";
 				document.getElementById("bill_no").required = false;
-				document.getElementById("bill_date").required = false; 
-			}
-			else {
+				document.getElementById("bill_date").required = false;
+			} else {
 				document.getElementById('billDiv').style.display = "block";
 				document.getElementById("bill_no").required = true;
 				document.getElementById("bill_date").required = true;
@@ -920,6 +920,8 @@ body {
 									alert("No records found !!");
 									$('#ind_cat').prop('disabled', false)
 											.trigger("chosen:updated");
+									$('#Vendorlist').prop('disabled', false)
+											.trigger("chosen:updated");
 									document.getElementById("submitt").disabled = true;
 
 								}
@@ -1068,6 +1070,7 @@ body {
 
 			$('#table1 td').remove();
 			$('#ind_cat').prop('disabled', false).trigger("chosen:updated");
+			$('#Vendorlist').prop('disabled', false).trigger("chosen:updated");
 			document.getElementById("submitt").disabled = true;
 
 		}
@@ -1199,6 +1202,7 @@ body {
 		function getItemcategorywise() {
 
 			var catId = $("#ind_cat").val();
+			var vendId = $("#Vendorlist").val();
 			//alert(catId);
 			$
 					.getJSON(
@@ -1206,6 +1210,7 @@ body {
 
 							{
 								catId : catId,
+								vendId : vendId,
 								ajax : 'true',
 
 							},
@@ -1323,9 +1328,16 @@ body {
 																		true)
 																.trigger(
 																		"chosen:updated");
-
+														$('#Vendorlist')
+																.prop(
+																		'disabled',
+																		true)
+																.trigger(
+																		"chosen:updated");
 														document
 																.getElementById("catId").value = catId;
+														document
+																.getElementById("vendId").value = vendId;
 														document
 																.getElementById("submitt").disabled = false;
 													} catch (err) {

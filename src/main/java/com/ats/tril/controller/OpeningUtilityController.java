@@ -94,9 +94,11 @@ public class OpeningUtilityController {
 		try {
 
 			int catId = Integer.parseInt(request.getParameter("catId"));
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("cat_id", catId);
+			map.add("vendId", vendId);
 			OpeningStockModel[] itemRes = rest.postForObject(Constants.url + "/getAllitemOpeningStock", map,
 					OpeningStockModel[].class);
 			itemList = new ArrayList<OpeningStockModel>(Arrays.asList(itemRes));
@@ -260,7 +262,7 @@ public class OpeningUtilityController {
 					if (utility > 1) {
 
 						int isState = 1;
-						int vendId = Integer.parseInt(request.getParameter("Vendorlist"));
+						int vendId = Integer.parseInt(request.getParameter("vendId"));
 
 						float poBasicValue = 0;
 						float discValue = 0;
