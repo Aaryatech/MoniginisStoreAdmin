@@ -110,6 +110,9 @@ body {
 	<c:url var="getMoqQtyForValidation" value="/getMoqQtyForValidation" />
 	<c:url var="getItemcategorywise" value="/getItemcategorywise" />
 	<c:url var="deleteItemFromOplist" value="/deleteItemFromOplist" />
+	<c:url var="setValueToItemList" value="/setValueToItemList" />
+	<c:url var="calculatePurchaseHeaderValuesInDirectMRN"
+		value="/calculatePurchaseHeaderValuesInDirectMRN" />
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -135,7 +138,7 @@ body {
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Add Opening Stock
+								<i class="fa fa-bars"></i>Direct MRN
 							</h3>
 
 
@@ -265,8 +268,8 @@ body {
 											onchange="hideshowdiv();">
 
 											<option value="3" selected>MRN</option>
-											<option value="2">PO</option>
-											<option value="1">INDENT</option>
+											<!-- <option value="2">PO</option>
+											<option value="1">INDENT</option> -->
 
 										</select>
 									</div>
@@ -320,6 +323,7 @@ body {
 													<th class="col-md-1">Rate</th>
 													<th class="col-md-1">Tax%</th>
 													<th class="col-md-1">Taxable Amt</th>
+													<th class="col-md-1">Disc%</th>
 													<th class="col-md-1">Tax Amt</th>
 													<th class="col-md-1">Total Amt</th>
 													<th class="col-md-1">Action</th>
@@ -333,6 +337,188 @@ body {
 										</table>
 									</div>
 								</div>
+
+								<hr />
+								<div class="box-content">
+
+									<div class="col-md-2">Basic value</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											value="${poHeader.poBasicValue}"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" name="poBasicValue"
+											id="poBasicValue" class="form-control" readonly>
+									</div>
+									<div class="col-md-2">
+										<!-- Disc Value -->
+									</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											value="${poHeader.discValue}" name="discValue" id="discValue"
+											class="form-control" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
+									</div>
+
+
+								</div>
+								<br>
+								<div class="box-content">
+
+									<div class="col-md-2">Packing Charges %</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px"
+											onchange="calculation()" type="text" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" name="packPer" id="packPer"
+											class="form-control" required>
+									</div>
+									<div class="col-md-2">
+										Packing Charges Value <i class="fa fa-inr"
+											style="font-size: 13px"></i>
+									</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px"
+											onchange="calculation()" type="text" name="packValue"
+											id="packValue" class="form-control" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" required>
+									</div>
+									<div class="col-md-2">Remark</div>
+									<div class="col-md-2">
+										<input type="text" name="packRemark" id="packRemark"
+											class="form-control" value="NA">
+									</div>
+
+
+								</div>
+								<br>
+								<div class="box-content">
+									<div class="col-md-2">Insurance Charges %</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px"
+											onchange="calculation()" type="text" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" name="insuPer" id="insuPer"
+											class="form-control" required>
+									</div>
+									<div class="col-md-2">
+										Insurance Charges Value <i class="fa fa-inr"
+											style="font-size: 13px"></i>
+									</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											onchange="calculation()" name="insuValue" id="insuValue"
+											class="form-control" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" required>
+									</div>
+									<div class="col-md-2">Remark</div>
+									<div class="col-md-2">
+										<input type="text" name="insuRemark" id="insuRemark"
+											class="form-control" value="NA">
+									</div>
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Freight Charges %</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px"
+											onchange="calculation()" type="text" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" name="freightPer"
+											id="freightPer" class="form-control" required>
+									</div>
+									<div class="col-md-2">
+										Freight Charges Value <i class="fa fa-inr"
+											style="font-size: 13px"></i>
+									</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											onchange="calculation()" name="freightValue"
+											id="freightValue" class="form-control" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" required>
+									</div>
+									<div class="col-md-2">Remark</div>
+									<div class="col-md-2">
+										<input type="text" name="freghtRemark" id="freghtRemark"
+											class="form-control" value="NA">
+									</div>
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2"></div>
+									<div class="col-md-2">
+										<%-- <select name="taxPer" id="taxPer"  onchange="calculation()"  class="form-control chosen"  required>
+										 
+											 <c:forEach items="${taxFormList}" var="taxFormList" >
+											 
+											 	 <option value="${taxFormList.taxId}"><c:out value="${taxFormList.taxPer}"/></option>
+											 	  
+ 											 </c:forEach>
+						 
+										</select> --%>
+									</div>
+									<div class="col-md-2">
+										Tax Value <i class="fa fa-inr" style="font-size: 13px"></i>
+									</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											onchange="calculation()" name="taxValue" id="taxValue"
+											class="form-control" value="${poHeader.poTaxValue}"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
+									</div>
+									<div class="col-md-2"></div>
+									<div class="col-md-2">
+										<input type="hidden" name="taxRemark" id="taxRemark"
+											class="form-control" value="NA">
+									</div>
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Other Charges %</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											onchange="calculation()" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" name="otherPer"
+											id="otherPer" class="form-control" required>
+									</div>
+									<div class="col-md-2">
+										Other Charges Value <i class="fa fa-inr"
+											style="font-size: 13px"></i>
+									</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											onchange="calculation()" name="otherValue" id="otherValue"
+											class="form-control" value="0"
+											pattern="[+-]?([0-9]*[.])?[0-9]+" required>
+									</div>
+									<div class="col-md-2">Remark</div>
+									<div class="col-md-2">
+										<input type="text" name="otherRemark" id="otherRemark"
+											class="form-control" value="NA">
+									</div>
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2"></div>
+									<div class="col-md-2"></div>
+
+									<div class="col-md-2">Final Value</div>
+									<div class="col-md-2">
+										<input style="text-align: right; width: 150px" type="text"
+											value="<fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${poHeader.poBasicValue-poHeader.discValue+poHeader.poTaxValue}"/>"
+											name="finalValue" id="finalValue" class="form-control"
+											value="0" pattern="[+-]?([0-9]*[.])?[0-9]+" readonly>
+									</div>
+
+								</div>
+								<br> <br>
+
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
 
@@ -612,8 +798,278 @@ body {
 	</script>
 
 
+	<script>
+		function changeValues(detailNo) {
 
+			var Qty = parseFloat($("#Qty" + detailNo).val());
+			var Rate = parseFloat($("#Rate" + detailNo).val());
+			var disc = parseFloat($("#disc" + detailNo).val());
+			var taxableAmt = (Qty * Rate);
+			var discamt = parseFloat((disc / 100) * taxableAmt);
+			var amt = taxableAmt - discamt;
+
+			var taxper = parseFloat($("#taxper" + detailNo).val());
+			var sgstPer = taxper / 2;
+			var cgstPer = taxper / 2;
+			var sgstRs = ((amt * sgstPer) / 100);
+			var cgstRs = ((amt * cgstPer) / 100);
+			var totalTax = sgstRs + cgstRs;
+			var grandTotal = parseFloat(totalTax) + parseFloat(amt);
+
+			$("#taxableAmt" + detailNo).html(taxableAmt.toFixed(2));
+			$("#taxAmt" + detailNo).html(totalTax.toFixed(2));
+			$("#totalAmt" + detailNo).html(grandTotal.toFixed(2));
+
+			$
+					.getJSON(
+							'${setValueToItemList}',
+
+							{
+
+								itemId : detailNo,
+								Qty : Qty,
+								Rate : Rate,
+								disc : disc,
+								discamt : discamt,
+								ajax : 'true'
+
+							},
+							function(data) {
+
+								$('#table1 td').remove();
+								$
+										.each(
+												data,
+												function(key, data) {
+
+													try {
+
+														var tr = $('<tr></tr>');
+
+														tr
+																.append($(
+																		'<td width="2%" ></td>')
+																		.html(
+																				key + 1));
+														tr
+																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				data.itemCode));
+														tr
+																.append($(
+																		'<td class="col-md-4" ></td>')
+																		.html(
+																				data.itemDesc));
+														tr
+																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				data.itemUom));
+
+														tr
+																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				'<input type=text    class=form-control id= "Qty'
+																						+ data.itemId
+																						+ '" name="Qty'
+																						+ data.itemId
+																						+ '" value = '
+																						+ data.itemOpQty
+																						+ ' onchange="changeValues('
+																						+ data.itemId
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required >'));
+														tr
+																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				'<input type=text    class=form-control id= "Rate'
+																						+ data.itemId
+																						+ '" name="Rate'
+																						+ data.itemId
+																						+ '" value = '
+																						+ data.itemOpRate
+																						+ ' onchange="changeValues('
+																						+ data.itemId
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required >'));
+
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: right;"></td>')
+																		.html(
+																				'<input type=hidden    class=form-control id= "taxper'
+																						+ data.itemId
+																						+ '" name="taxper'
+																						+ data.itemId
+																						+ '" value = '
+																						+ (data.cgstPer + data.sgstPer)
+																						+ ' ">'
+																						+ (data.cgstPer + data.sgstPer)));
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: right;" id="taxableAmt'+data.itemId+'"></td>')
+																		.html(
+																				(data.itemOpRate * data.itemOpQty)
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				'<input type=text    class=form-control id= "disc'
+																						+ data.itemId
+																						+ '" name="disc'
+																						+ data.itemId
+																						+ '" value ="'
+																						+ data.discPer
+																						+ '" onchange="changeValues('
+																						+ data.itemId
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
+
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: right;" id="taxAmt'+data.itemId+'"></td>')
+																		.html(
+																				((((data.itemOpRate * data.itemOpQty) - data.discamt) * (data.cgstPer + data.sgstPer)) / 100)
+																						.toFixed(2)));
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: right;" id="totalAmt'+data.itemId+'"></td>')
+																		.html(
+																				((((data.itemOpRate * data.itemOpQty) - data.discamt)) + (((data.itemOpRate * data.itemOpQty) - data.discamt) * (data.cgstPer + data.sgstPer)) / 100)
+																						.toFixed(2)));
+
+														tr
+																.append($(
+																		'<td class="col-md-1" style="text-align: center;"></td>')
+																		.html(
+																				"<a href='#' class='action_btn'onclick=deleteIndentItem("
+																						+ key
+																						+ ")><abbr title='Delete'><i class='fa fa-trash-o  fa-lg'></i></abbr></a>"));
+
+														$('#table1 tbody')
+																.append(tr);
+													} catch (err) {
+
+													}
+
+												})
+
+								calculation();
+
+							});
+
+		}
+	</script>
 	<script type="text/javascript">
+		function calculation() {
+
+			var packPer = $("#packPer").val();
+			var packValue = $("#packValue").val();
+			var insuPer = $("#insuPer").val();
+			var insuValue = $("#insuValue").val();
+			var freightPer = $("#freightPer").val();
+			var freightValue = $("#freightValue").val();
+			var otherPer = $("#otherPer").val();
+			var otherValue = $("#otherValue").val();
+			/* var taxPer = $("#taxPer option:selected").text();
+			var taxId = $("#taxPer").val(); */
+
+			if (packPer == "" || packPer == null) {
+				document.getElementById("packPer").value = 0;
+				packPer = 0;
+			}
+			if (packValue == "" || packValue == null) {
+				document.getElementById("packValue").value = 0;
+				packValue = 0;
+			}
+			if (insuPer == "" || insuPer == null) {
+				document.getElementById("insuPer").value = 0;
+				insuPer = 0;
+			}
+			if (insuValue == "" || insuValue == null) {
+				document.getElementById("packPer").value = 0;
+				insuValue = 0;
+			}
+			if (freightPer == "" || freightPer == null) {
+				document.getElementById("freightPer").value = 0;
+				freightPer = 0;
+			}
+			if (freightValue == "" || freightValue == null) {
+				document.getElementById("freightValue").value = 0;
+				freightValue = 0;
+			}
+			if (otherPer == "" || otherPer == null) {
+				document.getElementById("otherPer").value = 0;
+				otherPer = 0;
+			}
+			if (otherValue == "" || otherValue == null) {
+				document.getElementById("otherValue").value = 0;
+				otherValue = 0;
+			}
+
+			$('#loader').show();
+			$
+					.getJSON(
+							'${calculatePurchaseHeaderValuesInDirectMRN}',
+
+							{
+
+								packPer : packPer,
+								packValue : packValue,
+								insuPer : insuPer,
+								insuValue : insuValue,
+								insuValue : insuValue,
+								freightPer : freightPer,
+								freightValue : freightValue,
+								otherPer : otherPer,
+								otherValue : otherValue,
+								ajax : 'true'
+
+							},
+							function(data) {
+
+								$('#table_grid2 td').remove();
+								$('#loader').hide();
+
+								if (data == "") {
+									alert("No records found !!");
+
+								}
+
+								document.getElementById("packValue").value = (data.poPackVal)
+										.toFixed(2);
+								document.getElementById("insuValue").value = (data.poInsuVal)
+										.toFixed(2);
+								document.getElementById("freightValue").value = (data.poFrtVal)
+										.toFixed(2);
+								document.getElementById("otherValue").value = (data.otherChargeAfter)
+										.toFixed(2);
+								document.getElementById("poBasicValue").value = (data.poBasicValue)
+										.toFixed(2);
+								document.getElementById("discValue").value = (data.discValue)
+										.toFixed(2);
+								try {
+									document.getElementById("taxValue").value = (data.poTaxValue)
+											.toFixed(2);
+
+									document.getElementById("finalValue").value = (data.poBasicValue
+											- data.discValue
+											+ data.poPackVal
+											+ data.poInsuVal
+											+ data.poFrtVal
+											+ data.poTaxValue + data.otherChargeAfter)
+											.toFixed(2);
+								} catch (err) {
+									document.getElementById("taxValue").value = (0)
+											.toFixed(2);
+									document.getElementById("finalValue").value = (0)
+											.toFixed(2);
+								}
+							});
+
+		}
+
 		/* $(document).ready(function() {
 		
 		 $('#ind_cat').change(
@@ -938,7 +1394,7 @@ body {
 
 														tr
 																.append($(
-																		'<td class="col-sm-1" ></td>')
+																		'<td width="2%" ></td>')
 																		.html(
 																				key + 1));
 														tr
@@ -969,7 +1425,7 @@ body {
 																						+ data.itemOpQty
 																						+ ' onchange="changeValues('
 																						+ data.itemId
-																						+ ')">'));
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required >'));
 														tr
 																.append($(
 																		'<td class="col-md-1" ></td>')
@@ -982,7 +1438,7 @@ body {
 																						+ data.itemOpRate
 																						+ ' onchange="changeValues('
 																						+ data.itemId
-																						+ ')">'));
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required >'));
 
 														tr
 																.append($(
@@ -1004,17 +1460,29 @@ body {
 																						.toFixed(2)));
 														tr
 																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				'<input type=text    class=form-control id= "disc'
+																						+ data.itemId
+																						+ '" name="disc'
+																						+ data.itemId
+																						+ '" value ="'
+																						+ data.discPer
+																						+ '" onchange="changeValues('
+																						+ data.itemId
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
+
+														tr
+																.append($(
 																		'<td class="col-md-1" style="text-align: right;" id="taxAmt'+data.itemId+'"></td>')
 																		.html(
-																				((data.itemOpRate
-																						* data.itemOpQty * (data.cgstPer + data.sgstPer)) / 100)
+																				((((data.itemOpRate * data.itemOpQty) - data.discamt) * (data.cgstPer + data.sgstPer)) / 100)
 																						.toFixed(2)));
 														tr
 																.append($(
 																		'<td class="col-md-1" style="text-align: right;" id="totalAmt'+data.itemId+'"></td>')
 																		.html(
-																				((data.itemOpRate * data.itemOpQty) + (data.itemOpRate
-																						* data.itemOpQty * (data.cgstPer + data.sgstPer)) / 100)
+																				((((data.itemOpRate * data.itemOpQty) - data.discamt)) + (((data.itemOpRate * data.itemOpQty) - data.discamt) * (data.cgstPer + data.sgstPer)) / 100)
 																						.toFixed(2)));
 
 														tr
@@ -1032,7 +1500,7 @@ body {
 													}
 
 												})
-
+								calculation();
 							});
 
 		}
@@ -1178,26 +1646,7 @@ body {
 							});
 		}
 	</script>
-	<script>
-		function changeValues(detailNo) {
 
-			var Qty = parseFloat($("#Qty" + detailNo).val());
-			var Rate = parseFloat($("#Rate" + detailNo).val());
-			var taxableAmt = (Qty * Rate);
-			var taxper = parseFloat($("#taxper" + detailNo).val());
-			var sgstPer = taxper / 2;
-			var cgstPer = taxper / 2;
-			var sgstRs = ((taxableAmt * sgstPer) / 100);
-			var cgstRs = ((taxableAmt * cgstPer) / 100);
-			var totalTax = sgstRs + cgstRs;
-			var grandTotal = parseFloat(totalTax) + parseFloat(taxableAmt);
-
-			$("#taxableAmt" + detailNo).html(taxableAmt.toFixed(2));
-			$("#taxAmt" + detailNo).html(totalTax.toFixed(2));
-			$("#totalAmt" + detailNo).html(grandTotal.toFixed(2));
-
-		}
-	</script>
 	<script>
 		function getItemcategorywise() {
 
@@ -1233,7 +1682,7 @@ body {
 
 														tr
 																.append($(
-																		'<td class="col-sm-1" ></td>')
+																		'<td width="2%" ></td>')
 																		.html(
 																				key + 1));
 														tr
@@ -1264,7 +1713,7 @@ body {
 																						+ data.itemOpQty
 																						+ ' onchange="changeValues('
 																						+ data.itemId
-																						+ ')">'));
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
 														tr
 																.append($(
 																		'<td class="col-md-1" ></td>')
@@ -1277,7 +1726,7 @@ body {
 																						+ data.itemOpRate
 																						+ ' onchange="changeValues('
 																						+ data.itemId
-																						+ ')">'));
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
 
 														tr
 																.append($(
@@ -1299,11 +1748,23 @@ body {
 																						.toFixed(2)));
 														tr
 																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				'<input type=text    class=form-control id= "disc'
+																						+ data.itemId
+																						+ '" name="disc'
+																						+ data.itemId
+																						+ '" value ="0" onchange="changeValues('
+																						+ data.itemId
+																						+ ')" pattern="[+-]?([0-9]*[.])?[0-9]+" required>'));
+														tr
+																.append($(
 																		'<td class="col-md-1" style="text-align: right;" id="taxAmt'+data.itemId+'"></td>')
 																		.html(
 																				((data.itemOpRate
 																						* data.itemOpQty * (data.cgstPer + data.sgstPer)) / 100)
 																						.toFixed(2)));
+
 														tr
 																.append($(
 																		'<td class="col-md-1" style="text-align: right;" id="totalAmt'+data.itemId+'"></td>')
@@ -1345,7 +1806,7 @@ body {
 													}
 
 												})
-
+								calculation();
 							});
 		}
 	</script>

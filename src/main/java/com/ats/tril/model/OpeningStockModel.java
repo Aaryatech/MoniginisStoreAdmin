@@ -30,6 +30,21 @@ public class OpeningStockModel {
 	private float sgstPer;
 	private float igstPer;
 	
+	
+	float discPer;
+	float discamt;
+	
+	
+	private float basicValue; 
+	private float packValue; 
+	private float insu; 
+	private float otherChargesBefor; 
+	private float taxValue; 
+	private float freightValue; 
+	private float otherChargesAfter; 
+	private float landingCost; 
+	  
+	
 	public int getItemId() {
 		return itemId;
 	}
@@ -104,12 +119,75 @@ public class OpeningStockModel {
 	}
 	
 	
+	public float getDiscPer() {
+		return discPer;
+	}
+	public void setDiscPer(float discPer) {
+		this.discPer = discPer;
+	}
+	public float getDiscamt() {
+		return discamt;
+	}
+	public void setDiscamt(float discamt) {
+		this.discamt = discamt;
+	}
+	public float getBasicValue() {
+		return basicValue;
+	}
+	public void setBasicValue(float basicValue) {
+		this.basicValue = basicValue;
+	}
+	public float getPackValue() {
+		return packValue;
+	}
+	public void setPackValue(float packValue) {
+		this.packValue = packValue;
+	}
+	public float getInsu() {
+		return insu;
+	}
+	public void setInsu(float insu) {
+		this.insu = insu;
+	}
+	public float getOtherChargesBefor() {
+		return otherChargesBefor;
+	}
+	public void setOtherChargesBefor(float otherChargesBefor) {
+		this.otherChargesBefor = otherChargesBefor;
+	}
+	public float getTaxValue() {
+		return taxValue;
+	}
+	public void setTaxValue(float taxValue) {
+		this.taxValue = taxValue;
+	}
+	public float getFreightValue() {
+		return freightValue;
+	}
+	public void setFreightValue(float freightValue) {
+		this.freightValue = freightValue;
+	}
+	public float getOtherChargesAfter() {
+		return otherChargesAfter;
+	}
+	public void setOtherChargesAfter(float otherChargesAfter) {
+		this.otherChargesAfter = otherChargesAfter;
+	}
+	public float getLandingCost() {
+		return landingCost;
+	}
+	public void setLandingCost(float landingCost) {
+		this.landingCost = landingCost;
+	}
 	@Override
 	public String toString() {
 		return "OpeningStockModel [itemId=" + itemId + ", itemCode=" + itemCode + ", itemDesc=" + itemDesc
 				+ ", itemDesc2=" + itemDesc2 + ", itemDesc3=" + itemDesc3 + ", itemUom=" + itemUom + ", itemUom2="
 				+ itemUom2 + ", itemOpRate=" + itemOpRate + ", itemOpQty=" + itemOpQty + ", cgstPer=" + cgstPer
-				+ ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + "]";
+				+ ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + ", discPer=" + discPer + ", discamt=" + discamt
+				+ ", basicValue=" + basicValue + ", packValue=" + packValue + ", insu=" + insu + ", otherChargesBefor="
+				+ otherChargesBefor + ", taxValue=" + taxValue + ", freightValue=" + freightValue
+				+ ", otherChargesAfter=" + otherChargesAfter + ", landingCost=" + landingCost + "]";
 	}
 	
 
