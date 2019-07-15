@@ -614,7 +614,7 @@ hr {
 				</c:forEach>
 
 				<tr style="font-size: 13px;">
-					<td colspan="9"><c:out value="Total " /></td>
+					<td colspan="10"><c:out value="Total " /></td>
 
 					<td align="right" style="padding: 5px;"><fmt:formatNumber
 							type="number" maxFractionDigits="2" minFractionDigits="2"
