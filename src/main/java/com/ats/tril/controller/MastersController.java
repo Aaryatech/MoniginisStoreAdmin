@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Category;
+import com.ats.tril.model.Company;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.FinancialYears;
 import com.ats.tril.model.GetItemGroup;
@@ -46,6 +48,8 @@ import com.ats.tril.model.PaymentTerms;
 import com.ats.tril.model.State;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.doc.DocumentBean;
+import com.ats.tril.model.doc.IndentReport;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -269,7 +273,7 @@ public class MastersController {
 	public String insertPaymentTerm(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			String pymtTermId = request.getParameter("pymtTermId"); 
+			String pymtTermId = request.getParameter("pymtTermId");
 
 			String pymtDesc = request.getParameter("pymtDesc");
 			int days = Integer.parseInt(request.getParameter("days"));
@@ -362,26 +366,24 @@ public class MastersController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/checkGroupCodeExist", method = RequestMethod.GET)
 	@ResponseBody
 	public int checkGroupCodeExist(HttpServletRequest request, HttpServletResponse response) {
- 
-		 int exist = 0 ;
-		 
+
+		int exist = 0;
+
 		try {
 
 			String grpCode = request.getParameter("grpCode");
 			System.out.println("grpCode " + grpCode);
-			 
-			 for(int i = 0 ; i < itemGroupList.size() ; i++)
-			 {
-				 if(itemGroupList.get(i).getGrpCode().equals(grpCode.trim()))
-				 {
-					 exist = 1;
-					 break;
-				 }
-			 }
+
+			for (int i = 0; i < itemGroupList.size(); i++) {
+				if (itemGroupList.get(i).getGrpCode().equals(grpCode.trim())) {
+					exist = 1;
+					break;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -581,23 +583,23 @@ public class MastersController {
 
 		ModelAndView model = new ModelAndView("masters/addVendor");
 		try {
-			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class); 
+			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);
 			model.addObject("stateList", stateList);
-			
+
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
-			 vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
-			 
-			 Vendor vendor = new Vendor();
-			 vendor.setVendorContactPerson("-");
-			 vendor.setVendorMobile("1234567890");
-			 vendor.setVendorEmail("test@mongi.com");
-			 vendor.setVendorPhone("1234567890");
-			 vendor.setVendorGstNo("1234567890");
-			 vendor.setVendorAdd4("1234567890");
-			 vendor.setVendorItem("-");
-			 vendor.setVendorAdd3("-");
-			 vendor.setCreatedIn(1);
-			 model.addObject("editVendor", vendor);
+			vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+
+			Vendor vendor = new Vendor();
+			vendor.setVendorContactPerson("-");
+			vendor.setVendorMobile("1234567890");
+			vendor.setVendorEmail("test@mongi.com");
+			vendor.setVendorPhone("1234567890");
+			vendor.setVendorGstNo("1234567890");
+			vendor.setVendorAdd4("1234567890");
+			vendor.setVendorItem("-");
+			vendor.setVendorAdd3("-");
+			vendor.setCreatedIn(1);
+			model.addObject("editVendor", vendor);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -605,53 +607,44 @@ public class MastersController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/checkVendCodeExist", method = RequestMethod.GET)
 	@ResponseBody
 	public ErrorMessage checkVendCodeExist(HttpServletRequest request, HttpServletResponse response) {
- 
-		  
-		 ErrorMessage errorMessage = new ErrorMessage();
+
+		ErrorMessage errorMessage = new ErrorMessage();
 		try {
 
 			String vendorCode = request.getParameter("vendorCode");
-			 
-			 
-			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("str", vendorCode);
-			errorMessage = rest.postForObject(Constants.url + "/getNextVendorNo",map,
-					ErrorMessage.class);
+			errorMessage = rest.postForObject(Constants.url + "/getNextVendorNo", map, ErrorMessage.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return errorMessage;
 	}
-	
-	/*@RequestMapping(value = "/checkVendCodeExist", method = RequestMethod.GET)
-	@ResponseBody
-	public int checkVendCodeExist(HttpServletRequest request, HttpServletResponse response) {
- 
-		 int exist = 0 ;
-		 
-		try {
 
-			String vendorCode = request.getParameter("vendorCode");
-			 
-			 for(int i = 0 ; i < vendorList.size() ; i++)
-			 {
-				 if(vendorList.get(i).getVendorCode().equals(vendorCode.trim()))
-				 {
-					 exist = 1;
-					 break;
-				 }
-			 }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return exist;
-	}*/
+	/*
+	 * @RequestMapping(value = "/checkVendCodeExist", method = RequestMethod.GET)
+	 * 
+	 * @ResponseBody public int checkVendCodeExist(HttpServletRequest request,
+	 * HttpServletResponse response) {
+	 * 
+	 * int exist = 0 ;
+	 * 
+	 * try {
+	 * 
+	 * String vendorCode = request.getParameter("vendorCode");
+	 * 
+	 * for(int i = 0 ; i < vendorList.size() ; i++) {
+	 * if(vendorList.get(i).getVendorCode().equals(vendorCode.trim())) { exist = 1;
+	 * break; } } } catch (Exception e) { e.printStackTrace(); }
+	 * 
+	 * return exist; }
+	 */
 
 	@RequestMapping(value = "/insertVendor", method = RequestMethod.POST)
 	public String insertVendor(HttpServletRequest request, HttpServletResponse response) {
@@ -682,7 +675,7 @@ public class MastersController {
 
 			String vendorItem = request.getParameter("vendorItem");
 			String vendorDate = request.getParameter("vendorDate");
-			int active =Integer.parseInt(request.getParameter("active"));
+			int active = Integer.parseInt(request.getParameter("active"));
 			Vendor vendor = new Vendor();
 			if (vendorId == "" || vendorId == null)
 				vendor.setVendorId(0);
@@ -749,11 +742,35 @@ public class MastersController {
 
 		return model;
 	}
-	
+
+	@RequestMapping(value = "/vendorDetailPrint", method = RequestMethod.GET)
+	public ModelAndView showIndentDocs(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("docs/vendorDetailPrint");
+
+		try {
+
+			int vendId = Integer.parseInt(request.getParameter("vendId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("vendorId", vendId);
+			Vendor vendorList = rest.postForObject(Constants.url + "/getVendorByVendorId", map, Vendor.class);
+			vendorList.setVendorDate(DateConvertor.convertToDMY(vendorList.getVendorDate()));
+			model.addObject("vendorDetail", vendorList);
+
+			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);
+			model.addObject("stateList", stateList);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return model;
+	}
+
 	@RequestMapping(value = "/vendorListPdf", method = RequestMethod.GET)
 	public void vendorListPdf(HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
-		
 
 		List<Vendor> getVendorList = vendorList;
 		System.out.println(getVendorList);
@@ -853,10 +870,10 @@ public class MastersController {
 			table.addCell(hcell);
 
 			int index = 0;
-			for (int i=0 ; i<getVendorList.size() ; i++ ) {
-				
+			for (int i = 0; i < getVendorList.size(); i++) {
+
 				Vendor vendor = getVendorList.get(i);
-				
+
 				index++;
 				PdfPCell cell;
 
@@ -1002,7 +1019,7 @@ public class MastersController {
 
 			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);
 			model.addObject("stateList", stateList);
-			
+
 			model.addObject("isEdit", 1);
 
 		} catch (Exception e) {

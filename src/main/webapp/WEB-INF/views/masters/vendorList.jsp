@@ -32,7 +32,7 @@
 		<!-- BEGIN Content -->
 		<div id="main-content">
 			<!-- BEGIN Page Title -->
-			 <!-- div class="page-title">
+			<!-- div class="page-title">
 				<div>
 					<h1>
 
@@ -40,7 +40,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -58,58 +59,61 @@
 							</div>
 
 						</div>
-						
-						<c:set value="0" var="isEdit"></c:set>
-								<c:set value="0" var="isDelete"></c:set>
-									<c:forEach items="${sessionScope.newModuleList}" var="allModuleList" >
-															<c:choose>
-																<c:when test="${allModuleList.moduleId==sessionScope.sessionModuleId}">
-																	  <c:forEach items="${allModuleList.subModuleJsonList}" var="subModuleJsonList" >
-																	  		<c:choose>
-																			  	<c:when test="${subModuleJsonList.subModuleId==sessionScope.sessionSubModuleId}">
-																			  		  <c:choose>
-																			  		  
-																			  				<c:when test="${subModuleJsonList.editReject eq 'visible'}">
-																			  				<c:set value="1" var="isEdit"></c:set>
-																			  				</c:when>
-																			  			</c:choose>
-																			  			<c:choose>
-																			  				<c:when test="${subModuleJsonList.deleteRejectApprove eq 'visible'}">
-																			  				<c:set value="1" var="isDelete"></c:set>
-																			  				</c:when> 
-																			  			</c:choose>
-																			  	</c:when>
-																		  	</c:choose>
-																	  </c:forEach>
-																</c:when> 
-															</c:choose>
-														 
-														</c:forEach> 
 
-						<div class="box-content"> 
-						
-						<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
-								</label>
-								
-							<br /> <br />
+						<c:set value="0" var="isEdit"></c:set>
+						<c:set value="0" var="isDelete"></c:set>
+						<c:forEach items="${sessionScope.newModuleList}"
+							var="allModuleList">
+							<c:choose>
+								<c:when
+									test="${allModuleList.moduleId==sessionScope.sessionModuleId}">
+									<c:forEach items="${allModuleList.subModuleJsonList}"
+										var="subModuleJsonList">
+										<c:choose>
+											<c:when
+												test="${subModuleJsonList.subModuleId==sessionScope.sessionSubModuleId}">
+												<c:choose>
+
+													<c:when test="${subModuleJsonList.editReject eq 'visible'}">
+														<c:set value="1" var="isEdit"></c:set>
+													</c:when>
+												</c:choose>
+												<c:choose>
+													<c:when
+														test="${subModuleJsonList.deleteRejectApprove eq 'visible'}">
+														<c:set value="1" var="isDelete"></c:set>
+													</c:when>
+												</c:choose>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+
+						</c:forEach>
+
+						<div class="box-content">
+
+							<div class="col-md-9"></div>
+							<label for="search" class="col-md-3" id="search"> <i
+								class="fa fa-search" style="font-size: 20px"></i> <input
+								type="text" id="myInput" onkeyup="myFunction()"
+								placeholder="Search.." title="Type in a name">
+							</label> <br /> <br />
 							<div class="clearfix"></div>
 							<div class="table-responsive" style="border: 0">
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th >Sr No.</th>
+											<th>Sr No.</th>
 											<th class="col-md-1">Code</th>
 											<th class="col-md-2">Name</th>
 											<th class="col-md-1">City</th>
 											<th class="col-md-1">State</th>
-											<th >Email</th>
-											<th class="col-md-1">GST No</th> 
+											<th>Email</th>
+											<th class="col-md-1">GST No</th>
 											<th class="col-md-1">Mobile</th>
-											<th >Action</th>
+											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -117,7 +121,7 @@
 										<c:forEach items="${vendorList}" var="vendorList"
 											varStatus="count">
 											<tr>
-												<td ><c:out value="${count.index+1}" /></td>
+												<td><c:out value="${count.index+1}" /></td>
 
 
 												<td class="col-md-1"><c:out
@@ -132,26 +136,33 @@
 												<td class="col-md-1"><c:out
 														value="${vendorList.vendorState}" /></td>
 
-												<td><c:out
-														value="${vendorList.vendorEmail}" /></td>
+												<td><c:out value="${vendorList.vendorEmail}" /></td>
 
 
 												<td class="col-md-1"><c:out
 														value="${vendorList.vendorGstNo}" /></td>
- 
+
 												<td class="col-md-1"><c:out
 														value="${vendorList.vendorMobile}" /></td>
 
 
-												<td><c:choose>
-																<c:when test="${isEdit==1}"><a
-													href="${pageContext.request.contextPath}/editVendor/${vendorList.vendorId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a></c:when></c:choose>
-													<c:choose>
-											 					<c:when test="${isDelete==1}"><a
-													href="${pageContext.request.contextPath}/deleteVendor/${vendorList.vendorId}"
-													onClick="return confirm('Are you sure want to delete this record');"><span
-														class="glyphicon glyphicon-remove"></span></a></c:when></c:choose></td>
+												<td><a href="javascript:genPdf(${vendorList.vendorId});"
+													title="PDF"><span
+														class="glyphicon glyphicon glyphicon-file"></span></a>
+												<c:choose>
+														<c:when test="${isEdit==1}">
+															<a
+																href="${pageContext.request.contextPath}/editVendor/${vendorList.vendorId}"><abbr
+																title="Edit"><i class="fa fa-edit"></i></abbr></a>
+														</c:when>
+													</c:choose> <c:choose>
+														<c:when test="${isDelete==1}">
+															<a
+																href="${pageContext.request.contextPath}/deleteVendor/${vendorList.vendorId}"
+																onClick="return confirm('Are you sure want to delete this record');"><span
+																class="glyphicon glyphicon-remove"></span></a>
+														</c:when>
+													</c:choose></td>
 
 											</tr>
 										</c:forEach>
@@ -161,36 +172,36 @@
 								</table>
 
 							</div>
-							
-							<div class=" box-content">
-									<div class="col-md-12" style="text-align: center">
 
-								<input type="button" id="expExcel" class="btn btn-primary"
-							value="EXPORT TO Excel" onclick="exportToExcel();">
-						<button class="btn btn-primary" value="PDF" id="PDFButton"
-					disabled="disabled" onclick="genPdf()">PDF</button>
-									</div>
+							<div class=" box-content">
+								<div class="col-md-12" style="text-align: center">
+
+									<input type="button" id="expExcel" class="btn btn-primary"
+										value="EXPORT TO Excel" onclick="exportToExcel();">
+									<button class="btn btn-primary" value="PDF" id="PDFButton"
+										disabled="disabled" onclick="genPdf()">PDF</button>
 								</div>
-							
-							
+							</div>
+
+
 						</div>
 
 
 
 					</div>
 				</div>
-				 
+
 			</div>
 			<footer>
-			<p>2019 © MONGINIS</p>
-		</footer>
+				<p>2019 © MONGINIS</p>
+			</footer>
 		</div>
 
 
 		<div class=" box-content"></div>
 
 		<!-- END Main Content -->
-		
+
 
 		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
 			class="fa fa-chevron-up"></i></a>
@@ -295,36 +306,41 @@
 	</script>
 
 	<script type="text/javascript">
-		function genPdf() {
+		/* function genPdf() {
 			window.open('${pageContext.request.contextPath}/vendorListPdf/');
+
+		} */
+		
+		function genPdf(vendId) {
+			window.open('${pageContext.request.contextPath}/vendorDetailPrint?vendId='+vendId);
 
 		}
 	</script>
-	
+
 	<script>
-function myFunction() {
-  var input, filter, table, tr,td1, td, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    td1 = tr[i].getElementsByTagName("td")[2];
-    if (td || td1) {
-    	
-    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      }  else {
-    	        tr[i].style.display = "none";
-    	      }
-       
-    }
-  }
-}
-</script>
+		function myFunction() {
+			var input, filter, table, tr, td1, td, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				td1 = tr[i].getElementsByTagName("td")[2];
+				if (td || td1) {
+
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+
+				}
+			}
+		}
+	</script>
 
 </body>
 </html>
