@@ -114,30 +114,41 @@ hr {
 
 </head>
 <body>
-
 	<div class="invoice-box">
 		<table cellpadding="0" cellspacing="0" width="1000px">
 
 			<tr class="information">
 				<td valign="top">
-					<table width="1000px">
+					<table width="100%">
 						<tr>
-							<td width="200px" valign="top" align="center"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
+							<td width="200px"><img
+								src="${pageContext.request.contextPath}/resources/img/monginislogo.png"
+								width="110" height="85" /></td>
+
+							<td width="600px" valign="top"
+								style="font-weight: bold; margin: 0px;" align="center">
+								<h4 align="center" style="font-size: 20px;">${company.companyName}</h4>
+								<h6 style="font-weight: bold; margin: 0px; font-size: 18px;"
+									align="center">Delivery & Billing Addr.:
+									${company.factoryAdd}</h6>
+								<h6 style="font-weight: normal; margin: 0px; font-size: 18px;"
+									align="center">CIN NO : ${company.cinNumber}</h6>
 							</td>
-							<td width="600px" valign="top" align="center"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">Vendor
-								Details</td>
+
 							<td width="200px" valign="top" align="left"
 								style="font-family: arial; font-weight: bold; font-size: 95%;">
 							</td>
+
 						</tr>
+						 
 					</table>
 				</td>
 			</tr>
 		</table>
 	</div>
 
+
+	<br>
 	<div class="invoice-box">
 		<table cellpadding="0" cellspacing="0" width="1000px">
 
@@ -145,202 +156,294 @@ hr {
 				<td valign="top">
 					<table width="1000px">
 						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Vendor Code</td>
-
-							<td width="880px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorCode}</td>
-
-						</tr>
-
-						<tr>
-							<td width="180px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Vendor Name</td>
-							<td width="820px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorName}</td>
-
-						</tr>
-
-						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Address</td>
-
-							<td width="880px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorAdd1}</td>
-
-						</tr>
-
-						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								City</td>
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorCity}</td>
-
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								State</td>
-
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:<c:forEach items="${stateList}" var="stateList">
-									<c:choose>
-										<c:when
-											test="${stateList.stateId==vendorDetail.vendorStateId}">&nbsp;&nbsp;${stateList.stateName}
-											</c:when>
-									</c:choose>
-								</c:forEach>
-							</td>
-
-						</tr>
 
 
-						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Contact Person</td>
+							<td width="100%"
+								style="border-left: 1px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; border-right: 1px solid #313131; padding: 8px; color: #000; font-size: 14px;">
 
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorContactPerson}</td>
+								<div class="invoice-box">
+									<table cellpadding="0" cellspacing="0" width="1000px">
 
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Mobile No</td>
-
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorMobile}</td>
-
-						</tr>
+										<tr class="information">
+											<td valign="top">
+												<table width="1000px" style="padding-left: 20px;">
 
 
+													<tr style="height: 40px;">
+														<td width="1000px" valign="top" align="center"
+															style="font-family: arial; font-weight: bold; font-size: 20px;">
+															VENDOR DETAILS</td>
 
-						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Phone No</td>
-
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorPhone}</td>
-
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Email</td>
-
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorEmail}</td>
-
-						</tr>
+													</tr>
+												</table>
+												<table width="1000px" style="padding-left: 20px;">
 
 
-						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								GST No.</td>
+													<tr style="height: 40px;">
+														<td width="120px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Vendor Code</td>
 
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorGstNo}</td>
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorCode}</td>
 
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								PAN No.</td>
+													</tr>
 
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorAdd4}</td>
+													<tr style="height: 40px;">
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Vendor Name</td>
+														<td width="820px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorName}</td>
 
-						</tr>
+													</tr>
 
-						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Item</td>
+													<tr style="height: 40px;">
+														<td width="120px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Address</td>
 
-							<td width="880px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorItem}</td>
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorAdd1}</td>
 
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								FSSI No.</td>
+													</tr>
 
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;${vendorDetail.vendorAdd3}</td>
+													<tr style="height: 40px;">
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															City</td>
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorCity}</td>
 
-						</tr>
+
+													</tr>
+
+													<tr style="height: 40px;">
+
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															State</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:<c:forEach items="${stateList}" var="stateList">
+																<c:choose>
+																	<c:when
+																		test="${stateList.stateId==vendorDetail.vendorStateId}">&nbsp;&nbsp;${stateList.stateName}
+																	</c:when>
+																</c:choose>
+															</c:forEach>
+														</td>
+
+													</tr>
+
+
+													<tr style="height: 40px;">
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Contact Person</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorContactPerson}</td>
+
+													</tr>
+
+													<tr style="height: 40px;">
+
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Mobile No</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorMobile}</td>
+
+													</tr>
+
+													<tr style="height: 40px;">
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Phone No</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorPhone}</td>
 
 
 
-						<tr>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Approved BY</td>
+													</tr>
 
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;<c:choose>
-									<c:when test="${vendorDetail.vendorApprvBy==1}">
+													<tr style="height: 40px;">
+
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Email</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorEmail}</td>
+
+													</tr>
+
+
+													<tr style="height: 40px;">
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															GST No.</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorGstNo}</td>
+
+
+													</tr>
+
+													<tr style="height: 40px;">
+
+
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															PAN No.</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorAdd4}</td>
+
+													</tr>
+
+													<tr style="height: 40px;">
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Item</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorItem}</td>
+
+
+													</tr>
+													<tr style="height: 40px;">
+
+
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															FSSAI No.</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;${vendorDetail.vendorAdd3}</td>
+
+													</tr>
+
+
+													<tr style="height: 40px;">
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Approved BY</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;<c:choose>
+																<c:when test="${vendorDetail.vendorApprvBy==1}">
 										TRIL
 									</c:when>
-									<c:when test="${vendorDetail.vendorApprvBy==2}">
+																<c:when test="${vendorDetail.vendorApprvBy==2}">
 										CEAT
 									</c:when>
-									<c:when test="${vendorDetail.vendorApprvBy==3}">
+																<c:when test="${vendorDetail.vendorApprvBy==3}">
 										OTHER
 									</c:when>
 
-								</c:choose>
-							</td>
-							<td width="120px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								Type</td>
+															</c:choose>
+														</td>
 
-							<td width="380px" valign="top" align="left"
-								style="font-family: arial; font-weight: bold; font-size: 95%;">
-								:&nbsp;&nbsp;<c:choose>
-									<c:when test="${vendorDetail.vendorType==1}">
+													</tr>
+
+													<tr style="height: 40px;">
+
+														<td width="180px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															Type</td>
+
+														<td width="880px" valign="top" align="left"
+															style="font-family: arial; font-weight: bold; font-size: 18px;">
+															:&nbsp;&nbsp;<c:choose>
+																<c:when test="${vendorDetail.vendorType==1}">
 									 	Authorized Dealer
 									 </c:when>
-									<c:when test="${vendorDetail.vendorType==2}">
+																<c:when test="${vendorDetail.vendorType==2}">
 									 	Authorized Distributors
 									 </c:when>
-									<c:when test="${vendorDetail.vendorType==3}">
+																<c:when test="${vendorDetail.vendorType==3}">
 									 	Traders
 									 </c:when>
-									<c:when test="${vendorDetail.vendorType==4}">
+																<c:when test="${vendorDetail.vendorType==4}">
 									 	Manufacturer
 									 </c:when>
-									<c:when test="${vendorDetail.vendorType==5}">
+																<c:when test="${vendorDetail.vendorType==5}">
 									 	Importer
 									 </c:when>
 
-								</c:choose>
+															</c:choose>
+														</td>
+													</tr>
+
+
+
+												</table>
+											</td>
+										</tr>
+									</table>
+								</div>
 							</td>
+
 						</tr>
-
-
 
 					</table>
 				</td>
 			</tr>
 		</table>
 	</div>
-
-
-
 	<br>
+	<table width="100%">
+
+
+		<tr>
+			<td width="25%"><p
+					style="color: #000; font-size: 18px; vertical-align: top; text-align: center; margin: 0px; font-weight: bold; font-family: arial;">
+					For ${company.companyName} <br> <br> <br> <br>
+					Prepared By <br></td>
+			<td width="50%"></td>
+			<td width="25%">
+				<p
+					style="color: #000; font-size: 18px; vertical-align: top; text-align: center; margin: 0px; font-weight: bold; font-family: arial;">
+					For ${company.companyName} <br> <br> <br> <br>
+					Authorised By <br>
+					<!-- Shabbir Fatehnagri/Shabbir Kanorewala -->
+			</td>
+		</tr>
+
+
+	</table>
+	<br>
+	<p
+		style="color: #000; font-size: 18px; text-align: left; margin: 0px; font-weight: bold;">DOCUMENT
+		ATTACHED -</p>
+	<p
+		style="color: #000; font-size: 18px; text-align: left; margin: 0px; font-weight: bold;">
+		1) GST Certificate <br> 2) PAN Card <br> 3) FSSAI
+		Certificate <br>
+
+	</p>
+
+
+
+
 
 
 </body>

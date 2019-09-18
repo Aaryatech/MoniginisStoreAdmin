@@ -760,6 +760,11 @@ public class MastersController {
 
 			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);
 			model.addObject("stateList", stateList);
+			
+			Company company = rest.getForObject(Constants.url + "getCompanyDetails",
+					Company.class);
+			model.addObject("company", company);
+			
 		} catch (Exception e) {
 
 			e.printStackTrace();
