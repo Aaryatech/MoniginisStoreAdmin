@@ -101,20 +101,21 @@ public class ReportController {
 			rowData.add("Item Date");
 			rowData.add("Item Weight");
 			rowData.add("Item UOM");
-
+			rowData.add("Category");
+			
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
-			int cnt = 1;
+			int cnt = 0;
 			for (int i = 0; i < getItemList.size(); i++) {
 				expoExcel = new ExportToExcel();
 				rowData = new ArrayList<String>();
-				cnt = cnt + i;
+				cnt = cnt + 1;
 				rowData.add("" + (cnt));
 				rowData.add("" + getItemList.get(i).getItemCode()+" - "+ getItemList.get(i).getItemDesc());
 				rowData.add("" + getItemList.get(i).getItemDate());
 				rowData.add("" + getItemList.get(i).getItemWt());
 				rowData.add("" + getItemList.get(i).getItemUom());
-
+				rowData.add("" + getItemList.get(i).getCatDesc());
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 

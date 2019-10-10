@@ -294,24 +294,24 @@
 									required>
 									<c:choose>
 									 <c:when test="${editVendor.vendorApprvBy==1}">
-									 	<option value="1" selected>TRIL</option>
-										<option value="2">CEAT</option>
+									 	<option value="1" selected>Lutf Foods</option>
+										<option value="2">Lutf Foods</option>
 										<option value="3">OTHER</option> 
 									 </c:when>
 									 <c:when test="${editVendor.vendorApprvBy==2}">
-									 	<option value="1" >TRIL</option>
-										<option value="2" selected>CEAT</option>
+									 	<option value="1" >Lutf Foods</option>
+										<option value="2" selected>Lutf Foods</option>
 										<option value="3">OTHER</option> 
 									 </c:when>
 									 <c:when test="${editVendor.vendorApprvBy==3}">
-									 	<option value="1" >TRIL</option>
-										<option value="2" >CEAT</option>
+									 	<option value="1" >Lutf Foods</option>
+										<option value="2" >Lutf Foods</option>
 										<option value="3" selected>OTHER</option> 
 									 </c:when> 
 									 <c:otherwise>
 									 
-										<option value="1" selected>TRIL</option>
-										<option value="2" >CEAT</option>
+										<option value="1" selected>Lutf Foods</option>
+										<option value="2" >Lutf Foods</option>
 										<option value="3" >OTHER</option> 
 									 </c:otherwise>
 									

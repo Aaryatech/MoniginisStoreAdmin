@@ -140,7 +140,7 @@ hr {
 							</td>
 
 						</tr>
-						 
+
 					</table>
 				</td>
 			</tr>
@@ -350,10 +350,10 @@ hr {
 															style="font-family: arial; font-weight: bold; font-size: 18px;">
 															:&nbsp;&nbsp;<c:choose>
 																<c:when test="${vendorDetail.vendorApprvBy==1}">
-										TRIL
+										Lutf Foods
 									</c:when>
 																<c:when test="${vendorDetail.vendorApprvBy==2}">
-										CEAT
+										Lutf Foods
 									</c:when>
 																<c:when test="${vendorDetail.vendorApprvBy==3}">
 										OTHER
