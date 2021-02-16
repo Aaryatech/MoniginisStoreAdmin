@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
+import com.ats.tril.model.ApproveBy;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.Company;
 import com.ats.tril.model.ErrorMessage;
@@ -45,6 +46,7 @@ import com.ats.tril.model.GetpassItem;
 import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.ItemSubGroup;
 import com.ats.tril.model.PaymentTerms;
+import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.State;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Vendor;
@@ -589,7 +591,24 @@ public class MastersController {
 			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
 			vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "defaultState"); 
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "approvByName"); 
+			SettingValue selectApprovBy = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			if(Integer.parseInt(selectApprovBy.getValue())==1) {
+				ApproveBy[] aprvRes = rest.getForObject(Constants.url + "/getApproveByList", ApproveBy[].class);
+				List<ApproveBy> apprvByList = new ArrayList<ApproveBy>(Arrays.asList(aprvRes));
+
+				model.addObject("apprvByList", apprvByList);
+			}
+			model.addObject("selectApprovBy", selectApprovBy.getValue());
+
 			Vendor vendor = new Vendor();
+			
 			vendor.setVendorContactPerson("-");
 			vendor.setVendorMobile("1234567890");
 			vendor.setVendorEmail("test@mongi.com");
@@ -599,6 +618,8 @@ public class MastersController {
 			vendor.setVendorItem("-");
 			vendor.setVendorAdd3("-");
 			vendor.setCreatedIn(1);
+			vendor.setVendorStateId(Integer.parseInt(settingValue.getValue()));			
+			
 			model.addObject("editVendor", vendor);
 
 		} catch (Exception e) {
@@ -1024,6 +1045,19 @@ public class MastersController {
 
 			State[] stateList = rest.getForObject(Constants.url + "/getAllStates", State[].class);
 			model.addObject("stateList", stateList);
+			
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "approvByName"); 
+			SettingValue selectApprovBy = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
+			if(Integer.parseInt(selectApprovBy.getValue())==1) {
+				ApproveBy[] aprvRes = rest.getForObject(Constants.url + "/getApproveByList", ApproveBy[].class);
+				List<ApproveBy> apprvByList = new ArrayList<ApproveBy>(Arrays.asList(aprvRes));
+
+				model.addObject("apprvByList", apprvByList);
+			}
+			model.addObject("selectApprovBy", selectApprovBy.getValue());
 
 			model.addObject("isEdit", 1);
 
@@ -1164,6 +1198,106 @@ public class MastersController {
 		}
 
 		return "redirect:/getpassItemList";
+	}
+	
+	
+	@RequestMapping(value = "/addVendorApproveBy", method = RequestMethod.GET)
+	public ModelAndView addVendorApproveBy(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addVndrApprovBy");
+		try {			
+
+			ApproveBy approve = new ApproveBy();			
+			
+			model.addObject("approve", approve);
+			model.addObject("title", "Add Vendor Approve By");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/insertApproveBy", method = RequestMethod.POST)
+	public String insertApproveBy(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			ApproveBy approve = new ApproveBy();
+			approve.setApprovById(Integer.parseInt(request.getParameter("approveById")));
+			approve.setApproveByName(request.getParameter("aprvByName"));
+			approve.setDelStatus(0);
+			approve.setExInt1(0);
+			approve.setExInt2(0);
+			approve.setExVar1("NA");
+			approve.setExVar2("NA");
+			
+			ApproveBy res = rest.postForObject(Constants.url + "/saveVendorApproveBy", approve, ApproveBy.class);
+
+			System.out.println("res " + res);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/approveByList";
+	}
+
+	@RequestMapping(value = "/approveByList", method = RequestMethod.GET)
+	public ModelAndView approveByList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/approveByList");
+		try {
+			ApproveBy[] aprvRes = rest.getForObject(Constants.url + "/getApproveByList", ApproveBy[].class);
+			List<ApproveBy> apprvByList = new ArrayList<ApproveBy>(Arrays.asList(aprvRes));
+
+			model.addObject("apprvByList", apprvByList);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	@RequestMapping(value = "/editApproveBy", method = RequestMethod.GET)
+	public ModelAndView editApproveBy(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("masters/addVndrApprovBy");
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("apprvId", Integer.parseInt(request.getParameter("approveById")));
+			
+			ApproveBy approve = rest.postForObject(Constants.url + "/getApproveByInfoById", map,  ApproveBy.class);
+
+			model.addObject("approve", approve);
+			model.addObject("title", "Edit Vendor Approve By");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/deleteApproveBy", method = RequestMethod.GET)
+	public String deleteApproveBy(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("apprvId", Integer.parseInt(request.getParameter("approveById")));
+
+			ErrorMessage delete = rest.postForObject(Constants.url + "/deleteApproveBy", map, ErrorMessage.class);
+			System.out.println(delete);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/approveByList";
 	}
 
 }

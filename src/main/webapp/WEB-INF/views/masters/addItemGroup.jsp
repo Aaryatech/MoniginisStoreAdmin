@@ -67,51 +67,52 @@
 							<form id="addSupplier"
 								action="${pageContext.request.contextPath}/insertItemGroup"
 								onsubmit="return confirm('Do you really want to submit the form?');" method="post">
+								
 								<div class="box-content">
+									<div class="col-md-2">Select Category*</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="catId" id="catId"
+											required>
+											<option value="">select</option>
+											<c:forEach items="${categoryList}" var="categoryList">
+												<c:choose>
+													<c:when test="${categoryList.catId==editItemGroup.catId}">
+														<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+													</c:otherwise>
+												</c:choose>
 
+
+											</c:forEach>
+										</select>
+									</div>
+
+									<div class="col-md-1"></div>
 									<div class="col-md-2">Group Code*</div>
 									<div class="col-md-3">
-									<c:choose>
-										<c:when test="${isEdit==1}">
-										<input id="grpCode" class="form-control"
-									placeholder="Group Code" style="text-align: left;"
-									name="grpCode" value="${editItemGroup.grpCode}" type="text"
-									readonly> 
-										</c:when>
-										<c:otherwise>
-										<input id="grpCode" class="form-control"
-									placeholder="Group Code" style="text-align: left;"
-									name="grpCode" maxlength="2" onchange="checkGroupCodeExist()" onkeydown="upperCaseF(this)" value="${editItemGroup.grpCode}" type="text"
-									required> 
-										</c:otherwise>
-									</c:choose>
-									
-										<input id="grpId" class="form-control"
-									name="grpId" value="${editItemGroup.grpId}" type="hidden">
-									
-									</div>
-									<div class="col-md-1"></div>
-									
-									<div class="col-md-2">Select Category*</div>
-									<div class="col-md-3"> 
-								<select class="form-control chosen"  name="catId" id="catId"   required>
-									<option value="">select</option>
-									<c:forEach items="${categoryList}" var="categoryList">
 										<c:choose>
-											<c:when test="${categoryList.catId==editItemGroup.catId}">
-												<option value="${categoryList.catId}" selected>${categoryList.catDesc}</option>
+											<c:when test="${isEdit==1}">
+												<input id="grpCode" class="form-control"
+													placeholder="Group Code" style="text-align: left;"
+													name="grpCode" value="${editItemGroup.grpCode}" type="text"
+													readonly>
 											</c:when>
 											<c:otherwise>
-												<option value="${categoryList.catId}">${categoryList.catDesc}</option>
+												<input id="grpCode" class="form-control"
+													placeholder="Group Code" style="text-align: left;"
+													name="grpCode" maxlength="2"
+													onchange="checkGroupCodeExist()"
+													onkeydown="upperCaseF(this)"
+													value="${editItemGroup.grpCode}" type="text" required>
 											</c:otherwise>
 										</c:choose>
 
+										<input id="grpId" class="form-control" name="grpId"
+											value="${editItemGroup.grpId}" type="hidden">
 
-									</c:forEach>
-								</select>
 									</div>
-									 
-
 								</div>
 								<br> 
 								<div class="box-content">

@@ -290,36 +290,54 @@
 									<div class="col-md-2">Approved BY*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" data-live-search="true"
-									title="Please Select" name="approvedBy" id="approvedBy"
-									required>
-									<c:choose>
-									 <c:when test="${editVendor.vendorApprvBy==1}">
-									 	<option value="1" selected>Lutf Foods</option>
-										<option value="2">Lutf Foods</option>
-										<option value="3">OTHER</option> 
-									 </c:when>
-									 <c:when test="${editVendor.vendorApprvBy==2}">
-									 	<option value="1" >Lutf Foods</option>
-										<option value="2" selected>Lutf Foods</option>
-										<option value="3">OTHER</option> 
-									 </c:when>
-									 <c:when test="${editVendor.vendorApprvBy==3}">
-									 	<option value="1" >Lutf Foods</option>
-										<option value="2" >Lutf Foods</option>
-										<option value="3" selected>OTHER</option> 
-									 </c:when> 
-									 <c:otherwise>
-									 
-										<option value="1" selected>Lutf Foods</option>
-										<option value="2" >Lutf Foods</option>
-										<option value="3" >OTHER</option> 
-									 </c:otherwise>
-									
-									</c:choose>
-									
-								</select>
+											title="Please Select" name="approvedBy" id="approvedBy"
+											required>
+											<c:choose>
+												<c:when test="${selectApprovBy==1}">
+													<c:forEach items="${apprvByList}" var="apprvByList">
+														<c:choose>
+															<c:when
+																test="${editVendor.vendorApprvBy==apprvByList.approvById}">
+																<option value="${apprvByList.approvById}" selected>${apprvByList.approveByName}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${apprvByList.approvById}">${apprvByList.approveByName}</option>
+															</c:otherwise>
+														</c:choose>
+
+													</c:forEach>
+
+												</c:when>
+												<c:otherwise>
+													<c:choose>
+														<c:when test="${editVendor.vendorApprvBy==1}">
+															<option value="1" selected>Lutf Foods</option>
+															<option value="2">Lutf Foods</option>
+															<option value="3">OTHER</option>
+														</c:when>
+														<c:when test="${editVendor.vendorApprvBy==2}">
+															<option value="1">Lutf Foods</option>
+															<option value="2" selected>Lutf Foods</option>
+															<option value="3">OTHER</option>
+														</c:when>
+														<c:when test="${editVendor.vendorApprvBy==3}">
+															<option value="1">Lutf Foods</option>
+															<option value="2">Lutf Foods</option>
+															<option value="3" selected>OTHER</option>
+														</c:when>
+														<c:otherwise>
+
+															<option value="1" selected>Lutf Foods</option>
+															<option value="2">Lutf Foods</option>
+															<option value="3">OTHER</option>
+														</c:otherwise>
+
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+										</select>
 									</div>
-									
+
 									<div class="col-md-1"></div>
 									<div class="col-md-2">Select Type*</div>
 									<div class="col-md-3">
