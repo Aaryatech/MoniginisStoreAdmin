@@ -229,10 +229,10 @@
 														<c:set var="sts" value="-"></c:set>
 															<c:choose>
 																<c:when test="${indent.indMStatus==9}">
-																	<c:set var="sts" value="Approve peding"></c:set>
+																	<c:set var="sts" value="Approval peding"></c:set>
 																</c:when>
 																<c:when test="${indent.indMStatus==7}">
-																	<c:set var="sts" value="Approve peding"></c:set>
+																	<c:set var="sts" value="Approval peding"></c:set>
 																</c:when>
 																<c:when test="${indent.indMStatus==0}">
 																	<c:set var="sts" value="Indet Pending"></c:set>

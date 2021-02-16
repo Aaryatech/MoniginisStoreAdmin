@@ -42,6 +42,7 @@ import com.ats.tril.model.ConsumptionReportWithCatId;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetCurrentStock;
+import com.ats.tril.model.GetEnquiryHeader;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.ImportExcelForPo;
@@ -53,11 +54,13 @@ import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.GetIndentDetail;
+import com.ats.tril.model.indent.GetIndents;
 import com.ats.tril.model.indent.Indent;
 import com.ats.tril.model.indent.IndentTrans;
 import com.ats.tril.model.indent.TempIndentDetail;
 import com.ats.tril.model.item.GetItem;
 import com.ats.tril.model.item.ItemList;
+import com.ats.tril.model.po.GetPoHeader;
 
 @Controller
 @Scope("session")
@@ -1684,6 +1687,31 @@ public class IndentController {
 		}
 
 		return tempIndentList;
+	}
+	
+	List<Category> categoryList = new ArrayList<Category>();
+	List<ConsumptionReportWithCatId> issueReportList = new ArrayList<ConsumptionReportWithCatId>();
+	@RequestMapping(value = "/getPartialAndPendingPo", method = RequestMethod.GET)
+	public ModelAndView getPartialAndPendingPo(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("purchaseOrder/partialPndngPo");
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("status", "0,1");
+			GetIndents[] indentList2 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
+
+			List<GetIndents> indentListRes2 = new ArrayList<GetIndents>(Arrays.asList(indentList2));
+			System.err.println(indentListRes2.toString());
+			model.addObject("indentListRes2", indentListRes2);
+			 
+		} catch (Exception e) {
+
+			System.err.println("Exception in getIndents Indent" + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return model;
 	}
 
 }// end of Class
