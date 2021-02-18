@@ -57,6 +57,8 @@ import com.ats.tril.model.mrn.GetMrnDetail;
 import com.ats.tril.model.mrn.GetMrnHeader;
 import com.ats.tril.model.mrn.MrnDetail;
 import com.ats.tril.model.mrn.MrnHeader;
+import com.ats.tril.model.mrn.OfficeMrnDetail;
+import com.ats.tril.model.mrn.OfficeMrnHeader;
 import com.ats.tril.model.mrn.PoItemForMrnEdit;
 import com.ats.tril.model.po.PoHeader;
 import com.itextpdf.text.pdf.PdfMediaClipData;
@@ -1378,4 +1380,734 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 		return list;
 	}
+	
+	/*---------------------------------------------------------------------*/
+	//Office Mrn
+	@RequestMapping(value = "/showAddOfficeMrn", method = RequestMethod.GET)
+	public ModelAndView showAddOfficeMrn(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		try {
+			
+			poIdList = new String();
+			poDetailList = new ArrayList<GetPODetail>();
+
+			poDetailList = null;
+			model = new ModelAndView("mrn/showAddOfficeMrn");
+
+			Vendor[] vendorRes = rest.getForObject(Constants.url + "/getAllVendorByIsUsed", Vendor[].class);
+			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			for(int i=0;i<vendorList.size();i++) {
+				vendorList.get(i).setVendorName(vendorList.get(i).getVendorCode()+" "+vendorList.get(i).getVendorName());
+			}
+			
+			model.addObject("vendorList", vendorList);
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			model.addObject("date", dateFormat.format(date));
+			model.addObject("poType", 0);
+			model.addObject("vendorId", 0);
+			model.addObject("poId", 0);
+			System.err.println("Inside show Add Mrn ");
+			
+			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			model.addObject("typeList", typeList);
+
+		} catch (Exception e) {
+
+			System.err.println("Exception in showing showAddMrn" + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	// insertOfficeMrnProcess final Mrn Insert Call Ajax;
+		@RequestMapping(value = { "/insertOfficeMrnProcess" }, method = RequestMethod.GET)
+		public @ResponseBody MrnHeader insertOfficeMrnProcess(HttpServletRequest request, HttpServletResponse response) {
+			MrnHeader mrnHeaderRes = null;
+			try {
+				System.err.println("inside /insertOfficeMrnProcess");
+
+				int grnType = Integer.parseInt(request.getParameter("grn_type"));
+				int vendorId = Integer.parseInt(request.getParameter("vendor_id"));
+
+				String grnNo = request.getParameter("grn_no");
+				String grnDate = request.getParameter("grn_date");
+
+				String gateEntryNo = request.getParameter("gate_entry_no");
+				String gateEntryDate = request.getParameter("gate_entry_date");
+
+				String chalanNo = request.getParameter("chalan_no");
+				String chalanDate = request.getParameter("chalan_date");
+
+				String billNo = request.getParameter("bill_no");
+				String billDate = request.getParameter("bill_date");
+
+				String lrDate = request.getParameter("lorry_date");
+				String lrNo = request.getParameter("lorry_no");
+				String transport = request.getParameter("transport");
+				String lorryRemark = request.getParameter("lorry_remark");
+
+				OfficeMrnHeader mrnHeader = new OfficeMrnHeader();
+				//----------------------------Inv No---------------------------------
+				//DocumentBean docBean=null;
+				
+				
+				try {
+					
+					/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("docId", 3);
+					map.add("catId", 1);
+					map.add("date", DateConvertor.convertToYMD(grnDate));
+					map.add("typeId", grnType);
+					RestTemplate restTemplate = new RestTemplate();
+
+					 docBean = restTemplate.postForObject(Constants.url + "getDocumentData", map, DocumentBean.class);
+					String indMNo=docBean.getSubDocument().getCategoryPrefix()+"";
+					int counter=docBean.getSubDocument().getCounter();
+					int counterLenth = String.valueOf(counter).length();
+					counterLenth = 4 - counterLenth;
+					StringBuilder code = new StringBuilder(indMNo+"");
+
+					for (int i = 0; i < counterLenth; i++) {
+						String j = "0";
+						code.append(j);
+					}
+					code.append(String.valueOf(counter));*/
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("docType", 1); 
+					map.add("date", DateConvertor.convertToYMD(grnDate)); 
+					
+					RestTemplate restTemplate = new RestTemplate();
+
+					ErrorMessage errorMessage = restTemplate.postForObject(Constants.url + "generateIssueNoAndOfficeMrnNo", map, ErrorMessage.class);
+					
+					
+					mrnHeader.setMrnNo(""+errorMessage.getMessage());
+					
+					//docBean.getSubDocument().setCounter(docBean.getSubDocument().getCounter()+1);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				//----------------------------Inv No---------------------------------
+				List<OfficeMrnDetail> mrnDetailList = new ArrayList<OfficeMrnDetail>();
+
+				mrnHeader.setBillDate(DateConvertor.convertToYMD(billDate));
+				mrnHeader.setBillNo(billNo);
+				mrnHeader.setDelStatus(Constants.delStatus);
+				mrnHeader.setDocDate(DateConvertor.convertToYMD(chalanDate));
+				mrnHeader.setDocNo(chalanNo);
+				mrnHeader.setGateEntryDate(DateConvertor.convertToYMD(gateEntryDate));
+				mrnHeader.setGateEntryNo(gateEntryNo);
+				mrnHeader.setLrDate(DateConvertor.convertToYMD(lrDate));
+				mrnHeader.setLrNo(lrNo);
+				mrnHeader.setMrnDate(DateConvertor.convertToYMD(grnDate));
+			
+				mrnHeader.setMrnStatus(4);
+				mrnHeader.setMrnType(grnType);
+				mrnHeader.setRemark1(lorryRemark);
+				mrnHeader.setRemark2("def");
+				mrnHeader.setTransport(transport);
+				mrnHeader.setUserId(1);
+				mrnHeader.setVendorId(vendorId);
+				mrnHeader.setExInt1(0);
+				mrnHeader.setExInt2(0);
+				mrnHeader.setExVar1("NA");
+				mrnHeader.setExVar2("NA");
+				mrnHeader.setPoStatus(0);
+
+				for (GetPODetail detail : poDetailList) {
+
+					if (detail.getReceivedQty() > 0) {
+
+						OfficeMrnDetail mrnDetail = new OfficeMrnDetail();
+
+						mrnDetail.setIndentQty(detail.getIndedQty());
+
+						mrnDetail.setPoQty(detail.getItemQty());
+
+						mrnDetail.setMrnQty(detail.getReceivedQty());
+
+						mrnDetail.setItemId(detail.getItemId());
+
+						mrnDetail.setPoId(detail.getPoId());
+
+						mrnDetail.setPoNo(detail.getPoNo());
+
+						mrnDetail.setMrnDetailStatus(0);
+
+						mrnDetail.setBatchNo("Default Batch KKKK-00456");
+						mrnDetail.setDelStatus(Constants.delStatus);
+
+						mrnDetail.setPoDetailId(detail.getPoDetailId());
+						 
+
+						mrnDetail.setMrnQtyBeforeEdit(-1);
+						mrnDetail.setRemainingQty(mrnDetail.getMrnQty());
+						mrnDetail.setApproveQty(mrnDetail.getMrnQty());
+						mrnDetail.setExInt1(0);
+						mrnDetail.setExInt2(0);
+						mrnDetail.setExVar1("NA");
+						mrnDetail.setExVar2("NA");
+						mrnDetail.setStatus(0);
+						mrnDetailList.add(mrnDetail);
+
+					}
+				}
+
+				mrnHeader.setMrnDetailList(mrnDetailList);
+
+				System.err.println("Mrn Header   " + mrnHeader.toString());
+
+				RestTemplate restTemp = new RestTemplate();
+
+				 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveOfficeMrnHeadAndDetail", mrnHeader,
+						MrnHeader.class);
+				 if(mrnHeaderRes!=null)
+		          {
+		        		try {
+		        			
+		        			//SubDocument subDocRes = restTemp.postForObject(Constants.url + "/saveSubDoc", docBean.getSubDocument(), SubDocument.class);
+
+		        		
+		        		}catch (Exception e) {
+							e.printStackTrace();
+						}
+		          }
+				System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
+
+			} catch (Exception e) {
+
+				System.err.println("Exception in insertMrnProcess " + e.getMessage());
+				e.printStackTrace();
+
+			}
+
+			return mrnHeaderRes;
+		}
+		
+		@RequestMapping(value = "/getOfficeMrnHeaders", method = RequestMethod.GET)
+		public ModelAndView getOfficeMrnHeaders(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView model = null;
+			try {
+				
+				
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				// String fromDate,toDate;
+
+				if (request.getParameter("from_date") == null || request.getParameter("to_date") == null) {
+					Date date = new Date();
+					DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+					fromDate = df.format(date);
+					toDate = df.format(date);
+					System.out.println("From Date And :" + fromDate + "To DATE" + toDate);
+
+					map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+					map.add("toDate", DateConvertor.convertToYMD(toDate));
+					map.add("grnType", -1);
+
+					System.out.println("inside if ");
+				} else {
+					fromDate = request.getParameter("from_date");
+					toDate = request.getParameter("to_date");
+					int grnType=Integer.parseInt(request.getParameter("grn_type"));
+					System.out.println("inside Else ");
+
+					System.out.println("fromDate " + fromDate);
+
+					System.out.println("toDate " + toDate);
+
+					map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+					map.add("toDate", DateConvertor.convertToYMD(toDate));
+					map.add("grnType", grnType);
+				}
+				// map.add("status", 0);
+
+				model = new ModelAndView("mrn/viewofficemrn");
+				GetMrnHeader[] mrnHead = rest.postForObject(Constants.url + "/getOfficeMrnHeaderByDate", map,
+						GetMrnHeader[].class);
+
+				mrnHeaderList = new ArrayList<GetMrnHeader>();
+
+				mrnHeaderList = new ArrayList<GetMrnHeader>(Arrays.asList(mrnHead));
+
+				System.out.println("mrnHeaderList List using /getMrnHeaderByDate   " + mrnHeaderList.toString());
+
+				model.addObject("mrnHeaderList", mrnHeaderList);
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				
+				Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+				model.addObject("typeList", typeList);
+
+			} catch (Exception e) {
+
+				System.err.println("Exception in getMrnHeader MRN" + e.getMessage());
+				e.printStackTrace();
+			}
+
+			return model;
+		}
+
+		@RequestMapping(value = "/showEditViewOfficeMrnDetail/{mrnId}", method = RequestMethod.GET)
+		public ModelAndView showEditViewOfficeMrnDetail(HttpServletRequest request, HttpServletResponse response,
+				@PathVariable("mrnId") int mrnId) {
+			
+			poItemListForMrnEdit=new ArrayList<PoItemForMrnEdit>();
+			poDetailForEditMrn=new ArrayList<GetPODetail>();
+			GetPODetail[] poDetailRes;
+			ModelAndView model = null;
+			try {
+				model = new ModelAndView("mrn/editOfficeMrnDetail");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("mrnId", mrnId);
+
+				GetMrnDetail[] mrnDetail = rest.postForObject(Constants.url + "/getOfficeMrnDetailByMrnId", map,
+						GetMrnDetail[].class);
+
+				mrnDetailList = new ArrayList<GetMrnDetail>(Arrays.asList(mrnDetail));
+
+				GetMrnHeader getMrnHeader = new GetMrnHeader();
+
+				for (int i = 0; i < mrnHeaderList.size(); i++) {
+
+					if (mrnHeaderList.get(i).getMrnId() == mrnId) {
+
+						getMrnHeader = mrnHeaderList.get(i);
+						break;
+
+					}
+
+				}
+				map = new LinkedMultiValueMap<String, Object>();
+				
+				String s=new String();
+				
+				for(int i=0;i<mrnDetailList.size();i++) {
+					if(i==0) {
+						
+						s=""+mrnDetailList.get(i).getPoId()+",";
+					}else {
+					s=s+mrnDetailList.get(i).getPoId()+",";
+					}
+				}
+				System.err.println("to get po detail from mrn poid " +s);
+				map.add("poIdList", s);
+
+				poDetailRes = rest.postForObject(Constants.url + "/getPODetailList", map, GetPODetail[].class);
+				poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
+				
+				System.err.println("POd res in edit show " +poDetailList.toString());
+				
+				for(int i=0;i<poDetailList.size();i++) {
+					int flag=0;
+					System.err.println("poDetailList poid  " +poDetailList.get(i).getPoDetailId());
+					for(int j=0;j<mrnDetailList.size();j++) {
+						System.err.println("mrnDetailList poid  " +mrnDetailList.get(j).getPoDetailId());
+
+						if(mrnDetailList.get(j).getPoDetailId()==poDetailList.get(i).getPoDetailId()) {
+							System.err.println("Match found ");
+							flag=1;
+							
+						}
+						
+					}
+					if(flag==0) {
+						
+						poDetailForEditMrn.add(poDetailList.get(i));
+						
+					}
+					
+				}
+				
+				System.err.println("POd poDetailForEditMrn edit show " +poDetailForEditMrn.toString());
+				model.addObject("mrnDetailList", mrnDetailList);
+				
+				model.addObject("poItemList", poDetailForEditMrn);
+
+				model.addObject("mrnHeader", getMrnHeader);
+				
+				Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+				model.addObject("typeList", typeList);
+
+			} catch (Exception e) {
+
+				System.err.println("Exception in /getOfficeMrnDetailByMrnId Mrn Controller" + e.getMessage());
+
+				e.printStackTrace();
+
+			}
+			return model;
+		}
+		
+		@RequestMapping(value = { "/editOfficeMrnProcess" }, method = RequestMethod.GET)
+		public @ResponseBody OfficeMrnHeader editOfficeMrnProcess(HttpServletRequest request, HttpServletResponse response) {
+
+			OfficeMrnHeader mrnHeaderRes = null; 
+			try {
+				System.err.println("inside /editOfficeMrnProcess");
+
+				String gateEntryNo = request.getParameter("gate_entry_no");
+				String gateEntryDate = request.getParameter("gate_entry_date");
+
+				String chalanNo = request.getParameter("chalan_no");
+				String chalanDate = request.getParameter("chalan_date");
+
+				String billNo = request.getParameter("bill_no");
+				String billDate = request.getParameter("bill_date");
+
+				String lrDate = request.getParameter("lorry_date");
+				String lrNo = request.getParameter("lorry_no");
+				String transport = request.getParameter("transport");
+				String lorryRemark = request.getParameter("lorry_remark");
+
+				int mrnId = Integer.parseInt(request.getParameter("mrn_id"));
+
+				OfficeMrnHeader mrnHeader = new OfficeMrnHeader();
+
+				for (int i = 0; i < mrnHeaderList.size(); i++) {
+
+					if (mrnHeaderList.get(i).getMrnId() == mrnId) {
+
+						mrnHeader.setMrnId(mrnId);
+
+						mrnHeader.setVendorId(mrnHeaderList.get(i).getVendorId());
+						mrnHeader.setMrnNo(mrnHeaderList.get(i).getMrnNo());
+						mrnHeader.setMrnDate(DateConvertor.convertToYMD(mrnHeaderList.get(i).getMrnDate()));
+						mrnHeader.setMrnType(mrnHeaderList.get(i).getMrnType());
+
+					}
+
+				}
+
+				List<OfficeMrnDetail> editMrnDetailList = new ArrayList<OfficeMrnDetail>();
+
+				mrnHeader.setBillDate(DateConvertor.convertToYMD(billDate));
+				mrnHeader.setBillNo(billNo);
+				mrnHeader.setDelStatus(Constants.delStatus);
+				mrnHeader.setDocDate(DateConvertor.convertToYMD(chalanDate));
+				mrnHeader.setDocNo(chalanNo);
+				mrnHeader.setGateEntryDate(DateConvertor.convertToYMD(gateEntryDate));
+				mrnHeader.setGateEntryNo(gateEntryNo);
+				mrnHeader.setLrDate(DateConvertor.convertToYMD(lrDate));
+				mrnHeader.setLrNo(lrNo);
+				// mrnHeader.setMrnNo("default MRN NO");
+				mrnHeader.setMrnStatus(4);
+				mrnHeader.setRemark1(lorryRemark);
+				mrnHeader.setRemark2("def");
+				mrnHeader.setTransport(transport);
+				mrnHeader.setUserId(1);
+				mrnHeader.setExInt1(0);
+				mrnHeader.setExInt2(0);
+				mrnHeader.setExVar1("NA");
+				mrnHeader.setExVar2("NA");
+				mrnHeader.setPoStatus(0);
+
+				for (GetMrnDetail detail : mrnDetailList) {
+
+					if (detail.getMrnQty() > 0) {
+
+						OfficeMrnDetail mrnDetail = new OfficeMrnDetail();
+
+						mrnDetail.setMrnDetailId(detail.getMrnDetailId());
+						mrnDetail.setMrnId(detail.getMrnId());
+
+						mrnDetail.setMrnQty(detail.getMrnQty());
+						mrnDetail.setIndentQty(detail.getIndentQty());
+						mrnDetail.setPoQty(detail.getPoQty());
+						mrnDetail.setMrnQty(detail.getMrnQty());
+						mrnDetail.setItemId(detail.getItemId());
+						mrnDetail.setPoId(detail.getPoId());
+						mrnDetail.setPoNo(detail.getPoNo());
+						mrnDetail.setMrnDetailStatus(4);
+						mrnDetail.setBatchNo(detail.getBatchNo());
+						mrnDetail.setDelStatus(detail.getDelStatus());
+						mrnDetail.setPoDetailId(detail.getPoDetailId());
+
+						mrnDetail.setApproveQty(detail.getMrnQty());
+						mrnDetail.setRejectQty(detail.getRejectQty());
+						mrnDetail.setRejectRemark(detail.getRejectRemark());
+						mrnDetail.setIssueQty(detail.getIssueQty());
+						mrnDetail.setRemainingQty(detail.getMrnQty()); 
+						mrnDetail.setMrnQtyBeforeEdit(detail.getMrnQtyBeforeEdit());
+						
+						mrnDetail.setExInt1(0);
+						mrnDetail.setExInt2(0);
+						mrnDetail.setExVar1("NA");
+						mrnDetail.setExVar2("NA");
+						mrnDetail.setStatus(0);
+						
+						editMrnDetailList.add(mrnDetail);
+
+					}
+				}
+
+				mrnHeader.setMrnDetailList(editMrnDetailList);
+
+				System.err.println("Mrn Header  bean generated  " + mrnHeader.toString());
+
+				RestTemplate restTemp = new RestTemplate();
+
+				 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveOfficeMrnHeadAndDetail", mrnHeader,
+						 OfficeMrnHeader.class);
+
+				System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
+
+			} catch (Exception e) {
+
+				System.err.println("Exception in editMrnProcess " + e.getMessage());
+				e.printStackTrace();
+
+			}
+
+			return mrnHeaderRes;
+
+		}
+		
+		@RequestMapping(value = "/deleteOfficeMrn/{mrnId}", method = RequestMethod.GET)
+		public String deleteOfficeMrn(HttpServletRequest request, HttpServletResponse response,
+				@PathVariable("mrnId") int mrnId) {
+
+			ModelAndView model = null;
+			try {
+				model = new ModelAndView("mrn/editOfficeMrnDetail");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("mrnId", mrnId);
+
+				ErrorMessage errMsg = rest.postForObject(Constants.url + "/deleteOfficeMrnHeader", map, ErrorMessage.class);
+				System.err.println("Delete Mrn Response  " + errMsg.getMessage());
+
+			} catch (Exception e) {
+
+				System.err.println("Exception in /deleteOfficeMrn Mrn Controller" + e.getMessage());
+
+				e.printStackTrace();
+
+			}
+			return "redirect:/getOfficeMrnHeaders";
+		}
+		
+		@RequestMapping(value = "/addMrnHeadDetail/{mrnId}", method = RequestMethod.GET)
+		public ModelAndView addMrnHeadDetail(HttpServletRequest request, HttpServletResponse response,
+				@PathVariable("mrnId") int mrnId) {
+			
+			poItemListForMrnEdit=new ArrayList<PoItemForMrnEdit>();
+			poDetailForEditMrn=new ArrayList<GetPODetail>();
+			GetPODetail[] poDetailRes;
+			ModelAndView model = null;
+			try {
+				model = new ModelAndView("mrn/addOfficMrnToMrn");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("mrnId", mrnId);
+
+				GetMrnDetail[] mrnDetail = rest.postForObject(Constants.url + "/getOfficeMrnDetailByMrnId", map,
+						GetMrnDetail[].class);
+
+				mrnDetailList = new ArrayList<GetMrnDetail>(Arrays.asList(mrnDetail));
+
+				GetMrnHeader getMrnHeader = new GetMrnHeader();
+
+				for (int i = 0; i < mrnHeaderList.size(); i++) {
+
+					if (mrnHeaderList.get(i).getMrnId() == mrnId) {
+
+						getMrnHeader = mrnHeaderList.get(i);
+						break;
+
+					}
+
+				}
+				map = new LinkedMultiValueMap<String, Object>();
+				
+				String s=new String();
+				
+				for(int i=0;i<mrnDetailList.size();i++) {
+					if(i==0) {
+						
+						s=""+mrnDetailList.get(i).getPoId()+",";
+					}else {
+					s=s+mrnDetailList.get(i).getPoId()+",";
+					}
+				}
+				System.err.println("to get po detail from mrn poid " +s);
+				map.add("poIdList", s);
+
+				poDetailRes = rest.postForObject(Constants.url + "/getPODetailList", map, GetPODetail[].class);
+				poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
+				
+				System.err.println("POd res in edit show " +poDetailList.toString());
+				
+				for(int i=0;i<poDetailList.size();i++) {
+					int flag=0;
+					System.err.println("poDetailList poid  " +poDetailList.get(i).getPoDetailId());
+					for(int j=0;j<mrnDetailList.size();j++) {
+						System.err.println("mrnDetailList poid  " +mrnDetailList.get(j).getPoDetailId());
+
+						if(mrnDetailList.get(j).getPoDetailId()==poDetailList.get(i).getPoDetailId()) {
+							System.err.println("Match found ");
+							flag=1;
+							
+						}
+						
+					}
+					if(flag==0) {
+						
+						poDetailForEditMrn.add(poDetailList.get(i));
+						
+					}
+					
+				}
+				
+				System.err.println("POd poDetailForEditMrn edit show " +poDetailForEditMrn.toString());
+				model.addObject("mrnDetailList", mrnDetailList);
+				
+				model.addObject("poItemList", poDetailForEditMrn);
+
+				model.addObject("mrnHeader", getMrnHeader);
+				
+				Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
+				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+				model.addObject("typeList", typeList);
+
+			} catch (Exception e) {
+
+				System.err.println("Exception in /getOfficeMrnDetailByMrnId Mrn Controller" + e.getMessage());
+
+				e.printStackTrace();
+
+			}
+			return model;
+		}
+		
+		
+		@RequestMapping(value = { "/saveOfficeMrnToMrnProcess" }, method = RequestMethod.POST)
+		public ModelAndView saveOfficeMrnToMrnProcess (HttpServletRequest request, HttpServletResponse response) {
+
+			OfficeMrnHeader mrnHeaderRes = null; 
+			ModelAndView model = new ModelAndView("mrn/viewofficemrn");
+			
+			try {
+				System.err.println("inside /editOfficeMrnProcess");
+
+				int grnType = Integer.parseInt(request.getParameter("grn_type"));
+				int vendorId = Integer.parseInt(request.getParameter("vendor_id"));
+
+				String grnNo = request.getParameter("grn_no");
+				String grnDate = request.getParameter("grn_date");
+
+				String gateEntryNo = request.getParameter("gate_entry_no");
+				String gateEntryDate = request.getParameter("gate_entry_date");
+
+				String chalanNo = request.getParameter("chalan_no");
+				String chalanDate = request.getParameter("chalan_date");
+
+				String billNo = request.getParameter("bill_no");
+				String billDate = request.getParameter("bill_date");
+
+				String lrDate = request.getParameter("lorry_date");
+				String lrNo = request.getParameter("lorry_no");
+				String transport = request.getParameter("transport");
+				String lorryRemark = request.getParameter("lorry_remark");
+
+				OfficeMrnHeader mrnHeader = new OfficeMrnHeader();
+
+				mrnHeader.setMrnNo(grnNo);
+				mrnHeader.setBillDate(DateConvertor.convertToYMD(billDate));
+				mrnHeader.setBillNo(billNo);
+				mrnHeader.setDelStatus(Constants.delStatus);
+				mrnHeader.setDocDate(DateConvertor.convertToYMD(chalanDate));
+				mrnHeader.setDocNo(chalanNo);
+				mrnHeader.setGateEntryDate(DateConvertor.convertToYMD(gateEntryDate));
+				mrnHeader.setGateEntryNo(gateEntryNo);
+				mrnHeader.setLrDate(DateConvertor.convertToYMD(lrDate));
+				mrnHeader.setLrNo(lrNo);
+				mrnHeader.setMrnDate(DateConvertor.convertToYMD(grnDate));
+			
+				mrnHeader.setMrnStatus(4);
+				mrnHeader.setMrnType(grnType);
+				mrnHeader.setRemark1(lorryRemark);
+				mrnHeader.setRemark2("def");
+				mrnHeader.setTransport(transport);
+				mrnHeader.setUserId(1);
+				mrnHeader.setVendorId(vendorId);
+				mrnHeader.setExInt1(0);
+				mrnHeader.setExInt2(0);
+				mrnHeader.setExVar1("NA");
+				mrnHeader.setExVar2("NA");
+				mrnHeader.setPoStatus(0);
+
+				List<OfficeMrnDetail> editMrnDetailList = new ArrayList<OfficeMrnDetail>();
+
+			
+
+				for (GetMrnDetail detail : mrnDetailList) {
+					String  ofcRecQty = request.getParameter("ofcRecQty"+detail.getMrnDetailId());
+					if (detail.getMrnQty() > 0) {
+
+						OfficeMrnDetail mrnDetail = new OfficeMrnDetail();
+
+						mrnDetail.setMrnDetailId(0);
+						mrnDetail.setMrnId(0);
+
+						mrnDetail.setMrnQty(detail.getMrnQty());
+						mrnDetail.setIndentQty(detail.getIndentQty());
+						mrnDetail.setPoQty(detail.getPoQty());
+						mrnDetail.setMrnQty(Float.parseFloat(ofcRecQty));
+						mrnDetail.setItemId(detail.getItemId());
+						mrnDetail.setPoId(detail.getPoId());
+						mrnDetail.setPoNo(detail.getPoNo());
+						mrnDetail.setMrnDetailStatus(4);
+						mrnDetail.setBatchNo(detail.getBatchNo());
+						mrnDetail.setDelStatus(detail.getDelStatus());
+						mrnDetail.setPoDetailId(detail.getPoDetailId());
+
+						mrnDetail.setApproveQty(Float.parseFloat(ofcRecQty));
+						mrnDetail.setRejectQty(detail.getRejectQty());
+						mrnDetail.setRejectRemark(detail.getRejectRemark());
+						mrnDetail.setIssueQty(detail.getIssueQty());
+						mrnDetail.setRemainingQty(detail.getMrnQty()-Float.parseFloat(ofcRecQty)); 
+						mrnDetail.setMrnQtyBeforeEdit(detail.getMrnQtyBeforeEdit());
+						
+						mrnDetail.setExInt1(0);
+						mrnDetail.setExInt2(0);
+						mrnDetail.setExVar1("NA");
+						mrnDetail.setExVar2("NA");
+						mrnDetail.setStatus(0);
+						
+						editMrnDetailList.add(mrnDetail);
+
+					}
+				}
+
+				mrnHeader.setMrnDetailList(editMrnDetailList);
+
+				System.err.println("Mrn Header  bean generated  " + mrnHeader.toString());
+
+				RestTemplate restTemp = new RestTemplate();
+
+				 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
+						 OfficeMrnHeader.class);
+
+				System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
+
+			} catch (Exception e) {
+
+				System.err.println("Exception in insertMrnProcess " + e.getMessage());
+				e.printStackTrace();
+
+			}
+			return model;
+			
+		}
 }
